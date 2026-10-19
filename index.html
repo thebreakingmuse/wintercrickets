@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Darkly Vibrant Winter Crickets</title>
+  <style>
+    :root {
+      --bg-void: #04050a;
+      --hub-gold: #ffd166;
+      --hub-cyan: #00f5d4;
+      --winter-ice: #80ffdb;
+      --winter-violet: #7209b7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-void);
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(22, 18, 56, 0.55) 0%, transparent 70%),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 1px);
+      background-size: 100% 100%, 75px 75px, 35px 35px;
+      background-position: 0 0, 0 0, 15px 15px;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* --- SITE TITLE BANNER --- */
+    .site-header {
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      text-align: center;
+      pointer-events: none;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .site-title {
+      font-family: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+      font-size: clamp(1.3rem, 2.8vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #f8fafc;
+      text-shadow: 
+        0 0 10px rgba(0, 245, 212, 0.65),
+        0 0 24px rgba(114, 9, 183, 0.8),
+        0 2px 4px #000;
+      margin-bottom: 8px;
+    }
+
+    .title-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      opacity: 0.8;
+    }
+
+    .title-divider::before,
+    .title-divider::after {
+      content: "";
+      height: 1px;
+      width: 120px;
+      background: linear-gradient(90deg, transparent, var(--hub-cyan), var(--hub-gold), transparent);
+    }
+
+    .title-rune {
+      color: var(--hub-gold);
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-shadow: 0 0 8px var(--hub-gold);
+    }
+
+    /* --- THEME PRESETS (Controls Hover & Resting Glows) --- */
+    .theme-nocturnal {
+      --theme-glow: #64dfdf;   /* Moonlit Firefly Cyan */
+      --theme-core: #480ca8;   /* Deep Midnight Indigo */
+      --theme-accent: #80ffdb;
+    }
+    .theme-cyber {
+      --theme-glow: #00f5d4;   /* Matrix Teal */
+      --theme-core: #f72585;   /* Neon Magenta */
+      --theme-accent: #7209b7;
+    }
+    .theme-celestial {
+      --theme-glow: #ffe66d;   /* Starlight Gold */
+      --theme-core: #f77f00;   /* Solar Amber */
+      --theme-accent: #fcbf49;
+    }
+    .theme-oceanic {
+      --theme-glow: #00bbf9;   /* Bioluminescent Aqua */
+      --theme-core: #0077b6;   /* Deep Trench Blue */
+      --theme-accent: #90e0ef;
+    }
+
+    /* --- MAIN STAGE --- */
+    #universe {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* --- CENTRAL ESOTERIC HUB --- */
+    .central-hub {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, #1a1528 0%, #070913 72%);
+      box-shadow: 
+        0 0 35px rgba(0, 245, 212, 0.35),
+        0 0 70px rgba(114, 9, 183, 0.3),
+        inset 0 0 25px rgba(0, 245, 212, 0.4);
+      border: 1.5px solid rgba(0, 245, 212, 0.55);
+      pointer-events: none;
+    }
+
+    .hub-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .hub-core-geometry {
+      transform-origin: 100px 100px;
+      animation: rotateSlow 60s linear infinite;
+      filter: drop-shadow(0 0 5px var(--hub-gold));
+    }
+
+    /* --- ESOTERIC WINTER CRICKETS ON PERIMETER --- */
+    .perimeter-crickets {
+      transform-origin: 100px 100px;
+      filter: drop-shadow(0 0 4px var(--hub-cyan));
+    }
+
+    .cricket-antenna {
+      transform-origin: 112px 19px;
+      animation: antennaFeel 4.5s ease-in-out infinite alternate;
+    }
+
+    .cricket-pulse-node {
+      animation: winterPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes antennaFeel {
+      0%, 70% { transform: rotate(0deg); }
+      85% { transform: rotate(-6deg); }
+      100% { transform: rotate(4deg); }
+    }
+
+    @keyframes winterPulse {
+      0% { opacity: 0.45; r: 1.3px; }
+      100% { opacity: 1; r: 2.1px; }
+    }
+
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* --- BRANCH GROUP (Wraps both Ligament + Portal Node) --- */
+    .branch-group {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease, filter 0.45s ease;
+      z-index: 10;
+    }
+
+    /* VOID DIMMING: Dim all other branches when one is hovered */
+    #universe:has(.branch-group:hover) .branch-group:not(:hover) {
+      opacity: 0.25;
+      filter: grayscale(40%);
+    }
+
+    /* --- CONNECTING LIGAMENTS (SVG & Custom GIF Support) --- */
+    .ligament-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      transition: filter 0.4s ease;
+      filter: brightness(0.9) drop-shadow(0 0 6px var(--theme-core));
+    }
+
+    .ligament-path-base {
+      fill: none;
+      stroke: var(--theme-core);
+      stroke-width: 4;
+      opacity: 0.65;
+    }
+
+    .ligament-path-core {
+      fill: none;
+      stroke: var(--theme-glow);
+      stroke-width: 2;
+      stroke-dasharray: 12 8;
+      animation: energyFlow 3s linear infinite;
+    }
+
+    .ligament-path-tendril {
+      fill: none;
+      stroke: var(--theme-accent);
+      stroke-width: 1.2;
+      opacity: 0.5;
+      stroke-dasharray: 6 14;
+      animation: energyFlow 5s linear infinite reverse;
+    }
+
+    .custom-ligament-sprite {
+      position: absolute;
+      transform-origin: 0 50%;
+      pointer-events: none;
+      transition: filter 0.4s ease;
+      filter: brightness(0.9) drop-shadow(0 0 6px var(--theme-core));
+    }
+
+    @keyframes energyFlow {
+      to { stroke-dashoffset: -100; }
+    }
+
+    /* --- PORTAL NODES --- */
+    .portal-node {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      margin-left: -60px;
+      margin-top: -60px;
+      border-radius: 50%;
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+      filter: drop-shadow(0 0 10px var(--theme-core));
+    }
+
+    .portal-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed var(--theme-glow);
+      animation: rotateSlow 20s linear infinite;
+      opacity: 0.7;
+      transition: opacity 0.3s ease, inset 0.3s ease;
+    }
+
+    .portal-thumb {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--theme-glow);
+      background: #0a0c16;
+    }
+
+    .portal-label {
+      position: absolute;
+      bottom: -42px;
+      white-space: nowrap;
+      text-align: center;
+      pointer-events: none;
+      text-shadow: 0 2px 8px #000;
+    }
+
+    .portal-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #fff;
+      display: block;
+    }
+
+    .portal-subtitle {
+      font-size: 0.72rem;
+      color: var(--theme-glow);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* --- HOVER SURGE EFFECTS --- */
+    .branch-group:hover {
+      z-index: 15;
+    }
+
+    .branch-group:hover .portal-node {
+      transform: scale(1.16);
+      filter: brightness(1.2)
+              drop-shadow(0 0 14px var(--theme-glow))
+              drop-shadow(0 0 30px var(--theme-core));
+    }
+
+    .branch-group:hover .portal-ring {
+      inset: -10px;
+      opacity: 1;
+      animation-duration: 6s;
+    }
+
+    .branch-group:hover .ligament-svg,
+    .branch-group:hover .custom-ligament-sprite {
+      filter: brightness(1.4)
+              drop-shadow(0 0 8px var(--theme-glow))
+              drop-shadow(0 0 22px var(--theme-core));
+    }
+
+    .branch-group:hover .ligament-path-core {
+      stroke-width: 3.5;
+      animation-duration: 0.8s;
+    }
+
+    /* --- GALLERY LIGHTBOX MODAL (<dialog>) --- */
+    dialog#gallery-modal {
+      width: 90vw;
+      max-width: 1100px;
+      max-height: 85vh;
+      margin: auto;
+      background: rgba(8, 10, 20, 0.95);
+      border: 1px solid var(--hub-cyan);
+      border-radius: 14px;
+      color: #fff;
+      padding: 24px;
+      box-shadow: 0 0 50px rgba(0, 245, 212, 0.25);
+      backdrop-filter: blur(12px);
+    }
+
+    dialog::backdrop {
+      background: rgba(2, 3, 8, 0.82);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .close-btn {
+      background: transparent;
+      border: 1px solid var(--hub-cyan);
+      color: var(--hub-cyan);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .close-btn:hover {
+      background: var(--hub-cyan);
+      color: #000;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      overflow-y: auto;
+      max-height: calc(85vh - 100px);
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: transform 0.25s ease;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+      border-color: var(--hub-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Esoteric Title Header -->
+  <header class="site-header">
+    <h1 class="site-title">Darkly Vibrant Winter Crickets</h1>
+    <div class="title-divider">
+      <span class="title-rune">✧ ❖ ✧</span>
+    </div>
+  </header>
+
+  <main id="universe">
+    <!-- Central Sacred Geometry Hub with Perimeter Winter Crickets -->
+    <div class="central-hub" id="central-hub">
+      <svg class="hub-svg" viewBox="0 0 200 200">
+        <defs>
+          <!-- Reusable Esoteric Winter Cricket perched at top of r=78 circle (100, 22) -->
+          <g id="winter-cricket">
+            <!-- High-Angled Hind Jumping Leg (Femur & Tibia) -->
+            <polyline points="98,20 89,9 83,22 80,22" fill="none" stroke="#ffd166" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- Secondary Hind Leg (Depth Shadow) -->
+            <polyline points="99,20 92,11 86,22" fill="none" stroke="#00f5d4" stroke-width="0.8" opacity="0.65" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- Mid & Fore Legs gripping the perimeter ring -->
+            <polyline points="103,21 102,24 100,25" fill="none" stroke="#00f5d4" stroke-width="0.9" stroke-linecap="round" />
+            <polyline points="108,20 110,23 113,24" fill="none" stroke="#00f5d4" stroke-width="0.9" stroke-linecap="round" />
+            <!-- Sleek Folded Wing & Abdomen (Alchemical Tear Shape) -->
+            <path d="M 88 21 Q 98 13 109 18.5 Q 100 22.5 88 21 Z" fill="#0b1124" stroke="#00f5d4" stroke-width="1" />
+            <!-- Sacred Geometry Wing Venation -->
+            <path d="M 93 19.5 L 104 18 M 96 17.5 L 101 20.5" stroke="#ffd166" stroke-width="0.6" opacity="0.8" />
+            <!-- Cerci (Tail Filaments) -->
+            <path d="M 88 21 L 83 18 M 88 21.5 L 84 20.5" stroke="#ffd166" stroke-width="0.7" stroke-linecap="round" />
+            <!-- Pronotum & Head Capsule -->
+            <ellipse cx="110.5" cy="19" rx="2.5" ry="1.8" fill="#131b36" stroke="#ffd166" stroke-width="1" />
+            <!-- Bioluminescent Thoracic Node & Eye -->
+            <circle class="cricket-pulse-node" cx="101" cy="18" r="1.5" fill="#80ffdb" />
+            <circle cx="111.5" cy="18.6" r="0.7" fill="#00f5d4" />
+            <!-- Long Sweeping Esoteric Antennae -->
+            <g class="cricket-antenna">
+              <path d="M 112 18.2 Q 124 9 135 13" fill="none" stroke="#80ffdb" stroke-width="0.75" stroke-dasharray="2 1" />
+              <path d="M 112.5 19.2 Q 125 14 137 19" fill="none" stroke="#ffd166" stroke-width="0.65" opacity="0.85" />
+            </g>
+          </g>
+        </defs>
+
+        <!-- Rotating Sacred Geometry Core -->
+        <g class="hub-core-geometry">
+          <circle cx="100" cy="100" r="93" fill="none" stroke="#00f5d4" stroke-width="0.8" stroke-dasharray="3 7" opacity="0.7" />
+          <circle cx="100" cy="100" r="78" fill="none" stroke="#ffd166" stroke-width="1.3" opacity="0.85" />
+          <polygon points="100,25 165,138 35,138" fill="none" stroke="#ffd166" stroke-width="1.1" opacity="0.75" />
+          <polygon points="100,175 165,62 35,62" fill="none" stroke="#00f5d4" stroke-width="1.1" opacity="0.75" />
+          <circle cx="100" cy="100" r="38" fill="none" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="8 4" />
+          <circle cx="100" cy="100" r="9" fill="#ffd166" />
+        </g>
+
+        <!-- Subtle Winter Crickets Perched Around the Inner Perimeter Ring -->
+        <g class="perimeter-crickets">
+          <!-- Cricket 1: Upper-Left Rim -->
+          <use href="#winter-cricket" transform="rotate(-40 100 100)" />
+          <!-- Cricket 2: Lower-Right Rim -->
+          <use href="#winter-cricket" transform="rotate(95 100 100)" />
+          <!-- Cricket 3: Lower-Left Rim (Mirrored to face up toward the top-left cricket) -->
+          <g transform="rotate(215 100 100)">
+            <use href="#winter-cricket" transform="translate(200, 0) scale(-1, 1)" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Dynamic Branches & Portals Inject Here -->
+    <div id="branches-container"></div>
+  </main>
+
+  <!-- Photo Gallery Lightbox Modal -->
+  <dialog id="gallery-modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="modal-title">Portal Title</h2>
+        <small id="modal-subtitle" style="color: #00f5d4;"></small>
+      </div>
+      <button class="close-btn" id="close-modal">Close Portal ✕</button>
+    </div>
+    <div class="gallery-grid" id="modal-photos"></div>
+  </dialog>
+
+  <script>
+    const FALLBACK_BRANCHES = [
+      {
+        id: "night-hike",
+        title: "Nocturnal Mountain",
+        subtitle: "Hiking & Starlight",
+        theme: "nocturnal",
+        angle: -24,
+        distance: 340,
+        thumbnail: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
+        customLigamentGif: "",
+        photos: [
+          "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=85",
+          "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1400&q=85"
+        ]
+      },
+      {
+        id: "celestial-archive",
+        title: "Celestial Archive",
+        subtitle: "Golden Memories",
+        theme: "celestial",
+        angle: 24,
+        distance: 350,
+        thumbnail: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80",
+        customLigamentGif: "",
+        photos: [
+          "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1400&q=85"
+        ]
+      }
+    ];
+
+    let activeBranches = [];
+
+    async function loadBranches() {
+      try {
+        const res = await fetch('./branches.json');
+        if (!res.ok) throw new Error('Using fallback');
+        activeBranches = await res.json();
+      } catch (e) {
+        activeBranches = FALLBACK_BRANCHES;
+      }
+      renderNetwork();
+    }
+
+    function renderNetwork() {
+      const container = document.getElementById('branches-container');
+      container.innerHTML = '';
+
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+
+      activeBranches.forEach((branch, index) => {
+        const deg = branch.angle !== undefined ? branch.angle : (index * (360 / activeBranches.length));
+        const rad = (deg * Math.PI) / 180;
+        const dist = Math.min(branch.distance || 340, Math.min(cx, cy) - 90);
+
+        const px = cx + Math.cos(rad) * dist;
+        const py = cy + Math.sin(rad) * dist;
+
+        const group = document.createElement('div');
+        group.className = `branch-group theme-${branch.theme || 'nocturnal'}`;
+
+        if (branch.customLigamentGif) {
+          const img = document.createElement('img');
+          img.src = branch.customLigamentGif;
+          img.className = 'custom-ligament-sprite';
+          img.style.left = `${cx}px`;
+          img.style.top = `${cy - 40}px`;
+          img.style.width = `${dist}px`;
+          img.style.height = `80px`;
+          img.style.transform = `rotate(${deg}deg)`;
+          group.appendChild(img);
+        } else {
+          const midX1 = cx + Math.cos(rad - 0.22) * (dist * 0.45);
+          const midY1 = cy + Math.sin(rad - 0.22) * (dist * 0.45);
+          const midX2 = cx + Math.cos(rad + 0.18) * (dist * 0.72);
+          const midY2 = cy + Math.sin(rad + 0.18) * (dist * 0.72);
+
+          const mainCurve = `M ${cx} ${cy} C ${midX1} ${midY1}, ${midX2} ${midY2}, ${px} ${py}`;
+          const altCurve  = `M ${cx} ${cy} C ${midX2} ${midY1}, ${midX1} ${midY2}, ${px} ${py}`;
+
+          group.insertAdjacentHTML('beforeend', `
+            <svg class="ligament-svg">
+              <path class="ligament-path-base" d="${mainCurve}" />
+              <path class="ligament-path-tendril" d="${altCurve}" />
+              <path class="ligament-path-core" d="${mainCurve}" />
+            </svg>
+          `);
+        }
+
+        const node = document.createElement('div');
+        node.className = 'portal-node';
+        node.style.left = `${px}px`;
+        node.style.top = `${py}px`;
+        node.innerHTML = `
+          <span class="portal-ring"></span>
+          <img class="portal-thumb" src="${branch.thumbnail}" alt="${branch.title}" loading="lazy" />
+          <div class="portal-label">
+            <span class="portal-title">${branch.title}</span>
+            <span class="portal-subtitle">${branch.subtitle || branch.theme}</span>
+          </div>
+        `;
+
+        node.addEventListener('click', () => openGallery(branch));
+        group.appendChild(node);
+        container.appendChild(group);
+      });
+    }
+
+    const modal = document.getElementById('gallery-modal');
+    function openGallery(branch) {
+      document.getElementById('modal-title').textContent = branch.title;
+      document.getElementById('modal-subtitle').textContent = branch.subtitle || '';
+      const grid = document.getElementById('modal-photos');
+      grid.innerHTML = (branch.photos || []).map(src => 
+        `<img src="${src}" loading="lazy" alt="${branch.title}" />`
+      ).join('');
+      modal.showModal();
+    }
+
+    document.getElementById('close-modal').addEventListener('click', () => modal.close());
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+    window.addEventListener('resize', renderNetwork);
+
+    loadBranches();
+  </script>
+</body>
+</html>
