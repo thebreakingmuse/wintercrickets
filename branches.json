@@ -1,47 +1,5 @@
 [
   {
-    "id": "night-hike",
-    "title": "Nocturnal Mountain",
-    "subtitle": "Hiking & Starlight",
-    "theme": "nocturnal",
-    "angle": -25,
-    "distance": 340,
-    "thumbnail": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
-    "customLigamentGif": "",
-    "photos": [
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=85",
-      "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1400&q=85"
-    ]
-  },
-  {
-    "id": "celestial-archive",
-    "title": "Celestial Archive",
-    "subtitle": "Golden Memories",
-    "theme": "celestial",
-    "angle": 25,
-    "distance": 360,
-    "thumbnail": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80",
-    "customLigamentGif": "",
-    "photos": [
-      "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1400&q=85"
-    ]
-  },
-  {
-    "id": "test",
-    "title": "GoG Moon",
-    "subtitle": "Starlit Kisses",
-    "theme": "nocturnal",
-    "angle": 100,
-    "distance": 300,
-    "thumbnail": "portals/test/PXL_20260503_050728010.NIGHT.webp",
-    "customLigamentGif": "",
-    "photos": [
-      "portals/test/PXL_20260503_050728010.NIGHT.webp",
-      "portals/test/tytyty.webp",
-      "portals/test/unnamed (36).webp"
-    ]
-  },
-  {
     "id": "paddleboarding",
     "title": "Paddleboarding",
     "subtitle": "Gallery & Archive",
