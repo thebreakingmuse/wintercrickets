@@ -255,5 +255,23 @@
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_193617853.webp",
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_193620340.webp"
     ]
+  },
+  {
+    "id": "sanctum-arcana",
+    "title": "Sanctum Arcana",
+    "subtitle": "Gallery & Archive",
+    "theme": "celestial",
+    "angle": -155,
+    "distance": 340,
+    "thumbnail": "templates/arcane.jpg",
+    "photos": [
+      "portals/sanctum-arcana/signal-2026-05-11-233026_002.webp",
+      "portals/sanctum-arcana/signal-2026-05-11-233026_003.webp"
+    ],
+    "grid_thumbs": [
+      "portals/sanctum-arcana/grid_thumbs/signal-2026-05-11-233026_002.webp",
+      "portals/sanctum-arcana/grid_thumbs/signal-2026-05-11-233026_003.webp"
+    ],
+    "password": "arcana"
   }
 ]

@@ -32,12 +32,11 @@
       user-select: none;
     }
 
-    /* Ambient Starfield Overlay */
     .starfield {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background-image:
+      background-image: 
         radial-gradient(1px 1px at 15% 25%, rgba(255, 255, 255, 0.7), transparent),
         radial-gradient(1.5px 1.5px at 35% 65%, rgba(255, 209, 102, 0.5), transparent),
         radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.6), transparent),
@@ -49,7 +48,6 @@
       z-index: 0;
     }
 
-    /* Top Title Banner */
     header {
       position: fixed;
       top: 24px;
@@ -79,7 +77,6 @@
       margin-top: 4px;
     }
 
-    /* Interactive Cosmic Canvas */
     #cosmos-viewport {
       position: relative;
       width: 100vw;
@@ -99,7 +96,6 @@
       justify-content: center;
     }
 
-    /* SVG Connecting Ligaments Layer */
     #ligaments-svg {
       position: absolute;
       inset: 0;
@@ -117,17 +113,13 @@
       stroke-dasharray: 8 6;
       animation: pulseFlow 14s linear infinite;
       filter: drop-shadow(0 0 6px currentColor);
-      transition: stroke-width 0.35s ease, opacity 0.35s ease;
       opacity: 0.78;
     }
 
     @keyframes pulseFlow {
-      to {
-        stroke-dashoffset: -140;
-      }
+      to { stroke-dashoffset: -140; }
     }
 
-    /* Central Sacred Geometry Hub */
     .center-hub {
       position: absolute;
       left: 50%;
@@ -141,10 +133,7 @@
       align-items: center;
       justify-content: center;
       background: radial-gradient(circle, rgba(22, 16, 40, 0.95) 0%, rgba(7, 5, 14, 0.98) 75%);
-      box-shadow:
-        0 0 35px rgba(212, 175, 55, 0.3),
-        0 0 70px rgba(179, 102, 255, 0.2),
-        inset 0 0 25px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 0 35px rgba(212, 175, 55, 0.3), 0 0 70px rgba(179, 102, 255, 0.2), inset 0 0 25px rgba(212, 175, 55, 0.25);
       border: 1.5px solid rgba(212, 175, 55, 0.55);
     }
 
@@ -154,7 +143,6 @@
       animation: slowSpin 50s linear infinite;
     }
 
-    /* Orbiting Winter Crickets */
     .cricket-orbit {
       position: absolute;
       width: 232px;
@@ -174,37 +162,12 @@
       overflow: visible;
     }
 
-    .cricket-icon.top {
-      top: -21px;
-      left: calc(50% - 21px);
-      transform: rotate(-90deg);
-    }
+    .cricket-icon.top { top: -21px; left: calc(50% - 21px); transform: rotate(-90deg); }
+    .cricket-icon.bottom { bottom: -21px; left: calc(50% - 21px); transform: rotate(90deg); }
+    .cricket-icon.left { left: -21px; top: calc(50% - 21px); transform: rotate(180deg); }
+    .cricket-icon.right { right: -21px; top: calc(50% - 21px); transform: rotate(0deg); }
 
-    .cricket-icon.bottom {
-      bottom: -21px;
-      left: calc(50% - 21px);
-      transform: rotate(90deg);
-    }
-
-    .cricket-icon.left {
-      left: -21px;
-      top: calc(50% - 21px);
-      transform: rotate(180deg);
-    }
-
-    .cricket-icon.right {
-      right: -21px;
-      top: calc(50% - 21px);
-      transform: rotate(0deg);
-    }
-
-    /* Cricket Leg & Antenna Articulation Animations */
-    .cricket-leg,
-    .cricket-antenna,
-    .cricket-body {
-      transform-box: view-box;
-    }
-
+    .cricket-leg, .cricket-antenna, .cricket-body { transform-box: view-box; }
     .leg-fl { transform-origin: 28px 21px; }
     .leg-fr { transform-origin: 36px 21px; }
     .leg-ml { transform-origin: 27px 28px; }
@@ -215,72 +178,22 @@
     .ant-r  { transform-origin: 35px 15px; }
     .cricket-body { transform-origin: 32px 32px; }
 
-    .gait-a.leg-fl,
-    .gait-a.leg-hl {
-      animation: swingLeftLeg 0.55s ease-in-out infinite alternate;
-    }
+    .gait-a.leg-fl, .gait-a.leg-hl { animation: swingLeftLeg 0.55s ease-in-out infinite alternate; }
+    .gait-a.leg-mr { animation: swingRightLeg 0.55s ease-in-out infinite alternate; }
+    .gait-b.leg-fr, .gait-b.leg-hr { animation: swingRightLeg 0.55s ease-in-out infinite alternate-reverse; }
+    .gait-b.leg-ml { animation: swingLeftLeg 0.55s ease-in-out infinite alternate-reverse; }
+    .ant-l { animation: feelerLeft 1.1s ease-in-out infinite alternate; }
+    .ant-r { animation: feelerRight 1.3s ease-in-out infinite alternate; }
+    .cricket-body { animation: bodySway 0.55s ease-in-out infinite alternate; }
 
-    .gait-a.leg-mr {
-      animation: swingRightLeg 0.55s ease-in-out infinite alternate;
-    }
+    @keyframes swingLeftLeg { 0% { transform: rotate(-13deg) translateY(1px); } 100% { transform: rotate(15deg) translateY(-1px); } }
+    @keyframes swingRightLeg { 0% { transform: rotate(-15deg) translateY(-1px); } 100% { transform: rotate(13deg) translateY(1px); } }
+    @keyframes feelerLeft { 0% { transform: rotate(-9deg); } 100% { transform: rotate(11deg); } }
+    @keyframes feelerRight { 0% { transform: rotate(9deg); } 100% { transform: rotate(-11deg); } }
+    @keyframes bodySway { 0% { transform: rotate(-2.2deg) translateY(-0.6px); } 100% { transform: rotate(2.2deg) translateY(0.6px); } }
+    @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes slowSpinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
-    .gait-b.leg-fr,
-    .gait-b.leg-hr {
-      animation: swingRightLeg 0.55s ease-in-out infinite alternate-reverse;
-    }
-
-    .gait-b.leg-ml {
-      animation: swingLeftLeg 0.55s ease-in-out infinite alternate-reverse;
-    }
-
-    .ant-l {
-      animation: feelerLeft 1.1s ease-in-out infinite alternate;
-    }
-
-    .ant-r {
-      animation: feelerRight 1.3s ease-in-out infinite alternate;
-    }
-
-    .cricket-body {
-      animation: bodySway 0.55s ease-in-out infinite alternate;
-    }
-
-    @keyframes swingLeftLeg {
-      0%   { transform: rotate(-13deg) translateY(1px); }
-      100% { transform: rotate(15deg) translateY(-1px); }
-    }
-
-    @keyframes swingRightLeg {
-      0%   { transform: rotate(-15deg) translateY(-1px); }
-      100% { transform: rotate(13deg) translateY(1px); }
-    }
-
-    @keyframes feelerLeft {
-      0%   { transform: rotate(-9deg); }
-      100% { transform: rotate(11deg); }
-    }
-
-    @keyframes feelerRight {
-      0%   { transform: rotate(9deg); }
-      100% { transform: rotate(-11deg); }
-    }
-
-    @keyframes bodySway {
-      0%   { transform: rotate(-2.2deg) translateY(-0.6px); }
-      100% { transform: rotate(2.2deg) translateY(0.6px); }
-    }
-
-    @keyframes slowSpin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes slowSpinReverse {
-      from { transform: rotate(360deg); }
-      to { transform: rotate(0deg); }
-    }
-
-    /* Portal Branch Nodes */
     .portal-node {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -292,10 +205,7 @@
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
 
-    .portal-node:hover {
-      transform: translate(-50%, -50%) scale(1.09);
-      z-index: 15;
-    }
+    .portal-node:hover { transform: translate(-50%, -50%) scale(1.09); z-index: 15; }
 
     .portal-ring {
       position: relative;
@@ -305,45 +215,11 @@
       padding: 5px;
       background: radial-gradient(circle, rgba(15, 15, 25, 0.9), rgba(5, 5, 10, 0.98));
       border: 2px solid var(--node-border, #d4af37);
-      box-shadow:
-        0 0 22px var(--node-glow, rgba(212, 175, 55, 0.5)),
-        inset 0 0 14px var(--node-glow, rgba(212, 175, 55, 0.4));
-      transition: box-shadow 0.35s ease, border-color 0.35s ease;
+      box-shadow: 0 0 22px var(--node-glow, rgba(212, 175, 55, 0.5)), inset 0 0 14px var(--node-glow, rgba(212, 175, 55, 0.4));
       overflow: hidden;
     }
 
-    .portal-node:hover .portal-ring {
-      box-shadow:
-        0 0 36px var(--node-glow),
-        0 0 65px var(--node-glow),
-        inset 0 0 20px var(--node-glow);
-    }
-
-    .portal-ring::before {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: 50%;
-      border: 1px dashed var(--node-border);
-      opacity: 0.65;
-      animation: slowSpin 28s linear infinite;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .portal-thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .portal-node:hover .portal-thumb {
-      transform: scale(1.08);
-    }
-
+    .portal-thumb { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
     .portal-label {
       margin-top: 10px;
       text-align: center;
@@ -352,56 +228,16 @@
       padding: 5px 14px;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.65);
     }
 
-    .portal-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      color: var(--text-main);
-      text-shadow: 0 0 10px var(--node-glow);
-      white-space: nowrap;
-    }
+    .portal-title { font-size: 0.88rem; font-weight: 600; letter-spacing: 0.1em; color: var(--text-main); }
+    .portal-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--text-muted); }
 
-    .portal-subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    /* Color Themes */
-    .theme-nocturnal {
-      --node-color: #b366ff;
-      --node-glow: rgba(179, 102, 255, 0.6);
-      --node-border: #d9b3ff;
-    }
-
-    .theme-cyber {
-      --node-color: #00f0ff;
-      --node-glow: rgba(0, 240, 255, 0.6);
-      --node-border: #99f9ff;
-    }
-
-    .theme-celestial {
-      --node-color: #ffd166;
-      --node-glow: rgba(255, 209, 102, 0.6);
-      --node-border: #ffe8a3;
-    }
-
-    .theme-oceanic {
-      --node-color: #00f5d4;
-      --node-glow: rgba(0, 245, 212, 0.6);
-      --node-border: #9bfbee;
-    }
-
-    .theme-rose {
-      --node-color: #ff4d79;
-      --node-glow: rgba(255, 77, 121, 0.65);
-      --node-border: #ffb3c6;
-    }
+    .theme-nocturnal { --node-color: #b366ff; --node-glow: rgba(179, 102, 255, 0.6); --node-border: #d9b3ff; }
+    .theme-cyber { --node-color: #00f0ff; --node-glow: rgba(0, 240, 255, 0.6); --node-border: #99f9ff; }
+    .theme-celestial { --node-color: #ffd166; --node-glow: rgba(255, 209, 102, 0.6); --node-border: #ffe8a3; }
+    .theme-oceanic { --node-color: #00f5d4; --node-glow: rgba(0, 245, 212, 0.6); --node-border: #9bfbee; }
+    .theme-rose { --node-color: #ff4d79; --node-glow: rgba(255, 77, 121, 0.65); --node-border: #ffb3c6; }
 
     /* Gallery Modal Overlay */
     #gallery-modal {
@@ -416,9 +252,7 @@
       padding: 24px;
     }
 
-    #gallery-modal.active {
-      display: flex;
-    }
+    #gallery-modal.active { display: flex; }
 
     .modal-content-box {
       width: min(94vw, 1150px);
@@ -430,7 +264,7 @@
       border: 1px solid rgba(212, 175, 55, 0.4);
       border-radius: 16px;
       padding: 28px;
-      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(179, 102, 255, 0.22);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
     }
@@ -445,19 +279,8 @@
       flex-shrink: 0;
     }
 
-    .modal-title-group h2 {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.5rem;
-      letter-spacing: 0.12em;
-      color: var(--text-main);
-    }
-
-    .modal-title-group p {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1.05rem;
-      color: var(--text-muted);
-    }
+    .modal-title-group h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; letter-spacing: 0.12em; }
+    .modal-title-group p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--text-muted); }
 
     .close-btn {
       background: transparent;
@@ -467,28 +290,80 @@
       padding: 8px 16px;
       border-radius: 8px;
       cursor: pointer;
+    }
+
+    .close-btn:hover { border-color: var(--gold-accent); }
+
+    /* Password Lock Gate Screen */
+    #lock-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      text-align: center;
+      gap: 16px;
+    }
+
+    #lock-screen.active { display: flex; }
+
+    #lock-screen p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--gold-accent);
       letter-spacing: 0.08em;
+    }
+
+    .lock-input {
+      background: rgba(5, 5, 10, 0.9);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
+      color: var(--text-main);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      text-align: center;
+      width: min(320px, 80vw);
+      outline: none;
+      letter-spacing: 0.15em;
+    }
+
+    .lock-input:focus { border-color: var(--gold-accent); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+
+    .unlock-btn {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold-accent);
+      color: var(--gold-accent);
+      font-family: 'Cinzel', serif;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.1em;
       transition: all 0.25s ease;
     }
 
-    .close-btn:hover {
-      border-color: var(--gold-accent);
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    .unlock-btn:hover { background: var(--gold-accent); color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+
+    .lock-error {
+      color: #ff4d79;
+      font-size: 0.85rem;
+      font-style: italic;
+      height: 20px;
     }
 
-    /* Keep square thumbnail rows full-sized inside the scrolling gallery. */
+    /* Scrollable Grid Container */
     .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
-      grid-auto-rows: max-content;
-      align-content: start;
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 18px;
       overflow-y: auto;
-      padding: 4px 6px 0 0;
-      flex: 1;
+      padding-right: 6px;
+      flex-grow: 1;
       min-height: 0;
-      min-width: 0;
     }
+
+    .photo-grid.active { display: grid; }
 
     .photo-card {
       position: relative;
@@ -502,28 +377,10 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .photo-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 18px rgba(212, 175, 55, 0.3);
-      border-color: rgba(212, 175, 55, 0.5);
-    }
+    .photo-card:hover { transform: translateY(-4px); border-color: rgba(212, 175, 55, 0.5); }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.35s ease; }
+    .photo-card img.loaded { opacity: 1; }
 
-    .photo-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0;
-      transition: opacity 0.35s ease;
-    }
-
-    .photo-card img.loaded {
-      opacity: 1;
-    }
-
-    /* Fullscreen Lightbox Overlay */
     #lightbox {
       position: fixed;
       inset: 0;
@@ -536,29 +393,8 @@
       padding: 24px;
     }
 
-    #lightbox.active {
-      display: flex;
-    }
-
-    #lightbox img {
-      max-width: 94vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 0 45px rgba(0, 0, 0, 0.9);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-    }
-
-    @media (max-width: 768px) {
-      #network-stage {
-        transform: scale(0.58);
-      }
-
-      .portal-ring {
-        width: 96px;
-        height: 96px;
-      }
-    }
+    #lightbox.active { display: flex; }
+    #lightbox img { max-width: 94vw; max-height: 90vh; object-fit: contain; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.35); }
   </style>
 </head>
 <body>
@@ -572,39 +408,17 @@
 
   <main id="cosmos-viewport">
     <div id="network-stage">
-      <!-- SVG Ligaments Layer -->
       <svg id="ligaments-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#b366ff" stop-opacity="0.9" />
-            <stop offset="100%" stop-color="#6a00f4" stop-opacity="0.2" />
-          </linearGradient>
-
-          <linearGradient id="grad-cyber" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9" />
-            <stop offset="100%" stop-color="#0066ff" stop-opacity="0.2" />
-          </linearGradient>
-
-          <linearGradient id="grad-celestial" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffd166" stop-opacity="0.95" />
-            <stop offset="100%" stop-color="#d4af37" stop-opacity="0.2" />
-          </linearGradient>
-
-          <linearGradient id="grad-oceanic" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.9" />
-            <stop offset="100%" stop-color="#00bbf9" stop-opacity="0.2" />
-          </linearGradient>
-
-          <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ff4d79" stop-opacity="0.95" />
-            <stop offset="50%" stop-color="#ff85a2" stop-opacity="0.6" />
-            <stop offset="100%" stop-color="#e0115f" stop-opacity="0.2" />
-          </linearGradient>
+          <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#b366ff" stop-opacity="0.9" /><stop offset="100%" stop-color="#6a00f4" stop-opacity="0.2" /></linearGradient>
+          <linearGradient id="grad-cyber" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9" /><stop offset="100%" stop-color="#0066ff" stop-opacity="0.2" /></linearGradient>
+          <linearGradient id="grad-celestial" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffd166" stop-opacity="0.95" /><stop offset="100%" stop-color="#d4af37" stop-opacity="0.2" /></linearGradient>
+          <linearGradient id="grad-oceanic" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00f5d4" stop-opacity="0.9" /><stop offset="100%" stop-color="#00bbf9" stop-opacity="0.2" /></linearGradient>
+          <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff4d79" stop-opacity="0.95" /><stop offset="50%" stop-color="#ff85a2" stop-opacity="0.6" /><stop offset="100%" stop-color="#e0115f" stop-opacity="0.2" /></linearGradient>
         </defs>
         <g id="ligaments-group"></g>
       </svg>
 
-      <!-- Central Hub & Animated Orbiting Winter Crickets -->
       <div class="center-hub">
         <div class="cricket-orbit">
           <svg class="cricket-icon top" viewBox="0 0 64 64"></svg>
@@ -612,7 +426,6 @@
           <svg class="cricket-icon left" viewBox="0 0 64 64"></svg>
           <svg class="cricket-icon right" viewBox="0 0 64 64"></svg>
         </div>
-
         <svg class="hub-geometry" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(212,175,55,0.45)" stroke-width="0.8" />
           <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(179,102,255,0.4)" stroke-width="0.7" stroke-dasharray="3 2" />
@@ -623,7 +436,6 @@
         </svg>
       </div>
 
-      <!-- Dynamic Portal Nodes Container -->
       <div id="nodes-container"></div>
     </div>
   </main>
@@ -638,11 +450,20 @@
         </div>
         <button class="close-btn" id="close-modal-btn">Close [Esc]</button>
       </div>
+
+      <!-- Password Lock Screen View -->
+      <div id="lock-screen">
+        <p>🔒 This archive is sealed behind an ancient threshold.</p>
+        <input type="password" id="lock-pass-input" class="lock-input" placeholder="Enter keyword..." autocomplete="off" />
+        <button id="lock-submit-btn" class="unlock-btn">Unlock Portal</button>
+        <div id="lock-error-msg" class="lock-error"></div>
+      </div>
+
+      <!-- Photos Grid View -->
       <div class="photo-grid" id="modal-photo-grid"></div>
     </div>
   </div>
 
-  <!-- Fullscreen Image Lightbox -->
   <div id="lightbox">
     <img id="lightbox-img" src="" alt="Expanded view" />
   </div>
@@ -651,41 +472,23 @@
     const CENTER_X = 500;
     const CENTER_Y = 500;
 
-    const themeColors = {
-      nocturnal: '#b366ff',
-      cyber: '#00f0ff',
-      celestial: '#ffd166',
-      oceanic: '#00f5d4',
-      rose: '#ff4d79'
-    };
+    const themeColors = { nocturnal: '#b366ff', cyber: '#00f0ff', celestial: '#ffd166', oceanic: '#00f5d4', rose: '#ff4d79' };
 
     const CRICKET_SVG_MARKUP = `
       <path class="cricket-antenna ant-l" d="M29 15 C24 6, 13 2, 4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       <path class="cricket-antenna ant-r" d="M35 15 C40 6, 51 2, 60 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-
       <path class="cricket-leg leg-fl gait-a" d="M28 21 L17 15 L12 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path class="cricket-leg leg-fr gait-b" d="M36 21 L47 15 L52 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
       <path class="cricket-leg leg-ml gait-b" d="M27 28 L14 26 L9 33" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
       <path class="cricket-leg leg-mr gait-a" d="M37 28 L50 26 L55 33" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-
-      <g class="cricket-leg leg-hl gait-a">
-        <path d="M28 35 C20 31, 13 23, 11 25 C9 27, 15 37, 23 41 L14 55 L10 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-      <g class="cricket-leg leg-hr gait-b">
-        <path d="M36 35 C44 31, 51 23, 53 25 C55 27, 49 37, 41 41 L50 55 L54 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-
+      <g class="cricket-leg leg-hl gait-a"><path d="M28 35 C20 31, 13 23, 11 25 C9 27, 15 37, 23 41 L14 55 L10 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <g class="cricket-leg leg-hr gait-b"><path d="M36 35 C44 31, 51 23, 53 25 C55 27, 49 37, 41 41 L50 55 L54 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
       <g class="cricket-body">
         <path d="M29 50 L23 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         <path d="M35 50 L41 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-
         <ellipse cx="32" cy="17" rx="4.2" ry="3.6" fill="currentColor"/>
-        <circle cx="28.2" cy="16" r="1.3" fill="#fff3b0"/>
-        <circle cx="35.8" cy="16" r="1.3" fill="#fff3b0"/>
-
+        <circle cx="28.2" cy="16" r="1.3" fill="#fff3b0"/><circle cx="35.8" cy="16" r="1.3" fill="#fff3b0"/>
         <rect x="27" y="20.5" width="10" height="7.5" rx="2.8" fill="currentColor" stroke="#080612" stroke-width="0.9"/>
-
         <ellipse cx="32" cy="39" rx="5.6" ry="12.5" fill="currentColor" stroke="#080612" stroke-width="0.9"/>
         <path d="M32 28 L32 50 M28.5 31 L35.5 35 M35.5 31 L28.5 35 M28.5 37 L35.5 41 M35.5 37 L28.5 41 M29 43 L35 46" fill="none" stroke="#080612" stroke-width="0.9" stroke-linecap="round"/>
       </g>
@@ -694,9 +497,7 @@
     document.querySelectorAll('.cricket-icon').forEach((svgEl, idx) => {
       svgEl.innerHTML = CRICKET_SVG_MARKUP;
       const delay = -(idx * 0.19).toFixed(2) + 's';
-      svgEl.querySelectorAll('.cricket-leg, .cricket-body, .cricket-antenna').forEach((part) => {
-        part.style.animationDelay = delay;
-      });
+      svgEl.querySelectorAll('.cricket-leg, .cricket-body, .cricket-antenna').forEach(part => part.style.animationDelay = delay);
     });
 
     const ligamentsGroup = document.getElementById('ligaments-group');
@@ -708,88 +509,95 @@
     const closeModalBtn = document.getElementById('close-modal-btn');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
+    const lockScreen = document.getElementById('lock-screen');
+    const lockPassInput = document.getElementById('lock-pass-input');
+    const lockSubmitBtn = document.getElementById('lock-submit-btn');
+    const lockErrorMsg = document.getElementById('lock-error-msg');
 
     function buildCurvedPath(x1, y1, x2, y2, index) {
-      const midX = (x1 + x2) / 2;
-      const midY = (y1 + y2) / 2;
-      const dx = x2 - x1;
-      const dy = y2 - y1;
+      const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2;
+      const dx = x2 - x1, dy = y2 - y1;
       const offsetDirection = index % 2 === 0 ? 1 : -1;
-      const ctrlX = midX - dy * 0.18 * offsetDirection;
-      const ctrlY = midY + dx * 0.18 * offsetDirection;
-      return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
+      return `M ${x1} ${y1} Q ${midX - dy * 0.18 * offsetDirection} ${midY + dx * 0.18 * offsetDirection} ${x2} ${y2}`;
     }
 
-    function openGallery(branch) {
-      modalTitle.textContent = branch.title || branch.id;
-      modalSubtitle.textContent = branch.subtitle || 'Gallery & Archive';
+    function renderPhotoGrid(branch) {
       modalPhotoGrid.innerHTML = '';
-
       const photos = branch.photos || [];
       const thumbs = branch.grid_thumbs || [];
 
       photos.forEach((fullPhotoPath, idx) => {
         const previewPath = thumbs[idx] || fullPhotoPath;
-
         const card = document.createElement('div');
         card.className = 'photo-card';
-
         const img = document.createElement('img');
         img.src = previewPath;
-        img.alt = branch.title || 'Portal image';
         img.loading = 'lazy';
-        img.decoding = 'async';
         img.addEventListener('load', () => img.classList.add('loaded'));
-
-        img.addEventListener('error', () => {
-          if (img.src !== fullPhotoPath) img.src = fullPhotoPath;
-        });
-
         card.appendChild(img);
-
-        card.addEventListener('click', () => {
-          lightboxImg.src = fullPhotoPath;
-          lightbox.classList.add('active');
-        });
-
+        card.addEventListener('click', () => { lightboxImg.src = fullPhotoPath; lightbox.classList.add('active'); });
         modalPhotoGrid.appendChild(card);
       });
+    }
+
+    function openGallery(branch) {
+      modalTitle.textContent = branch.title || branch.id;
+      modalSubtitle.textContent = branch.subtitle || 'Gallery & Archive';
+      lockErrorMsg.textContent = '';
+      lockPassInput.value = '';
+
+      const requiredPassword = (branch.password || '').trim().toLowerCase();
+
+      if (requiredPassword) {
+        // Show Lock Screen
+        lockScreen.classList.add('active');
+        modalPhotoGrid.classList.remove('active');
+
+        // Define unlock handler
+        const attemptUnlock = () => {
+          const userEntered = lockPassInput.value.trim().toLowerCase();
+          if (userEntered === requiredPassword) {
+            lockScreen.classList.remove('active');
+            renderPhotoGrid(branch);
+            modalPhotoGrid.classList.add('active');
+          } else {
+            lockErrorMsg.textContent = 'Incorrect keyword. The door remains sealed.';
+            lockPassInput.value = '';
+            lockPassInput.focus();
+          }
+        };
+
+        lockSubmitBtn.onclick = attemptUnlock;
+        lockPassInput.onkeydown = (e) => { if (e.key === 'Enter') attemptUnlock(); };
+        setTimeout(() => lockPassInput.focus(), 100);
+      } else {
+        // Public Access
+        lockScreen.classList.remove('active');
+        renderPhotoGrid(branch);
+        modalPhotoGrid.classList.add('active');
+      }
 
       galleryModal.classList.add('active');
     }
 
-    function closeGallery() {
-      galleryModal.classList.remove('active');
-    }
-
+    function closeGallery() { galleryModal.classList.remove('active'); }
     closeModalBtn.addEventListener('click', closeGallery);
-
-    galleryModal.addEventListener('click', (e) => {
-      if (e.target === galleryModal) closeGallery();
-    });
+    galleryModal.addEventListener('click', (e) => { if (e.target === galleryModal) closeGallery(); });
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (lightbox.classList.contains('active')) {
-          lightbox.classList.remove('active');
-          lightboxImg.src = '';
-        } else {
-          closeGallery();
-        }
+        if (lightbox.classList.contains('active')) { lightbox.classList.remove('active'); lightboxImg.src = ''; }
+        else { closeGallery(); }
       }
     });
 
-    lightbox.addEventListener('click', () => {
-      lightbox.classList.remove('active');
-      lightboxImg.src = '';
-    });
+    lightbox.addEventListener('click', () => { lightbox.classList.remove('active'); lightboxImg.src = ''; });
 
     async function loadPortals() {
       try {
         const res = await fetch(`branches.json?t=${Date.now()}`);
         if (!res.ok) throw new Error('Could not load branches.json');
         const branches = await res.json();
-
         ligamentsGroup.innerHTML = '';
         nodesContainer.innerHTML = '';
 
@@ -797,18 +605,14 @@
           const angleDeg = branch.angle ?? (idx * 60);
           const distance = branch.distance ?? 340;
           const angleRad = (angleDeg * Math.PI) / 180;
-
           const x = CENTER_X + Math.cos(angleRad) * distance;
           const y = CENTER_Y + Math.sin(angleRad) * distance;
-
           const theme = themeColors[branch.theme] ? branch.theme : 'nocturnal';
-          const color = themeColors[theme];
 
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x, y, idx));
           path.setAttribute('class', 'ligament-path');
           path.setAttribute('stroke', `url(#grad-${theme})`);
-          path.style.color = color;
           ligamentsGroup.appendChild(path);
 
           const node = document.createElement('div');
@@ -817,7 +621,6 @@
           node.style.top = `${y}px`;
 
           const thumbSrc = branch.thumbnail || (branch.grid_thumbs && branch.grid_thumbs[0]) || (branch.photos && branch.photos[0]) || '';
-
           node.innerHTML = `
             <div class="portal-ring">
               <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
@@ -827,13 +630,10 @@
               <div class="portal-subtitle">${branch.subtitle || ''}</div>
             </div>
           `;
-
           node.addEventListener('click', () => openGallery(branch));
           nodesContainer.appendChild(node);
         });
-      } catch (err) {
-        console.error('Error initializing portal network:', err);
-      }
+      } catch (err) { console.error('Error loading portals:', err); }
     }
 
     loadPortals();
