@@ -397,7 +397,7 @@
       --node-border: #ffb3c6;
     }
 
-    /* Gallery Modal Overlay (Fixed stacking context with z-index: 1000) */
+    /* Gallery Modal Overlay */
     #gallery-modal {
       position: fixed;
       inset: 0;
@@ -415,8 +415,9 @@
     }
 
     .modal-content-box {
-      width: min(92vw, 1150px);
-      max-height: 88vh;
+      width: min(94vw, 1150px);
+      height: 85vh;
+      max-height: 85vh;
       background: rgba(10, 8, 18, 0.96);
       backdrop-filter: blur(16px);
       color: var(--text-main);
@@ -426,7 +427,6 @@
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(179, 102, 255, 0.22);
       display: flex;
       flex-direction: column;
-      overflow-y: auto;
     }
 
     .modal-header {
@@ -436,6 +436,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       padding-bottom: 16px;
       margin-bottom: 22px;
+      flex-shrink: 0;
     }
 
     .modal-title-group h2 {
@@ -469,11 +470,14 @@
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
     }
 
+    /* Scrollable Grid Container with fixed card aspect ratios */
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 18px;
       overflow-y: auto;
+      padding-right: 6px;
+      flex-grow: 1;
     }
 
     .photo-card {
@@ -482,6 +486,7 @@
       overflow: hidden;
       background: radial-gradient(circle, #141124 0%, #08070f 100%);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
       aspect-ratio: 1 / 1;
       cursor: zoom-in;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -506,7 +511,7 @@
       opacity: 1;
     }
 
-    /* Fullscreen Lightbox Overlay (Higher z-index: 9999 to render cleanly on top) */
+    /* Fullscreen Lightbox Overlay */
     #lightbox {
       position: fixed;
       inset: 0;
@@ -749,7 +754,6 @@
       if (e.target === galleryModal) closeGallery();
     });
 
-    // Close on ESC key
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (lightbox.classList.contains('active')) {
