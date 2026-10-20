@@ -37,7 +37,7 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background-image: 
+      background-image:
         radial-gradient(1px 1px at 15% 25%, rgba(255, 255, 255, 0.7), transparent),
         radial-gradient(1.5px 1.5px at 35% 65%, rgba(255, 209, 102, 0.5), transparent),
         radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.6), transparent),
@@ -141,7 +141,7 @@
       align-items: center;
       justify-content: center;
       background: radial-gradient(circle, rgba(22, 16, 40, 0.95) 0%, rgba(7, 5, 14, 0.98) 75%);
-      box-shadow: 
+      box-shadow:
         0 0 35px rgba(212, 175, 55, 0.3),
         0 0 70px rgba(179, 102, 255, 0.2),
         inset 0 0 25px rgba(212, 175, 55, 0.25);
@@ -179,16 +179,19 @@
       left: calc(50% - 21px);
       transform: rotate(-90deg);
     }
+
     .cricket-icon.bottom {
       bottom: -21px;
       left: calc(50% - 21px);
       transform: rotate(90deg);
     }
+
     .cricket-icon.left {
       left: -21px;
       top: calc(50% - 21px);
       transform: rotate(180deg);
     }
+
     .cricket-icon.right {
       right: -21px;
       top: calc(50% - 21px);
@@ -216,6 +219,7 @@
     .gait-a.leg-hl {
       animation: swingLeftLeg 0.55s ease-in-out infinite alternate;
     }
+
     .gait-a.leg-mr {
       animation: swingRightLeg 0.55s ease-in-out infinite alternate;
     }
@@ -224,6 +228,7 @@
     .gait-b.leg-hr {
       animation: swingRightLeg 0.55s ease-in-out infinite alternate-reverse;
     }
+
     .gait-b.leg-ml {
       animation: swingLeftLeg 0.55s ease-in-out infinite alternate-reverse;
     }
@@ -231,6 +236,7 @@
     .ant-l {
       animation: feelerLeft 1.1s ease-in-out infinite alternate;
     }
+
     .ant-r {
       animation: feelerRight 1.3s ease-in-out infinite alternate;
     }
@@ -299,7 +305,7 @@
       padding: 5px;
       background: radial-gradient(circle, rgba(15, 15, 25, 0.9), rgba(5, 5, 10, 0.98));
       border: 2px solid var(--node-border, #d4af37);
-      box-shadow: 
+      box-shadow:
         0 0 22px var(--node-glow, rgba(212, 175, 55, 0.5)),
         inset 0 0 14px var(--node-glow, rgba(212, 175, 55, 0.4));
       transition: box-shadow 0.35s ease, border-color 0.35s ease;
@@ -307,7 +313,7 @@
     }
 
     .portal-node:hover .portal-ring {
-      box-shadow: 
+      box-shadow:
         0 0 36px var(--node-glow),
         0 0 65px var(--node-glow),
         inset 0 0 20px var(--node-glow);
@@ -470,15 +476,18 @@
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
     }
 
-    /* Scrollable Grid Container with fixed card aspect ratios and min-height fix */
+    /* Keep square thumbnail rows full-sized inside the scrolling gallery. */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+      grid-auto-rows: max-content;
+      align-content: start;
       gap: 18px;
       overflow-y: auto;
-      padding-right: 6px;
-      flex-grow: 1;
+      padding: 4px 6px 0 0;
+      flex: 1;
       min-height: 0;
+      min-width: 0;
     }
 
     .photo-card {
@@ -500,6 +509,8 @@
     }
 
     .photo-card img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -542,6 +553,7 @@
       #network-stage {
         transform: scale(0.58);
       }
+
       .portal-ring {
         width: 96px;
         height: 96px;
@@ -751,6 +763,7 @@
     }
 
     closeModalBtn.addEventListener('click', closeGallery);
+
     galleryModal.addEventListener('click', (e) => {
       if (e.target === galleryModal) closeGallery();
     });
