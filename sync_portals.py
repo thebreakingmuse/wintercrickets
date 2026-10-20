@@ -18,6 +18,12 @@ JSON_PATH = os.path.join(BASE_DIR, "branches.json")
 VALID_THEMES = ["nocturnal", "cyber", "celestial", "oceanic", "rose"]
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 
+# Compression settings
+MAX_FULL_DIMENSION = 1920
+FULL_WEBP_QUALITY = 82
+GRID_THUMB_SIZE = (400, 400)
+GRID_THUMB_QUALITY = 78
+
 PORTAL_PRESETS = {
     "1": {
         "name": "Esoteric & Arcane",
@@ -92,6 +98,79 @@ def find_template_file(prefix):
   return None
 
 
+def optimize_full_images(folder_path, folder_name):
+  """Converts large .jpg/.png files into compressed 1920px .webp files in-place
+
+  and shrinks oversized .webp files so lightbox images load almost instantly.
+  """
+  if not PILLOW_AVAILABLE:
+    return
+
+  files = sorted([
+      f
+      for f in os.listdir(folder_path)
+      if os.path.isfile(os.path.join(folder_path, f))
+  ])
+
+  for filename in files:
+    name, ext = os.path.splitext(filename)
+    ext_lower = ext.lower()
+
+    if ext_lower not in IMAGE_EXTENSIONS or ext_lower == ".gif":
+      continue
+
+    src_path = os.path.join(folder_path, filename)
+    dest_filename = f"{name}.webp"
+    dest_path = os.path.join(folder_path, dest_filename)
+
+    try:
+      with Image.open(src_path) as im:
+        # Preserve animated WebP files untouched
+        if getattr(im, "is_animated", False):
+          continue
+
+        width, height = im.size
+        file_size_kb = os.path.getsize(src_path) / 1024.0
+
+        # Skip if it's already a reasonably sized .webp within 1920px and under 650 KB
+        if (
+            ext_lower == ".webp"
+            and max(width, height) <= MAX_FULL_DIMENSION
+            and file_size_kb <= 650
+        ):
+          continue
+
+        im = ImageOps.exif_transpose(im)
+        if im.mode not in ("RGB", "RGBA"):
+          im = im.convert("RGB")
+
+        if max( im.size) > MAX_FULL_DIMENSION:
+          im.thumbnail(
+              (MAX_FULL_DIMENSION, MAX_FULL_DIMENSION),
+              Image.Resampling.LANCZOS,
+          )
+
+        im.save(dest_path, "WEBP", quality=FULL_WEBP_QUALITY, method=4)
+
+      # If we converted from .jpg/.png to .webp, remove the heavy original file
+      if ext_lower != ".webp" and os.path.exists(dest_path):
+        os.remove(src_path)
+        new_kb = os.path.getsize(dest_path) / 1024.0
+        print(
+            f"    [⚡] Optimized full image: {folder_name}/{filename}"
+            f" ({file_size_kb:.0f} KB) -> {dest_filename} ({new_kb:.0f} KB)"
+        )
+      else:
+        new_kb = os.path.getsize(dest_path) / 1024.0
+        print(
+            f"    [⚡] Compressed WebP: {folder_name}/{dest_filename}"
+            f" ({file_size_kb:.0f} KB -> {new_kb:.0f} KB)"
+        )
+
+    except Exception as e:
+      print(f"    [!] Could not optimize {filename}: {e}")
+
+
 def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
   """Generates fast-loading 400x400 WebP thumbnails in a grid_thumbs/ subfolder."""
   if not PILLOW_AVAILABLE:
@@ -105,13 +184,15 @@ def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
   os.makedirs(thumbs_dir, exist_ok=True)
   grid_thumb_paths = []
 
+  expected_thumbs = set()
+
   for img_name in image_filenames:
     src_path = os.path.join(folder_path, img_name)
     base_name = os.path.splitext(img_name)[0]
     thumb_filename = f"{base_name}.webp"
+    expected_thumbs.add(thumb_filename)
     dest_path = os.path.join(thumbs_dir, thumb_filename)
 
-    # Generate thumbnail if it doesn't exist yet or if source image is newer
     if not os.path.exists(dest_path) or os.path.getmtime(
         src_path
     ) > os.path.getmtime(dest_path):
@@ -120,11 +201,14 @@ def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
           im = ImageOps.exif_transpose(im)
           if im.mode not in ("RGB", "RGBA"):
             im = im.convert("RGB")
-          # Center-crop and resize to 400x400 square for the gallery grid
-          thumb_im = ImageOps.fit(im, (400, 400), Image.Resampling.LANCZOS)
-          thumb_im.save(dest_path, "WEBP", quality=78, method=4)
+          thumb_im = ImageOps.fit(
+              im, GRID_THUMB_SIZE, Image.Resampling.LANCZOS
+          )
+          thumb_im.save(
+              dest_path, "WEBP", quality=GRID_THUMB_QUALITY, method=4
+          )
           print(
-              f"    [+] Created fast grid thumbnail:"
+              f"    [+] Created grid thumbnail:"
               f" {folder_name}/grid_thumbs/{thumb_filename}"
           )
       except Exception as e:
@@ -136,10 +220,21 @@ def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
         f"portals/{folder_name}/grid_thumbs/{thumb_filename}"
     )
 
+  # Clean up any orphaned thumbnails if photos were deleted from the folder
+  for existing_thumb in os.listdir(thumbs_dir):
+    if existing_thumb not in expected_thumbs:
+      try:
+        os.remove(os.path.join(thumbs_dir, existing_thumb))
+      except OSError:
+        pass
+
   return grid_thumb_paths
 
 
 def get_folder_media(folder_path, folder_name):
+  # First, compress and convert any raw full-size images in the folder
+  optimize_full_images(folder_path, folder_name)
+
   files = sorted([
       f
       for f in os.listdir(folder_path)
@@ -268,6 +363,12 @@ def main():
   print("\n" + "=" * 60)
   print("  ESOTERIC PORTAL NETWORK — FOLDER SCANNER & SYNC")
   print("=" * 60 + "\n")
+
+  if not PILLOW_AVAILABLE:
+    print(
+        "[!] WARNING: Pillow library is not installed. Run: py -m pip install"
+        " Pillow\n"
+    )
 
   os.makedirs(PORTALS_DIR, exist_ok=True)
   os.makedirs(TEMPLATES_DIR, exist_ok=True)
