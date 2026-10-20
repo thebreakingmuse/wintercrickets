@@ -174,7 +174,6 @@
       overflow: visible;
     }
 
-    /* Tangential rotations so each cricket crawls head-first along the counter-clockwise orbit */
     .cricket-icon.top {
       top: -21px;
       left: calc(50% - 21px);
@@ -203,7 +202,6 @@
       transform-box: view-box;
     }
 
-    /* Left & Right Joint Pivot Origins (in 64x64 viewBox coordinates) */
     .leg-fl { transform-origin: 28px 21px; }
     .leg-fr { transform-origin: 36px 21px; }
     .leg-ml { transform-origin: 27px 28px; }
@@ -214,7 +212,6 @@
     .ant-r  { transform-origin: 35px 15px; }
     .cricket-body { transform-origin: 32px 32px; }
 
-    /* Tripod Gait A: Front-Left, Mid-Right, Hind-Left step together */
     .gait-a.leg-fl,
     .gait-a.leg-hl {
       animation: swingLeftLeg 0.55s ease-in-out infinite alternate;
@@ -223,7 +220,6 @@
       animation: swingRightLeg 0.55s ease-in-out infinite alternate;
     }
 
-    /* Tripod Gait B: Front-Right, Mid-Left, Hind-Right step opposite */
     .gait-b.leg-fr,
     .gait-b.leg-hr {
       animation: swingRightLeg 0.55s ease-in-out infinite alternate-reverse;
@@ -232,7 +228,6 @@
       animation: swingLeftLeg 0.55s ease-in-out infinite alternate-reverse;
     }
 
-    /* Sensory Antennae Sweep */
     .ant-l {
       animation: feelerLeft 1.1s ease-in-out infinite alternate;
     }
@@ -240,7 +235,6 @@
       animation: feelerRight 1.3s ease-in-out infinite alternate;
     }
 
-    /* Subtle Thorax/Abdomen Sway While Crawling */
     .cricket-body {
       animation: bodySway 0.55s ease-in-out infinite alternate;
     }
@@ -465,7 +459,7 @@
 
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 18px;
     }
 
@@ -473,7 +467,7 @@
       position: relative;
       border-radius: 10px;
       overflow: hidden;
-      background: #08070f;
+      background: radial-gradient(circle, #141124 0%, #08070f 100%);
       border: 1px solid rgba(255, 255, 255, 0.1);
       aspect-ratio: 1 / 1;
       cursor: zoom-in;
@@ -491,6 +485,12 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .photo-card img.loaded {
+      opacity: 1;
     }
 
     /* Fullscreen Lightbox Overlay */
@@ -626,21 +626,16 @@
       rose: '#ff4d79'
     };
 
-    // Populate inline SVG anatomy into each cricket so CSS leg & antenna animations run smoothly
     const CRICKET_SVG_MARKUP = `
-      <!-- Long Sweeping Cricket Antennae -->
       <path class="cricket-antenna ant-l" d="M29 15 C24 6, 13 2, 4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       <path class="cricket-antenna ant-r" d="M35 15 C40 6, 51 2, 60 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
 
-      <!-- Front Walking Legs -->
       <path class="cricket-leg leg-fl gait-a" d="M28 21 L17 15 L12 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path class="cricket-leg leg-fr gait-b" d="M36 21 L47 15 L52 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 
-      <!-- Middle Walking Legs -->
       <path class="cricket-leg leg-ml gait-b" d="M27 28 L14 26 L9 33" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
       <path class="cricket-leg leg-mr gait-a" d="M37 28 L50 26 L55 33" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
 
-      <!-- Prominent Jumping Hind Legs (Thick Femur + Angled Spined Tibia + Tarsus) -->
       <g class="cricket-leg leg-hl gait-a">
         <path d="M28 35 C20 31, 13 23, 11 25 C9 27, 15 37, 23 41 L14 55 L10 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
@@ -648,30 +643,23 @@
         <path d="M36 35 C44 31, 51 23, 53 25 C55 27, 49 37, 41 41 L50 55 L54 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
 
-      <!-- Cricket Body Group (Head, Pronotum, Ribbed Forewings & Cerci) -->
       <g class="cricket-body">
-        <!-- Rear Cerci (Twin Sensory Tail Filaments) -->
         <path d="M29 50 L23 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         <path d="M35 50 L41 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
 
-        <!-- Rounded Cricket Head & Eyes -->
         <ellipse cx="32" cy="17" rx="4.2" ry="3.6" fill="currentColor"/>
         <circle cx="28.2" cy="16" r="1.3" fill="#fff3b0"/>
         <circle cx="35.8" cy="16" r="1.3" fill="#fff3b0"/>
 
-        <!-- Pronotum (Armored Thorax Shield) -->
         <rect x="27" y="20.5" width="10" height="7.5" rx="2.8" fill="currentColor" stroke="#080612" stroke-width="0.9"/>
 
-        <!-- Abdomen & Ribbed Folded Forewings (Tegmina) -->
         <ellipse cx="32" cy="39" rx="5.6" ry="12.5" fill="currentColor" stroke="#080612" stroke-width="0.9"/>
-        <!-- Acoustic Wing Venation Lines -->
         <path d="M32 28 L32 50 M28.5 31 L35.5 35 M35.5 31 L28.5 35 M28.5 37 L35.5 41 M35.5 37 L28.5 41 M29 43 L35 46" fill="none" stroke="#080612" stroke-width="0.9" stroke-linecap="round"/>
       </g>
     `;
 
     document.querySelectorAll('.cricket-icon').forEach((svgEl, idx) => {
       svgEl.innerHTML = CRICKET_SVG_MARKUP;
-      // Offset step timing slightly per cricket so they don't march in robotic lockstep
       const delay = -(idx * 0.19).toFixed(2) + 's';
       svgEl.querySelectorAll('.cricket-leg, .cricket-body, .cricket-antenna').forEach((part) => {
         part.style.animationDelay = delay;
@@ -705,17 +693,31 @@
       modalPhotoGrid.innerHTML = '';
 
       const photos = branch.photos || [];
-      photos.forEach((photoPath) => {
+      const thumbs = branch.grid_thumbs || [];
+
+      photos.forEach((fullPhotoPath, idx) => {
+        const previewPath = thumbs[idx] || fullPhotoPath;
+
         const card = document.createElement('div');
         card.className = 'photo-card';
+
         const img = document.createElement('img');
-        img.src = photoPath;
+        img.src = previewPath;
         img.alt = branch.title || 'Portal image';
         img.loading = 'lazy';
+        img.decoding = 'async';
+        img.addEventListener('load', () => img.classList.add('loaded'));
+
+        // Fallback to full image if grid thumbnail isn't found
+        img.addEventListener('error', () => {
+          if (img.src !== fullPhotoPath) img.src = fullPhotoPath;
+        });
+
         card.appendChild(img);
 
+        // Clicking opens the true full-resolution photo
         card.addEventListener('click', () => {
-          lightboxImg.src = photoPath;
+          lightboxImg.src = fullPhotoPath;
           lightbox.classList.add('active');
         });
 
@@ -755,7 +757,6 @@
           const theme = themeColors[branch.theme] ? branch.theme : 'nocturnal';
           const color = themeColors[theme];
 
-          // Create curved SVG ligament
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x, y, idx));
           path.setAttribute('class', 'ligament-path');
@@ -763,17 +764,16 @@
           path.style.color = color;
           ligamentsGroup.appendChild(path);
 
-          // Create Portal Node
           const node = document.createElement('div');
           node.className = `portal-node theme-${theme}`;
           node.style.left = `${x}px`;
           node.style.top = `${y}px`;
 
-          const thumbSrc = branch.thumbnail || (branch.photos && branch.photos[0]) || '';
+          const thumbSrc = branch.thumbnail || (branch.grid_thumbs && branch.grid_thumbs[0]) || (branch.photos && branch.photos[0]) || '';
 
           node.innerHTML = `
             <div class="portal-ring">
-              <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" />
+              <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
             </div>
             <div class="portal-label">
               <div class="portal-title">${branch.title || branch.id}</div>

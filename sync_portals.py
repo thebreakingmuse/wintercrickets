@@ -2,6 +2,13 @@ import json
 import os
 import subprocess
 
+try:
+  from PIL import Image, ImageOps
+
+  PILLOW_AVAILABLE = True
+except ImportError:
+  PILLOW_AVAILABLE = False
+
 # Base paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PORTALS_DIR = os.path.join(BASE_DIR, "portals")
@@ -11,7 +18,6 @@ JSON_PATH = os.path.join(BASE_DIR, "branches.json")
 VALID_THEMES = ["nocturnal", "cyber", "celestial", "oceanic", "rose"]
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 
-# Preset Portal Archetypes mapped to template prefixes and default CSS glow themes
 PORTAL_PRESETS = {
     "1": {
         "name": "Esoteric & Arcane",
@@ -75,7 +81,6 @@ def suggest_angle(existing_angles):
 
 
 def find_template_file(prefix):
-  """Finds a template image in templates/ matching the prefix regardless of extension."""
   if not os.path.exists(TEMPLATES_DIR):
     return None
   for f in sorted(os.listdir(TEMPLATES_DIR)):
@@ -87,35 +92,85 @@ def find_template_file(prefix):
   return None
 
 
+def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
+  """Generates fast-loading 400x400 WebP thumbnails in a grid_thumbs/ subfolder."""
+  if not PILLOW_AVAILABLE:
+    print(
+        "    [!] Pillow not installed. Run 'py -m pip install Pillow' for fast"
+        " thumbnails."
+    )
+    return [f"portals/{folder_name}/{img}" for img in image_filenames]
+
+  thumbs_dir = os.path.join(folder_path, "grid_thumbs")
+  os.makedirs(thumbs_dir, exist_ok=True)
+  grid_thumb_paths = []
+
+  for img_name in image_filenames:
+    src_path = os.path.join(folder_path, img_name)
+    base_name = os.path.splitext(img_name)[0]
+    thumb_filename = f"{base_name}.webp"
+    dest_path = os.path.join(thumbs_dir, thumb_filename)
+
+    # Generate thumbnail if it doesn't exist yet or if source image is newer
+    if not os.path.exists(dest_path) or os.path.getmtime(
+        src_path
+    ) > os.path.getmtime(dest_path):
+      try:
+        with Image.open(src_path) as im:
+          im = ImageOps.exif_transpose(im)
+          if im.mode not in ("RGB", "RGBA"):
+            im = im.convert("RGB")
+          # Center-crop and resize to 400x400 square for the gallery grid
+          thumb_im = ImageOps.fit(im, (400, 400), Image.Resampling.LANCZOS)
+          thumb_im.save(dest_path, "WEBP", quality=78, method=4)
+          print(
+              f"    [+] Created fast grid thumbnail:"
+              f" {folder_name}/grid_thumbs/{thumb_filename}"
+          )
+      except Exception as e:
+        print(f"    [!] Could not create thumbnail for {img_name}: {e}")
+        grid_thumb_paths.append(f"portals/{folder_name}/{img_name}")
+        continue
+
+    grid_thumb_paths.append(
+        f"portals/{folder_name}/grid_thumbs/{thumb_filename}"
+    )
+
+  return grid_thumb_paths
+
+
 def get_folder_media(folder_path, folder_name):
-  files = sorted(os.listdir(folder_path))
+  files = sorted([
+      f
+      for f in os.listdir(folder_path)
+      if os.path.isfile(os.path.join(folder_path, f))
+  ])
   images = [
       f for f in files if os.path.splitext(f)[1].lower() in IMAGE_EXTENSIONS
   ]
 
   if not images:
-    return None, []
+    return None, [], []
 
-  # Check if a dedicated custom thumbnail was explicitly placed in the folder
   custom_thumb = None
   for img in images:
     if "thumb" in img.lower():
       custom_thumb = f"portals/{folder_name}/{img}"
       break
 
-  photos = [
-      f"portals/{folder_name}/{img}"
-      for img in images
-      if "thumb" not in img.lower()
-  ]
-  if not photos:
-    photos = [f"portals/{folder_name}/{img}" for img in images]
+  gallery_files = [img for img in images if "thumb" not in img.lower()]
+  if not gallery_files:
+    gallery_files = images
 
-  return custom_thumb, photos
+  photos = [f"portals/{folder_name}/{img}" for img in gallery_files]
+  grid_thumbs = generate_grid_thumbnails(
+      folder_path, folder_name, gallery_files
+  )
+
+  return custom_thumb, photos, grid_thumbs
 
 
 def choose_portal_style(custom_thumb, photos):
-  """Prompts the user to pick one of the 3 master portal templates or a folder image."""
   if custom_thumb:
     print(f"    [✓] Custom folder thumbnail detected: {custom_thumb}")
     return custom_thumb, "nocturnal"
@@ -218,8 +273,6 @@ def main():
   os.makedirs(TEMPLATES_DIR, exist_ok=True)
 
   branches = load_branches()
-  existing_map = {b["id"]: b for b in branches}
-  existing_angles = [b.get("angle", 0) for b in branches]
 
   folders = sorted([
       f
@@ -229,9 +282,28 @@ def main():
 
   changes_made = False
 
+  # 1. AUTO-REMOVE PORTALS WHOSE FOLDERS WERE DELETED
+  kept_branches = []
+  for b in branches:
+    bid = b.get("id")
+    title = b.get("title", bid)
+    if bid not in folders:
+      print(
+          f"[-] Removed portal '{title}' (id: '{bid}') — folder no longer in"
+          " portals/"
+      )
+      changes_made = True
+    else:
+      kept_branches.append(b)
+  branches = kept_branches
+
+  existing_map = {b["id"]: b for b in branches}
+  existing_angles = [b.get("angle", 0) for b in branches]
+
+  # 2. SCAN EXISTING & NEW FOLDERS
   for folder in folders:
     folder_path = os.path.join(PORTALS_DIR, folder)
-    custom_thumb, photos = get_folder_media(folder_path, folder)
+    custom_thumb, photos, grid_thumbs = get_folder_media(folder_path, folder)
 
     if not photos:
       continue
@@ -242,12 +314,15 @@ def main():
       if branch.get("photos") != photos:
         branch["photos"] = photos
         updated = True
+      if branch.get("grid_thumbs") != grid_thumbs:
+        branch["grid_thumbs"] = grid_thumbs
+        updated = True
       if custom_thumb and branch.get("thumbnail") != custom_thumb:
         branch["thumbnail"] = custom_thumb
         updated = True
       if updated:
         changes_made = True
-        print(f"[*] Updated media list for existing portal: '{folder}'")
+        print(f"[*] Updated media & thumbnails for existing portal: '{folder}'")
     else:
       print(f"\n[+] NEW PORTAL FOLDER DETECTED: '{folder}' ({len(photos)} photos)")
       default_title = folder.replace("-", " ").replace("_", " ").title()
@@ -288,6 +363,7 @@ def main():
           "distance": distance,
           "thumbnail": thumb,
           "photos": photos,
+          "grid_thumbs": grid_thumbs,
       }
       branches.append(new_branch)
       changes_made = True
