@@ -397,24 +397,36 @@
       --node-border: #ffb3c6;
     }
 
-    /* Gallery Modal (<dialog>) */
-    dialog#gallery-modal {
+    /* Gallery Modal Overlay (Fixed stacking context with z-index: 1000) */
+    #gallery-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 2, 6, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+
+    #gallery-modal.active {
+      display: flex;
+    }
+
+    .modal-content-box {
       width: min(92vw, 1150px);
       max-height: 88vh;
-      margin: auto;
-      background: rgba(10, 8, 18, 0.94);
+      background: rgba(10, 8, 18, 0.96);
       backdrop-filter: blur(16px);
       color: var(--text-main);
       border: 1px solid rgba(212, 175, 55, 0.4);
       border-radius: 16px;
       padding: 28px;
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(179, 102, 255, 0.22);
+      display: flex;
+      flex-direction: column;
       overflow-y: auto;
-    }
-
-    dialog#gallery-modal::backdrop {
-      background: rgba(2, 2, 6, 0.82);
-      backdrop-filter: blur(6px);
     }
 
     .modal-header {
@@ -461,6 +473,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 18px;
+      overflow-y: auto;
     }
 
     .photo-card {
@@ -493,11 +506,11 @@
       opacity: 1;
     }
 
-    /* Fullscreen Lightbox Overlay */
+    /* Fullscreen Lightbox Overlay (Higher z-index: 9999 to render cleanly on top) */
     #lightbox {
       position: fixed;
       inset: 0;
-      background: rgba(2, 2, 5, 0.94);
+      background: rgba(2, 2, 5, 0.96);
       display: none;
       align-items: center;
       justify-content: center;
@@ -597,17 +610,19 @@
     </div>
   </main>
 
-  <!-- Gallery Dialog Modal -->
-  <dialog id="gallery-modal">
-    <div class="modal-header">
-      <div class="modal-title-group">
-        <h2 id="modal-title">Portal Title</h2>
-        <p id="modal-subtitle">Gallery & Archive</p>
+  <!-- Gallery Modal Overlay -->
+  <div id="gallery-modal">
+    <div class="modal-content-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 id="modal-title">Portal Title</h2>
+          <p id="modal-subtitle">Gallery & Archive</p>
+        </div>
+        <button class="close-btn" id="close-modal-btn">Close [Esc]</button>
       </div>
-      <button class="close-btn" id="close-modal-btn">Close [Esc]</button>
+      <div class="photo-grid" id="modal-photo-grid"></div>
     </div>
-    <div class="photo-grid" id="modal-photo-grid"></div>
-  </dialog>
+  </div>
 
   <!-- Fullscreen Image Lightbox -->
   <div id="lightbox">
@@ -708,14 +723,12 @@
         img.decoding = 'async';
         img.addEventListener('load', () => img.classList.add('loaded'));
 
-        // Fallback to full image if grid thumbnail isn't found
         img.addEventListener('error', () => {
           if (img.src !== fullPhotoPath) img.src = fullPhotoPath;
         });
 
         card.appendChild(img);
 
-        // Clicking opens the true full-resolution photo
         card.addEventListener('click', () => {
           lightboxImg.src = fullPhotoPath;
           lightbox.classList.add('active');
@@ -724,12 +737,28 @@
         modalPhotoGrid.appendChild(card);
       });
 
-      galleryModal.showModal();
+      galleryModal.classList.add('active');
     }
 
-    closeModalBtn.addEventListener('click', () => galleryModal.close());
+    function closeGallery() {
+      galleryModal.classList.remove('active');
+    }
+
+    closeModalBtn.addEventListener('click', closeGallery);
     galleryModal.addEventListener('click', (e) => {
-      if (e.target === galleryModal) galleryModal.close();
+      if (e.target === galleryModal) closeGallery();
+    });
+
+    // Close on ESC key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lightbox.classList.contains('active')) {
+          lightbox.classList.remove('active');
+          lightboxImg.src = '';
+        } else {
+          closeGallery();
+        }
+      }
     });
 
     lightbox.addEventListener('click', () => {
