@@ -470,7 +470,7 @@
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
     }
 
-    /* Scrollable Grid Container with fixed card aspect ratios */
+    /* Scrollable Grid Container with fixed card aspect ratios and min-height fix */
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -478,6 +478,7 @@
       overflow-y: auto;
       padding-right: 6px;
       flex-grow: 1;
+      min-height: 0;
     }
 
     .photo-card {
