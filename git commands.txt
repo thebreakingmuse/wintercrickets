@@ -1,0 +1,13 @@
+git init
+git add .
+git commit -m "Initial portal network setup"
+git branch -M main
+git remote add origin https://github.com/thebreakingmuse/wintercrickets.git
+git push -u origin main
+
+
+
+git config user.name "thebreakingmuse"
+git config user.email "thebreakingmuse@gmail.com"
+git commit --amend --reset-author --no-edit
+git push origin main --force

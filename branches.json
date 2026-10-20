@@ -40,5 +40,42 @@
       "portals/test/tytyty.webp",
       "portals/test/unnamed (36).webp"
     ]
+  },
+  {
+    "id": "paddleboarding",
+    "title": "Paddleboarding",
+    "subtitle": "Gallery & Archive",
+    "theme": "oceanic",
+    "angle": 155,
+    "distance": 300,
+    "thumbnail": "portals/paddleboarding/thumb_love.png",
+    "photos": [
+      "portals/paddleboarding/PXL_20260919_210534022.jpg",
+      "portals/paddleboarding/PXL_20260919_210535075.jpg",
+      "portals/paddleboarding/PXL_20260919_210536119.jpg",
+      "portals/paddleboarding/PXL_20260919_210537104.jpg",
+      "portals/paddleboarding/PXL_20260919_210539225.jpg",
+      "portals/paddleboarding/PXL_20260919_210548349.jpg",
+      "portals/paddleboarding/PXL_20260919_210552923.jpg",
+      "portals/paddleboarding/PXL_20260919_210553791.jpg",
+      "portals/paddleboarding/PXL_20260919_221516187.jpg",
+      "portals/paddleboarding/PXL_20260919_221517238.jpg",
+      "portals/paddleboarding/PXL_20260919_221518509.jpg",
+      "portals/paddleboarding/PXL_20260919_221525405.jpg",
+      "portals/paddleboarding/PXL_20260919_221526105.jpg",
+      "portals/paddleboarding/PXL_20260919_221541416.jpg",
+      "portals/paddleboarding/PXL_20260919_221717240.jpg",
+      "portals/paddleboarding/PXL_20260919_221728568.jpg",
+      "portals/paddleboarding/PXL_20260919_221729252.jpg",
+      "portals/paddleboarding/PXL_20260919_223849457.jpg",
+      "portals/paddleboarding/PXL_20260919_223900655.jpg",
+      "portals/paddleboarding/PXL_20260919_223919065.jpg",
+      "portals/paddleboarding/PXL_20260919_223920703.jpg",
+      "portals/paddleboarding/PXL_20260919_223922889.jpg",
+      "portals/paddleboarding/PXL_20260919_223924206.jpg",
+      "portals/paddleboarding/PXL_20260919_223925971.jpg",
+      "portals/paddleboarding/PXL_20260920_003224307~2.jpg",
+      "portals/paddleboarding/PXL_20260920_004827643.jpg"
+    ]
   }
 ]

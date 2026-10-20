@@ -1,238 +1,313 @@
-import os
 import json
+import os
 import subprocess
 
-# Ensure paths always resolve relative to where this script lives
+# Base paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PORTALS_DIR = os.path.join(BASE_DIR, "portals")
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 JSON_PATH = os.path.join(BASE_DIR, "branches.json")
 
-# Optional Pillow support for automatic WebP image optimization
-try:
-    from PIL import Image
-    PILLOW_AVAILABLE = True
-except ImportError:
-    PILLOW_AVAILABLE = False
+VALID_THEMES = ["nocturnal", "cyber", "celestial", "oceanic", "rose"]
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 
-THEMES = {
-    "1": ("nocturnal", "Nocturnal Mountain (Moonlit Indigo & Firefly Cyan)"),
-    "2": ("cyber", "Tech & Cybernetic (Matrix Teal & Neon Magenta)"),
-    "3": ("celestial", "Celestial Archive (Starlight Gold & Solar Amber)"),
-    "4": ("oceanic", "Oceanic & Voyage (Bioluminescent Aqua & Deep Trench Blue)")
+# Preset Portal Archetypes mapped to template prefixes and default CSS glow themes
+PORTAL_PRESETS = {
+    "1": {
+        "name": "Esoteric & Arcane",
+        "prefix": "arcane",
+        "default_theme": "celestial",
+    },
+    "2": {
+        "name": "Natural & Organic",
+        "prefix": "natural",
+        "default_theme": "oceanic",
+    },
+    "3": {
+        "name": "Fantasy & Love",
+        "prefix": "love",
+        "default_theme": "rose",
+    },
 }
-
-VALID_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
-
-
-def optimize_image(filepath, max_size=1920, quality=80):
-    """
-    If Pillow is installed, converts large static JPG/PNG images to optimized WebP
-    for fast web loading while leaving animated GIFs/WebPs untouched.
-    """
-    if not PILLOW_AVAILABLE:
-        return filepath
-
-    ext = os.path.splitext(filepath)[1].lower()
-    if ext in {".gif", ".webp"}:
-        return filepath  # Leave existing WebPs and animated GIFs intact
-
-    try:
-        with Image.open(filepath) as img:
-            # Resize if larger than max_size on longest side
-            if max(img.size) > max_size:
-                img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
-
-            webp_path = os.path.splitext(filepath)[0] + ".webp"
-            img.save(webp_path, "WEBP", quality=quality)
-        os.remove(filepath)
-        print(f"  [Optimized] Converted {os.path.basename(filepath)} -> {os.path.basename(webp_path)}")
-        return webp_path
-    except Exception as e:
-        print(f"  [Notice] Could not optimize {os.path.basename(filepath)}: {e}")
-        return filepath
 
 
 def load_branches():
-    if os.path.exists(JSON_PATH):
-        try:
-            with open(JSON_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except json.JSONDecodeError:
-            print("[Warning] branches.json was empty or corrupted. Starting fresh.")
+  if not os.path.exists(JSON_PATH):
+    return []
+  try:
+    with open(JSON_PATH, "r", encoding="utf-8") as f:
+      return json.load(f)
+  except json.JSONDecodeError as e:
+    print(f"\n[!] Error reading branches.json: {e}")
     return []
 
 
-def suggest_angle(existing_branches):
-    """
-    Suggests an open angle (in degrees) so new portals don't overlap existing ones.
-    Alternates nicely around the circle.
-    """
-    preset_angles = [-25, 25, 155, -155, -65, 65, 115, -115, 0, 180, -90, 90]
-    used_angles = {b.get("angle") for b in existing_branches if b.get("angle") is not None}
-    for angle in preset_angles:
-        if angle not in used_angles:
-            return angle
-    return (len(existing_branches) * 40) % 360 - 180
+def save_branches(branches):
+  with open(JSON_PATH, "w", encoding="utf-8") as f:
+    json.dump(branches, f, indent=2, ensure_ascii=False)
 
 
-def scan_folder_media(folder_path, folder_name):
-    """
-    Scans a portal subfolder for photos, thumbnails (thumb.*), and custom ligaments (ligament.*).
-    Returns relative web paths for branches.json.
-    """
-    files = sorted(os.listdir(folder_path))
-    photos = []
-    thumbnail = ""
-    ligament_gif = ""
+def suggest_angle(existing_angles):
+  if not existing_angles:
+    return -25
+  candidates = [
+      -25,
+      25,
+      155,
+      -155,
+      -65,
+      65,
+      115,
+      -115,
+      0,
+      180,
+      -90,
+      90,
+      -45,
+      45,
+      135,
+      -135,
+  ]
+  for c in candidates:
+    if all(abs((c - a + 180) % 360 - 180) >= 22 for a in existing_angles):
+      return c
+  return (existing_angles[-1] + 35) % 360 - 180
 
-    for fname in files:
-        if fname.startswith("."):
-            continue
-        full_path = os.path.join(folder_path, fname)
-        if not os.path.isfile(full_path):
-            continue
 
-        ext = os.path.splitext(fname)[1].lower()
-        if ext not in VALID_EXTS:
-            continue
+def find_template_file(prefix):
+  """Finds a template image in templates/ matching the prefix regardless of extension."""
+  if not os.path.exists(TEMPLATES_DIR):
+    return None
+  for f in sorted(os.listdir(TEMPLATES_DIR)):
+    name, ext = os.path.splitext(f)
+    if ext.lower() in IMAGE_EXTENSIONS and name.lower().startswith(
+        prefix.lower()
+    ):
+      return f"templates/{f}"
+  return None
 
-        base_lower = os.path.splitext(fname)[0].lower()
 
-        # Check for dedicated ligament sprite
-        if base_lower.startswith("ligament"):
-            ligament_gif = f"portals/{folder_name}/{fname}"
-            continue
+def get_folder_media(folder_path, folder_name):
+  files = sorted(os.listdir(folder_path))
+  images = [
+      f for f in files if os.path.splitext(f)[1].lower() in IMAGE_EXTENSIONS
+  ]
 
-        # Check for dedicated portal thumbnail
-        if base_lower.startswith("thumb") or base_lower.startswith("portal"):
-            thumbnail = f"portals/{folder_name}/{fname}"
-            continue
+  if not images:
+    return None, []
 
-        # Optimize standard gallery photo if Pillow is available
-        optimized_full_path = optimize_image(full_path)
-        final_fname = os.path.basename(optimized_full_path)
-        web_path = f"portals/{folder_name}/{final_fname}"
-        photos.append(web_path)
+  # Check if a dedicated custom thumbnail was explicitly placed in the folder
+  custom_thumb = None
+  for img in images:
+    if "thumb" in img.lower():
+      custom_thumb = f"portals/{folder_name}/{img}"
+      break
 
-    # If no dedicated thumb.* was found, use the first photo in the folder
-    if not thumbnail and photos:
-        thumbnail = photos[0]
+  photos = [
+      f"portals/{folder_name}/{img}"
+      for img in images
+      if "thumb" not in img.lower()
+  ]
+  if not photos:
+    photos = [f"portals/{folder_name}/{img}" for img in images]
 
-    return thumbnail, ligament_gif, photos
+  return custom_thumb, photos
+
+
+def choose_portal_style(custom_thumb, photos):
+  """Prompts the user to pick one of the 3 master portal templates or a folder image."""
+  if custom_thumb:
+    print(f"    [✓] Custom folder thumbnail detected: {custom_thumb}")
+    return custom_thumb, "nocturnal"
+
+  print("\n    Select a Portal Ring Thumbnail:")
+  for key, preset in PORTAL_PRESETS.items():
+    found = find_template_file(preset["prefix"])
+    status = f"({found})" if found else "(place in templates/ folder)"
+    print(f"      [{key}] {preset['name']} {status}")
+  print("      [4] Use first photo in this gallery folder")
+
+  choice = input("    Choice [1]: ").strip() or "1"
+
+  if choice in PORTAL_PRESETS:
+    preset = PORTAL_PRESETS[choice]
+    template_path = find_template_file(preset["prefix"])
+    if template_path:
+      return template_path, preset["default_theme"]
+    else:
+      fallback = f"templates/{preset['prefix']}.webp"
+      print(
+          f"    [!] '{preset['prefix']}' image not found in templates/ yet."
+          f" Defaulting path to '{fallback}'."
+      )
+      return fallback, preset["default_theme"]
+
+  return photos[0], "nocturnal"
+
+
+def git_sync():
+  print("\n" + "=" * 60)
+  print("  GIT & NETLIFY DEPLOYMENT SYNC")
+  print("=" * 60)
+
+  if not os.path.exists(os.path.join(BASE_DIR, ".git")):
+    print("[!] No .git folder found in project root. Skipping Git push.")
+    return
+
+  status = subprocess.run(
+      ["git", "status", "--porcelain"],
+      cwd=BASE_DIR,
+      capture_output=True,
+      text=True,
+  )
+
+  if not status.stdout.strip():
+    print("✓ Git working tree is already clean. Checking if push is needed...")
+
+  choice = (
+      input("\nPush latest updates to GitHub & Netlify now? [Y/n]: ")
+      .strip()
+      .lower()
+  )
+  if choice not in ("", "y", "yes"):
+    print("Skipping Git push.")
+    return
+
+  commit_msg = input(
+      "Commit message (press Enter for 'Sync portal network updates'): "
+  ).strip()
+  if not commit_msg:
+    commit_msg = "Sync portal network updates"
+
+  try:
+    print("\n1. Staging files (git add .)...")
+    subprocess.run(["git", "add", "."], cwd=BASE_DIR, check=True)
+
+    diff_check = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"], cwd=BASE_DIR
+    )
+    if diff_check.returncode != 0:
+      print(f"2. Committing changes ('{commit_msg}')...")
+      subprocess.run(
+          ["git", "commit", "-m", commit_msg], cwd=BASE_DIR, check=True
+      )
+    else:
+      print("2. No new file changes to commit.")
+
+    print("3. Pushing to GitHub (origin main)...")
+    subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, check=True)
+
+    print(
+        "\n✨ SUCCESS! Changes pushed to GitHub. Netlify will deploy your live"
+        " site in ~20 seconds."
+    )
+  except subprocess.CalledProcessError as e:
+    print(f"\n[!] Git command failed (exit code {e.returncode}).")
+    print(
+        "    If GitHub rejected the push due to remote changes, run: git pull"
+        " origin main --rebase"
+    )
 
 
 def main():
-    print("=" * 60)
-    print("  ESOTERIC PORTAL NETWORK — FOLDER SCANNER & SYNC")
-    print("=" * 60)
+  print("\n" + "=" * 60)
+  print("  ESOTERIC PORTAL NETWORK — FOLDER SCANNER & SYNC")
+  print("=" * 60 + "\n")
 
-    if not os.path.exists(PORTALS_DIR):
-        os.makedirs(PORTALS_DIR)
-        print(f"Created '{PORTALS_DIR}' directory.")
-        print("Drop your photo album folders inside 'portals/' and run this script again!")
-        return
+  os.makedirs(PORTALS_DIR, exist_ok=True)
+  os.makedirs(TEMPLATES_DIR, exist_ok=True)
 
-    branches = load_branches()
-    existing_by_id = {b["id"]: b for b in branches if "id" in b}
+  branches = load_branches()
+  existing_map = {b["id"]: b for b in branches}
+  existing_angles = [b.get("angle", 0) for b in branches]
 
-    subfolders = sorted([
-        f for f in os.listdir(PORTALS_DIR)
-        if os.path.isdir(os.path.join(PORTALS_DIR, f)) and not f.startswith(".")
-    ])
+  folders = sorted([
+      f
+      for f in os.listdir(PORTALS_DIR)
+      if os.path.isdir(os.path.join(PORTALS_DIR, f)) and not f.startswith(".")
+  ])
 
-    if not subfolders:
-        print("No album folders found inside 'portals/'. Drop a folder in and re-run!")
-        return
+  changes_made = False
 
-    changes_made = False
+  for folder in folders:
+    folder_path = os.path.join(PORTALS_DIR, folder)
+    custom_thumb, photos = get_folder_media(folder_path, folder)
 
-    for folder_name in subfolders:
-        folder_path = os.path.join(PORTALS_DIR, folder_name)
-        thumbnail, ligament_gif, photos = scan_folder_media(folder_path, folder_name)
+    if not photos:
+      continue
 
-        if not photos and not thumbnail:
-            print(f"\n[Skipping] '{folder_name}' (No images found inside)")
-            continue
-
-        # CASE 1: Existing portal -> automatically sync any newly added photos
-        if folder_name in existing_by_id:
-            branch = existing_by_id[folder_name]
-            if branch.get("photos") != photos or branch.get("thumbnail") != thumbnail or branch.get("customLigamentGif") != ligament_gif:
-                branch["photos"] = photos
-                if thumbnail:
-                    branch["thumbnail"] = thumbnail
-                if ligament_gif:
-                    branch["customLigamentGif"] = ligament_gif
-                changes_made = True
-                print(f"\n[Updated] Synced media list for existing portal: '{branch.get('title', folder_name)}' ({len(photos)} photos)")
-            continue
-
-        # CASE 2: Brand new folder detected -> Interactive Theme & Metadata Prompt
-        print("\n" + "-" * 60)
-        print(f"✨ NEW PORTAL FOLDER DETECTED: '{folder_name}' ({len(photos)} photos)")
-        print("-" * 60)
-
-        default_title = folder_name.replace("-", " ").replace("_", " ").title()
-        title = input(f"Enter Portal Title [default: {default_title}]: ").strip() or default_title
-        subtitle = input("Enter Subtitle (e.g., 'Hiking & Starlight') [optional]: ").strip()
-
-        print("\nChoose Connective Ligament Theme:")
-        for key, (code, desc) in THEMES.items():
-            print(f"  [{key}] {desc}")
-        theme_choice = input("Select Theme (1-4) [default: 1 - nocturnal]: ").strip()
-        theme_code = THEMES.get(theme_choice, THEMES["1"])[0]
-
-        default_angle = suggest_angle(branches)
-        angle_input = input(f"Enter Branch Angle in degrees (-180 to 180) [default: {default_angle}]: ").strip()
-        try:
-            angle = int(angle_input) if angle_input else default_angle
-        except ValueError:
-            angle = default_angle
-
-        dist_input = input("Enter Branch Distance in pixels [default: 340]: ").strip()
-        try:
-            distance = int(dist_input) if dist_input else 340
-        except ValueError:
-            distance = 340
-
-        new_branch = {
-            "id": folder_name,
-            "title": title,
-            "subtitle": subtitle if subtitle else theme_code.title(),
-            "theme": theme_code,
-            "angle": angle,
-            "distance": distance,
-            "thumbnail": thumbnail,
-            "customLigamentGif": ligament_gif,
-            "photos": photos
-        }
-
-        branches.append(new_branch)
+    if folder in existing_map:
+      branch = existing_map[folder]
+      updated = False
+      if branch.get("photos") != photos:
+        branch["photos"] = photos
+        updated = True
+      if custom_thumb and branch.get("thumbnail") != custom_thumb:
+        branch["thumbnail"] = custom_thumb
+        updated = True
+      if updated:
         changes_made = True
-        print(f"✅ Added '{title}' with '{theme_code}' ligament at {angle}°!")
-
-    if changes_made:
-        with open(JSON_PATH, "w", encoding="utf-8") as f:
-            json.dump(branches, f, indent=2)
-        print("\n" + "=" * 60)
-        print(f"💾 Saved updated portal network to: {JSON_PATH}")
-        print("=" * 60)
-
-        # Optional Git Auto-Push for Netlify Continuous Deployment
-        git_dir = os.path.join(BASE_DIR, ".git")
-        if os.path.exists(git_dir):
-            push_choice = input("\nGit repository detected. Commit & push to Netlify/GitHub now? (y/n) [n]: ").strip().lower()
-            if push_choice == "y":
-                try:
-                    subprocess.run(["git", "add", "."], cwd=BASE_DIR, check=True)
-                    subprocess.run(["git", "commit", "-m", "Sync new portal branches and media"], cwd=BASE_DIR, check=True)
-                    subprocess.run(["git", "push"], cwd=BASE_DIR, check=True)
-                    print("🚀 Successfully pushed to GitHub! Netlify will deploy your changes shortly.")
-                except Exception as e:
-                    print(f"⚠️ Git push encountered an issue: {e}")
+        print(f"[*] Updated media list for existing portal: '{folder}'")
     else:
-        print("\nEverything is already up to date! No new folders or photo changes detected.")
+      print(f"\n[+] NEW PORTAL FOLDER DETECTED: '{folder}' ({len(photos)} photos)")
+      default_title = folder.replace("-", " ").replace("_", " ").title()
+
+      title = (
+          input(f"    Display Title [{default_title}]: ").strip()
+          or default_title
+      )
+      subtitle = (
+          input("    Subtitle [Gallery & Archive]: ").strip()
+          or "Gallery & Archive"
+      )
+
+      thumb, suggested_theme = choose_portal_style(custom_thumb, photos)
+
+      print(f"\n    Available Glow Themes: {', '.join(VALID_THEMES)}")
+      theme = (
+          input(f"    Glow Theme [{suggested_theme}]: ").strip().lower()
+          or suggested_theme
+      )
+      if theme not in VALID_THEMES:
+        theme = suggested_theme
+
+      sug_angle = suggest_angle(existing_angles)
+      angle_in = input(f"    Radial Angle in degrees [{sug_angle}]: ").strip()
+      angle = int(angle_in) if angle_in.lstrip("-").isdigit() else sug_angle
+      existing_angles.append(angle)
+
+      dist_in = input("    Distance from center in px [340]: ").strip()
+      distance = int(dist_in) if dist_in.isdigit() else 340
+
+      new_branch = {
+          "id": folder,
+          "title": title,
+          "subtitle": subtitle,
+          "theme": theme,
+          "angle": angle,
+          "distance": distance,
+          "thumbnail": thumb,
+          "photos": photos,
+      }
+      branches.append(new_branch)
+      changes_made = True
+      print(f"    ✓ Added '{title}' to branches.json")
+
+  if changes_made:
+    save_branches(branches)
+    print("\n✓ branches.json updated successfully!")
+  else:
+    print(
+        "Everything is already up to date! No new folders or photo changes"
+        " detected."
+    )
+
+  git_sync()
 
 
 if __name__ == "__main__":
+  try:
     main()
+  except Exception as e:
+    print(f"\n[!] Unexpected error: {e}")
+  input("\nPress Enter to close this window...")
