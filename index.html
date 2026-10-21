@@ -4,18 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Esoteric Winter Crickets</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-
   <style>
     :root {
-      --bg-deep: #050508;
-      --bg-vignette: #0d0b18;
       --gold-accent: #d4af37;
+      --hub-glow-primary: rgba(212, 175, 55, 0.35);
+      --hub-glow-secondary: rgba(179, 102, 255, 0.25);
       --text-main: #f0ece1;
       --text-muted: #9e978e;
+    }
+
+    /* Dynamic Realm Accent Variables on Body */
+    body[data-realm="cosmos"] {
+      --gold-accent: #d4af37;
+      --hub-glow-primary: rgba(212, 175, 55, 0.35);
+      --hub-glow-secondary: rgba(179, 102, 255, 0.25);
+    }
+    body[data-realm="verdant"] {
+      --gold-accent: #00f5d4;
+      --hub-glow-primary: rgba(0, 245, 212, 0.4);
+      --hub-glow-secondary: rgba(56, 176, 0, 0.3);
+    }
+    body[data-realm="ember"] {
+      --gold-accent: #ff9f1c;
+      --hub-glow-primary: rgba(255, 159, 28, 0.4);
+      --hub-glow-secondary: rgba(224, 30, 55, 0.3);
+    }
+    body[data-realm="abyss"] {
+      --gold-accent: #00bbf9;
+      --hub-glow-primary: rgba(0, 187, 249, 0.4);
+      --hub-glow-secondary: rgba(0, 245, 212, 0.25);
+    }
+    body[data-realm="astral"] {
+      --gold-accent: #e2eafc;
+      --hub-glow-primary: rgba(226, 234, 252, 0.4);
+      --hub-glow-secondary: rgba(163, 177, 204, 0.25);
     }
 
     * {
@@ -25,7 +50,7 @@
     }
 
     body {
-      background: radial-gradient(circle at center, var(--bg-vignette) 0%, var(--bg-deep) 75%, #000000 100%);
+      background-color: #050508;
       color: var(--text-main);
       font-family: 'Cinzel', serif;
       min-height: 100vh;
@@ -34,31 +59,125 @@
       user-select: none;
     }
 
-    /* Ambient Starfield Overlay */
-    .starfield {
+    /* Cross-Fading Realm Backdrop Layers */
+    #realm-backdrops {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background-image:
+      z-index: 0;
+    }
+
+    .realm-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .realm-layer.active {
+      opacity: 1;
+    }
+
+    /* 1. Cosmos (Obsidian & Violet) */
+    .realm-cosmos {
+      background: radial-gradient(circle at center, #0d0b18 0%, #050508 75%, #000000 100%);
+    }
+    .realm-cosmos::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
         radial-gradient(1px 1px at 15% 25%, rgba(255, 255, 255, 0.7), transparent),
         radial-gradient(1.5px 1.5px at 35% 65%, rgba(255, 209, 102, 0.5), transparent),
         radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.6), transparent),
         radial-gradient(2px 2px at 75% 45%, rgba(179, 102, 255, 0.5), transparent),
-        radial-gradient(1px 1px at 85% 80%, rgba(255, 255, 255, 0.7), transparent),
         radial-gradient(1.5px 1.5px at 25% 85%, rgba(255, 77, 121, 0.45), transparent);
       background-size: 350px 350px;
       opacity: 0.65;
-      z-index: 0;
+    }
+
+    /* 2. Verdant (Bioluminescent Canopy) */
+    .realm-verdant {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(11, 59, 46, 0.85) 0%, rgba(4, 22, 18, 0.95) 65%, #020907 100%);
+    }
+    .realm-verdant::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, rgba(0, 245, 212, 0.75), transparent),
+        radial-gradient(2.5px 2.5px at 65% 25%, rgba(128, 237, 153, 0.65), transparent),
+        radial-gradient(1.5px 1.5px at 40% 75%, rgba(0, 245, 212, 0.55), transparent),
+        radial-gradient(3px 3px at 80% 70%, rgba(87, 204, 153, 0.5), transparent),
+        radial-gradient(1.5px 1.5px at 15% 80%, rgba(199, 249, 204, 0.6), transparent);
+      background-size: 320px 320px;
+      opacity: 0.75;
+    }
+
+    /* 3. Ember (Alchemical Red Ochre & Copper) */
+    .realm-ember {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(46, 15, 10, 0.9) 0%, rgba(20, 6, 4, 0.96) 70%, #080201 100%);
+    }
+    .realm-ember::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 25% 20%, rgba(255, 159, 28, 0.8), transparent),
+        radial-gradient(1.5px 1.5px at 70% 35%, rgba(255, 90, 54, 0.7), transparent),
+        radial-gradient(2.5px 2.5px at 45% 80%, rgba(212, 175, 55, 0.65), transparent),
+        radial-gradient(1.5px 1.5px at 85% 65%, rgba(255, 183, 3, 0.6), transparent),
+        radial-gradient(2px 2px at 15% 60%, rgba(230, 57, 70, 0.55), transparent);
+      background-size: 340px 340px;
+      opacity: 0.75;
+    }
+
+    /* 4. Abyss (Abyssal Sapphire Trench) */
+    .realm-abyss {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(7, 29, 64, 0.9) 0%, rgba(3, 11, 28, 0.96) 70%, #01040a 100%);
+    }
+    .realm-abyss::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 30% 25%, rgba(0, 240, 255, 0.75), transparent),
+        radial-gradient(1.5px 1.5px at 60% 55%, rgba(0, 187, 249, 0.65), transparent),
+        radial-gradient(2.5px 2.5px at 20% 70%, rgba(72, 202, 228, 0.55), transparent),
+        radial-gradient(1px 1px at 80% 30%, rgba(202, 240, 248, 0.7), transparent);
+      background-size: 360px 360px;
+      opacity: 0.7;
+    }
+
+    /* 5. Astral (Silver Aether & Eclipse) */
+    .realm-astral {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(26, 28, 40, 0.9) 0%, rgba(10, 11, 16, 0.96) 70%, #030305 100%);
+    }
+    .realm-astral::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(1.5px 1.5px at 18% 22%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(2px 2px at 52% 68%, rgba(226, 234, 252, 0.75), transparent),
+        radial-gradient(1px 1px at 78% 18%, rgba(255, 255, 255, 0.85), transparent),
+        radial-gradient(1.5px 1.5px at 35% 82%, rgba(182, 204, 254, 0.65), transparent);
+      background-size: 300px 300px;
+      opacity: 0.8;
     }
 
     /* Top Title Banner */
     header {
       position: fixed;
-      top: 24px;
+      top: 22px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
-      z-index: 20;
+      z-index: 25;
       pointer-events: none;
       width: 90vw;
     }
@@ -69,7 +188,8 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--text-main);
-      text-shadow: 0 0 18px rgba(212, 175, 55, 0.45), 0 0 35px rgba(179, 102, 255, 0.25);
+      text-shadow: 0 0 18px var(--hub-glow-primary), 0 0 35px var(--hub-glow-secondary);
+      transition: text-shadow 1s ease;
     }
 
     header p {
@@ -81,7 +201,22 @@
       margin-top: 4px;
     }
 
-    /* Interactive Cosmic Canvas */
+    #active-slice-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 3px 14px;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-accent);
+      border: 1px solid var(--gold-accent);
+      background: rgba(8, 8, 16, 0.75);
+      box-shadow: 0 0 14px var(--hub-glow-primary);
+      transition: all 0.8s ease;
+    }
+
+    /* 3D Interactive Cosmic Viewport */
     #cosmos-viewport {
       position: relative;
       width: 100vw;
@@ -90,6 +225,7 @@
       align-items: center;
       justify-content: center;
       z-index: 5;
+      perspective: 1400px;
     }
 
     #network-stage {
@@ -99,10 +235,63 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transform-style: preserve-3d;
+    }
+
+    /* 3D Disk Planes */
+    .disk-plane {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: 
+        transform 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 1.15s ease;
+      pointer-events: none;
+    }
+
+    .disk-plane.active-disk {
+      transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+      opacity: 1;
+      filter: blur(0px);
+      pointer-events: auto;
+      z-index: 8;
+    }
+
+    .disk-plane.inactive-disk-above {
+      transform: translate3d(0, -210px, -520px) rotateX(68deg) rotateZ(-18deg) scale(0.72);
+      opacity: 0.16;
+      filter: blur(1.5px);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .disk-plane.inactive-disk-below {
+      transform: translate3d(0, 210px, -520px) rotateX(68deg) rotateZ(18deg) scale(0.72);
+      opacity: 0.16;
+      filter: blur(1.5px);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Faint Outer Halo Ring for 3D Disks */
+    .disk-halo-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 680px;
+      height: 680px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 0 40px var(--hub-glow-primary);
+      pointer-events: none;
     }
 
     /* SVG Connecting Ligaments Layer */
-    #ligaments-svg {
+    .ligaments-svg {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -119,14 +308,135 @@
       stroke-dasharray: 8 6;
       animation: pulseFlow 14s linear infinite;
       filter: drop-shadow(0 0 6px currentColor);
-      transition: stroke-width 0.35s ease, opacity 0.35s ease;
-      opacity: 0.78;
+      opacity: 0.82;
+    }
+
+    .ligament-vine-main {
+      fill: none;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.9;
+    }
+
+    .ligament-vine-tendril {
+      fill: none;
+      stroke-width: 1.4;
+      stroke-dasharray: 4 3;
+      stroke-linecap: round;
+      animation: pulseFlow 18s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.7;
+    }
+
+    /* Special Glowing Dimensional Bridge Filament */
+    .bridge-filament-group {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .bridge-core-path {
+      fill: none;
+      stroke: var(--gold-accent);
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 10px var(--gold-accent)) drop-shadow(0 0 20px var(--gold-accent));
+      stroke-dasharray: 12 6;
+      animation: bridgePulse 6s linear infinite;
+    }
+
+    .bridge-helix-path {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      opacity: 0.75;
+      filter: drop-shadow(0 0 8px var(--gold-accent));
+    }
+
+    @keyframes bridgePulse {
+      to { stroke-dashoffset: -180; }
+    }
+
+    /* Dimensional Bridge Sigil Node */
+    .bridge-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      z-index: 18;
+      pointer-events: auto;
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    .bridge-node:hover {
+      transform: translate(-50%, -50%) scale(1.16);
+    }
+
+    .bridge-sigil-ring {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(28, 22, 48, 0.95) 0%, rgba(6, 5, 12, 0.98) 80%);
+      border: 2px solid var(--gold-accent);
+      box-shadow: 
+        0 0 20px var(--gold-accent),
+        0 0 45px var(--hub-glow-primary),
+        inset 0 0 15px var(--gold-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .bridge-node:hover .bridge-sigil-ring {
+      border-color: #ffffff;
+      box-shadow: 
+        0 0 30px var(--gold-accent),
+        0 0 65px var(--gold-accent),
+        0 0 95px var(--gold-accent),
+        inset 0 0 24px var(--gold-accent);
+    }
+
+    .bridge-sigil-svg {
+      width: 46px;
+      height: 46px;
+      color: var(--gold-accent);
+      animation: slowSpin 18s linear infinite;
+    }
+
+    .bridge-label {
+      margin-top: 8px;
+      text-align: center;
+      background: rgba(8, 6, 16, 0.88);
+      backdrop-filter: blur(6px);
+      padding: 4px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--gold-accent);
+      box-shadow: 0 0 14px var(--hub-glow-primary);
+    }
+
+    .bridge-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-accent);
+      white-space: nowrap;
+    }
+
+    .bridge-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--text-main);
+      white-space: nowrap;
     }
 
     @keyframes pulseFlow {
-      to {
-        stroke-dashoffset: -140;
-      }
+      to { stroke-dashoffset: -140; }
     }
 
     /* Central Sacred Geometry Hub */
@@ -138,16 +448,17 @@
       width: 170px;
       height: 170px;
       border-radius: 50%;
-      z-index: 10;
+      z-index: 14;
       display: flex;
       align-items: center;
       justify-content: center;
       background: radial-gradient(circle, rgba(22, 16, 40, 0.95) 0%, rgba(7, 5, 14, 0.98) 75%);
-      box-shadow:
-        0 0 35px rgba(212, 175, 55, 0.3),
-        0 0 70px rgba(179, 102, 255, 0.2),
-        inset 0 0 25px rgba(212, 175, 55, 0.25);
-      border: 1.5px solid rgba(212, 175, 55, 0.55);
+      box-shadow: 
+        0 0 35px var(--hub-glow-primary),
+        0 0 70px var(--hub-glow-secondary),
+        inset 0 0 25px var(--hub-glow-primary);
+      border: 1.5px solid var(--gold-accent);
+      transition: box-shadow 1s ease, border-color 1s ease;
     }
 
     .hub-geometry {
@@ -162,7 +473,7 @@
       width: 232px;
       height: 232px;
       border-radius: 50%;
-      border: 1px dashed rgba(212, 175, 55, 0.25);
+      border: 1px dashed rgba(212, 175, 55, 0.3);
       animation: slowSpinReverse 65s linear infinite;
       pointer-events: none;
     }
@@ -172,8 +483,9 @@
       width: 42px;
       height: 42px;
       color: var(--gold-accent);
-      filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.85));
+      filter: drop-shadow(0 0 6px var(--gold-accent));
       overflow: visible;
+      transition: color 1s ease, filter 1s ease;
     }
 
     .cricket-icon.top {
@@ -181,19 +493,16 @@
       left: calc(50% - 21px);
       transform: rotate(-90deg);
     }
-
     .cricket-icon.bottom {
       bottom: -21px;
       left: calc(50% - 21px);
       transform: rotate(90deg);
     }
-
     .cricket-icon.left {
       left: -21px;
       top: calc(50% - 21px);
       transform: rotate(180deg);
     }
-
     .cricket-icon.right {
       right: -21px;
       top: calc(50% - 21px);
@@ -221,7 +530,6 @@
     .gait-a.leg-hl {
       animation: swingLeftLeg 0.55s ease-in-out infinite alternate;
     }
-
     .gait-a.leg-mr {
       animation: swingRightLeg 0.55s ease-in-out infinite alternate;
     }
@@ -230,7 +538,6 @@
     .gait-b.leg-hr {
       animation: swingRightLeg 0.55s ease-in-out infinite alternate-reverse;
     }
-
     .gait-b.leg-ml {
       animation: swingLeftLeg 0.55s ease-in-out infinite alternate-reverse;
     }
@@ -238,7 +545,6 @@
     .ant-l {
       animation: feelerLeft 1.1s ease-in-out infinite alternate;
     }
-
     .ant-r {
       animation: feelerRight 1.3s ease-in-out infinite alternate;
     }
@@ -307,17 +613,17 @@
       padding: 5px;
       background: radial-gradient(circle, rgba(15, 15, 25, 0.9), rgba(5, 5, 10, 0.98));
       border: 2px solid var(--node-border, #d4af37);
-      box-shadow:
+      box-shadow: 
         0 0 22px var(--node-glow, rgba(212, 175, 55, 0.5)),
         inset 0 0 14px var(--node-glow, rgba(212, 175, 55, 0.4));
       transition: box-shadow 0.35s ease, border-color 0.35s ease;
       overflow: hidden;
     }
 
-    /* Glowing Aura on Hover */
+    /* Multi-Layer Glowing Aura on Hover */
     .portal-node:hover .portal-ring {
       border-color: var(--text-main);
-      box-shadow:
+      box-shadow: 
         0 0 30px var(--node-glow),
         0 0 60px var(--node-glow),
         0 0 90px var(--node-glow),
@@ -436,8 +742,9 @@
       border-radius: 16px;
       padding: 28px;
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(179, 102, 255, 0.22);
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
     }
 
     .modal-header {
@@ -447,7 +754,6 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       padding-bottom: 16px;
       margin-bottom: 22px;
-      flex-shrink: 0;
     }
 
     .modal-title-group h2 {
@@ -487,7 +793,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-grow: 1;
+      height: 100%;
       text-align: center;
       gap: 16px;
     }
@@ -548,18 +854,17 @@
       height: 20px;
     }
 
-    /* Keep square thumbnails in full-height rows inside the scrolling gallery. */
+    /* Bulletproof Non-Overlapping Grid Container with Explicit Row Height */
     .photo-grid {
       display: none;
-      grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
-      grid-auto-rows: max-content;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-auto-rows: 220px;
       align-content: start;
       gap: 18px;
       overflow-y: auto;
-      padding: 4px 6px 0 0;
-      flex: 1;
+      padding-right: 6px;
+      height: 100%;
       min-height: 0;
-      min-width: 0;
     }
 
     .photo-grid.active {
@@ -573,7 +878,7 @@
       background: radial-gradient(circle, #141124 0%, #08070f 100%);
       border: 1px solid rgba(255, 255, 255, 0.1);
       width: 100%;
-      aspect-ratio: 1 / 1;
+      height: 220px;
       cursor: zoom-in;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -585,8 +890,6 @@
     }
 
     .photo-card img {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -629,7 +932,6 @@
       #network-stage {
         transform: scale(0.58);
       }
-
       .portal-ring {
         width: 96px;
         height: 96px;
@@ -637,48 +939,50 @@
     }
   </style>
 </head>
-<body>
+<body data-realm="cosmos">
 
-  <div class="starfield"></div>
+  <!-- Dynamic Cross-Fading Realm Backdrops -->
+  <div id="realm-backdrops">
+    <div class="realm-layer realm-cosmos active" data-realm-id="cosmos"></div>
+    <div class="realm-layer realm-verdant" data-realm-id="verdant"></div>
+    <div class="realm-layer realm-ember" data-realm-id="ember"></div>
+    <div class="realm-layer realm-abyss" data-realm-id="abyss"></div>
+    <div class="realm-layer realm-astral" data-realm-id="astral"></div>
+  </div>
 
   <header>
     <h1>Esoteric Winter Crickets</h1>
     <p>Select a resonating node to enter its archive</p>
+    <div id="active-slice-badge" style="display: none;">Disk: Prime Cosmos</div>
   </header>
 
   <main id="cosmos-viewport">
     <div id="network-stage">
-      <!-- SVG Ligaments Layer -->
-      <svg id="ligaments-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+      <!-- Shared SVG Gradient Defs -->
+      <svg width="0" height="0" style="position:absolute">
         <defs>
           <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#b366ff" stop-opacity="0.9" />
             <stop offset="100%" stop-color="#6a00f4" stop-opacity="0.2" />
           </linearGradient>
-
           <linearGradient id="grad-cyber" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9" />
             <stop offset="100%" stop-color="#0066ff" stop-opacity="0.2" />
           </linearGradient>
-
           <linearGradient id="grad-celestial" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#ffd166" stop-opacity="0.95" />
             <stop offset="100%" stop-color="#d4af37" stop-opacity="0.2" />
           </linearGradient>
-
           <linearGradient id="grad-oceanic" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.9" />
             <stop offset="100%" stop-color="#00bbf9" stop-opacity="0.2" />
           </linearGradient>
-
           <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#ff4d79" stop-opacity="0.95" />
             <stop offset="50%" stop-color="#ff85a2" stop-opacity="0.6" />
             <stop offset="100%" stop-color="#e0115f" stop-opacity="0.2" />
           </linearGradient>
         </defs>
-
-        <g id="ligaments-group"></g>
       </svg>
 
       <!-- Central Hub & Animated Orbiting Winter Crickets -->
@@ -695,13 +999,13 @@
           <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(179,102,255,0.4)" stroke-width="0.7" stroke-dasharray="3 2" />
           <polygon points="50,6 90,73 10,73" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="0.9" />
           <polygon points="50,94 90,27 10,27" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="0.9" />
-          <circle cx="50" cy="50" r="12" fill="none" stroke="#ffd166" stroke-width="1.1" />
-          <circle cx="50" cy="50" r="3.5" fill="#ffd166" />
+          <circle cx="50" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.1" style="color: var(--gold-accent)" />
+          <circle cx="50" cy="50" r="3.5" fill="currentColor" style="color: var(--gold-accent)" />
         </svg>
       </div>
 
-      <!-- Dynamic Portal Nodes Container -->
-      <div id="nodes-container"></div>
+      <!-- 3D Disks Container -->
+      <div id="disks-container"></div>
     </div>
   </main>
 
@@ -713,7 +1017,6 @@
           <h2 id="modal-title">Portal Title</h2>
           <p id="modal-subtitle">Gallery & Archive</p>
         </div>
-
         <button class="close-btn" id="close-modal-btn">Close [Esc]</button>
       </div>
 
@@ -760,7 +1063,6 @@
       <g class="cricket-leg leg-hl gait-a">
         <path d="M28 35 C20 31, 13 23, 11 25 C9 27, 15 37, 23 41 L14 55 L10 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
-
       <g class="cricket-leg leg-hr gait-b">
         <path d="M36 35 C44 31, 51 23, 53 25 C55 27, 49 37, 41 41 L50 55 L54 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
@@ -782,16 +1084,14 @@
 
     document.querySelectorAll('.cricket-icon').forEach((svgEl, idx) => {
       svgEl.innerHTML = CRICKET_SVG_MARKUP;
-
       const delay = -(idx * 0.19).toFixed(2) + 's';
-
       svgEl.querySelectorAll('.cricket-leg, .cricket-body, .cricket-antenna').forEach((part) => {
         part.style.animationDelay = delay;
       });
     });
 
-    const ligamentsGroup = document.getElementById('ligaments-group');
-    const nodesContainer = document.getElementById('nodes-container');
+    const disksContainer = document.getElementById('disks-container');
+    const activeSliceBadge = document.getElementById('active-slice-badge');
     const galleryModal = document.getElementById('gallery-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalSubtitle = document.getElementById('modal-subtitle');
@@ -804,21 +1104,111 @@
     const lockSubmitBtn = document.getElementById('lock-submit-btn');
     const lockErrorMsg = document.getElementById('lock-error-msg');
 
-    function buildCurvedPath(x1, y1, x2, y2, index) {
+    let sliceList = [];
+    let currentSliceIndex = 0;
+
+    function buildCurvedPath(x1, y1, x2, y2, index, bendFactor = 0.18) {
       const midX = (x1 + x2) / 2;
       const midY = (y1 + y2) / 2;
       const dx = x2 - x1;
       const dy = y2 - y1;
       const offsetDirection = index % 2 === 0 ? 1 : -1;
-      const ctrlX = midX - dy * 0.18 * offsetDirection;
-      const ctrlY = midY + dx * 0.18 * offsetDirection;
-
+      const ctrlX = midX - dy * bendFactor * offsetDirection;
+      const ctrlY = midY + dx * bendFactor * offsetDirection;
       return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
+    }
+
+    function buildWavePath(x1, y1, x2, y2, phase = 1) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const c1x = x1 + dx * 0.33 - dy * 0.14 * phase;
+      const c1y = y1 + dy * 0.33 + dx * 0.14 * phase;
+      const c2x = x1 + dx * 0.66 + dy * 0.14 * phase;
+      const c2y = y1 + dy * 0.66 - dx * 0.14 * phase;
+      return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
+    }
+
+    function renderFilament(svgGroup, x2, y2, idx, theme, filamentStyle) {
+      const color = themeColors[theme] || themeColors.nocturnal;
+
+      if (filamentStyle === 'vine') {
+        const mainVine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainVine.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, 1));
+        mainVine.setAttribute('class', 'ligament-vine-main');
+        mainVine.setAttribute('stroke', `url(#grad-${theme})`);
+        mainVine.style.color = color;
+        svgGroup.appendChild(mainVine);
+
+        const offTendril = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        offTendril.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, -0.85));
+        offTendril.setAttribute('class', 'ligament-vine-tendril');
+        offTendril.setAttribute('stroke', color);
+        offTendril.style.color = color;
+        svgGroup.appendChild(offTendril);
+      } else if (filamentStyle === 'tendril') {
+        const strandA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strandA.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx, 0.22));
+        strandA.setAttribute('class', 'ligament-path');
+        strandA.setAttribute('stroke', `url(#grad-${theme})`);
+        strandA.style.color = color;
+        svgGroup.appendChild(strandA);
+
+        const strandB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strandB.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx + 1, 0.16));
+        strandB.setAttribute('class', 'ligament-vine-tendril');
+        strandB.setAttribute('stroke', color);
+        strandB.style.color = color;
+        svgGroup.appendChild(strandB);
+      } else {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));
+        path.setAttribute('class', 'ligament-path');
+        path.setAttribute('stroke', `url(#grad-${theme})`);
+        path.style.color = color;
+        svgGroup.appendChild(path);
+      }
+    }
+
+    function applyRealmAesthetic(realmId, sliceName) {
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral'];
+      const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
+
+      document.body.setAttribute('data-realm', targetRealm);
+
+      document.querySelectorAll('.realm-layer').forEach((layer) => {
+        if (layer.getAttribute('data-realm-id') === targetRealm) {
+          layer.classList.add('active');
+        } else {
+          layer.classList.remove('active');
+        }
+      });
+
+      if (sliceList.length > 1) {
+        activeSliceBadge.style.display = 'inline-block';
+        activeSliceBadge.textContent = `Active Disk: ${sliceName}`;
+      }
+    }
+
+    function switchToSlice(targetIndex) {
+      currentSliceIndex = targetIndex;
+      const activeSlice = sliceList[currentSliceIndex];
+      applyRealmAesthetic(activeSlice.bg, activeSlice.name);
+
+      const diskEls = document.querySelectorAll('.disk-plane');
+      diskEls.forEach((el, idx) => {
+        el.classList.remove('active-disk', 'inactive-disk-above', 'inactive-disk-below');
+        if (idx === currentSliceIndex) {
+          el.classList.add('active-disk');
+        } else if (idx < currentSliceIndex) {
+          el.classList.add('inactive-disk-above');
+        } else {
+          el.classList.add('inactive-disk-below');
+        }
+      });
     }
 
     function renderPhotoGrid(branch) {
       modalPhotoGrid.innerHTML = '';
-
       const photos = branch.photos || [];
       const thumbs = branch.grid_thumbs || [];
 
@@ -833,10 +1223,7 @@
         img.alt = branch.title || 'Portal image';
         img.loading = 'lazy';
         img.decoding = 'async';
-
-        img.addEventListener('load', () => {
-          img.classList.add('loaded');
-        });
+        img.addEventListener('load', () => img.classList.add('loaded'));
 
         img.addEventListener('error', () => {
           if (img.src !== fullPhotoPath) img.src = fullPhotoPath;
@@ -867,7 +1254,6 @@
 
         const attemptUnlock = () => {
           const userEntered = lockPassInput.value.trim().toLowerCase();
-
           if (userEntered === requiredPassword) {
             lockScreen.classList.remove('active');
             renderPhotoGrid(branch);
@@ -880,11 +1266,9 @@
         };
 
         lockSubmitBtn.onclick = attemptUnlock;
-
         lockPassInput.onkeydown = (e) => {
           if (e.key === 'Enter') attemptUnlock();
         };
-
         setTimeout(() => lockPassInput.focus(), 100);
       } else {
         lockScreen.classList.remove('active');
@@ -900,7 +1284,6 @@
     }
 
     closeModalBtn.addEventListener('click', closeGallery);
-
     galleryModal.addEventListener('click', (e) => {
       if (e.target === galleryModal) closeGallery();
     });
@@ -924,59 +1307,134 @@
     async function loadPortals() {
       try {
         const res = await fetch(`branches.json?t=${Date.now()}`);
-
         if (!res.ok) throw new Error('Could not load branches.json');
-
         const branches = await res.json();
 
-        ligamentsGroup.innerHTML = '';
-        nodesContainer.innerHTML = '';
+        disksContainer.innerHTML = '';
 
-        branches.forEach((branch, idx) => {
-          const angleDeg = branch.angle ?? (idx * 60);
-          const distance = branch.distance ?? 340;
-          const angleRad = (angleDeg * Math.PI) / 180;
-
-          const x = CENTER_X + Math.cos(angleRad) * distance;
-          const y = CENTER_Y + Math.sin(angleRad) * distance;
-
-          const theme = themeColors[branch.theme] ? branch.theme : 'nocturnal';
-          const color = themeColors[theme];
-
-          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-
-          path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x, y, idx));
-          path.setAttribute('class', 'ligament-path');
-          path.setAttribute('stroke', `url(#grad-${theme})`);
-          path.style.color = color;
-
-          ligamentsGroup.appendChild(path);
-
-          const node = document.createElement('div');
-
-          node.className = `portal-node theme-${theme}`;
-          node.style.left = `${x}px`;
-          node.style.top = `${y}px`;
-
-          const thumbSrc =
-            branch.thumbnail ||
-            (branch.grid_thumbs && branch.grid_thumbs[0]) ||
-            (branch.photos && branch.photos[0]) ||
-            '';
-
-          node.innerHTML = `
-            <div class="portal-ring">
-              <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
-            </div>
-            <div class="portal-label">
-              <div class="portal-title">${branch.title || branch.id}</div>
-              <div class="portal-subtitle">${branch.subtitle || ''}</div>
-            </div>
-          `;
-
-          node.addEventListener('click', () => openGallery(branch));
-          nodesContainer.appendChild(node);
+        // Group branches by 3D Slice / Disk
+        const slicesMap = new Map();
+        branches.forEach((b) => {
+          const sName = b.slice || 'Prime Cosmos';
+          const sBg = b.slice_bg || 'cosmos';
+          if (!slicesMap.has(sName)) {
+            slicesMap.set(sName, { name: sName, bg: sBg, items: [] });
+          }
+          slicesMap.get(sName).items.push(b);
         });
+
+        sliceList = Array.from(slicesMap.values());
+        if (sliceList.length === 0) return;
+
+        sliceList.forEach((sliceObj, sIdx) => {
+          const diskPlane = document.createElement('div');
+          diskPlane.className = 'disk-plane';
+
+          const halo = document.createElement('div');
+          halo.className = 'disk-halo-ring';
+          diskPlane.appendChild(halo);
+
+          const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svgEl.setAttribute('class', 'ligaments-svg');
+          svgEl.setAttribute('viewBox', '0 0 1000 1000');
+          svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+          const ligamentsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          svgEl.appendChild(ligamentsGroup);
+          diskPlane.appendChild(svgEl);
+
+          // Render portals belonging to this 3D Disk
+          sliceObj.items.forEach((branch, idx) => {
+            const angleDeg = branch.angle ?? (idx * 60);
+            const distance = branch.distance ?? 340;
+            const angleRad = (angleDeg * Math.PI) / 180;
+
+            const x = CENTER_X + Math.cos(angleRad) * distance;
+            const y = CENTER_Y + Math.sin(angleRad) * distance;
+
+            const theme = themeColors[branch.theme] ? branch.theme : 'nocturnal';
+            const filamentStyle = branch.filament || 'standard';
+
+            renderFilament(ligamentsGroup, x, y, idx, theme, filamentStyle);
+
+            const node = document.createElement('div');
+            node.className = `portal-node theme-${theme}`;
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+
+            const thumbSrc = branch.thumbnail || (branch.grid_thumbs && branch.grid_thumbs[0]) || (branch.photos && branch.photos[0]) || '';
+
+            node.innerHTML = `
+              <div class="portal-ring">
+                <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
+              </div>
+              <div class="portal-label">
+                <div class="portal-title">${branch.title || branch.id}</div>
+                <div class="portal-subtitle">${branch.subtitle || ''}</div>
+              </div>
+            `;
+
+            node.addEventListener('click', () => openGallery(branch));
+            diskPlane.appendChild(node);
+          });
+
+          // If multiple slices exist, render the special glowing Dimensional Bridge Filament
+          if (sliceList.length > 1) {
+            const nextSliceIdx = (sIdx + 1) % sliceList.length;
+            const nextSlice = sliceList[nextSliceIdx];
+            const bridgeAngleDeg = -90; // Projects straight upward toward the crown
+            const bridgeDist = 240;
+            const bridgeRad = (bridgeAngleDeg * Math.PI) / 180;
+            const bx = CENTER_X + Math.cos(bridgeRad) * bridgeDist;
+            const by = CENTER_Y + Math.sin(bridgeRad) * bridgeDist;
+
+            const bridgeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            bridgeGroup.setAttribute('class', 'bridge-filament-group');
+
+            const corePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            corePath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${bx} ${by}`);
+            corePath.setAttribute('class', 'bridge-core-path');
+
+            const helixA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            helixA.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, bx, by, 1.2));
+            helixA.setAttribute('class', 'bridge-helix-path');
+
+            const helixB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            helixB.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, bx, by, -1.2));
+            helixB.setAttribute('class', 'bridge-helix-path');
+
+            bridgeGroup.appendChild(corePath);
+            bridgeGroup.appendChild(helixA);
+            bridgeGroup.appendChild(helixB);
+            bridgeGroup.addEventListener('click', () => switchToSlice(nextSliceIdx));
+            ligamentsGroup.appendChild(bridgeGroup);
+
+            const bridgeNode = document.createElement('div');
+            bridgeNode.className = 'bridge-node';
+            bridgeNode.style.left = `${bx}px`;
+            bridgeNode.style.top = `${by}px`;
+            bridgeNode.innerHTML = `
+              <div class="bridge-sigil-ring">
+                <svg class="bridge-sigil-svg" viewBox="0 0 64 64">
+                  <circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+                  <polygon points="32,8 54,46 10,46" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                  <polygon points="32,56 54,18 10,18" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                  <circle cx="32" cy="32" r="5" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="bridge-label">
+                <div class="bridge-title">Dimensional Shift</div>
+                <div class="bridge-sub">Enter: ${nextSlice.name}</div>
+              </div>
+            `;
+            bridgeNode.addEventListener('click', () => switchToSlice(nextSliceIdx));
+            diskPlane.appendChild(bridgeNode);
+          }
+
+          disksContainer.appendChild(diskPlane);
+        });
+
+        switchToSlice(0);
       } catch (err) {
         console.error('Error initializing portal network:', err);
       }

@@ -62,7 +62,10 @@
       "portals/paddleboarding/grid_thumbs/PXL_20260919_223925971.webp",
       "portals/paddleboarding/grid_thumbs/PXL_20260920_003224307~2.webp",
       "portals/paddleboarding/grid_thumbs/PXL_20260920_004827643.webp"
-    ]
+    ],
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "castle rock incline",
@@ -169,7 +172,10 @@
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220744703.webp",
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220747412.webp",
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220750156.webp"
-    ]
+    ],
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "denver psytrance sputnik",
@@ -254,7 +260,10 @@
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_192519351.webp",
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_193617853.webp",
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_193620340.webp"
-    ]
+    ],
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "sanctum-arcana",
@@ -272,7 +281,10 @@
       "portals/sanctum-arcana/grid_thumbs/signal-2026-05-11-233026_002.webp",
       "portals/sanctum-arcana/grid_thumbs/signal-2026-05-11-233026_003.webp"
     ],
-    "password": "arcana"
+    "password": "arcana",
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "Goth Photo Shootz",
@@ -326,7 +338,10 @@
       "portals/Goth Photo Shootz/grid_thumbs/PXL_20260702_063002933.webp",
       "portals/Goth Photo Shootz/grid_thumbs/PXL_20260702_063004027.webp"
     ],
-    "password": ""
+    "password": "",
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "Endless sand (& castle) trip",
@@ -478,7 +493,10 @@
       "portals/Endless sand (& castle) trip/grid_thumbs/PXL_20260517_043955791.NIGHT.webp",
       "portals/Endless sand (& castle) trip/grid_thumbs/PXL_20260517_183303876.webp"
     ],
-    "password": ""
+    "password": "",
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "Green Mountain Falls",
@@ -594,7 +612,10 @@
       "portals/Green Mountain Falls/grid_thumbs/PXL_20261010_200032294.webp",
       "portals/Green Mountain Falls/grid_thumbs/PXL_20261010_200136533.webp"
     ],
-    "password": ""
+    "password": "",
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
   },
   {
     "id": "Woodland Park Aspen Grove",
@@ -797,6 +818,128 @@
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215106885.webp",
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215113517.webp",
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215739194.webp"
+    ],
+    "password": "",
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
+    "filament": "standard"
+  },
+  {
+    "id": "Apogea 26' ♥️",
+    "title": "Apogea 26' ♥️",
+    "subtitle": "Gallery & Archive",
+    "slice": "Subterranean Realm",
+    "slice_bg": "ember",
+    "theme": "celestial",
+    "filament": "vine",
+    "angle": -25,
+    "distance": 340,
+    "thumbnail": "templates/arcane.jpg",
+    "photos": [
+      "portals/Apogea 26' ♥️/PXL_20260611_134525079.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_134530463.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_134546491.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_134547777.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_134549387.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_134627910.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_134629089.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_223658154.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_223705281.webp",
+      "portals/Apogea 26' ♥️/PXL_20260611_223706386.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_023109439.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_023110454.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042314821.PORTRAIT.ORIGINAL.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042434432.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042436094.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042448394.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042450500.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042451283.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_042452427.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_043930386.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_043942537.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_043944623.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_043949265.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_043951655.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_044013020.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_055401589.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_063449323.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_063450727.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_063517563.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_063615017.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_063622756.webp",
+      "portals/Apogea 26' ♥️/PXL_20260613_063654651.NIGHT.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_000750800.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002512418.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002538101.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002551239.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002622752.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002629536.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002658329.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_002701748.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_010106771.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_010107562.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_010244711.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011207775.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011215266.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011217501.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011218771.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011256178.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011259284.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011311538.webp",
+      "portals/Apogea 26' ♥️/PXL_20260614_011315940.webp"
+    ],
+    "grid_thumbs": [
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134525079.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134530463.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134546491.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134547777.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134549387.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134627910.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134629089.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_223658154.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_223705281.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_223706386.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_023109439.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_023110454.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042314821.PORTRAIT.ORIGINAL.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042434432.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042436094.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042448394.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042450500.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042451283.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_042452427.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_043930386.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_043942537.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_043944623.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_043949265.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_043951655.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_044013020.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_055401589.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_063449323.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_063450727.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_063517563.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_063615017.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_063622756.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260613_063654651.NIGHT.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_000750800.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002512418.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002538101.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002551239.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002622752.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002629536.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002658329.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_002701748.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_010106771.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_010107562.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_010244711.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011207775.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011215266.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011217501.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011218771.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011256178.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011259284.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011311538.webp",
+      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011315940.webp"
     ],
     "password": ""
   }

@@ -45,6 +45,32 @@ PORTAL_PRESETS = {
     },
 }
 
+REALM_BACKGROUNDS = {
+    "1": {
+        "id": "cosmos",
+        "name": "Obsidian & Violet Nebula (Default Cosmic Void)",
+    },
+    "2": {
+        "id": "verdant",
+        "name": "Bioluminescent Canopy (Subterranean Emerald & Spores)",
+    },
+    "3": {
+        "id": "ember",
+        "name": "Alchemical Sanctuary (Red Ochre, Copper & Floating Embers)",
+    },
+    "4": {"id": "abyss", "name": "Abyssal Trench (Deep Sapphire & Aqua Glow)"},
+    "5": {
+        "id": "astral",
+        "name": "Silver Eclipse (Celestial Monochrome & Diamond Stars)",
+    },
+}
+
+FILAMENT_STYLES = {
+    "1": {"id": "standard", "name": "Standard Glowing Gradient"},
+    "2": {"id": "vine", "name": "Twisting Organic Vine"},
+    "3": {"id": "tendril", "name": "Dual-Strand Braided Tendril"},
+}
+
 
 def load_branches():
   if not os.path.exists(JSON_PATH):
@@ -133,8 +159,7 @@ def optimize_full_images(folder_path, folder_name):
           im = im.convert("RGB")
         if max(im.size) > MAX_FULL_DIMENSION:
           im.thumbnail(
-              (MAX_FULL_DIMENSION, MAX_FULL_DIMENSION),
-              Image.Resampling.LANCZOS,
+              (MAX_FULL_DIMENSION, MAX_FULL_DIMENSION), Image.Resampling.LANCZOS
           )
         im.save(dest_path, "WEBP", quality=FULL_WEBP_QUALITY, method=4)
       if ext_lower != ".webp" and os.path.exists(dest_path):
@@ -164,13 +189,9 @@ def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
           im = ImageOps.exif_transpose(im)
           if im.mode not in ("RGB", "RGBA"):
             im = im.convert("RGB")
-          thumb_im = ImageOps.fit(
-              im, GRID_THUMB_SIZE, Image.Resampling.LANCZOS
-          )
-          thumb_im.save(
-              dest_path, "WEBP", quality=GRID_THUMB_QUALITY, method=4
-          )
-      except Exception as e:
+          thumb_im = ImageOps.fit(im, GRID_THUMB_SIZE, Image.Resampling.LANCZOS)
+          thumb_im.save(dest_path, "WEBP", quality=GRID_THUMB_QUALITY, method=4)
+      except Exception:
         grid_thumb_paths.append(f"portals/{folder_name}/{img_name}")
         continue
     grid_thumb_paths.append(
@@ -212,6 +233,40 @@ def get_folder_media(folder_path, folder_name):
   return custom_thumb, photos, grid_thumbs
 
 
+def choose_slice(branches):
+  slice_map = {}
+  for b in branches:
+    s_name = b.get("slice") or "Prime Cosmos"
+    s_bg = b.get("slice_bg") or "cosmos"
+    if s_name not in slice_map:
+      slice_map[s_name] = s_bg
+  if not slice_map:
+    slice_map["Prime Cosmos"] = "cosmos"
+
+  existing_slices = list(slice_map.keys())
+  print("\n    Select 3D Portal Disk (Slice):")
+  for idx, s_name in enumerate(existing_slices, 1):
+    print(f"      [{idx}] {s_name} (Realm: {slice_map[s_name]})")
+  new_idx = len(existing_slices) + 1
+  print(f"      [{new_idx}] + Create a New 3D Disk / Slice")
+
+  choice = input("    Choice [1]: ").strip() or "1"
+  if choice.isdigit() and 1 <= int(choice) <= len(existing_slices):
+    chosen_name = existing_slices[int(choice) - 1]
+    return chosen_name, slice_map[chosen_name]
+
+  new_name = (
+      input("    Enter Name for New 3D Disk [Subterranean Realm]: ").strip()
+      or "Subterranean Realm"
+  )
+  print("\n    Select Background Aesthetic for this Disk:")
+  for key, bg in REALM_BACKGROUNDS.items():
+    print(f"      [{key}] {bg['name']}")
+  bg_choice = input("    Realm Choice [2]: ").strip() or "2"
+  chosen_bg = REALM_BACKGROUNDS.get(bg_choice, REALM_BACKGROUNDS["2"])["id"]
+  return new_name, chosen_bg
+
+
 def choose_portal_style(custom_thumb, photos):
   if custom_thumb:
     return custom_thumb, "nocturnal"
@@ -231,6 +286,14 @@ def choose_portal_style(custom_thumb, photos):
       fallback = f"templates/{preset['prefix']}.webp"
       return fallback, preset["default_theme"]
   return photos[0], "nocturnal"
+
+
+def choose_filament_style():
+  print("\n    Select Connective Filament Style:")
+  for key, style in FILAMENT_STYLES.items():
+    print(f"      [{key}] {style['name']}")
+  choice = input("    Choice [1]: ").strip() or "1"
+  return FILAMENT_STYLES.get(choice, FILAMENT_STYLES["1"])["id"]
 
 
 def git_sync():
@@ -271,7 +334,7 @@ def git_sync():
 
 def main():
   print("\n" + "=" * 60)
-  print("  ESOTERIC PORTAL NETWORK — FOLDER SCANNER & SYNC")
+  print("  ESOTERIC PORTAL NETWORK — 3D DISK & FOLDER SYNC")
   print("=" * 60 + "\n")
   os.makedirs(PORTALS_DIR, exist_ok=True)
   os.makedirs(TEMPLATES_DIR, exist_ok=True)
@@ -289,11 +352,17 @@ def main():
     if bid not in folders:
       changes_made = True
     else:
+      if "slice" not in b:
+        b["slice"] = "Prime Cosmos"
+        b["slice_bg"] = "cosmos"
+        changes_made = True
+      if "filament" not in b:
+        b["filament"] = "standard"
+        changes_made = True
       kept_branches.append(b)
   branches = kept_branches
 
   existing_map = {b["id"]: b for b in branches}
-  existing_angles = [b.get("angle", 0) for b in branches]
 
   for folder in folders:
     folder_path = os.path.join(PORTALS_DIR, folder)
@@ -313,18 +382,27 @@ def main():
       if updated:
         changes_made = True
     else:
-      print(f"\n[+] NEW PORTAL FOLDER DETECTED: '{folder}' ({len(photos)} photos)")
+      print(
+          f"\n[+] NEW PORTAL FOLDER DETECTED: '{folder}' ({len(photos)} photos)"
+      )
+
+      # 1. Select 3D Disk / Slice and Realm Background
+      slice_name, slice_bg = choose_slice(branches)
+      slice_angles = [
+          b.get("angle", 0)
+          for b in branches
+          if b.get("slice", "Prime Cosmos") == slice_name
+      ]
+
       default_title = folder.replace("-", " ").replace("_", " ").title()
       title = (
-          input(f"    Display Title [{default_title}]: ").strip()
+          input(f"\n    Display Title [{default_title}]: ").strip()
           or default_title
       )
       subtitle = (
           input("    Subtitle [Gallery & Archive]: ").strip()
           or "Gallery & Archive"
       )
-
-      # Keyword password protection prompt
       password = (
           input(
               "    Access Keyword/Password (leave blank for public access): "
@@ -338,10 +416,13 @@ def main():
           input(f"    Glow Theme [{suggested_theme}]: ").strip().lower()
           or suggested_theme
       )
-      sug_angle = suggest_angle(existing_angles)
-      angle_in = input(f"    Radial Angle in degrees [{sug_angle}]: ").strip()
+      filament = choose_filament_style()
+
+      sug_angle = suggest_angle(slice_angles)
+      angle_in = input(
+          f"\n    Radial Angle on '{slice_name}' in degrees [{sug_angle}]: "
+      ).strip()
       angle = int(angle_in) if angle_in.lstrip("-").isdigit() else sug_angle
-      existing_angles.append(angle)
       dist_in = input("    Distance from center in px [340]: ").strip()
       distance = int(dist_in) if dist_in.isdigit() else 340
 
@@ -349,17 +430,20 @@ def main():
           "id": folder,
           "title": title,
           "subtitle": subtitle,
+          "slice": slice_name,
+          "slice_bg": slice_bg,
           "theme": theme,
+          "filament": filament,
           "angle": angle,
           "distance": distance,
           "thumbnail": thumb,
           "photos": photos,
           "grid_thumbs": grid_thumbs,
-          "password": password,  # Stores the static keyword or empty string
+          "password": password,
       }
       branches.append(new_branch)
       changes_made = True
-      print(f"    ✓ Added '{title}' to branches.json")
+      print(f"    ✓ Added '{title}' to disk '{slice_name}' in branches.json")
 
   if changes_made:
     save_branches(branches)
