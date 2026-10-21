@@ -42,6 +42,11 @@
       --hub-glow-primary: rgba(226, 234, 252, 0.4);
       --hub-glow-secondary: rgba(163, 177, 204, 0.25);
     }
+    body[data-realm="nyc"] {
+      --gold-accent: #ffbe0b;
+      --hub-glow-primary: rgba(255, 190, 11, 0.45);
+      --hub-glow-secondary: rgba(0, 240, 255, 0.3);
+    }
 
     * {
       box-sizing: border-box;
@@ -168,6 +173,50 @@
         radial-gradient(1.5px 1.5px at 35% 82%, rgba(182, 204, 254, 0.65), transparent);
       background-size: 300px 300px;
       opacity: 0.8;
+    }
+
+    /* 6. NYC (New York City Nocturne Skyline & River Reflections) */
+    .realm-nyc {
+      background: linear-gradient(
+        180deg,
+        #03060e 0%,
+        #091326 42%,
+        #162440 70%,
+        #2b2238 86%,
+        #070a12 100%
+      );
+    }
+    .realm-nyc::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.65), transparent),
+        radial-gradient(1.5px 1.5px at 48% 12%, rgba(255, 209, 102, 0.55), transparent),
+        radial-gradient(1px 1px at 82% 22%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1.5px 1.5px at 28% 32%, rgba(0, 240, 255, 0.45), transparent),
+        radial-gradient(60% 28% at 50% 82%, rgba(255, 170, 50, 0.18), transparent);
+      background-size: 400px 400px, 400px 400px, 400px 400px, 400px 400px, 100% 100%;
+    }
+
+    .nyc-skyline-svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 36vh;
+      min-height: 240px;
+      max-height: 380px;
+      display: block;
+    }
+
+    .nyc-beacon {
+      animation: beaconPulse 2.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes beaconPulse {
+      0% { opacity: 0.35; r: 2; }
+      100% { opacity: 1; r: 3.6; }
     }
 
     /* Top Title Banner */
@@ -948,6 +997,115 @@
     <div class="realm-layer realm-ember" data-realm-id="ember"></div>
     <div class="realm-layer realm-abyss" data-realm-id="abyss"></div>
     <div class="realm-layer realm-astral" data-realm-id="astral"></div>
+
+    <!-- 6. New York City Skyline Realm Layer -->
+    <div class="realm-layer realm-nyc" data-realm-id="nyc">
+      <svg class="nyc-skyline-svg" viewBox="0 0 1600 420" preserveAspectRatio="none">
+        <defs>
+          <!-- Glowing Skyscraper Window Pattern (Gold) -->
+          <pattern id="nyc-windows-gold" width="12" height="18" patternUnits="userSpaceOnUse">
+            <rect x="2" y="3" width="3" height="4" fill="#ffbe0b" fill-opacity="0.55" />
+            <rect x="7" y="10" width="3" height="4" fill="#ffd166" fill-opacity="0.35" />
+          </pattern>
+          <!-- Glowing Skyscraper Window Pattern (Cyan/White) -->
+          <pattern id="nyc-windows-cyan" width="14" height="20" patternUnits="userSpaceOnUse">
+            <rect x="3" y="4" width="3" height="3" fill="#00f0ff" fill-opacity="0.45" />
+            <rect x="8" y="12" width="3" height="4" fill="#e2eafc" fill-opacity="0.4" />
+          </pattern>
+          <linearGradient id="nyc-horizon-glow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffbe0b" stop-opacity="0" />
+            <stop offset="75%" stop-color="#ff9f1c" stop-opacity="0.22" />
+            <stop offset="100%" stop-color="#ff4d79" stop-opacity="0.35" />
+          </linearGradient>
+          <linearGradient id="nyc-river-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#050811" />
+            <stop offset="100%" stop-color="#010206" />
+          </linearGradient>
+        </defs>
+
+        <!-- Horizon Ambient City Glow -->
+        <rect x="0" y="60" width="1600" height="300" fill="url(#nyc-horizon-glow)" />
+
+        <!-- Distant Midtown & Downtown Silhouette Layer -->
+        <path fill="#0b1325" d="
+          M0,360 L0,270 L45,270 L45,230 L95,230 L95,255 L140,255 L140,190 L195,190 L195,240
+          L260,240 L260,175 L310,175 L310,220 L370,220 L370,195 L430,195 L430,250
+          L510,250 L510,165 L560,165 L560,230 L640,230 L640,180 L695,180 L695,215
+          L760,215 L760,155 L810,155 L810,225 L885,225 L885,185 L940,185 L940,240
+          L1020,240 L1020,200 L1080,200 L1080,260 L1150,260 L1150,220 L1210,220 L1210,275
+          L1600,275 L1600,360 Z" />
+
+        <!-- Foreground Iconic NYC Skyline Silhouette -->
+        <path fill="#050811" stroke="rgba(255, 190, 11, 0.18)" stroke-width="0.8" d="
+          M0,360 L0,290 L35,290 L35,245 L80,245 L80,280 L115,280
+          L115,210 L155,210 L155,265 L205,265
+          /* One World Trade Center */
+          L215,265 L228,105 L245,92 L246,38 L248,38 L249,92 L266,105 L279,265
+          L315,265 L315,195 L360,195 L360,250 L405,250 L405,170 L455,170 L455,245
+          /* 432 Park / Slender Midtown Tower */
+          L485,245 L485,95 L512,95 L512,245
+          L545,245 L545,205 L595,205 L595,255
+          /* Empire State Building */
+          L625,255 L625,185 L638,185 L638,110 L650,110 L650,88 L660,88 L660,72 L664,72 L666,22 L668,22 L670,72 L674,72 L674,88 L684,88 L684,110 L696,110 L696,185 L709,185 L709,255
+          L745,255 L745,195 L795,195 L795,245
+          /* Chrysler Building */
+          L830,245 L830,150 L840,150 L846,122 L854,100 L860,82 L862,48 L864,82 L870,100 L878,122 L884,150 L894,150 L894,245
+          /* Bank of America / Bryant Park Spire */
+          L930,245 L930,165 L965,135 L967,90 L969,135 L995,165 L995,255
+          L1035,255 L1035,210 L1085,210 L1085,270 L1135,270 L1135,235 L1180,235 L1180,285
+          L1600,285 L1600,360 Z" />
+
+        <!-- Brooklyn Bridge Silhouette (Right Flank) -->
+        <g stroke="#ffbe0b" stroke-opacity="0.45" fill="none">
+          <!-- Bridge Deck -->
+          <path d="M1140,315 Q1360,292 1590,315" stroke="#0b1325" stroke-width="6" />
+          <path d="M1140,313 Q1360,290 1590,313" stroke="#ffbe0b" stroke-width="1.4" stroke-dasharray="6 4" />
+          <!-- Main Suspension Cables -->
+          <path d="M1140,312 Q1210,275 1275,205 Q1365,295 1455,205 Q1520,275 1590,312" stroke-width="1.8" />
+          <!-- Vertical Suspender Ropes -->
+          <path d="M1230,255 L1230,306 M1250,235 L1250,304 M1305,235 L1305,302 M1335,255 L1335,300 M1365,263 L1365,300 M1395,255 L1395,300 M1425,235 L1425,302 M1480,235 L1480,304 M1500,255 L1500,306" stroke-width="0.7" stroke-opacity="0.3" />
+        </g>
+        <!-- Brooklyn Bridge Gothic Stone Towers -->
+        <path fill="#050811" stroke="rgba(255, 190, 11, 0.35)" stroke-width="0.9" d="
+          M1262,360 L1262,200 L1288,200 L1288,360 Z
+          M1442,360 L1442,200 L1468,200 L1468,360 Z" />
+        <!-- Gothic Arches Cutouts -->
+        <path fill="#162440" d="
+          M1267,255 L1267,220 Q1275,210 1283,220 L1283,255 Z
+          M1447,255 L1447,220 Q1455,210 1463,220 L1463,255 Z" />
+
+        <!-- Illuminated Window Overlays on Key Skyscrapers -->
+        <rect x="229" y="115" width="34" height="145" fill="url(#nyc-windows-cyan)" />
+        <rect x="488" y="102" width="21" height="138" fill="url(#nyc-windows-gold)" />
+        <rect x="642" y="115" width="50" height="135" fill="url(#nyc-windows-gold)" />
+        <rect x="836" y="155" width="52" height="88" fill="url(#nyc-windows-gold)" />
+        <rect x="320" y="202" width="36" height="58" fill="url(#nyc-windows-cyan)" />
+        <rect x="410" y="176" width="40" height="68" fill="url(#nyc-windows-gold)" />
+        <rect x="750" y="202" width="40" height="50" fill="url(#nyc-windows-cyan)" />
+        <rect x="1040" y="216" width="40" height="50" fill="url(#nyc-windows-gold)" />
+
+        <!-- Glowing Spire Beacons -->
+        <circle class="nyc-beacon" cx="247" cy="38" r="2.8" fill="#00f0ff" />
+        <circle class="nyc-beacon" cx="667" cy="22" r="3" fill="#ffbe0b" />
+        <circle class="nyc-beacon" cx="862" cy="48" r="2.5" fill="#ffd166" />
+        <circle class="nyc-beacon" cx="967" cy="90" r="2.5" fill="#ff4d79" />
+
+        <!-- Hudson / East River Water Base & Shimmering Reflections -->
+        <rect x="0" y="358" width="1600" height="62" fill="url(#nyc-river-grad)" />
+        <line x1="0" y1="358" x2="1600" y2="358" stroke="rgba(255, 190, 11, 0.35)" stroke-width="1" />
+        <g stroke="#ffbe0b" stroke-linecap="round" stroke-opacity="0.35">
+          <line x1="220" y1="368" x2="275" y2="368" stroke-width="2" stroke="#00f0ff" />
+          <line x1="230" y1="378" x2="265" y2="378" stroke-width="1.5" stroke="#00f0ff" />
+          <line x1="630" y1="366" x2="705" y2="366" stroke-width="2.2" />
+          <line x1="642" y1="376" x2="690" y2="376" stroke-width="1.6" />
+          <line x1="650" y1="386" x2="682" y2="386" stroke-width="1.2" />
+          <line x1="835" y1="370" x2="890" y2="370" stroke-width="2" />
+          <line x1="845" y1="382" x2="880" y2="382" stroke-width="1.4" />
+          <line x1="1255" y1="368" x2="1475" y2="368" stroke-width="1.8" stroke-dasharray="12 18" />
+          <line x1="1270" y1="380" x2="1460" y2="380" stroke-width="1.2" stroke-dasharray="8 22" />
+        </g>
+      </svg>
+    </div>
   </div>
 
   <header>
@@ -1170,7 +1328,7 @@
     }
 
     function applyRealmAesthetic(realmId, sliceName) {
-      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral'];
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc'];
       const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
 
       document.body.setAttribute('data-realm', targetRealm);
@@ -1382,7 +1540,7 @@
           if (sliceList.length > 1) {
             const nextSliceIdx = (sIdx + 1) % sliceList.length;
             const nextSlice = sliceList[nextSliceIdx];
-            const bridgeAngleDeg = -90; // Projects straight upward toward the crown
+            const bridgeAngleDeg = -90;
             const bridgeDist = 240;
             const bridgeRad = (bridgeAngleDeg * Math.PI) / 180;
             const bx = CENTER_X + Math.cos(bridgeRad) * bridgeDist;

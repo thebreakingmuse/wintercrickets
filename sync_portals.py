@@ -63,8 +63,13 @@ REALM_BACKGROUNDS = {
         "id": "astral",
         "name": "Silver Eclipse (Celestial Monochrome & Diamond Stars)",
     },
+    "6": {
+        "id": "nyc",
+        "name": (
+            "New York City Nocturne (Twilight Skyline, Towers & River Lights)"
+        ),
+    },
 }
-
 FILAMENT_STYLES = {
     "1": {"id": "standard", "name": "Standard Glowing Gradient"},
     "2": {"id": "vine", "name": "Twisting Organic Vine"},
