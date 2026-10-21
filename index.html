@@ -444,36 +444,89 @@
       to { stroke-dashoffset: -336; }
     }
 
-    /* Special Glowing Dimensional Bridge Filament */
+    /* Long Dimensional Shift Rift Conduit Styles */
     .bridge-filament-group {
       cursor: pointer;
       pointer-events: auto;
     }
 
+    .bridge-outer-aura {
+      fill: none;
+      stroke: var(--gold-accent);
+      stroke-width: 10;
+      stroke-linecap: round;
+      opacity: 0.14;
+      filter: blur(5px);
+      transition: opacity 0.35s ease, stroke-width 0.35s ease;
+    }
+
     .bridge-core-path {
       fill: none;
       stroke: var(--gold-accent);
-      stroke-width: 3.2;
+      stroke-width: 3;
       stroke-linecap: round;
-      filter: drop-shadow(0 0 10px var(--gold-accent)) drop-shadow(0 0 20px var(--gold-accent));
-      stroke-dasharray: 12 6;
-      animation: bridgePulse 6s linear infinite;
+      filter: drop-shadow(0 0 10px var(--gold-accent)) drop-shadow(0 0 22px var(--gold-accent));
+      stroke-dasharray: 14 8;
+      animation: bridgePulse 5s linear infinite;
     }
 
     .bridge-helix-path {
       fill: none;
       stroke: #ffffff;
-      stroke-width: 1.4;
+      stroke-width: 1.35;
       stroke-linecap: round;
-      opacity: 0.75;
+      opacity: 0.72;
       filter: drop-shadow(0 0 8px var(--gold-accent));
     }
 
-    @keyframes bridgePulse {
-      to { stroke-dashoffset: -180; }
+    .bridge-helix-secondary {
+      fill: none;
+      stroke: var(--gold-accent);
+      stroke-width: 1.2;
+      stroke-dasharray: 4 6;
+      stroke-linecap: round;
+      opacity: 0.8;
+      animation: bridgePulse 8s linear infinite reverse;
     }
 
-    /* Dimensional Bridge Sigil Node */
+    .bridge-warp-surge {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 3.6;
+      stroke-linecap: round;
+      stroke-dasharray: 26 260;
+      animation: warpSurge 2.8s linear infinite;
+      filter: drop-shadow(0 0 12px #ffffff) drop-shadow(0 0 20px var(--gold-accent));
+    }
+
+    .bridge-portal-gate {
+      fill: rgba(10, 8, 20, 0.35);
+      stroke: var(--gold-accent);
+      stroke-width: 1.4;
+      stroke-dasharray: 5 3;
+      filter: drop-shadow(0 0 8px var(--gold-accent));
+      animation: gateBreathe 2.6s ease-in-out infinite alternate;
+    }
+
+    .bridge-filament-group:hover .bridge-outer-aura {
+      opacity: 0.32;
+      stroke-width: 15;
+    }
+
+    @keyframes bridgePulse {
+      to { stroke-dashoffset: -220; }
+    }
+
+    @keyframes warpSurge {
+      to { stroke-dashoffset: -572; }
+    }
+
+    @keyframes gateBreathe {
+      0% { stroke-opacity: 0.45; }
+      100% { stroke-opacity: 1; }
+    }
+
+    /* Outlying Dimensional Shift Portal Node */
     .bridge-node {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -487,56 +540,80 @@
     }
 
     .bridge-node:hover {
-      transform: translate(-50%, -50%) scale(1.16);
+      transform: translate(-50%, -50%) scale(1.15);
     }
 
     .bridge-sigil-ring {
-      width: 68px;
-      height: 68px;
+      position: relative;
+      width: 86px;
+      height: 86px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(28, 22, 48, 0.95) 0%, rgba(6, 5, 12, 0.98) 80%);
+      background: radial-gradient(circle, rgba(34, 24, 60, 0.95) 0%, rgba(5, 4, 12, 0.98) 78%);
       border: 2px solid var(--gold-accent);
       box-shadow: 
-        0 0 20px var(--gold-accent),
-        0 0 45px var(--hub-glow-primary),
-        inset 0 0 15px var(--gold-accent);
+        0 0 25px var(--gold-accent),
+        0 0 55px var(--hub-glow-primary),
+        inset 0 0 18px var(--gold-accent);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: box-shadow 0.35s ease, border-color 0.35s ease;
     }
 
+    /* Outer Orbiting Rift Halo around Dimensional Shift Node */
+    .bridge-sigil-ring::before {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 1.5px dashed var(--gold-accent);
+      opacity: 0.65;
+      animation: slowSpinReverse 22s linear infinite;
+      pointer-events: none;
+    }
+
+    .bridge-sigil-ring::after {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      border: 1px dotted rgba(255, 255, 255, 0.45);
+      opacity: 0.5;
+      animation: slowSpin 30s linear infinite;
+      pointer-events: none;
+    }
+
     .bridge-node:hover .bridge-sigil-ring {
       border-color: #ffffff;
       box-shadow: 
-        0 0 30px var(--gold-accent),
-        0 0 65px var(--gold-accent),
-        0 0 95px var(--gold-accent),
-        inset 0 0 24px var(--gold-accent);
+        0 0 35px var(--gold-accent),
+        0 0 75px var(--gold-accent),
+        0 0 110px var(--gold-accent),
+        inset 0 0 26px var(--gold-accent);
     }
 
     .bridge-sigil-svg {
-      width: 46px;
-      height: 46px;
+      width: 56px;
+      height: 56px;
       color: var(--gold-accent);
       animation: slowSpin 18s linear infinite;
     }
 
     .bridge-label {
-      margin-top: 8px;
+      margin-top: 14px;
       text-align: center;
-      background: rgba(8, 6, 16, 0.88);
+      background: rgba(8, 6, 16, 0.9);
       backdrop-filter: blur(6px);
-      padding: 4px 12px;
-      border-radius: 16px;
+      padding: 5px 14px;
+      border-radius: 18px;
       border: 1px solid var(--gold-accent);
-      box-shadow: 0 0 14px var(--hub-glow-primary);
+      box-shadow: 0 0 18px var(--hub-glow-primary);
     }
 
     .bridge-title {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--gold-accent);
       white-space: nowrap;
@@ -545,7 +622,7 @@
     .bridge-sub {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--text-main);
       white-space: nowrap;
     }
@@ -1068,12 +1145,10 @@
     <div class="realm-layer realm-nyc" data-realm-id="nyc">
       <svg class="nyc-skyline-svg" viewBox="0 0 1600 420" preserveAspectRatio="none">
         <defs>
-          <!-- Glowing Skyscraper Window Pattern (Gold) -->
           <pattern id="nyc-windows-gold" width="12" height="18" patternUnits="userSpaceOnUse">
             <rect x="2" y="3" width="3" height="4" fill="#ffbe0b" fill-opacity="0.55" />
             <rect x="7" y="10" width="3" height="4" fill="#ffd166" fill-opacity="0.35" />
           </pattern>
-          <!-- Glowing Skyscraper Window Pattern (Cyan/White) -->
           <pattern id="nyc-windows-cyan" width="14" height="20" patternUnits="userSpaceOnUse">
             <rect x="3" y="4" width="3" height="3" fill="#00f0ff" fill-opacity="0.45" />
             <rect x="8" y="12" width="3" height="4" fill="#e2eafc" fill-opacity="0.4" />
@@ -1089,10 +1164,8 @@
           </linearGradient>
         </defs>
 
-        <!-- Horizon Ambient City Glow -->
         <rect x="0" y="60" width="1600" height="300" fill="url(#nyc-horizon-glow)" />
 
-        <!-- Distant Midtown & Downtown Silhouette Layer -->
         <path fill="#0b1325" d="
           M0,360 L0,270 L45,270 L45,230 L95,230 L95,255 L140,255 L140,190 L195,190 L195,240
           L260,240 L260,175 L310,175 L310,220 L370,220 L370,195 L430,195 L430,250
@@ -1101,7 +1174,6 @@
           L1020,240 L1020,200 L1080,200 L1080,260 L1150,260 L1150,220 L1210,220 L1210,275
           L1600,275 L1600,360 Z" />
 
-        <!-- Foreground Iconic NYC Skyline Silhouette -->
         <path fill="#050811" stroke="rgba(255, 190, 11, 0.18)" stroke-width="0.8" d="
           M0,360 L0,290 L35,290 L35,245 L80,245 L80,280 L115,280
           L115,210 L155,210 L155,265 L205,265
@@ -1116,14 +1188,12 @@
           L1035,255 L1035,210 L1085,210 L1085,270 L1135,270 L1135,235 L1180,235 L1180,285
           L1600,285 L1600,360 Z" />
 
-        <!-- Brooklyn Bridge Silhouette (Right Flank) -->
         <g stroke="#ffbe0b" stroke-opacity="0.45" fill="none">
           <path d="M1140,315 Q1360,292 1590,315" stroke="#0b1325" stroke-width="6" />
           <path d="M1140,313 Q1360,290 1590,313" stroke="#ffbe0b" stroke-width="1.4" stroke-dasharray="6 4" />
           <path d="M1140,312 Q1210,275 1275,205 Q1365,295 1455,205 Q1520,275 1590,312" stroke-width="1.8" />
           <path d="M1230,255 L1230,306 M1250,235 L1250,304 M1305,235 L1305,302 M1335,255 L1335,300 M1365,263 L1365,300 M1395,255 L1395,300 M1425,235 L1425,302 M1480,235 L1480,304 M1500,255 L1500,306" stroke-width="0.7" stroke-opacity="0.3" />
         </g>
-        <!-- Brooklyn Bridge Gothic Stone Towers -->
         <path fill="#050811" stroke="rgba(255, 190, 11, 0.35)" stroke-width="0.9" d="
           M1262,360 L1262,200 L1288,200 L1288,360 Z
           M1442,360 L1442,200 L1468,200 L1468,360 Z" />
@@ -1131,7 +1201,6 @@
           M1267,255 L1267,220 Q1275,210 1283,220 L1283,255 Z
           M1447,255 L1447,220 Q1455,210 1463,220 L1463,255 Z" />
 
-        <!-- Illuminated Window Overlays on Key Skyscrapers -->
         <rect x="229" y="115" width="34" height="145" fill="url(#nyc-windows-cyan)" />
         <rect x="488" y="102" width="21" height="138" fill="url(#nyc-windows-gold)" />
         <rect x="642" y="115" width="50" height="135" fill="url(#nyc-windows-gold)" />
@@ -1141,13 +1210,11 @@
         <rect x="750" y="202" width="40" height="50" fill="url(#nyc-windows-cyan)" />
         <rect x="1040" y="216" width="40" height="50" fill="url(#nyc-windows-gold)" />
 
-        <!-- Glowing Spire Beacons -->
         <circle class="nyc-beacon" cx="247" cy="38" r="2.8" fill="#00f0ff" />
         <circle class="nyc-beacon" cx="667" cy="22" r="3" fill="#ffbe0b" />
         <circle class="nyc-beacon" cx="862" cy="48" r="2.5" fill="#ffd166" />
         <circle class="nyc-beacon" cx="967" cy="90" r="2.5" fill="#ff4d79" />
 
-        <!-- Hudson / East River Water Base & Shimmering Reflections -->
         <rect x="0" y="358" width="1600" height="62" fill="url(#nyc-river-grad)" />
         <line x1="0" y1="358" x2="1600" y2="358" stroke="rgba(255, 190, 11, 0.35)" stroke-width="1" />
         <g stroke="#ffbe0b" stroke-linecap="round" stroke-opacity="0.35">
@@ -1343,6 +1410,43 @@
       return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
     }
 
+    // Long Multi-Frequency Sine Wave Conduit for the Dimensional Shift Bridge
+    function buildDimensionalRiftPath(x1, y1, x2, y2, waves = 5, amplitude = 16, phase = 1) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len;
+      const ny = dx / len;
+      const steps = 64;
+      let d = `M ${x1} ${y1}`;
+
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        // Envelope tapers to 0 at both ends so it locks cleanly into the hub and sigil
+        const envelope = Math.sin(t * Math.PI);
+        // Subtle S-curve arch + harmonic wave oscillation
+        const archOffset = Math.sin(t * Math.PI * 2) * 24;
+        const waveOffset = Math.sin(t * Math.PI * waves) * amplitude * phase * envelope;
+        const totalNormal = archOffset + waveOffset;
+
+        const px = x1 + dx * t + nx * totalNormal;
+        const py = y1 + dy * t + ny * totalNormal;
+        d += ` L ${px.toFixed(1)} ${py.toFixed(1)}`;
+      }
+      return d;
+    }
+
+    // Picks an outlying corner angle that stays clear of existing portals on that slice
+    function chooseBridgeAngle(sliceItems) {
+      const preferredCorners = [-32, -148, 32, 148, -90];
+      const usedAngles = sliceItems.map((b, i) => b.angle ?? (i * 60));
+      for (const candidate of preferredCorners) {
+        const isClear = usedAngles.every((a) => Math.abs(((candidate - a + 540) % 360) - 180) >= 26);
+        if (isClear) return candidate;
+      }
+      return -32;
+    }
+
     function renderFilament(svgGroup, x2, y2, idx, theme, filamentStyle) {
       const color = themeColors[theme] || themeColors.nocturnal;
 
@@ -1385,7 +1489,6 @@
         const ctrlX = midX - dy * 0.24 * dir;
         const ctrlY = midY + dx * 0.24 * dir;
 
-        // 1. Vertical steel suspender cables between catenary arc and deck chord
         let strutsD = '';
         const steps = [0.22, 0.32, 0.42, 0.52, 0.62, 0.72, 0.82];
         steps.forEach((t) => {
@@ -1403,7 +1506,6 @@
         strutsPath.setAttribute('stroke', color);
         svgGroup.appendChild(strutsPath);
 
-        // 2. Straight Bridge Deck Chord
         const deckPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         deckPath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
         deckPath.setAttribute('class', 'ligament-suspension-deck');
@@ -1411,7 +1513,6 @@
         deckPath.style.color = color;
         svgGroup.appendChild(deckPath);
 
-        // 3. Sweeping Catenary Suspension Cable
         const cablePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         cablePath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`);
         cablePath.setAttribute('class', 'ligament-suspension-cable');
@@ -1428,14 +1529,12 @@
         const ny = (dx / len) * dir;
         const offset = 26;
 
-        // Primary Metro / Circuit Conduit Vertices
         const p1x = CENTER_X + dx * 0.34 + nx * offset;
         const p1y = CENTER_Y + dy * 0.34 + ny * offset;
         const p2x = CENTER_X + dx * 0.68 + nx * offset;
         const p2y = CENTER_Y + dy * 0.68 + ny * offset;
         const mainD = `M ${CENTER_X} ${CENTER_Y} L ${p1x.toFixed(1)} ${p1y.toFixed(1)} L ${p2x.toFixed(1)} ${p2y.toFixed(1)} L ${x2} ${y2}`;
 
-        // Parallel Secondary Track
         const subOffset = offset - 9;
         const s1x = CENTER_X + dx * 0.34 + nx * subOffset;
         const s1y = CENTER_Y + dy * 0.34 + ny * subOffset;
@@ -1462,7 +1561,6 @@
         surgePath.style.color = color;
         svgGroup.appendChild(surgePath);
 
-        // Subway / Circuit Junction Nodes at Bends
         [[p1x, p1y], [p2x, p2y]].forEach(([jx, jy]) => {
           const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
           dot.setAttribute('cx', jx.toFixed(1));
@@ -1693,12 +1791,14 @@
             diskPlane.appendChild(node);
           });
 
-          // If multiple slices exist, render the special glowing Dimensional Bridge Filament
+          // If multiple slices exist, render the outlying Dimensional Shift Portal & Long Wormhole Conduit
           if (sliceList.length > 1) {
             const nextSliceIdx = (sIdx + 1) % sliceList.length;
             const nextSlice = sliceList[nextSliceIdx];
-            const bridgeAngleDeg = -90;
-            const bridgeDist = 240;
+
+            // Position far out to the side (455px radius, outside the 340px portal halo ring)
+            const bridgeAngleDeg = chooseBridgeAngle(sliceObj.items);
+            const bridgeDist = 455;
             const bridgeRad = (bridgeAngleDeg * Math.PI) / 180;
             const bx = CENTER_X + Math.cos(bridgeRad) * bridgeDist;
             const by = CENTER_Y + Math.sin(bridgeRad) * bridgeDist;
@@ -1706,21 +1806,61 @@
             const bridgeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             bridgeGroup.setAttribute('class', 'bridge-filament-group');
 
-            const corePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            corePath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${bx} ${by}`);
-            corePath.setAttribute('class', 'bridge-core-path');
+            // 1. Soft Outer Wormhole Aura
+            const auraPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const coreRiftD = buildDimensionalRiftPath(CENTER_X, CENTER_Y, bx, by, 1, 0, 1);
+            auraPath.setAttribute('d', coreRiftD);
+            auraPath.setAttribute('class', 'bridge-outer-aura');
+            bridgeGroup.appendChild(auraPath);
 
+            // 2. Sweeping S-Curve Dimensional Spine
+            const corePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            corePath.setAttribute('d', coreRiftD);
+            corePath.setAttribute('class', 'bridge-core-path');
+            bridgeGroup.appendChild(corePath);
+
+            // 3. High-Frequency Braided Phase-Wave Filaments
             const helixA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            helixA.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, bx, by, 1.2));
+            helixA.setAttribute('d', buildDimensionalRiftPath(CENTER_X, CENTER_Y, bx, by, 5, 16, 1));
             helixA.setAttribute('class', 'bridge-helix-path');
+            bridgeGroup.appendChild(helixA);
 
             const helixB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            helixB.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, bx, by, -1.2));
-            helixB.setAttribute('class', 'bridge-helix-path');
-
-            bridgeGroup.appendChild(corePath);
-            bridgeGroup.appendChild(helixA);
+            helixB.setAttribute('d', buildDimensionalRiftPath(CENTER_X, CENTER_Y, bx, by, 5, 16, -1));
+            helixB.setAttribute('class', 'bridge-helix-secondary');
             bridgeGroup.appendChild(helixB);
+
+            // 4. High-Speed Traveling Warp Surge Packet
+            const surgePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            surgePath.setAttribute('d', coreRiftD);
+            surgePath.setAttribute('class', 'bridge-warp-surge');
+            bridgeGroup.appendChild(surgePath);
+
+            // 5. Spacetime Aperture Rings along the Conduit
+            const dx = bx - CENTER_X;
+            const dy = by - CENTER_Y;
+            const len = Math.hypot(dx, dy) || 1;
+            const nx = -dy / len;
+            const ny = dx / len;
+            const gateSteps = [0.28, 0.44, 0.60, 0.76, 0.88];
+
+            gateSteps.forEach((t, gIdx) => {
+              const archOffset = Math.sin(t * Math.PI * 2) * 24;
+              const gx = CENTER_X + dx * t + nx * archOffset;
+              const gy = CENTER_Y + dy * t + ny * archOffset;
+              const gateRing = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+              const rx = 6 + gIdx * 1.8;
+              const ry = 14 + gIdx * 3.2;
+              gateRing.setAttribute('cx', gx.toFixed(1));
+              gateRing.setAttribute('cy', gy.toFixed(1));
+              gateRing.setAttribute('rx', rx.toFixed(1));
+              gateRing.setAttribute('ry', ry.toFixed(1));
+              gateRing.setAttribute('transform', `rotate(${bridgeAngleDeg} ${gx.toFixed(1)} ${gy.toFixed(1)})`);
+              gateRing.setAttribute('class', 'bridge-portal-gate');
+              gateRing.style.animationDelay = `${(gIdx * 0.25).toFixed(2)}s`;
+              bridgeGroup.appendChild(gateRing);
+            });
+
             bridgeGroup.addEventListener('click', () => switchToSlice(nextSliceIdx));
             ligamentsGroup.appendChild(bridgeGroup);
 
@@ -1731,15 +1871,17 @@
             bridgeNode.innerHTML = `
               <div class="bridge-sigil-ring">
                 <svg class="bridge-sigil-svg" viewBox="0 0 64 64">
-                  <circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
-                  <polygon points="32,8 54,46 10,46" fill="none" stroke="currentColor" stroke-width="1.8"/>
-                  <polygon points="32,56 54,18 10,18" fill="none" stroke="currentColor" stroke-width="1.8"/>
-                  <circle cx="32" cy="32" r="5" fill="currentColor"/>
+                  <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 3"/>
+                  <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="#ffffff" stroke-width="1.1" transform="rotate(35 32 32)" opacity="0.8"/>
+                  <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="#ffffff" stroke-width="1.1" transform="rotate(-35 32 32)" opacity="0.8"/>
+                  <polygon points="32,9 52,45 12,45" fill="none" stroke="currentColor" stroke-width="1.6"/>
+                  <polygon points="32,55 52,19 12,19" fill="none" stroke="currentColor" stroke-width="1.6"/>
+                  <circle cx="32" cy="32" r="5.5" fill="#ffffff"/>
                 </svg>
               </div>
               <div class="bridge-label">
                 <div class="bridge-title">Dimensional Shift</div>
-                <div class="bridge-sub">Enter: ${nextSlice.name}</div>
+                <div class="bridge-sub">Warp to: ${nextSlice.name}</div>
               </div>
             `;
             bridgeNode.addEventListener('click', () => switchToSlice(nextSliceIdx));
