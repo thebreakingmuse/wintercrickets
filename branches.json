@@ -942,5 +942,24 @@
       "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011315940.webp"
     ],
     "password": ""
+  },
+  {
+    "id": "nyc",
+    "title": "nyc portal realm",
+    "subtitle": "Gallery & Archive",
+    "slice": "New York City",
+    "slice_bg": "nyc",
+    "theme": "celestial",
+    "filament": "suspension",
+    "angle": -25,
+    "distance": 340,
+    "thumbnail": "templates/arcane.jpg",
+    "photos": [
+      "portals/nyc/20191204_205152.webp"
+    ],
+    "grid_thumbs": [
+      "portals/nyc/grid_thumbs/20191204_205152.webp"
+    ],
+    "password": ""
   }
 ]

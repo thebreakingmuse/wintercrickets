@@ -378,6 +378,72 @@
       opacity: 0.7;
     }
 
+    /* Suspension Bridge Filament Styles */
+    .ligament-suspension-cable {
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-suspension-deck {
+      fill: none;
+      stroke-width: 1.8;
+      stroke-dasharray: 7 5;
+      stroke-linecap: round;
+      animation: pulseFlow 12s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.85;
+    }
+
+    .ligament-suspension-struts {
+      fill: none;
+      stroke-width: 1;
+      stroke-linecap: round;
+      opacity: 0.55;
+    }
+
+    /* NYC Electric Grid & Subway Conduit Filament Styles */
+    .ligament-grid-rail {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: square;
+      stroke-linejoin: bevel;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.85;
+    }
+
+    .ligament-grid-subrail {
+      fill: none;
+      stroke-width: 1.1;
+      stroke-linecap: square;
+      stroke-linejoin: bevel;
+      opacity: 0.45;
+    }
+
+    .ligament-grid-surge {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: bevel;
+      stroke-dasharray: 18 150;
+      animation: electricSurge 3.2s linear infinite;
+      filter: drop-shadow(0 0 8px currentColor);
+      opacity: 0.95;
+    }
+
+    .ligament-grid-station {
+      fill: #050811;
+      stroke-width: 1.8;
+      filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    @keyframes electricSurge {
+      to { stroke-dashoffset: -336; }
+    }
+
     /* Special Glowing Dimensional Bridge Filament */
     .bridge-filament-group {
       cursor: pointer;
@@ -1039,37 +1105,28 @@
         <path fill="#050811" stroke="rgba(255, 190, 11, 0.18)" stroke-width="0.8" d="
           M0,360 L0,290 L35,290 L35,245 L80,245 L80,280 L115,280
           L115,210 L155,210 L155,265 L205,265
-          /* One World Trade Center */
           L215,265 L228,105 L245,92 L246,38 L248,38 L249,92 L266,105 L279,265
           L315,265 L315,195 L360,195 L360,250 L405,250 L405,170 L455,170 L455,245
-          /* 432 Park / Slender Midtown Tower */
           L485,245 L485,95 L512,95 L512,245
           L545,245 L545,205 L595,205 L595,255
-          /* Empire State Building */
           L625,255 L625,185 L638,185 L638,110 L650,110 L650,88 L660,88 L660,72 L664,72 L666,22 L668,22 L670,72 L674,72 L674,88 L684,88 L684,110 L696,110 L696,185 L709,185 L709,255
           L745,255 L745,195 L795,195 L795,245
-          /* Chrysler Building */
           L830,245 L830,150 L840,150 L846,122 L854,100 L860,82 L862,48 L864,82 L870,100 L878,122 L884,150 L894,150 L894,245
-          /* Bank of America / Bryant Park Spire */
           L930,245 L930,165 L965,135 L967,90 L969,135 L995,165 L995,255
           L1035,255 L1035,210 L1085,210 L1085,270 L1135,270 L1135,235 L1180,235 L1180,285
           L1600,285 L1600,360 Z" />
 
         <!-- Brooklyn Bridge Silhouette (Right Flank) -->
         <g stroke="#ffbe0b" stroke-opacity="0.45" fill="none">
-          <!-- Bridge Deck -->
           <path d="M1140,315 Q1360,292 1590,315" stroke="#0b1325" stroke-width="6" />
           <path d="M1140,313 Q1360,290 1590,313" stroke="#ffbe0b" stroke-width="1.4" stroke-dasharray="6 4" />
-          <!-- Main Suspension Cables -->
           <path d="M1140,312 Q1210,275 1275,205 Q1365,295 1455,205 Q1520,275 1590,312" stroke-width="1.8" />
-          <!-- Vertical Suspender Ropes -->
           <path d="M1230,255 L1230,306 M1250,235 L1250,304 M1305,235 L1305,302 M1335,255 L1335,300 M1365,263 L1365,300 M1395,255 L1395,300 M1425,235 L1425,302 M1480,235 L1480,304 M1500,255 L1500,306" stroke-width="0.7" stroke-opacity="0.3" />
         </g>
         <!-- Brooklyn Bridge Gothic Stone Towers -->
         <path fill="#050811" stroke="rgba(255, 190, 11, 0.35)" stroke-width="0.9" d="
           M1262,360 L1262,200 L1288,200 L1288,360 Z
           M1442,360 L1442,200 L1468,200 L1468,360 Z" />
-        <!-- Gothic Arches Cutouts -->
         <path fill="#162440" d="
           M1267,255 L1267,220 Q1275,210 1283,220 L1283,255 Z
           M1447,255 L1447,220 Q1455,210 1463,220 L1463,255 Z" />
@@ -1303,6 +1360,7 @@
         offTendril.setAttribute('stroke', color);
         offTendril.style.color = color;
         svgGroup.appendChild(offTendril);
+
       } else if (filamentStyle === 'tendril') {
         const strandA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         strandA.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx, 0.22));
@@ -1317,6 +1375,105 @@
         strandB.setAttribute('stroke', color);
         strandB.style.color = color;
         svgGroup.appendChild(strandB);
+
+      } else if (filamentStyle === 'suspension') {
+        const midX = (CENTER_X + x2) / 2;
+        const midY = (CENTER_Y + y2) / 2;
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const ctrlX = midX - dy * 0.24 * dir;
+        const ctrlY = midY + dx * 0.24 * dir;
+
+        // 1. Vertical steel suspender cables between catenary arc and deck chord
+        let strutsD = '';
+        const steps = [0.22, 0.32, 0.42, 0.52, 0.62, 0.72, 0.82];
+        steps.forEach((t) => {
+          const inv = 1 - t;
+          const lx = inv * CENTER_X + t * x2;
+          const ly = inv * CENTER_Y + t * y2;
+          const cx = inv * inv * CENTER_X + 2 * inv * t * ctrlX + t * t * x2;
+          const cy = inv * inv * CENTER_Y + 2 * inv * t * ctrlY + t * t * y2;
+          strutsD += `M ${lx.toFixed(1)} ${ly.toFixed(1)} L ${cx.toFixed(1)} ${cy.toFixed(1)} `;
+        });
+
+        const strutsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strutsPath.setAttribute('d', strutsD.trim());
+        strutsPath.setAttribute('class', 'ligament-suspension-struts');
+        strutsPath.setAttribute('stroke', color);
+        svgGroup.appendChild(strutsPath);
+
+        // 2. Straight Bridge Deck Chord
+        const deckPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        deckPath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        deckPath.setAttribute('class', 'ligament-suspension-deck');
+        deckPath.setAttribute('stroke', `url(#grad-${theme})`);
+        deckPath.style.color = color;
+        svgGroup.appendChild(deckPath);
+
+        // 3. Sweeping Catenary Suspension Cable
+        const cablePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        cablePath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`);
+        cablePath.setAttribute('class', 'ligament-suspension-cable');
+        cablePath.setAttribute('stroke', color);
+        cablePath.style.color = color;
+        svgGroup.appendChild(cablePath);
+
+      } else if (filamentStyle === 'grid') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+        const offset = 26;
+
+        // Primary Metro / Circuit Conduit Vertices
+        const p1x = CENTER_X + dx * 0.34 + nx * offset;
+        const p1y = CENTER_Y + dy * 0.34 + ny * offset;
+        const p2x = CENTER_X + dx * 0.68 + nx * offset;
+        const p2y = CENTER_Y + dy * 0.68 + ny * offset;
+        const mainD = `M ${CENTER_X} ${CENTER_Y} L ${p1x.toFixed(1)} ${p1y.toFixed(1)} L ${p2x.toFixed(1)} ${p2y.toFixed(1)} L ${x2} ${y2}`;
+
+        // Parallel Secondary Track
+        const subOffset = offset - 9;
+        const s1x = CENTER_X + dx * 0.34 + nx * subOffset;
+        const s1y = CENTER_Y + dy * 0.34 + ny * subOffset;
+        const s2x = CENTER_X + dx * 0.68 + nx * subOffset;
+        const s2y = CENTER_Y + dy * 0.68 + ny * subOffset;
+        const subD = `M ${CENTER_X} ${CENTER_Y} L ${s1x.toFixed(1)} ${s1y.toFixed(1)} L ${s2x.toFixed(1)} ${s2y.toFixed(1)} L ${x2} ${y2}`;
+
+        const subRail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        subRail.setAttribute('d', subD);
+        subRail.setAttribute('class', 'ligament-grid-subrail');
+        subRail.setAttribute('stroke', color);
+        svgGroup.appendChild(subRail);
+
+        const mainRail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainRail.setAttribute('d', mainD);
+        mainRail.setAttribute('class', 'ligament-grid-rail');
+        mainRail.setAttribute('stroke', `url(#grad-${theme})`);
+        mainRail.style.color = color;
+        svgGroup.appendChild(mainRail);
+
+        const surgePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        surgePath.setAttribute('d', mainD);
+        surgePath.setAttribute('class', 'ligament-grid-surge');
+        surgePath.style.color = color;
+        svgGroup.appendChild(surgePath);
+
+        // Subway / Circuit Junction Nodes at Bends
+        [[p1x, p1y], [p2x, p2y]].forEach(([jx, jy]) => {
+          const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          dot.setAttribute('cx', jx.toFixed(1));
+          dot.setAttribute('cy', jy.toFixed(1));
+          dot.setAttribute('r', '3.4');
+          dot.setAttribute('class', 'ligament-grid-station');
+          dot.setAttribute('stroke', color);
+          dot.style.color = color;
+          svgGroup.appendChild(dot);
+        });
+
       } else {
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));

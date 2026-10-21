@@ -70,10 +70,19 @@ REALM_BACKGROUNDS = {
         ),
     },
 }
+
 FILAMENT_STYLES = {
     "1": {"id": "standard", "name": "Standard Glowing Gradient"},
     "2": {"id": "vine", "name": "Twisting Organic Vine"},
     "3": {"id": "tendril", "name": "Dual-Strand Braided Tendril"},
+    "4": {
+        "id": "suspension",
+        "name": "Brooklyn Bridge Suspension Span (Cables & Vertical Struts)",
+    },
+    "5": {
+        "id": "grid",
+        "name": "NYC Electric Grid & Subway Conduit (Angular Dual-Rail)",
+    },
 }
 
 
@@ -261,14 +270,14 @@ def choose_slice(branches):
     return chosen_name, slice_map[chosen_name]
 
   new_name = (
-      input("    Enter Name for New 3D Disk [Subterranean Realm]: ").strip()
-      or "Subterranean Realm"
+      input("    Enter Name for New 3D Disk [New York City]: ").strip()
+      or "New York City"
   )
   print("\n    Select Background Aesthetic for this Disk:")
   for key, bg in REALM_BACKGROUNDS.items():
     print(f"      [{key}] {bg['name']}")
-  bg_choice = input("    Realm Choice [2]: ").strip() or "2"
-  chosen_bg = REALM_BACKGROUNDS.get(bg_choice, REALM_BACKGROUNDS["2"])["id"]
+  bg_choice = input("    Realm Choice [6]: ").strip() or "6"
+  chosen_bg = REALM_BACKGROUNDS.get(bg_choice, REALM_BACKGROUNDS["6"])["id"]
   return new_name, chosen_bg
 
 
