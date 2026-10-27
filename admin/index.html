@@ -7,13 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <!-- Netlify Identity Widget for Secure Login -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     :root {
       --bg-deep: #050509;
-      --bg-panel: rgba(14, 12, 24, 0.92);
-      --bg-input: rgba(6, 5, 12, 0.9);
+      --bg-panel: rgba(14, 12, 24, 0.94);
+      --bg-input: rgba(6, 5, 12, 0.95);
       --gold: #d4af37;
       --gold-glow: rgba(212, 175, 55, 0.35);
       --violet: #b366ff;
@@ -92,7 +90,7 @@
       font-size: 0.78rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 9px 16px;
+      padding: 10px 16px;
       border-radius: 8px;
       border: 1px solid var(--border-subtle);
       background: rgba(212, 175, 55, 0.1);
@@ -102,6 +100,7 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
     }
 
@@ -136,31 +135,86 @@
       box-shadow: 0 0 16px rgba(255, 77, 121, 0.4);
     }
 
-    /* Auth Gate Screen */
+    /* Direct Built-In Auth Gate Card */
     #auth-gate {
-      max-width: 520px;
-      margin: 80px auto;
-      padding: 36px 28px;
+      max-width: 480px;
+      margin: 55px auto;
+      padding: 34px 28px;
       background: var(--bg-panel);
-      border: 1px solid var(--border-subtle);
+      border: 1.5px solid var(--gold);
       border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
     }
 
     #auth-gate h2 {
       font-family: 'Cinzel Decorative', serif;
       color: var(--gold);
-      margin-bottom: 12px;
-      font-size: 1.4rem;
+      margin-bottom: 8px;
+      font-size: 1.35rem;
+      text-align: center;
     }
 
-    #auth-gate p {
+    #auth-gate p.auth-sub {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       color: var(--text-muted);
-      margin-bottom: 24px;
-      line-height: 1.5;
+      margin-bottom: 22px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .auth-field {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .auth-field label {
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .pass-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pass-row input {
+      flex: 1;
+    }
+
+    .auth-msg {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      text-align: center;
+      display: none;
+    }
+
+    .auth-msg.error {
+      display: block;
+      background: rgba(255, 77, 121, 0.14);
+      border: 1px solid var(--rose);
+      color: #ffb3c6;
+    }
+
+    .auth-msg.success {
+      display: block;
+      background: rgba(0, 245, 212, 0.12);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+    }
+
+    .auth-divider {
+      margin: 20px 0 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 14px;
+      text-align: center;
     }
 
     /* Main Studio Grid Layout */
@@ -295,23 +349,26 @@
     }
 
     input[type="text"],
+    input[type="email"],
+    input[type="password"],
     input[type="number"],
     select {
       background: var(--bg-input);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
       color: var(--text-main);
-      padding: 11px 14px;
+      padding: 12px 14px;
       border-radius: 8px;
       font-family: 'Cinzel', serif;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       outline: none;
-      transition: border-color 0.2s ease;
+      width: 100%;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     input:focus,
     select:focus {
       border-color: var(--gold);
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
     }
 
     /* Swatch & Option Pills */
@@ -541,15 +598,69 @@
     <div class="header-actions">
       <span id="user-status-badge" class="user-badge" style="display:none;"></span>
       <a href="../" class="btn" target="_blank">View Live Site ↗</a>
-      <button id="auth-btn" class="btn">Login</button>
+      <button id="logout-btn" class="btn" style="display:none;">Logout</button>
     </div>
   </header>
 
-  <!-- Login Gate -->
+  <!-- Direct Built-In Authentication & Invite Setup Gate (No buggy popup iframe) -->
   <section id="auth-gate">
-    <h2>Threshold Authentication</h2>
-    <p>Sign in with your Netlify Identity account to create portals, move nodes across 3D disks, and upload auto-optimized WebP galleries from any device.</p>
-    <button id="gate-login-btn" class="btn btn-primary">Sign In with Netlify Identity</button>
+    <!-- View A: Accept Invite / Set Password View (Shown automatically for #invite_token or #recovery_token) -->
+    <div id="token-setup-view" style="display:none;">
+      <h2>Complete Your Signup</h2>
+      <p class="auth-sub">Choose a password below to activate your Portal Studio access.</p>
+
+      <div class="auth-field">
+        <label for="setup-pass-input">Create Your Studio Password</label>
+        <div class="pass-row">
+          <input type="password" id="setup-pass-input" placeholder="Type your new password..." autocomplete="new-password" />
+          <button type="button" id="toggle-setup-pass" class="btn">Show</button>
+        </div>
+      </div>
+
+      <button type="button" id="complete-signup-btn" class="btn btn-primary" style="width:100%; padding:13px;">
+        ✨ Save Password & Enter Studio
+      </button>
+
+      <div class="auth-divider">
+        <button type="button" id="switch-to-login-btn" class="btn" style="font-size:0.7rem;">
+          Already have a password or need a new link? Click here
+        </button>
+      </div>
+    </div>
+
+    <!-- View B: Standard Direct Email & Password Sign-In + 1-Tap Password Link Sender -->
+    <div id="standard-login-view">
+      <h2>Threshold Authentication</h2>
+      <p class="auth-sub">Sign in with your email and password, or send yourself a fresh password setup link.</p>
+
+      <div class="auth-field">
+        <label for="login-email-input">Email Address</label>
+        <input type="email" id="login-email-input" placeholder="you@example.com" autocomplete="email" />
+      </div>
+
+      <div class="auth-field">
+        <label for="login-pass-input">Password</label>
+        <div class="pass-row">
+          <input type="password" id="login-pass-input" placeholder="Enter your password..." autocomplete="current-password" />
+          <button type="button" id="toggle-login-pass" class="btn">Show</button>
+        </div>
+      </div>
+
+      <button type="button" id="direct-login-btn" class="btn btn-primary" style="width:100%; padding:13px;">
+        Sign In to Portal Studio
+      </button>
+
+      <div class="auth-divider">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:0.95rem; color:var(--text-muted); margin-bottom:10px;">
+          First time setting up or invite link expired? Enter your email above and tap below:
+        </p>
+        <button type="button" id="send-setup-link-btn" class="btn" style="width:100%;">
+          📩 Send Fresh Password Setup / Reset Email
+        </button>
+      </div>
+    </div>
+
+    <div id="auth-feedback" class="auth-msg"></div>
   </section>
 
   <!-- Studio Workspace -->
@@ -700,6 +811,8 @@
   </main>
 
   <script>
+    const AUTH_STORAGE_KEY = 'esoteric_portal_studio_session';
+
     const THEME_COLORS = {
       nocturnal: '#b366ff',
       cyber: '#00f0ff',
@@ -714,18 +827,38 @@
     const THUMB_WEBP_QUALITY = 0.78;
 
     let branches = [];
-    let editingIndex = -1; // -1 = creating new portal
+    let editingIndex = -1;
     let selectedTheme = 'nocturnal';
     let existingPhotos = [];
     let existingGridThumbs = [];
-    let queuedNewFiles = []; // [{ name, fullBlob, fullBase64, thumbBase64, previewUrl, sizeKb }]
+    let queuedNewFiles = [];
+
+    // Capture any URL tokens immediately before anything else
+    const rawHash = window.location.hash.replace(/^#/, '');
+    const hashParams = new URLSearchParams(rawHash);
+    let inviteToken = hashParams.get('invite_token') || '';
+    let recoveryToken = hashParams.get('recovery_token') || '';
+    let confirmationToken = hashParams.get('confirmation_token') || '';
 
     // DOM Elements
     const authGate = document.getElementById('auth-gate');
+    const tokenSetupView = document.getElementById('token-setup-view');
+    const standardLoginView = document.getElementById('standard-login-view');
+    const setupPassInput = document.getElementById('setup-pass-input');
+    const toggleSetupPass = document.getElementById('toggle-setup-pass');
+    const completeSignupBtn = document.getElementById('complete-signup-btn');
+    const switchToLoginBtn = document.getElementById('switch-to-login-btn');
+
+    const loginEmailInput = document.getElementById('login-email-input');
+    const loginPassInput = document.getElementById('login-pass-input');
+    const toggleLoginPass = document.getElementById('toggle-login-pass');
+    const directLoginBtn = document.getElementById('direct-login-btn');
+    const sendSetupLinkBtn = document.getElementById('send-setup-link-btn');
+    const authFeedback = document.getElementById('auth-feedback');
+
     const studioWorkspace = document.getElementById('studio-workspace');
     const userStatusBadge = document.getElementById('user-status-badge');
-    const authBtn = document.getElementById('auth-btn');
-    const gateLoginBtn = document.getElementById('gate-login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
 
     const sidebarList = document.getElementById('portal-sidebar-list');
     const newPortalBtn = document.getElementById('new-portal-btn');
@@ -759,41 +892,293 @@
     const publishBtn = document.getElementById('publish-btn');
     const deletePortalBtn = document.getElementById('delete-portal-btn');
 
-    // --- 1. Authentication via Netlify Identity ---
-    function updateAuthUI(user) {
-      if (user) {
-        authGate.style.display = 'none';
-        studioWorkspace.classList.add('active');
-        userStatusBadge.style.display = 'inline-block';
-        userStatusBadge.textContent = `✦ ${user.email}`;
-        authBtn.textContent = 'Logout';
-        fetchBranchesData();
-      } else {
-        authGate.style.display = 'block';
-        studioWorkspace.classList.remove('active');
-        userStatusBadge.style.display = 'none';
-        authBtn.textContent = 'Login';
+    // --- 1. Direct Netlify Identity (GoTrue) Authentication ---
+    function showAuthMessage(msg, type = 'error') {
+      authFeedback.textContent = msg;
+      authFeedback.className = `auth-msg ${type}`;
+    }
+
+    function clearAuthMessage() {
+      authFeedback.className = 'auth-msg';
+      authFeedback.textContent = '';
+    }
+
+    toggleSetupPass.addEventListener('click', () => {
+      const isPass = setupPassInput.type === 'password';
+      setupPassInput.type = isPass ? 'text' : 'password';
+      toggleSetupPass.textContent = isPass ? 'Hide' : 'Show';
+    });
+
+    toggleLoginPass.addEventListener('click', () => {
+      const isPass = loginPassInput.type === 'password';
+      loginPassInput.type = isPass ? 'text' : 'password';
+      toggleLoginPass.textContent = isPass ? 'Hide' : 'Show';
+    });
+
+    switchToLoginBtn.addEventListener('click', () => {
+      inviteToken = '';
+      recoveryToken = '';
+      history.replaceState(null, '', window.location.pathname);
+      tokenSetupView.style.display = 'none';
+      standardLoginView.style.display = 'block';
+      clearAuthMessage();
+    });
+
+    function saveSession(tokenData, email = '') {
+      const expiresAt = Date.now() + ((tokenData.expires_in || 3600) * 1000);
+      const session = {
+        access_token: tokenData.access_token,
+        refresh_token: tokenData.refresh_token,
+        expires_at: expiresAt,
+        email: email || (tokenData.user && tokenData.user.email) || 'Authenticated'
+      };
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+      return session;
+    }
+
+    function getSavedSession() {
+      try {
+        const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        return null;
       }
     }
 
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => updateAuthUI(user));
-      window.netlifyIdentity.on('login', user => {
-        updateAuthUI(user);
-        window.netlifyIdentity.close();
-      });
-      window.netlifyIdentity.on('logout', () => updateAuthUI(null));
+    async function getValidAccessToken() {
+      const session = getSavedSession();
+      if (!session || !session.access_token) {
+        throw new Error('Please sign in first.');
+      }
+      if (Date.now() < session.expires_at - 60000) {
+        return session.access_token;
+      }
+      // Refresh expired token automatically
+      if (session.refresh_token) {
+        const res = await fetch('/.netlify/identity/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(session.refresh_token)}`
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const updated = saveSession(data, session.email);
+          return updated.access_token;
+        }
+      }
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      enterLoggedOutState();
+      throw new Error('Session expired. Please sign in again.');
     }
 
-    authBtn.addEventListener('click', () => {
-      const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
-      if (user) window.netlifyIdentity.logout();
-      else if (window.netlifyIdentity) window.netlifyIdentity.open();
+    function enterLoggedInState(email) {
+      authGate.style.display = 'none';
+      studioWorkspace.classList.add('active');
+      userStatusBadge.style.display = 'inline-block';
+      userStatusBadge.textContent = `✦ ${email}`;
+      logoutBtn.style.display = 'inline-flex';
+      fetchBranchesData();
+    }
+
+    function enterLoggedOutState() {
+      authGate.style.display = 'block';
+      studioWorkspace.classList.remove('active');
+      userStatusBadge.style.display = 'none';
+      logoutBtn.style.display = 'none';
+    }
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      enterLoggedOutState();
     });
 
-    gateLoginBtn.addEventListener('click', () => {
-      if (window.netlifyIdentity) window.netlifyIdentity.open();
+    // Complete Invite or Recovery Password Setup
+    completeSignupBtn.addEventListener('click', async () => {
+      clearAuthMessage();
+      const newPassword = setupPassInput.value.trim();
+      if (newPassword.length < 6) {
+        showAuthMessage('Please enter a password of at least 6 characters.');
+        setupPassInput.focus();
+        return;
+      }
+
+      completeSignupBtn.disabled = true;
+      completeSignupBtn.textContent = 'Activating Account...';
+
+      try {
+        if (inviteToken) {
+          // Verify invite token & set password in one call
+          const res = await fetch('/.netlify/identity/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'signup',
+              token: inviteToken,
+              password: newPassword
+            })
+          });
+
+          if (!res.ok) {
+            throw new Error('This invite link was already used or expired. Tap below to send yourself a fresh password setup email.');
+          }
+
+          const tokenData = await res.json();
+          const userRes = await fetch('/.netlify/identity/user', {
+            headers: { 'Authorization': `Bearer ${tokenData.access_token}` }
+          });
+          const userData = userRes.ok ? await userRes.json() : {};
+          const session = saveSession(tokenData, userData.email || 'Studio Admin');
+          history.replaceState(null, '', window.location.pathname);
+          inviteToken = '';
+          enterLoggedInState(session.email);
+
+        } else if (recoveryToken) {
+          // Step 1: Verify recovery token to obtain session
+          const res = await fetch('/.netlify/identity/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'recovery',
+              token: recoveryToken
+            })
+          });
+
+          if (!res.ok) {
+            throw new Error('This password setup link has expired. Please request a fresh link below.');
+          }
+
+          const tokenData = await res.json();
+
+          // Step 2: Save the new password to the user profile
+          const updateRes = await fetch('/.netlify/identity/user', {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${tokenData.access_token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: newPassword })
+          });
+
+          const userData = updateRes.ok ? await updateRes.json() : {};
+          const session = saveSession(tokenData, userData.email || 'Studio Admin');
+          history.replaceState(null, '', window.location.pathname);
+          recoveryToken = '';
+          enterLoggedInState(session.email);
+        }
+      } catch (err) {
+        showAuthMessage(err.message || 'Could not complete signup.');
+      } finally {
+        completeSignupBtn.disabled = false;
+        completeSignupBtn.textContent = '✨ Save Password & Enter Studio';
+      }
     });
+
+    // Direct Email + Password Login
+    directLoginBtn.addEventListener('click', async () => {
+      clearAuthMessage();
+      const email = loginEmailInput.value.trim();
+      const password = loginPassInput.value;
+
+      if (!email || !password) {
+        showAuthMessage('Please enter both your email address and password.');
+        return;
+      }
+
+      directLoginBtn.disabled = true;
+      directLoginBtn.textContent = 'Signing In...';
+
+      try {
+        const res = await fetch('/.netlify/identity/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `grant_type=password&username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+        });
+
+        if (!res.ok) {
+          throw new Error('Invalid email or password. If you have not set a password yet, tap "Send Fresh Password Setup / Reset Email" below.');
+        }
+
+        const tokenData = await res.json();
+        const session = saveSession(tokenData, email);
+        enterLoggedInState(session.email);
+      } catch (err) {
+        showAuthMessage(err.message);
+      } finally {
+        directLoginBtn.disabled = false;
+        directLoginBtn.textContent = 'Sign In to Portal Studio';
+      }
+    });
+
+    // 1-Tap Send Password Setup / Recovery Email
+    sendSetupLinkBtn.addEventListener('click', async () => {
+      clearAuthMessage();
+      const email = loginEmailInput.value.trim();
+      if (!email) {
+        showAuthMessage('Please type your email address into the Email box above first.');
+        loginEmailInput.focus();
+        return;
+      }
+
+      sendSetupLinkBtn.disabled = true;
+      sendSetupLinkBtn.textContent = 'Sending Email...';
+
+      try {
+        const res = await fetch('/.netlify/identity/recover', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        if (!res.ok) {
+          throw new Error('Could not send setup email. Make sure this email is invited under Netlify Identity.');
+        }
+
+        showAuthMessage(`✓ Password setup email sent to ${email}! Open the email and click the link to set your password.`, 'success');
+      } catch (err) {
+        showAuthMessage(err.message);
+      } finally {
+        sendSetupLinkBtn.disabled = false;
+        sendSetupLinkBtn.textContent = '📩 Send Fresh Password Setup / Reset Email';
+      }
+    });
+
+    // Initialize Auth View on Page Load
+    (async function initStudioAuth() {
+      if (inviteToken || recoveryToken) {
+        tokenSetupView.style.display = 'block';
+        standardLoginView.style.display = 'none';
+        setTimeout(() => setupPassInput.focus(), 150);
+        return;
+      }
+
+      if (confirmationToken) {
+        try {
+          const res = await fetch('/.netlify/identity/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'signup', token: confirmationToken })
+          });
+          if (res.ok) {
+            const tokenData = await res.json();
+            const session = saveSession(tokenData);
+            history.replaceState(null, '', window.location.pathname);
+            enterLoggedInState(session.email);
+            return;
+          }
+        } catch (e) {}
+      }
+
+      const saved = getSavedSession();
+      if (saved && saved.access_token) {
+        try {
+          await getValidAccessToken();
+          enterLoggedInState(saved.email);
+          return;
+        } catch (e) {}
+      }
+
+      enterLoggedOutState();
+    })();
 
     // --- 2. Load branches.json ---
     async function fetchBranchesData() {
@@ -809,9 +1194,7 @@
       }
       populateSliceDropdown();
       renderSidebar();
-      if (branches.length > 0 && editingIndex === -1) {
-        startNewPortal();
-      } else if (editingIndex >= 0 && branches[editingIndex]) {
+      if (editingIndex >= 0 && branches[editingIndex]) {
         loadPortalIntoForm(editingIndex);
       } else {
         startNewPortal();
@@ -1020,7 +1403,6 @@
 
       radarSvg.innerHTML = '';
 
-      // Halo ring
       const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       halo.setAttribute('cx', 500);
       halo.setAttribute('cy', 500);
@@ -1031,7 +1413,6 @@
       halo.setAttribute('stroke-width', '3');
       radarSvg.appendChild(halo);
 
-      // Center Hub
       const hub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       hub.setAttribute('cx', 500);
       hub.setAttribute('cy', 500);
@@ -1041,7 +1422,6 @@
       hub.setAttribute('stroke-width', '5');
       radarSvg.appendChild(hub);
 
-      // Other portals on the same Disk
       branches.forEach((b, idx) => {
         if (idx === editingIndex) return;
         if ((b.slice || 'Prime Cosmos') !== sliceName) return;
@@ -1069,7 +1449,6 @@
         radarSvg.appendChild(dot);
       });
 
-      // Active portal filament & node
       const activeRad = (activeAngle * Math.PI) / 180;
       const ax = 500 + Math.cos(activeRad) * activeDist;
       const ay = 500 + Math.sin(activeRad) * activeDist;
@@ -1097,7 +1476,6 @@
     inpAngle.addEventListener('input', renderRadar);
     inpDistance.addEventListener('input', renderRadar);
 
-    // Drag-to-position on Radar
     let isDraggingRadar = false;
     function updateRadarFromPointer(e) {
       const rect = radarBox.getBoundingClientRect();
@@ -1135,10 +1513,7 @@
     function blobToBase64(blob) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result.split(',')[1];
-          resolve(base64);
-        };
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
@@ -1153,7 +1528,6 @@
         img.src = imgUrl;
       });
 
-      // 1. Full 1920px max WebP
       let w = img.naturalWidth;
       let h = img.naturalHeight;
       if (Math.max(w, h) > MAX_FULL_DIM) {
@@ -1172,7 +1546,6 @@
       const fullBlob = await new Promise(res => fullCanvas.toBlob(res, 'image/webp', FULL_WEBP_QUALITY));
       const fullBase64 = await blobToBase64(fullBlob);
 
-      // 2. 400x400 Center-Cropped Grid Thumbnail WebP
       const thumbCanvas = document.createElement('canvas');
       thumbCanvas.width = THUMB_DIM;
       thumbCanvas.height = THUMB_DIM;
@@ -1223,7 +1596,6 @@
 
       photoPreviewGrid.innerHTML = '';
 
-      // Show existing photos
       existingPhotos.forEach((pPath, idx) => {
         const thumbPath = existingGridThumbs[idx] || pPath;
         const div = document.createElement('div');
@@ -1241,7 +1613,6 @@
         photoPreviewGrid.appendChild(div);
       });
 
-      // Show newly converted WebP files
       queuedNewFiles.forEach((item, idx) => {
         const div = document.createElement('div');
         div.className = 'queued-item';
@@ -1260,9 +1631,7 @@
 
     // --- 6. Single-Commit Atomic Push via Netlify Git Gateway ---
     async function gitGatewayRequest(path, options = {}) {
-      const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
-      if (!user) throw new Error('Please log in with Netlify Identity first.');
-      const token = await user.jwt();
+      const token = await getValidAccessToken();
       const res = await fetch(`/.netlify/git/github${path}`, {
         ...options,
         headers: {
@@ -1323,7 +1692,6 @@
         password: inpPassword.value.trim().toLowerCase()
       };
 
-      // Update branches array and sync slice_bg across all portals sharing that Disk
       const updatedBranches = [...branches];
       if (editingIndex >= 0) {
         updatedBranches[editingIndex] = portalObj;
@@ -1342,7 +1710,6 @@
         statusText.textContent = 'Connecting to GitHub via Netlify Git Gateway...';
         progressFill.style.width = '10%';
 
-        // 1. Get current HEAD commit on main
         const refData = await gitGatewayRequest('/git/refs/heads/main');
         const latestCommitSha = refData.object.sha;
         const commitData = await gitGatewayRequest(`/git/commits/${latestCommitSha}`);
@@ -1350,7 +1717,6 @@
 
         const treeItems = [];
 
-        // 2. Upload blobs for any new WebP photos + 400x400 grid thumbnails
         for (let i = 0; i < queuedNewFiles.length; i++) {
           const item = queuedNewFiles[i];
           statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${queuedNewFiles.length}...`;
@@ -1379,7 +1745,6 @@
           });
         }
 
-        // 3. Add updated branches.json to the same atomic Git tree
         statusText.textContent = 'Updating branches.json & committing to GitHub...';
         progressFill.style.width = '88%';
 
@@ -1425,7 +1790,6 @@
       }
     });
 
-    // Delete Portal Entry
     deletePortalBtn.addEventListener('click', async () => {
       if (editingIndex < 0) return;
       const target = branches[editingIndex];
