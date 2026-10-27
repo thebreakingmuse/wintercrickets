@@ -945,20 +945,38 @@
   },
   {
     "id": "nyc",
-    "title": "nyc portal realm",
+    "title": "nyc mirror realm",
     "subtitle": "Gallery & Archive",
     "slice": "New York City",
     "slice_bg": "nyc",
-    "theme": "celestial",
-    "filament": "suspension",
-    "angle": -25,
-    "distance": 340,
-    "thumbnail": "templates/arcane.jpg",
+    "theme": "cyber",
+    "filament": "grid",
+    "angle": -140,
+    "distance": 300,
+    "thumbnail": "portals/nyc/20191204_205152.webp",
     "photos": [
-      "portals/nyc/20191204_205152.webp"
+      "portals/nyc/20191204_205152.webp",
+      "portals/nyc/9932.webp",
+      "portals/nyc/9928.webp",
+      "portals/nyc/9927.webp",
+      "portals/nyc/9860.webp",
+      "portals/nyc/9855.webp",
+      "portals/nyc/9858.webp",
+      "portals/nyc/9852.webp",
+      "portals/nyc/9848.webp",
+      "portals/nyc/9851.webp"
     ],
     "grid_thumbs": [
-      "portals/nyc/grid_thumbs/20191204_205152.webp"
+      "portals/nyc/grid_thumbs/20191204_205152.webp",
+      "portals/nyc/grid_thumbs/9932.webp",
+      "portals/nyc/grid_thumbs/9928.webp",
+      "portals/nyc/grid_thumbs/9927.webp",
+      "portals/nyc/grid_thumbs/9860.webp",
+      "portals/nyc/grid_thumbs/9855.webp",
+      "portals/nyc/grid_thumbs/9858.webp",
+      "portals/nyc/grid_thumbs/9852.webp",
+      "portals/nyc/grid_thumbs/9848.webp",
+      "portals/nyc/grid_thumbs/9851.webp"
     ],
     "password": ""
   }
