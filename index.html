@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Esoteric Winter Crickets</title>
+  <script>if (/#(invite|recovery|confirmation)_token=/.test(location.hash)) location.replace('/admin/' + location.hash);</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -1120,6 +1121,41 @@
       border: 1px solid rgba(212, 175, 55, 0.35);
     }
 
+    /* Discreet Sanctum Sigil Link to /admin/ */
+    .sanctum-sigil-link {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      z-index: 50;
+      color: var(--gold-accent);
+      opacity: 0.14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: 
+        opacity 0.4s ease,
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.4s ease,
+        color 1s ease;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sanctum-sigil-link:hover,
+    .sanctum-sigil-link:focus-visible {
+      opacity: 0.95;
+      transform: scale(1.18) rotate(45deg);
+      filter: drop-shadow(0 0 8px var(--gold-accent)) drop-shadow(0 0 18px var(--hub-glow-primary));
+    }
+
+    .sanctum-sigil-link svg {
+      width: 28px;
+      height: 28px;
+    }
+
     @media (max-width: 768px) {
       #network-stage {
         transform: scale(0.58);
@@ -1320,6 +1356,17 @@
     <img id="lightbox-img" src="" alt="Expanded view" />
   </div>
 
+  <!-- Hidden Sanctum Sigil Link to Portal Studio (/admin/) -->
+  <a href="/admin/" class="sanctum-sigil-link" title="Portal Studio" aria-label="Enter Portal Studio">
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="32" cy="32" r="28" stroke-dasharray="3 3" opacity="0.7" />
+      <polygon points="32,7 51,48 13,48" opacity="0.85" />
+      <polygon points="32,57 51,16 13,16" opacity="0.85" />
+      <circle cx="32" cy="32" r="7.5" />
+      <circle cx="32" cy="32" r="2.2" fill="currentColor" />
+    </svg>
+  </a>
+
   <script>
     const CENTER_X = 500;
     const CENTER_Y = 500;
@@ -1422,9 +1469,7 @@
 
       for (let i = 1; i <= steps; i++) {
         const t = i / steps;
-        // Envelope tapers to 0 at both ends so it locks cleanly into the hub and sigil
         const envelope = Math.sin(t * Math.PI);
-        // Subtle S-curve arch + harmonic wave oscillation
         const archOffset = Math.sin(t * Math.PI * 2) * 24;
         const waveOffset = Math.sin(t * Math.PI * waves) * amplitude * phase * envelope;
         const totalNormal = archOffset + waveOffset;

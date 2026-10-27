@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Studio — Esoteric Winter Crickets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <!-- Netlify Identity Widget for Secure Login -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    :root {
+      --bg-deep: #050509;
+      --bg-panel: rgba(14, 12, 24, 0.92);
+      --bg-input: rgba(6, 5, 12, 0.9);
+      --gold: #d4af37;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      --violet: #b366ff;
+      --cyan: #00f0ff;
+      --emerald: #00f5d4;
+      --rose: #ff4d79;
+      --text-main: #f0ece1;
+      --text-muted: #9e978e;
+      --border-subtle: rgba(212, 175, 55, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #151026 0%, #050509 70%);
+      color: var(--text-main);
+      font-family: 'Cinzel', serif;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* Top Studio Bar */
+    .studio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 18px 28px;
+      background: rgba(8, 6, 15, 0.95);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand-group h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      text-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    .brand-group p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .user-badge {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--emerald);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 245, 212, 0.35);
+      background: rgba(0, 245, 212, 0.08);
+    }
+
+    .btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 16px var(--gold-glow);
+      background: rgba(212, 175, 55, 0.22);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #d4af37 0%, #b5891c 100%);
+      color: #050509;
+      font-weight: 700;
+      border-color: #ffe8a3;
+      box-shadow: 0 0 22px var(--gold-glow);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #ffe074 0%, #d4af37 100%);
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.65);
+    }
+
+    .btn-danger {
+      border-color: rgba(255, 77, 121, 0.45);
+      color: #ff85a2;
+      background: rgba(255, 77, 121, 0.1);
+    }
+
+    .btn-danger:hover {
+      border-color: var(--rose);
+      background: rgba(255, 77, 121, 0.25);
+      box-shadow: 0 0 16px rgba(255, 77, 121, 0.4);
+    }
+
+    /* Auth Gate Screen */
+    #auth-gate {
+      max-width: 520px;
+      margin: 80px auto;
+      padding: 36px 28px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.85);
+    }
+
+    #auth-gate h2 {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+    }
+
+    #auth-gate p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Main Studio Grid Layout */
+    #studio-workspace {
+      display: none;
+      max-width: 1380px;
+      margin: 24px auto;
+      padding: 0 20px;
+      grid-template-columns: 330px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    #studio-workspace.active {
+      display: grid;
+    }
+
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .panel-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Sidebar Portal List */
+    .disk-group-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 16px 0 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .portal-list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(6, 5, 12, 0.65);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .portal-list-item:hover,
+    .portal-list-item.selected {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.14);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.2);
+    }
+
+    .portal-list-thumb {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--gold);
+      background: #050509;
+      flex-shrink: 0;
+    }
+
+    .portal-list-meta {
+      overflow: hidden;
+    }
+
+    .portal-list-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .portal-list-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .label-hint {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-left: 6px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      background: var(--bg-input);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text-main);
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+    }
+
+    /* Swatch & Option Pills */
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .swatch-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(6, 5, 12, 0.8);
+      cursor: pointer;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      transition: all 0.2s ease;
+    }
+
+    .swatch-pill.active {
+      border-color: #ffffff;
+      background: rgba(212, 175, 55, 0.2);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
+    }
+
+    .swatch-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    /* Interactive 3D Disk Radar & Placement Section */
+    .radar-layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 22px;
+      align-items: center;
+      background: rgba(5, 4, 10, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+
+    .radar-box {
+      position: relative;
+      width: 270px;
+      height: 270px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, #141028 0%, #05050a 80%);
+      border: 1px dashed rgba(212, 175, 55, 0.35);
+      box-shadow: inset 0 0 30px rgba(179, 102, 255, 0.2);
+      touch-action: none;
+      user-select: none;
+      cursor: grab;
+    }
+
+    .radar-box:active {
+      cursor: grabbing;
+    }
+
+    .radar-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Batch Photo Dropzone */
+    .dropzone {
+      border: 2px dashed rgba(212, 175, 55, 0.45);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      background: rgba(10, 8, 20, 0.65);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      margin-bottom: 16px;
+    }
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .dropzone h3 {
+      font-size: 0.95rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+      letter-spacing: 0.1em;
+    }
+
+    .dropzone p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .queued-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .queued-item {
+      position: relative;
+      height: 110px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: #08070f;
+    }
+
+    .queued-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .queued-badge {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      background: rgba(4, 4, 10, 0.85);
+      color: var(--emerald);
+      font-size: 0.62rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .remove-photo-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 77, 121, 0.9);
+      color: #fff;
+      border: none;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Status & Progress Bar */
+    .status-box {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: rgba(5, 5, 10, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+    }
+
+    .status-box.active {
+      display: block;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--emerald));
+      transition: width 0.25s ease;
+    }
+
+    .action-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 920px) {
+      #studio-workspace {
+        grid-template-columns: 1fr;
+      }
+      .radar-layout {
+        grid-template-columns: 1fr;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="studio-header">
+    <div class="brand-group">
+      <h1>Esoteric Portal Studio</h1>
+      <p>3D Disk & Archive Control Panel</p>
+    </div>
+    <div class="header-actions">
+      <span id="user-status-badge" class="user-badge" style="display:none;"></span>
+      <a href="../" class="btn" target="_blank">View Live Site ↗</a>
+      <button id="auth-btn" class="btn">Login</button>
+    </div>
+  </header>
+
+  <!-- Login Gate -->
+  <section id="auth-gate">
+    <h2>Threshold Authentication</h2>
+    <p>Sign in with your Netlify Identity account to create portals, move nodes across 3D disks, and upload auto-optimized WebP galleries from any device.</p>
+    <button id="gate-login-btn" class="btn btn-primary">Sign In with Netlify Identity</button>
+  </section>
+
+  <!-- Studio Workspace -->
+  <main id="studio-workspace">
+    <!-- Left Sidebar: Existing Portals by Disk -->
+    <aside class="panel">
+      <div class="panel-title">
+        <span>Portal Network</span>
+        <button id="new-portal-btn" class="btn btn-primary" style="padding: 6px 11px; font-size: 0.7rem;">+ New Portal</button>
+      </div>
+      <div id="portal-sidebar-list"></div>
+    </aside>
+
+    <!-- Main Editor Panel -->
+    <section class="panel">
+      <div class="panel-title">
+        <span id="editor-mode-title">Create New Portal</span>
+        <span id="editor-folder-badge" style="font-size:0.75rem; color:var(--text-muted);"></span>
+      </div>
+
+      <!-- 1. Identity & Disk Selection -->
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Portal Display Title</label>
+          <input type="text" id="inp-title" placeholder="e.g., Brooklyn Bridge Nocturne" />
+        </div>
+
+        <div class="form-group">
+          <label>Folder ID <span class="label-hint">( inside portals/ )</span></label>
+          <input type="text" id="inp-id" placeholder="e.g., brooklyn-bridge" />
+        </div>
+
+        <div class="form-group">
+          <label>Subtitle</label>
+          <input type="text" id="inp-subtitle" value="Gallery & Archive" />
+        </div>
+
+        <div class="form-group">
+          <label>Password Lock <span class="label-hint">( Leave blank for public )</span></label>
+          <input type="text" id="inp-password" placeholder="Optional secret keyword..." />
+        </div>
+
+        <div class="form-group">
+          <label>3D Portal Disk (Slice)</label>
+          <select id="sel-slice"></select>
+          <input type="text" id="inp-new-slice" placeholder="Enter new 3D Disk name (e.g., New York City)" style="display:none; margin-top:8px;" />
+        </div>
+
+        <div class="form-group">
+          <label>Disk Realm Background Aesthetic</label>
+          <select id="sel-realm-bg">
+            <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
+            <option value="nyc">NYC — New York City Nocturne Skyline</option>
+            <option value="verdant">Verdant — Bioluminescent Canopy</option>
+            <option value="ember">Ember — Alchemical Red Ochre & Copper</option>
+            <option value="abyss">Abyss — Deep Sapphire & Aqua Trench</option>
+            <option value="astral">Astral — Silver Eclipse & Diamond Stars</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2. Glow Theme & Filament Swatches -->
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Portal Glow Theme</label>
+          <div class="swatch-row" id="theme-swatches">
+            <div class="swatch-pill active" data-theme="nocturnal"><span class="swatch-dot" style="background:#b366ff;color:#b366ff"></span>Nocturnal Violet</div>
+            <div class="swatch-pill" data-theme="cyber"><span class="swatch-dot" style="background:#00f0ff;color:#00f0ff"></span>Cyber Cyan</div>
+            <div class="swatch-pill" data-theme="celestial"><span class="swatch-dot" style="background:#ffd166;color:#ffd166"></span>Celestial Gold</div>
+            <div class="swatch-pill" data-theme="oceanic"><span class="swatch-dot" style="background:#00f5d4;color:#00f5d4"></span>Oceanic Emerald</div>
+            <div class="swatch-pill" data-theme="rose"><span class="swatch-dot" style="background:#ff4d79;color:#ff4d79"></span>Crimson Rose</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Connective Filament Style</label>
+          <select id="sel-filament">
+            <option value="standard">Standard Glowing Gradient</option>
+            <option value="vine">Twisting Organic Vine</option>
+            <option value="tendril">Dual-Strand Braided Tendril</option>
+            <option value="suspension">Brooklyn Bridge Suspension Span</option>
+            <option value="grid">NYC Electric Grid & Subway Conduit</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Portal Ring Thumbnail</label>
+          <select id="sel-thumb-preset">
+            <option value="templates/arcane.webp">Esoteric & Arcane (templates/arcane.webp)</option>
+            <option value="templates/natural.webp">Natural & Organic (templates/natural.webp)</option>
+            <option value="templates/love.webp">Fantasy & Love (templates/love.webp)</option>
+            <option value="templates/door.webp">Ancient Locked Door (templates/door.webp)</option>
+            <option value="first_photo">Use First Photo in Gallery</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3. Interactive 3D Disk Radar Placement -->
+      <div class="radar-layout">
+        <div class="radar-box" id="radar-box" title="Drag portal node around the ring">
+          <svg class="radar-svg" viewBox="0 0 1000 1000" id="radar-svg"></svg>
+        </div>
+        <div>
+          <label style="display:block; margin-bottom:10px;">Interactive Disk Placement <span class="label-hint">(Drag node on radar or adjust below)</span></label>
+          <div class="form-grid" style="margin-bottom:12px;">
+            <div class="form-group">
+              <label>Radial Angle (°)</label>
+              <input type="number" id="inp-angle" value="-25" min="-180" max="180" />
+            </div>
+            <div class="form-group">
+              <label>Distance from Center (px)</label>
+              <input type="number" id="inp-distance" value="340" min="180" max="460" />
+            </div>
+          </div>
+          <button type="button" id="auto-angle-btn" class="btn">✨ Auto-Find Open Angle on Disk</button>
+        </div>
+      </div>
+
+      <!-- 4. Browser WebP Photo Processor & Uploader -->
+      <div class="form-group full-width">
+        <label>Portal Gallery Photos <span class="label-hint">(Auto-converts to 1920px .webp + 400x400 grid_thumbs)</span></label>
+        <input type="file" id="file-input" multiple accept="image/*" style="display:none;" />
+        <div class="dropzone" id="dropzone">
+          <h3>+ Tap or Drag Photos Here</h3>
+          <p>Select multiple photos from your phone or computer — automatically compressed to WebP in your browser</p>
+        </div>
+
+        <div id="existing-photos-summary" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;"></div>
+        <div class="queued-grid" id="photo-preview-grid"></div>
+      </div>
+
+      <!-- Live Progress Box -->
+      <div class="status-box" id="status-box">
+        <div id="status-text" style="font-size:0.82rem; color:var(--gold);">Preparing...</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="action-footer">
+        <button type="button" id="delete-portal-btn" class="btn btn-danger" style="display:none;">Delete Portal</button>
+        <div style="margin-left:auto; display:flex; gap:12px;">
+          <button type="button" id="publish-btn" class="btn btn-primary">🚀 Publish to GitHub & Netlify</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const THEME_COLORS = {
+      nocturnal: '#b366ff',
+      cyber: '#00f0ff',
+      celestial: '#ffd166',
+      oceanic: '#00f5d4',
+      rose: '#ff4d79'
+    };
+
+    const MAX_FULL_DIM = 1920;
+    const FULL_WEBP_QUALITY = 0.82;
+    const THUMB_DIM = 400;
+    const THUMB_WEBP_QUALITY = 0.78;
+
+    let branches = [];
+    let editingIndex = -1; // -1 = creating new portal
+    let selectedTheme = 'nocturnal';
+    let existingPhotos = [];
+    let existingGridThumbs = [];
+    let queuedNewFiles = []; // [{ name, fullBlob, fullBase64, thumbBase64, previewUrl, sizeKb }]
+
+    // DOM Elements
+    const authGate = document.getElementById('auth-gate');
+    const studioWorkspace = document.getElementById('studio-workspace');
+    const userStatusBadge = document.getElementById('user-status-badge');
+    const authBtn = document.getElementById('auth-btn');
+    const gateLoginBtn = document.getElementById('gate-login-btn');
+
+    const sidebarList = document.getElementById('portal-sidebar-list');
+    const newPortalBtn = document.getElementById('new-portal-btn');
+    const editorModeTitle = document.getElementById('editor-mode-title');
+    const editorFolderBadge = document.getElementById('editor-folder-badge');
+
+    const inpTitle = document.getElementById('inp-title');
+    const inpId = document.getElementById('inp-id');
+    const inpSubtitle = document.getElementById('inp-subtitle');
+    const inpPassword = document.getElementById('inp-password');
+    const selSlice = document.getElementById('sel-slice');
+    const inpNewSlice = document.getElementById('inp-new-slice');
+    const selRealmBg = document.getElementById('sel-realm-bg');
+    const selFilament = document.getElementById('sel-filament');
+    const selThumbPreset = document.getElementById('sel-thumb-preset');
+    const inpAngle = document.getElementById('inp-angle');
+    const inpDistance = document.getElementById('inp-distance');
+    const autoAngleBtn = document.getElementById('auto-angle-btn');
+
+    const radarBox = document.getElementById('radar-box');
+    const radarSvg = document.getElementById('radar-svg');
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const existingPhotosSummary = document.getElementById('existing-photos-summary');
+    const photoPreviewGrid = document.getElementById('photo-preview-grid');
+
+    const statusBox = document.getElementById('status-box');
+    const statusText = document.getElementById('status-text');
+    const progressFill = document.getElementById('progress-fill');
+    const publishBtn = document.getElementById('publish-btn');
+    const deletePortalBtn = document.getElementById('delete-portal-btn');
+
+    // --- 1. Authentication via Netlify Identity ---
+    function updateAuthUI(user) {
+      if (user) {
+        authGate.style.display = 'none';
+        studioWorkspace.classList.add('active');
+        userStatusBadge.style.display = 'inline-block';
+        userStatusBadge.textContent = `✦ ${user.email}`;
+        authBtn.textContent = 'Logout';
+        fetchBranchesData();
+      } else {
+        authGate.style.display = 'block';
+        studioWorkspace.classList.remove('active');
+        userStatusBadge.style.display = 'none';
+        authBtn.textContent = 'Login';
+      }
+    }
+
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => updateAuthUI(user));
+      window.netlifyIdentity.on('login', user => {
+        updateAuthUI(user);
+        window.netlifyIdentity.close();
+      });
+      window.netlifyIdentity.on('logout', () => updateAuthUI(null));
+    }
+
+    authBtn.addEventListener('click', () => {
+      const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+      if (user) window.netlifyIdentity.logout();
+      else if (window.netlifyIdentity) window.netlifyIdentity.open();
+    });
+
+    gateLoginBtn.addEventListener('click', () => {
+      if (window.netlifyIdentity) window.netlifyIdentity.open();
+    });
+
+    // --- 2. Load branches.json ---
+    async function fetchBranchesData() {
+      try {
+        const res = await fetch(`../branches.json?t=${Date.now()}`);
+        if (res.ok) {
+          branches = await res.json();
+        } else {
+          branches = [];
+        }
+      } catch (e) {
+        branches = [];
+      }
+      populateSliceDropdown();
+      renderSidebar();
+      if (branches.length > 0 && editingIndex === -1) {
+        startNewPortal();
+      } else if (editingIndex >= 0 && branches[editingIndex]) {
+        loadPortalIntoForm(editingIndex);
+      } else {
+        startNewPortal();
+      }
+    }
+
+    function getSliceMap() {
+      const map = new Map();
+      branches.forEach(b => {
+        const s = b.slice || 'Prime Cosmos';
+        const bg = b.slice_bg || 'cosmos';
+        if (!map.has(s)) map.set(s, bg);
+      });
+      if (map.size === 0) map.set('Prime Cosmos', 'cosmos');
+      return map;
+    }
+
+    function populateSliceDropdown(selectedSliceName = 'Prime Cosmos') {
+      const sliceMap = getSliceMap();
+      selSlice.innerHTML = '';
+      for (const [sName, sBg] of sliceMap.entries()) {
+        const opt = document.createElement('option');
+        opt.value = sName;
+        opt.textContent = `${sName} (${sBg})`;
+        if (sName === selectedSliceName) opt.selected = true;
+        selSlice.appendChild(opt);
+      }
+      const newOpt = document.createElement('option');
+      newOpt.value = '__NEW__';
+      newOpt.textContent = '+ Create a New 3D Disk...';
+      selSlice.appendChild(newOpt);
+
+      inpNewSlice.style.display = selSlice.value === '__NEW__' ? 'block' : 'none';
+      if (sliceMap.has(selectedSliceName)) {
+        selRealmBg.value = sliceMap.get(selectedSliceName);
+      }
+    }
+
+    selSlice.addEventListener('change', () => {
+      if (selSlice.value === '__NEW__') {
+        inpNewSlice.style.display = 'block';
+        inpNewSlice.focus();
+        selRealmBg.value = 'nyc';
+      } else {
+        inpNewSlice.style.display = 'none';
+        const sliceMap = getSliceMap();
+        if (sliceMap.has(selSlice.value)) {
+          selRealmBg.value = sliceMap.get(selSlice.value);
+        }
+      }
+      renderRadar();
+    });
+
+    function getActiveSliceName() {
+      if (selSlice.value === '__NEW__') {
+        return inpNewSlice.value.trim() || 'New York City';
+      }
+      return selSlice.value || 'Prime Cosmos';
+    }
+
+    // --- 3. Sidebar & Form Population ---
+    function renderSidebar() {
+      sidebarList.innerHTML = '';
+      const groups = new Map();
+      branches.forEach((b, idx) => {
+        const s = b.slice || 'Prime Cosmos';
+        if (!groups.has(s)) groups.set(s, []);
+        groups.get(s).push({ branch: b, idx });
+      });
+
+      for (const [sName, items] of groups.entries()) {
+        const header = document.createElement('div');
+        header.className = 'disk-group-title';
+        header.innerHTML = `<span>Disk: ${sName}</span><span>${items.length}</span>`;
+        sidebarList.appendChild(header);
+
+        items.forEach(({ branch, idx }) => {
+          const item = document.createElement('div');
+          item.className = `portal-list-item ${idx === editingIndex ? 'selected' : ''}`;
+          const thumbUrl = branch.thumbnail ? `../${branch.thumbnail}` : '';
+          item.innerHTML = `
+            <img class="portal-list-thumb" src="${thumbUrl}" alt="" onerror="this.style.opacity=0.2" />
+            <div class="portal-list-meta">
+              <div class="portal-list-name">${branch.title || branch.id}</div>
+              <div class="portal-list-sub">${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos</div>
+            </div>
+          `;
+          item.addEventListener('click', () => loadPortalIntoForm(idx));
+          sidebarList.appendChild(item);
+        });
+      }
+    }
+
+    function setThemePill(theme) {
+      selectedTheme = THEME_COLORS[theme] ? theme : 'nocturnal';
+      document.querySelectorAll('#theme-swatches .swatch-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.dataset.theme === selectedTheme);
+      });
+      renderRadar();
+    }
+
+    document.querySelectorAll('#theme-swatches .swatch-pill').forEach(pill => {
+      pill.addEventListener('click', () => setThemePill(pill.dataset.theme));
+    });
+
+    inpTitle.addEventListener('input', () => {
+      if (editingIndex === -1) {
+        inpId.value = inpTitle.value
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9\s-_]/g, '')
+          .replace(/\s+/g, '-');
+      }
+      renderRadar();
+    });
+
+    function suggestOpenAngle(sliceName) {
+      const existingAngles = branches
+        .filter((b, idx) => idx !== editingIndex && (b.slice || 'Prime Cosmos') === sliceName)
+        .map(b => b.angle ?? 0);
+      if (existingAngles.length === 0) return -25;
+      const candidates = [-25, 25, 155, -155, -65, 65, 115, -115, 0, 180, -90, 90, -45, 45, 135, -135];
+      for (const c of candidates) {
+        if (existingAngles.every(a => Math.abs(((c - a + 540) % 360) - 180) >= 24)) {
+          return c;
+        }
+      }
+      return (existingAngles[existingAngles.length - 1] + 35) % 360 - 180;
+    }
+
+    autoAngleBtn.addEventListener('click', () => {
+      inpAngle.value = suggestOpenAngle(getActiveSliceName());
+      renderRadar();
+    });
+
+    function startNewPortal() {
+      editingIndex = -1;
+      editorModeTitle.textContent = 'Create New Portal';
+      editorFolderBadge.textContent = 'New Folder';
+      deletePortalBtn.style.display = 'none';
+
+      inpTitle.value = '';
+      inpId.value = '';
+      inpId.disabled = false;
+      inpSubtitle.value = 'Gallery & Archive';
+      inpPassword.value = '';
+
+      const currentSlice = getActiveSliceName();
+      populateSliceDropdown(currentSlice);
+      setThemePill('celestial');
+      selFilament.value = 'standard';
+      selThumbPreset.value = 'templates/arcane.webp';
+
+      inpAngle.value = suggestOpenAngle(currentSlice);
+      inpDistance.value = 340;
+
+      existingPhotos = [];
+      existingGridThumbs = [];
+      queuedNewFiles = [];
+      renderPhotoPreviews();
+      renderSidebar();
+      renderRadar();
+    }
+
+    newPortalBtn.addEventListener('click', startNewPortal);
+
+    function loadPortalIntoForm(idx) {
+      editingIndex = idx;
+      const b = branches[idx];
+      editorModeTitle.textContent = `Editing: ${b.title || b.id}`;
+      editorFolderBadge.textContent = `portals/${b.id}/`;
+      deletePortalBtn.style.display = 'inline-flex';
+
+      inpTitle.value = b.title || b.id;
+      inpId.value = b.id;
+      inpId.disabled = true;
+      inpSubtitle.value = b.subtitle || 'Gallery & Archive';
+      inpPassword.value = b.password || '';
+
+      populateSliceDropdown(b.slice || 'Prime Cosmos');
+      selRealmBg.value = b.slice_bg || 'cosmos';
+      setThemePill(b.theme || 'nocturnal');
+      selFilament.value = b.filament || 'standard';
+
+      const presets = ['templates/arcane.webp', 'templates/natural.webp', 'templates/love.webp', 'templates/door.webp'];
+      selThumbPreset.value = presets.includes(b.thumbnail) ? b.thumbnail : 'first_photo';
+
+      inpAngle.value = b.angle ?? 0;
+      inpDistance.value = b.distance ?? 340;
+
+      existingPhotos = [...(b.photos || [])];
+      existingGridThumbs = [...(b.grid_thumbs || [])];
+      queuedNewFiles = [];
+
+      renderPhotoPreviews();
+      renderSidebar();
+      renderRadar();
+    }
+
+    // --- 4. Interactive 3D Disk Radar ---
+    function renderRadar() {
+      const sliceName = getActiveSliceName();
+      const activeAngle = parseFloat(inpAngle.value) || 0;
+      const activeDist = parseFloat(inpDistance.value) || 340;
+      const activeColor = THEME_COLORS[selectedTheme] || '#d4af37';
+
+      radarSvg.innerHTML = '';
+
+      // Halo ring
+      const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      halo.setAttribute('cx', 500);
+      halo.setAttribute('cy', 500);
+      halo.setAttribute('r', 340);
+      halo.setAttribute('fill', 'none');
+      halo.setAttribute('stroke', 'rgba(255,255,255,0.12)');
+      halo.setAttribute('stroke-dasharray', '8 8');
+      halo.setAttribute('stroke-width', '3');
+      radarSvg.appendChild(halo);
+
+      // Center Hub
+      const hub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      hub.setAttribute('cx', 500);
+      hub.setAttribute('cy', 500);
+      hub.setAttribute('r', 58);
+      hub.setAttribute('fill', '#141028');
+      hub.setAttribute('stroke', '#d4af37');
+      hub.setAttribute('stroke-width', '5');
+      radarSvg.appendChild(hub);
+
+      // Other portals on the same Disk
+      branches.forEach((b, idx) => {
+        if (idx === editingIndex) return;
+        if ((b.slice || 'Prime Cosmos') !== sliceName) return;
+        const rad = ((b.angle ?? 0) * Math.PI) / 180;
+        const dist = b.distance ?? 340;
+        const px = 500 + Math.cos(rad) * dist;
+        const py = 500 + Math.sin(rad) * dist;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', 500);
+        line.setAttribute('y1', 500);
+        line.setAttribute('x2', px);
+        line.setAttribute('y2', py);
+        line.setAttribute('stroke', 'rgba(255,255,255,0.18)');
+        line.setAttribute('stroke-width', '4');
+        radarSvg.appendChild(line);
+
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', px);
+        dot.setAttribute('cy', py);
+        dot.setAttribute('r', 34);
+        dot.setAttribute('fill', '#1c1830');
+        dot.setAttribute('stroke', 'rgba(255,255,255,0.35)');
+        dot.setAttribute('stroke-width', '4');
+        radarSvg.appendChild(dot);
+      });
+
+      // Active portal filament & node
+      const activeRad = (activeAngle * Math.PI) / 180;
+      const ax = 500 + Math.cos(activeRad) * activeDist;
+      const ay = 500 + Math.sin(activeRad) * activeDist;
+
+      const activeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      activeLine.setAttribute('x1', 500);
+      activeLine.setAttribute('y1', 500);
+      activeLine.setAttribute('x2', ax);
+      activeLine.setAttribute('y2', ay);
+      activeLine.setAttribute('stroke', activeColor);
+      activeLine.setAttribute('stroke-width', '8');
+      activeLine.setAttribute('stroke-dasharray', '14 8');
+      radarSvg.appendChild(activeLine);
+
+      const activeNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      activeNode.setAttribute('cx', ax);
+      activeNode.setAttribute('cy', ay);
+      activeNode.setAttribute('r', 46);
+      activeNode.setAttribute('fill', activeColor);
+      activeNode.setAttribute('stroke', '#ffffff');
+      activeNode.setAttribute('stroke-width', '6');
+      radarSvg.appendChild(activeNode);
+    }
+
+    inpAngle.addEventListener('input', renderRadar);
+    inpDistance.addEventListener('input', renderRadar);
+
+    // Drag-to-position on Radar
+    let isDraggingRadar = false;
+    function updateRadarFromPointer(e) {
+      const rect = radarBox.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const dx = clientX - (rect.left + rect.width / 2);
+      const dy = clientY - (rect.top + rect.height / 2);
+      const deg = Math.round((Math.atan2(dy, dx) * 180) / Math.PI);
+      inpAngle.value = deg;
+      renderRadar();
+    }
+
+    radarBox.addEventListener('mousedown', e => { isDraggingRadar = true; updateRadarFromPointer(e); });
+    window.addEventListener('mousemove', e => { if (isDraggingRadar) updateRadarFromPointer(e); });
+    window.addEventListener('mouseup', () => { isDraggingRadar = false; });
+
+    radarBox.addEventListener('touchstart', e => { isDraggingRadar = true; updateRadarFromPointer(e); e.preventDefault(); }, { passive: false });
+    window.addEventListener('touchmove', e => { if (isDraggingRadar) updateRadarFromPointer(e); }, { passive: false });
+    window.addEventListener('touchend', () => { isDraggingRadar = false; });
+
+    // --- 5. Client-Side Browser WebP + Grid Thumbnail Engine ---
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', async e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) await processSelectedFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', async () => {
+      if (fileInput.files.length) await processSelectedFiles(fileInput.files);
+      fileInput.value = '';
+    });
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function convertImageToWebPAndThumb(file) {
+      const imgUrl = URL.createObjectURL(file);
+      const img = new Image();
+      await new Promise((res, rej) => {
+        img.onload = res;
+        img.onerror = rej;
+        img.src = imgUrl;
+      });
+
+      // 1. Full 1920px max WebP
+      let w = img.naturalWidth;
+      let h = img.naturalHeight;
+      if (Math.max(w, h) > MAX_FULL_DIM) {
+        if (w >= h) {
+          h = Math.round((h * MAX_FULL_DIM) / w);
+          w = MAX_FULL_DIM;
+        } else {
+          w = Math.round((w * MAX_FULL_DIM) / h);
+          h = MAX_FULL_DIM;
+        }
+      }
+      const fullCanvas = document.createElement('canvas');
+      fullCanvas.width = w;
+      fullCanvas.height = h;
+      fullCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const fullBlob = await new Promise(res => fullCanvas.toBlob(res, 'image/webp', FULL_WEBP_QUALITY));
+      const fullBase64 = await blobToBase64(fullBlob);
+
+      // 2. 400x400 Center-Cropped Grid Thumbnail WebP
+      const thumbCanvas = document.createElement('canvas');
+      thumbCanvas.width = THUMB_DIM;
+      thumbCanvas.height = THUMB_DIM;
+      const minSide = Math.min(img.naturalWidth, img.naturalHeight);
+      const sx = (img.naturalWidth - minSide) / 2;
+      const sy = (img.naturalHeight - minSide) / 2;
+      thumbCanvas.getContext('2d').drawImage(img, sx, sy, minSide, minSide, 0, 0, THUMB_DIM, THUMB_DIM);
+      const thumbBlob = await new Promise(res => thumbCanvas.toBlob(res, 'image/webp', THUMB_WEBP_QUALITY));
+      const thumbBase64 = await blobToBase64(thumbBlob);
+
+      URL.revokeObjectURL(imgUrl);
+
+      const cleanBaseName = file.name
+        .replace(/\.[^/.]+$/, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9-_]/g, '-');
+
+      return {
+        filename: `${cleanBaseName}.webp`,
+        fullBase64,
+        thumbBase64,
+        previewUrl: URL.createObjectURL(thumbBlob),
+        sizeKb: Math.round(fullBlob.size / 1024)
+      };
+    }
+
+    async function processSelectedFiles(fileList) {
+      statusBox.classList.add('active');
+      const files = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+      for (let i = 0; i < files.length; i++) {
+        statusText.textContent = `Optimizing photo ${i + 1} of ${files.length} to WebP + 400x400 thumb...`;
+        progressFill.style.width = `${Math.round(((i + 1) / files.length) * 100)}%`;
+        try {
+          const processed = await convertImageToWebPAndThumb(files[i]);
+          queuedNewFiles.push(processed);
+        } catch (err) {
+          console.error('Error converting image:', err);
+        }
+      }
+      statusText.textContent = `✓ Converted ${files.length} photo(s) to WebP! Ready to publish.`;
+      renderPhotoPreviews();
+    }
+
+    function renderPhotoPreviews() {
+      existingPhotosSummary.textContent = existingPhotos.length
+        ? `Currently saved in portal: ${existingPhotos.length} photo(s) | Queued to upload: ${queuedNewFiles.length} new photo(s)`
+        : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
+
+      photoPreviewGrid.innerHTML = '';
+
+      // Show existing photos
+      existingPhotos.forEach((pPath, idx) => {
+        const thumbPath = existingGridThumbs[idx] || pPath;
+        const div = document.createElement('div');
+        div.className = 'queued-item';
+        div.innerHTML = `
+          <img src="../${thumbPath}" alt="" />
+          <span class="queued-badge">Saved</span>
+          <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
+        `;
+        div.querySelector('.remove-photo-btn').addEventListener('click', () => {
+          existingPhotos.splice(idx, 1);
+          existingGridThumbs.splice(idx, 1);
+          renderPhotoPreviews();
+        });
+        photoPreviewGrid.appendChild(div);
+      });
+
+      // Show newly converted WebP files
+      queuedNewFiles.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'queued-item';
+        div.innerHTML = `
+          <img src="${item.previewUrl}" alt="" />
+          <span class="queued-badge">New • ${item.sizeKb}KB</span>
+          <button type="button" class="remove-photo-btn" title="Remove queued photo">×</button>
+        `;
+        div.querySelector('.remove-photo-btn').addEventListener('click', () => {
+          queuedNewFiles.splice(idx, 1);
+          renderPhotoPreviews();
+        });
+        photoPreviewGrid.appendChild(div);
+      });
+    }
+
+    // --- 6. Single-Commit Atomic Push via Netlify Git Gateway ---
+    async function gitGatewayRequest(path, options = {}) {
+      const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+      if (!user) throw new Error('Please log in with Netlify Identity first.');
+      const token = await user.jwt();
+      const res = await fetch(`/.netlify/git/github${path}`, {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          ...(options.headers || {})
+        }
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Git Gateway error (${res.status}): ${errText}`);
+      }
+      return res.json();
+    }
+
+    publishBtn.addEventListener('click', async () => {
+      const title = inpTitle.value.trim();
+      const folderId = inpId.value.trim();
+      if (!title || !folderId) {
+        alert('Please enter a Portal Display Title and Folder ID.');
+        return;
+      }
+
+      const finalPhotos = [...existingPhotos];
+      const finalGridThumbs = [...existingGridThumbs];
+
+      queuedNewFiles.forEach(item => {
+        const fullPath = `portals/${folderId}/${item.filename}`;
+        const thumbPath = `portals/${folderId}/grid_thumbs/${item.filename}`;
+        if (!finalPhotos.includes(fullPath)) {
+          finalPhotos.push(fullPath);
+          finalGridThumbs.push(thumbPath);
+        }
+      });
+
+      if (finalPhotos.length === 0) {
+        alert('Please add at least one photo to this portal before publishing.');
+        return;
+      }
+
+      const sliceName = getActiveSliceName();
+      const sliceBg = selRealmBg.value;
+      const thumbChoice = selThumbPreset.value === 'first_photo' ? finalPhotos[0] : selThumbPreset.value;
+
+      const portalObj = {
+        id: folderId,
+        title,
+        subtitle: inpSubtitle.value.trim() || 'Gallery & Archive',
+        slice: sliceName,
+        slice_bg: sliceBg,
+        theme: selectedTheme,
+        filament: selFilament.value,
+        angle: parseInt(inpAngle.value, 10) || 0,
+        distance: parseInt(inpDistance.value, 10) || 340,
+        thumbnail: thumbChoice,
+        photos: finalPhotos,
+        grid_thumbs: finalGridThumbs,
+        password: inpPassword.value.trim().toLowerCase()
+      };
+
+      // Update branches array and sync slice_bg across all portals sharing that Disk
+      const updatedBranches = [...branches];
+      if (editingIndex >= 0) {
+        updatedBranches[editingIndex] = portalObj;
+      } else {
+        updatedBranches.push(portalObj);
+      }
+      updatedBranches.forEach(b => {
+        if ((b.slice || 'Prime Cosmos') === sliceName) {
+          b.slice_bg = sliceBg;
+        }
+      });
+
+      try {
+        publishBtn.disabled = true;
+        statusBox.classList.add('active');
+        statusText.textContent = 'Connecting to GitHub via Netlify Git Gateway...';
+        progressFill.style.width = '10%';
+
+        // 1. Get current HEAD commit on main
+        const refData = await gitGatewayRequest('/git/refs/heads/main');
+        const latestCommitSha = refData.object.sha;
+        const commitData = await gitGatewayRequest(`/git/commits/${latestCommitSha}`);
+        const baseTreeSha = commitData.tree.sha;
+
+        const treeItems = [];
+
+        // 2. Upload blobs for any new WebP photos + 400x400 grid thumbnails
+        for (let i = 0; i < queuedNewFiles.length; i++) {
+          const item = queuedNewFiles[i];
+          statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${queuedNewFiles.length}...`;
+          progressFill.style.width = `${15 + Math.round(((i + 1) / (queuedNewFiles.length + 1)) * 65)}%`;
+
+          const fullBlobRes = await gitGatewayRequest('/git/blobs', {
+            method: 'POST',
+            body: JSON.stringify({ content: item.fullBase64, encoding: 'base64' })
+          });
+          treeItems.push({
+            path: `portals/${folderId}/${item.filename}`,
+            mode: '100644',
+            type: 'blob',
+            sha: fullBlobRes.sha
+          });
+
+          const thumbBlobRes = await gitGatewayRequest('/git/blobs', {
+            method: 'POST',
+            body: JSON.stringify({ content: item.thumbBase64, encoding: 'base64' })
+          });
+          treeItems.push({
+            path: `portals/${folderId}/grid_thumbs/${item.filename}`,
+            mode: '100644',
+            type: 'blob',
+            sha: thumbBlobRes.sha
+          });
+        }
+
+        // 3. Add updated branches.json to the same atomic Git tree
+        statusText.textContent = 'Updating branches.json & committing to GitHub...';
+        progressFill.style.width = '88%';
+
+        treeItems.push({
+          path: 'branches.json',
+          mode: '100644',
+          type: 'blob',
+          content: JSON.stringify(updatedBranches, null, 2)
+        });
+
+        const newTree = await gitGatewayRequest('/git/trees', {
+          method: 'POST',
+          body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems })
+        });
+
+        const newCommit = await gitGatewayRequest('/git/commits', {
+          method: 'POST',
+          body: JSON.stringify({
+            message: `Portal Studio: Update '${title}' on disk '${sliceName}'`,
+            tree: newTree.sha,
+            parents: [latestCommitSha]
+          })
+        });
+
+        await gitGatewayRequest('/git/refs/heads/main', {
+          method: 'PATCH',
+          body: JSON.stringify({ sha: newCommit.sha })
+        });
+
+        branches = updatedBranches;
+        queuedNewFiles = [];
+        progressFill.style.width = '100%';
+        statusText.textContent = `✨ Published '${title}'! Netlify is now deploying your live site.`;
+
+        populateSliceDropdown(sliceName);
+        const savedIdx = branches.findIndex(b => b.id === folderId);
+        if (savedIdx >= 0) loadPortalIntoForm(savedIdx);
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = `⚠️ Error: ${err.message}`;
+      } finally {
+        publishBtn.disabled = false;
+      }
+    });
+
+    // Delete Portal Entry
+    deletePortalBtn.addEventListener('click', async () => {
+      if (editingIndex < 0) return;
+      const target = branches[editingIndex];
+      if (!confirm(`Remove '${target.title}' from the active portal network?`)) return;
+
+      const updatedBranches = branches.filter((_, idx) => idx !== editingIndex);
+      try {
+        statusBox.classList.add('active');
+        statusText.textContent = `Removing '${target.title}' from branches.json...`;
+        progressFill.style.width = '40%';
+
+        const refData = await gitGatewayRequest('/git/refs/heads/main');
+        const latestCommitSha = refData.object.sha;
+        const commitData = await gitGatewayRequest(`/git/commits/${latestCommitSha}`);
+
+        const newTree = await gitGatewayRequest('/git/trees', {
+          method: 'POST',
+          body: JSON.stringify({
+            base_tree: commitData.tree.sha,
+            tree: [{
+              path: 'branches.json',
+              mode: '100644',
+              type: 'blob',
+              content: JSON.stringify(updatedBranches, null, 2)
+            }]
+          })
+        });
+
+        const newCommit = await gitGatewayRequest('/git/commits', {
+          method: 'POST',
+          body: JSON.stringify({
+            message: `Portal Studio: Remove '${target.title}'`,
+            tree: newTree.sha,
+            parents: [latestCommitSha]
+          })
+        });
+
+        await gitGatewayRequest('/git/refs/heads/main', {
+          method: 'PATCH',
+          body: JSON.stringify({ sha: newCommit.sha })
+        });
+
+        branches = updatedBranches;
+        progressFill.style.width = '100%';
+        statusText.textContent = `✓ Removed '${target.title}'.`;
+        startNewPortal();
+      } catch (err) {
+        statusText.textContent = `⚠️ Error: ${err.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
