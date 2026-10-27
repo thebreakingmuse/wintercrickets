@@ -602,9 +602,9 @@
     </div>
   </header>
 
-  <!-- Direct Built-In Authentication & Invite Setup Gate (No buggy popup iframe) -->
+  <!-- Direct Built-In Authentication & Invite Setup Gate -->
   <section id="auth-gate">
-    <!-- View A: Accept Invite / Set Password View (Shown automatically for #invite_token or #recovery_token) -->
+    <!-- View A: Accept Invite / Set Password View -->
     <div id="token-setup-view" style="display:none;">
       <h2>Complete Your Signup</h2>
       <p class="auth-sub">Choose a password below to activate your Portal Studio access.</p>
@@ -628,7 +628,7 @@
       </div>
     </div>
 
-    <!-- View B: Standard Direct Email & Password Sign-In + 1-Tap Password Link Sender -->
+    <!-- View B: Standard Direct Email & Password Sign-In -->
     <div id="standard-login-view">
       <h2>Threshold Authentication</h2>
       <p class="auth-sub">Sign in with your email and password, or send yourself a fresh password setup link.</p>
@@ -833,14 +833,12 @@
     let existingGridThumbs = [];
     let queuedNewFiles = [];
 
-    // Capture any URL tokens immediately before anything else
     const rawHash = window.location.hash.replace(/^#/, '');
     const hashParams = new URLSearchParams(rawHash);
     let inviteToken = hashParams.get('invite_token') || '';
     let recoveryToken = hashParams.get('recovery_token') || '';
     let confirmationToken = hashParams.get('confirmation_token') || '';
 
-    // DOM Elements
     const authGate = document.getElementById('auth-gate');
     const tokenSetupView = document.getElementById('token-setup-view');
     const standardLoginView = document.getElementById('standard-login-view');
@@ -892,7 +890,6 @@
     const publishBtn = document.getElementById('publish-btn');
     const deletePortalBtn = document.getElementById('delete-portal-btn');
 
-    // --- 1. Direct Netlify Identity (GoTrue) Authentication ---
     function showAuthMessage(msg, type = 'error') {
       authFeedback.textContent = msg;
       authFeedback.className = `auth-msg ${type}`;
@@ -953,7 +950,6 @@
       if (Date.now() < session.expires_at - 60000) {
         return session.access_token;
       }
-      // Refresh expired token automatically
       if (session.refresh_token) {
         const res = await fetch('/.netlify/identity/token', {
           method: 'POST',
@@ -992,7 +988,6 @@
       enterLoggedOutState();
     });
 
-    // Complete Invite or Recovery Password Setup
     completeSignupBtn.addEventListener('click', async () => {
       clearAuthMessage();
       const newPassword = setupPassInput.value.trim();
@@ -1007,7 +1002,6 @@
 
       try {
         if (inviteToken) {
-          // Verify invite token & set password in one call
           const res = await fetch('/.netlify/identity/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1033,7 +1027,6 @@
           enterLoggedInState(session.email);
 
         } else if (recoveryToken) {
-          // Step 1: Verify recovery token to obtain session
           const res = await fetch('/.netlify/identity/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1049,7 +1042,6 @@
 
           const tokenData = await res.json();
 
-          // Step 2: Save the new password to the user profile
           const updateRes = await fetch('/.netlify/identity/user', {
             method: 'PUT',
             headers: {
@@ -1073,7 +1065,6 @@
       }
     });
 
-    // Direct Email + Password Login
     directLoginBtn.addEventListener('click', async () => {
       clearAuthMessage();
       const email = loginEmailInput.value.trim();
@@ -1109,7 +1100,6 @@
       }
     });
 
-    // 1-Tap Send Password Setup / Recovery Email
     sendSetupLinkBtn.addEventListener('click', async () => {
       clearAuthMessage();
       const email = loginEmailInput.value.trim();
@@ -1142,7 +1132,6 @@
       }
     });
 
-    // Initialize Auth View on Page Load
     (async function initStudioAuth() {
       if (inviteToken || recoveryToken) {
         tokenSetupView.style.display = 'block';
@@ -1180,7 +1169,6 @@
       enterLoggedOutState();
     })();
 
-    // --- 2. Load branches.json ---
     async function fetchBranchesData() {
       try {
         const res = await fetch(`../branches.json?t=${Date.now()}`);
@@ -1255,7 +1243,6 @@
       return selSlice.value || 'Prime Cosmos';
     }
 
-    // --- 3. Sidebar & Form Population ---
     function renderSidebar() {
       sidebarList.innerHTML = '';
       const groups = new Map();
@@ -1394,7 +1381,6 @@
       renderRadar();
     }
 
-    // --- 4. Interactive 3D Disk Radar ---
     function renderRadar() {
       const sliceName = getActiveSliceName();
       const activeAngle = parseFloat(inpAngle.value) || 0;
@@ -1429,417 +1415,3 @@
         const dist = b.distance ?? 340;
         const px = 500 + Math.cos(rad) * dist;
         const py = 500 + Math.sin(rad) * dist;
-
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', 500);
-        line.setAttribute('y1', 500);
-        line.setAttribute('x2', px);
-        line.setAttribute('y2', py);
-        line.setAttribute('stroke', 'rgba(255,255,255,0.18)');
-        line.setAttribute('stroke-width', '4');
-        radarSvg.appendChild(line);
-
-        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        dot.setAttribute('cx', px);
-        dot.setAttribute('cy', py);
-        dot.setAttribute('r', 34);
-        dot.setAttribute('fill', '#1c1830');
-        dot.setAttribute('stroke', 'rgba(255,255,255,0.35)');
-        dot.setAttribute('stroke-width', '4');
-        radarSvg.appendChild(dot);
-      });
-
-      const activeRad = (activeAngle * Math.PI) / 180;
-      const ax = 500 + Math.cos(activeRad) * activeDist;
-      const ay = 500 + Math.sin(activeRad) * activeDist;
-
-      const activeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      activeLine.setAttribute('x1', 500);
-      activeLine.setAttribute('y1', 500);
-      activeLine.setAttribute('x2', ax);
-      activeLine.setAttribute('y2', ay);
-      activeLine.setAttribute('stroke', activeColor);
-      activeLine.setAttribute('stroke-width', '8');
-      activeLine.setAttribute('stroke-dasharray', '14 8');
-      radarSvg.appendChild(activeLine);
-
-      const activeNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      activeNode.setAttribute('cx', ax);
-      activeNode.setAttribute('cy', ay);
-      activeNode.setAttribute('r', 46);
-      activeNode.setAttribute('fill', activeColor);
-      activeNode.setAttribute('stroke', '#ffffff');
-      activeNode.setAttribute('stroke-width', '6');
-      radarSvg.appendChild(activeNode);
-    }
-
-    inpAngle.addEventListener('input', renderRadar);
-    inpDistance.addEventListener('input', renderRadar);
-
-    let isDraggingRadar = false;
-    function updateRadarFromPointer(e) {
-      const rect = radarBox.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      const dx = clientX - (rect.left + rect.width / 2);
-      const dy = clientY - (rect.top + rect.height / 2);
-      const deg = Math.round((Math.atan2(dy, dx) * 180) / Math.PI);
-      inpAngle.value = deg;
-      renderRadar();
-    }
-
-    radarBox.addEventListener('mousedown', e => { isDraggingRadar = true; updateRadarFromPointer(e); });
-    window.addEventListener('mousemove', e => { if (isDraggingRadar) updateRadarFromPointer(e); });
-    window.addEventListener('mouseup', () => { isDraggingRadar = false; });
-
-    radarBox.addEventListener('touchstart', e => { isDraggingRadar = true; updateRadarFromPointer(e); e.preventDefault(); }, { passive: false });
-    window.addEventListener('touchmove', e => { if (isDraggingRadar) updateRadarFromPointer(e); }, { passive: false });
-    window.addEventListener('touchend', () => { isDraggingRadar = false; });
-
-    // --- 5. Client-Side Browser WebP + Grid Thumbnail Engine ---
-    dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-    dropzone.addEventListener('drop', async e => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-      if (e.dataTransfer.files.length) await processSelectedFiles(e.dataTransfer.files);
-    });
-    fileInput.addEventListener('change', async () => {
-      if (fileInput.files.length) await processSelectedFiles(fileInput.files);
-      fileInput.value = '';
-    });
-
-    function blobToBase64(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    async function convertImageToWebPAndThumb(file) {
-      const imgUrl = URL.createObjectURL(file);
-      const img = new Image();
-      await new Promise((res, rej) => {
-        img.onload = res;
-        img.onerror = rej;
-        img.src = imgUrl;
-      });
-
-      let w = img.naturalWidth;
-      let h = img.naturalHeight;
-      if (Math.max(w, h) > MAX_FULL_DIM) {
-        if (w >= h) {
-          h = Math.round((h * MAX_FULL_DIM) / w);
-          w = MAX_FULL_DIM;
-        } else {
-          w = Math.round((w * MAX_FULL_DIM) / h);
-          h = MAX_FULL_DIM;
-        }
-      }
-      const fullCanvas = document.createElement('canvas');
-      fullCanvas.width = w;
-      fullCanvas.height = h;
-      fullCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const fullBlob = await new Promise(res => fullCanvas.toBlob(res, 'image/webp', FULL_WEBP_QUALITY));
-      const fullBase64 = await blobToBase64(fullBlob);
-
-      const thumbCanvas = document.createElement('canvas');
-      thumbCanvas.width = THUMB_DIM;
-      thumbCanvas.height = THUMB_DIM;
-      const minSide = Math.min(img.naturalWidth, img.naturalHeight);
-      const sx = (img.naturalWidth - minSide) / 2;
-      const sy = (img.naturalHeight - minSide) / 2;
-      thumbCanvas.getContext('2d').drawImage(img, sx, sy, minSide, minSide, 0, 0, THUMB_DIM, THUMB_DIM);
-      const thumbBlob = await new Promise(res => thumbCanvas.toBlob(res, 'image/webp', THUMB_WEBP_QUALITY));
-      const thumbBase64 = await blobToBase64(thumbBlob);
-
-      URL.revokeObjectURL(imgUrl);
-
-      const cleanBaseName = file.name
-        .replace(/\.[^/.]+$/, '')
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]/g, '-');
-
-      return {
-        filename: `${cleanBaseName}.webp`,
-        fullBase64,
-        thumbBase64,
-        previewUrl: URL.createObjectURL(thumbBlob),
-        sizeKb: Math.round(fullBlob.size / 1024)
-      };
-    }
-
-    async function processSelectedFiles(fileList) {
-      statusBox.classList.add('active');
-      const files = Array.from(fileList).filter(f => f.type.startsWith('image/'));
-      for (let i = 0; i < files.length; i++) {
-        statusText.textContent = `Optimizing photo ${i + 1} of ${files.length} to WebP + 400x400 thumb...`;
-        progressFill.style.width = `${Math.round(((i + 1) / files.length) * 100)}%`;
-        try {
-          const processed = await convertImageToWebPAndThumb(files[i]);
-          queuedNewFiles.push(processed);
-        } catch (err) {
-          console.error('Error converting image:', err);
-        }
-      }
-      statusText.textContent = `✓ Converted ${files.length} photo(s) to WebP! Ready to publish.`;
-      renderPhotoPreviews();
-    }
-
-    function renderPhotoPreviews() {
-      existingPhotosSummary.textContent = existingPhotos.length
-        ? `Currently saved in portal: ${existingPhotos.length} photo(s) | Queued to upload: ${queuedNewFiles.length} new photo(s)`
-        : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
-
-      photoPreviewGrid.innerHTML = '';
-
-      existingPhotos.forEach((pPath, idx) => {
-        const thumbPath = existingGridThumbs[idx] || pPath;
-        const div = document.createElement('div');
-        div.className = 'queued-item';
-        div.innerHTML = `
-          <img src="../${thumbPath}" alt="" />
-          <span class="queued-badge">Saved</span>
-          <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
-        `;
-        div.querySelector('.remove-photo-btn').addEventListener('click', () => {
-          existingPhotos.splice(idx, 1);
-          existingGridThumbs.splice(idx, 1);
-          renderPhotoPreviews();
-        });
-        photoPreviewGrid.appendChild(div);
-      });
-
-      queuedNewFiles.forEach((item, idx) => {
-        const div = document.createElement('div');
-        div.className = 'queued-item';
-        div.innerHTML = `
-          <img src="${item.previewUrl}" alt="" />
-          <span class="queued-badge">New • ${item.sizeKb}KB</span>
-          <button type="button" class="remove-photo-btn" title="Remove queued photo">×</button>
-        `;
-        div.querySelector('.remove-photo-btn').addEventListener('click', () => {
-          queuedNewFiles.splice(idx, 1);
-          renderPhotoPreviews();
-        });
-        photoPreviewGrid.appendChild(div);
-      });
-    }
-
-    // --- 6. Single-Commit Atomic Push via Netlify Git Gateway ---
-    async function gitGatewayRequest(path, options = {}) {
-      const token = await getValidAccessToken();
-      const res = await fetch(`/.netlify/git/github${path}`, {
-        ...options,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          ...(options.headers || {})
-        }
-      });
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`Git Gateway error (${res.status}): ${errText}`);
-      }
-      return res.json();
-    }
-
-    publishBtn.addEventListener('click', async () => {
-      const title = inpTitle.value.trim();
-      const folderId = inpId.value.trim();
-      if (!title || !folderId) {
-        alert('Please enter a Portal Display Title and Folder ID.');
-        return;
-      }
-
-      const finalPhotos = [...existingPhotos];
-      const finalGridThumbs = [...existingGridThumbs];
-
-      queuedNewFiles.forEach(item => {
-        const fullPath = `portals/${folderId}/${item.filename}`;
-        const thumbPath = `portals/${folderId}/grid_thumbs/${item.filename}`;
-        if (!finalPhotos.includes(fullPath)) {
-          finalPhotos.push(fullPath);
-          finalGridThumbs.push(thumbPath);
-        }
-      });
-
-      if (finalPhotos.length === 0) {
-        alert('Please add at least one photo to this portal before publishing.');
-        return;
-      }
-
-      const sliceName = getActiveSliceName();
-      const sliceBg = selRealmBg.value;
-      const thumbChoice = selThumbPreset.value === 'first_photo' ? finalPhotos[0] : selThumbPreset.value;
-
-      const portalObj = {
-        id: folderId,
-        title,
-        subtitle: inpSubtitle.value.trim() || 'Gallery & Archive',
-        slice: sliceName,
-        slice_bg: sliceBg,
-        theme: selectedTheme,
-        filament: selFilament.value,
-        angle: parseInt(inpAngle.value, 10) || 0,
-        distance: parseInt(inpDistance.value, 10) || 340,
-        thumbnail: thumbChoice,
-        photos: finalPhotos,
-        grid_thumbs: finalGridThumbs,
-        password: inpPassword.value.trim().toLowerCase()
-      };
-
-      const updatedBranches = [...branches];
-      if (editingIndex >= 0) {
-        updatedBranches[editingIndex] = portalObj;
-      } else {
-        updatedBranches.push(portalObj);
-      }
-      updatedBranches.forEach(b => {
-        if ((b.slice || 'Prime Cosmos') === sliceName) {
-          b.slice_bg = sliceBg;
-        }
-      });
-
-      try {
-        publishBtn.disabled = true;
-        statusBox.classList.add('active');
-        statusText.textContent = 'Connecting to GitHub via Netlify Git Gateway...';
-        progressFill.style.width = '10%';
-
-        const refData = await gitGatewayRequest('/git/refs/heads/main');
-        const latestCommitSha = refData.object.sha;
-        const commitData = await gitGatewayRequest(`/git/commits/${latestCommitSha}`);
-        const baseTreeSha = commitData.tree.sha;
-
-        const treeItems = [];
-
-        for (let i = 0; i < queuedNewFiles.length; i++) {
-          const item = queuedNewFiles[i];
-          statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${queuedNewFiles.length}...`;
-          progressFill.style.width = `${15 + Math.round(((i + 1) / (queuedNewFiles.length + 1)) * 65)}%`;
-
-          const fullBlobRes = await gitGatewayRequest('/git/blobs', {
-            method: 'POST',
-            body: JSON.stringify({ content: item.fullBase64, encoding: 'base64' })
-          });
-          treeItems.push({
-            path: `portals/${folderId}/${item.filename}`,
-            mode: '100644',
-            type: 'blob',
-            sha: fullBlobRes.sha
-          });
-
-          const thumbBlobRes = await gitGatewayRequest('/git/blobs', {
-            method: 'POST',
-            body: JSON.stringify({ content: item.thumbBase64, encoding: 'base64' })
-          });
-          treeItems.push({
-            path: `portals/${folderId}/grid_thumbs/${item.filename}`,
-            mode: '100644',
-            type: 'blob',
-            sha: thumbBlobRes.sha
-          });
-        }
-
-        statusText.textContent = 'Updating branches.json & committing to GitHub...';
-        progressFill.style.width = '88%';
-
-        treeItems.push({
-          path: 'branches.json',
-          mode: '100644',
-          type: 'blob',
-          content: JSON.stringify(updatedBranches, null, 2)
-        });
-
-        const newTree = await gitGatewayRequest('/git/trees', {
-          method: 'POST',
-          body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems })
-        });
-
-        const newCommit = await gitGatewayRequest('/git/commits', {
-          method: 'POST',
-          body: JSON.stringify({
-            message: `Portal Studio: Update '${title}' on disk '${sliceName}'`,
-            tree: newTree.sha,
-            parents: [latestCommitSha]
-          })
-        });
-
-        await gitGatewayRequest('/git/refs/heads/main', {
-          method: 'PATCH',
-          body: JSON.stringify({ sha: newCommit.sha })
-        });
-
-        branches = updatedBranches;
-        queuedNewFiles = [];
-        progressFill.style.width = '100%';
-        statusText.textContent = `✨ Published '${title}'! Netlify is now deploying your live site.`;
-
-        populateSliceDropdown(sliceName);
-        const savedIdx = branches.findIndex(b => b.id === folderId);
-        if (savedIdx >= 0) loadPortalIntoForm(savedIdx);
-      } catch (err) {
-        console.error(err);
-        statusText.textContent = `⚠️ Error: ${err.message}`;
-      } finally {
-        publishBtn.disabled = false;
-      }
-    });
-
-    deletePortalBtn.addEventListener('click', async () => {
-      if (editingIndex < 0) return;
-      const target = branches[editingIndex];
-      if (!confirm(`Remove '${target.title}' from the active portal network?`)) return;
-
-      const updatedBranches = branches.filter((_, idx) => idx !== editingIndex);
-      try {
-        statusBox.classList.add('active');
-        statusText.textContent = `Removing '${target.title}' from branches.json...`;
-        progressFill.style.width = '40%';
-
-        const refData = await gitGatewayRequest('/git/refs/heads/main');
-        const latestCommitSha = refData.object.sha;
-        const commitData = await gitGatewayRequest(`/git/commits/${latestCommitSha}`);
-
-        const newTree = await gitGatewayRequest('/git/trees', {
-          method: 'POST',
-          body: JSON.stringify({
-            base_tree: commitData.tree.sha,
-            tree: [{
-              path: 'branches.json',
-              mode: '100644',
-              type: 'blob',
-              content: JSON.stringify(updatedBranches, null, 2)
-            }]
-          })
-        });
-
-        const newCommit = await gitGatewayRequest('/git/commits', {
-          method: 'POST',
-          body: JSON.stringify({
-            message: `Portal Studio: Remove '${target.title}'`,
-            tree: newTree.sha,
-            parents: [latestCommitSha]
-          })
-        });
-
-        await gitGatewayRequest('/git/refs/heads/main', {
-          method: 'PATCH',
-          body: JSON.stringify({ sha: newCommit.sha })
-        });
-
-        branches = updatedBranches;
-        progressFill.style.width = '100%';
-        statusText.textContent = `✓ Removed '${target.title}'.`;
-        startNewPortal();
-      } catch (err) {
-        statusText.textContent = `⚠️ Error: ${err.message}`;
-      }
-    });
-  </script>
-</body>
-</html>
