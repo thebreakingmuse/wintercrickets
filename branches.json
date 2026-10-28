@@ -3,10 +3,13 @@
     "id": "paddleboarding",
     "title": "Paddleboarding",
     "subtitle": "Gallery & Archive",
-    "theme": "oceanic",
-    "angle": 155,
-    "distance": 300,
-    "thumbnail": "portals/paddleboarding/thumb_love.webp",
+    "slice": "Wilderness",
+    "slice_bg": "verdant",
+    "theme": "cyber",
+    "filament": "tendril",
+    "angle": 134,
+    "distance": 350,
+    "thumbnail": "templates/natural.webp",
     "photos": [
       "portals/paddleboarding/PXL_20260919_210534022.webp",
       "portals/paddleboarding/PXL_20260919_210535075.webp",
@@ -63,9 +66,7 @@
       "portals/paddleboarding/grid_thumbs/PXL_20260920_003224307~2.webp",
       "portals/paddleboarding/grid_thumbs/PXL_20260920_004827643.webp"
     ],
-    "slice": "Prime Cosmos",
-    "slice_bg": "cosmos",
-    "filament": "standard"
+    "password": ""
   },
   {
     "id": "castle rock incline",
