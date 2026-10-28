@@ -71,10 +71,13 @@
     "id": "castle rock incline",
     "title": "Castle Rock Incline",
     "subtitle": "Gallery & Archive",
+    "slice": "Wilderness",
+    "slice_bg": "verdant",
     "theme": "rose",
+    "filament": "vine",
     "angle": -45,
     "distance": 320,
-    "thumbnail": "templates/natural.jpg",
+    "thumbnail": "portals/castle rock incline/PXL_20260927_193617853.webp",
     "photos": [
       "portals/castle rock incline/PXL_20260927_193617853.webp",
       "portals/castle rock incline/PXL_20260927_193620340.webp",
@@ -173,9 +176,7 @@
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220747412.webp",
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220750156.webp"
     ],
-    "slice": "Prime Cosmos",
-    "slice_bg": "cosmos",
-    "filament": "standard"
+    "password": ""
   },
   {
     "id": "denver psytrance sputnik",
