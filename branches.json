@@ -600,10 +600,13 @@
     "id": "Woodland Park Aspen Grove",
     "title": "Woodland Park Aspen Grove",
     "subtitle": "conjugal aspen grove",
+    "slice": "Prime Cosmos",
+    "slice_bg": "cosmos",
     "theme": "rose",
-    "angle": 180,
+    "filament": "standard",
+    "angle": -169,
     "distance": 400,
-    "thumbnail": "templates/love.jpg",
+    "thumbnail": "portals/Woodland Park Aspen Grove/PXL_20261010_200136533.webp",
     "photos": [
       "portals/Woodland Park Aspen Grove/PXL_20261010_200136533.webp",
       "portals/Woodland Park Aspen Grove/PXL_20261010_202304069.webp",
@@ -798,10 +801,7 @@
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215113517.webp",
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215739194.webp"
     ],
-    "password": "",
-    "slice": "Prime Cosmos",
-    "slice_bg": "cosmos",
-    "filament": "standard"
+    "password": ""
   },
   {
     "id": "Apogea 26' ♥️",
