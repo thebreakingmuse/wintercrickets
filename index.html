@@ -959,6 +959,69 @@
       white-space: nowrap;
     }
 
+    /* The opening disc's two personal doorways. */
+    body.landing-disc-active #network-stage {
+      flex-shrink: 0;
+    }
+
+    button.introduction-node {
+      appearance: none;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+    }
+
+    .introduction-node .portal-ring {
+      width: 190px;
+      height: 190px;
+      padding: 9px;
+      border-width: 1px;
+      background: radial-gradient(circle at 45% 35%, rgba(40, 29, 55, 0.95), #080610 75%);
+      box-shadow: 0 0 36px var(--node-glow), 0 0 80px rgba(5, 4, 13, 0.6), inset 0 0 30px var(--node-glow);
+    }
+
+    .introduction-sigil {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: var(--node-border);
+      filter: drop-shadow(0 0 9px var(--node-glow));
+    }
+
+    .introduction-sigil text {
+      fill: currentColor;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 35px;
+      text-anchor: middle;
+    }
+
+    .introduction-node .portal-label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 18px;
+      padding: 9px 22px;
+      border-color: var(--node-border);
+    }
+
+    .introduction-node .portal-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.15em;
+    }
+
+    .introduction-node .portal-subtitle {
+      font-size: 1.05rem;
+    }
+
+    .introduction-node:focus-visible {
+      outline: 2px solid var(--text-main);
+      outline-offset: 12px;
+      border-radius: 28px;
+    }
+
     /* Color Themes */
     .theme-nocturnal {
       --node-color: #b366ff;
@@ -1061,6 +1124,66 @@
     .close-btn:hover {
       border-color: var(--gold-accent);
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    /* A poem emerges inside the same portal overlay as the archives. */
+    #gallery-modal.poem-mode .modal-content-box {
+      width: min(94vw, 780px);
+      height: 86vh;
+      height: 86svh;
+      max-height: 860px;
+      border-color: var(--poem-border, var(--gold-accent));
+      background: radial-gradient(ellipse at 50% 0%, var(--poem-glow, rgba(179, 102, 255, 0.15)), transparent 65%), rgba(10, 8, 18, 0.98);
+      box-shadow: 0 0 65px rgba(0, 0, 0, 0.85), 0 0 35px var(--poem-glow);
+    }
+
+    #modal-poem-panel[hidden] { display: none; }
+
+    #modal-poem-panel {
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      user-select: text;
+      padding: 6px clamp(4px, 4vw, 32px) 36px;
+      scrollbar-color: var(--poem-border) transparent;
+    }
+
+    .poem-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 400;
+      color: var(--poem-border, var(--text-main));
+      letter-spacing: 0.08em;
+      margin: 0 0 24px;
+    }
+
+    .poem-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+      line-height: 1.65;
+      color: var(--text-main);
+    }
+
+    .poem-text.emerging {
+      animation: poemEmerge 950ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .poem-empty {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 32px;
+    }
+
+    @keyframes poemEmerge {
+      from { opacity: 0; transform: translateY(18px); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .poem-text.emerging { animation: none; }
     }
 
     /* Password Lock Screen View */
@@ -1247,6 +1370,19 @@
         width: 96px;
         height: 96px;
       }
+      body.landing-disc-active #network-stage { transform: scale(0.5); }
+    }
+
+    @media (max-width: 600px) {
+      body.landing-disc-active #network-stage { transform: scale(0.42); }
+      #gallery-modal.poem-mode { padding: 12px; }
+      #gallery-modal.poem-mode .modal-content-box { padding: 22px 18px; }
+      #gallery-modal.poem-mode .modal-title-group h2 { font-size: 1.25rem; }
+      #gallery-modal.poem-mode .close-btn { padding: 8px 10px; font-size: 0.72rem; }
+    }
+
+    @media (max-width: 360px) {
+      body.landing-disc-active #network-stage { transform: scale(0.35); }
     }
   </style>
 </head>
@@ -1476,7 +1612,7 @@
   </main>
 
   <!-- Gallery Modal Overlay -->
-  <div id="gallery-modal">
+  <div id="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-content-box">
       <div class="modal-header">
         <div class="modal-title-group">
@@ -1496,6 +1632,13 @@
 
       <!-- Photos Grid View -->
       <div class="photo-grid" id="modal-photo-grid"></div>
+
+      <!-- Personal introduction: text is inserted literally, preserving verse. -->
+      <article id="modal-poem-panel" tabindex="0" aria-label="Poem" hidden>
+        <h3 class="poem-title" id="modal-poem-title" hidden></h3>
+        <div class="poem-text" id="modal-poem-text"></div>
+        <p class="poem-empty" id="modal-poem-empty" hidden>This poem has not been added yet.</p>
+      </article>
     </div>
   </div>
 
@@ -1518,6 +1661,7 @@
   <script>
     const CENTER_X = 500;
     const CENTER_Y = 500;
+    const LANDING_SLICE = 'Janice & Paul';
 
     const themeColors = {
       nocturnal: '#b366ff',
@@ -1573,6 +1717,10 @@
     const modalTitle = document.getElementById('modal-title');
     const modalSubtitle = document.getElementById('modal-subtitle');
     const modalPhotoGrid = document.getElementById('modal-photo-grid');
+    const modalPoemPanel = document.getElementById('modal-poem-panel');
+    const modalPoemTitle = document.getElementById('modal-poem-title');
+    let modalPoemText = document.getElementById('modal-poem-text');
+    const modalPoemEmpty = document.getElementById('modal-poem-empty');
     const closeModalBtn = document.getElementById('close-modal-btn');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -1583,6 +1731,7 @@
 
     let sliceList = [];
     let currentSliceIndex = 0;
+    let introductionTrigger = null;
 
     function buildCurvedPath(x1, y1, x2, y2, index, bendFactor = 0.18) {
       const midX = (x1 + x2) / 2;
@@ -1877,9 +2026,12 @@
       currentSliceIndex = targetIndex;
       const activeSlice = sliceList[currentSliceIndex];
       applyRealmAesthetic(activeSlice.bg, activeSlice.name);
+      document.body.classList.toggle('landing-disc-active', Boolean(activeSlice.isLanding));
 
       const diskEls = document.querySelectorAll('.disk-plane');
       diskEls.forEach((el, idx) => {
+        el.inert = idx !== currentSliceIndex;
+        el.setAttribute('aria-hidden', idx === currentSliceIndex ? 'false' : 'true');
         el.classList.remove('active-disk', 'inactive-disk-above', 'inactive-disk-below');
         if (idx === currentSliceIndex) {
           el.classList.add('active-disk');
@@ -1924,7 +2076,39 @@
       });
     }
 
+    function showPortalContent(branch) {
+      if (branch.portal_type === 'introduction') {
+        const poem = typeof branch.poem_text === 'string' ? branch.poem_text : '';
+        modalPhotoGrid.classList.remove('active');
+        modalPoemTitle.textContent = branch.poem_title || '';
+        modalPoemTitle.hidden = !branch.poem_title;
+        const verse = document.createElement('div');
+        verse.className = 'poem-text emerging';
+        verse.id = 'modal-poem-text';
+        verse.style.fontStyle = branch.poem_italic ? 'italic' : 'normal';
+        verse.textContent = poem;
+        modalPoemText.replaceWith(verse);
+        modalPoemText = verse;
+        modalPoemEmpty.hidden = Boolean(poem.trim());
+        modalPoemPanel.hidden = false;
+        modalPoemPanel.scrollTop = 0;
+      } else {
+        renderPhotoGrid(branch);
+        modalPhotoGrid.classList.add('active');
+      }
+    }
+
     function openGallery(branch) {
+      const isIntroduction = branch.portal_type === 'introduction';
+      introductionTrigger = isIntroduction ? document.activeElement : null;
+      galleryModal.classList.toggle('poem-mode', isIntroduction);
+      modalPoemPanel.hidden = true;
+      modalPhotoGrid.classList.remove('active');
+      if (isIntroduction) {
+        const poemColor = themeColors[branch.theme] || themeColors.nocturnal;
+        galleryModal.style.setProperty('--poem-border', poemColor);
+        galleryModal.style.setProperty('--poem-glow', `${poemColor}33`);
+      }
       modalTitle.textContent = branch.title || branch.id;
       modalSubtitle.textContent = branch.subtitle || 'Gallery & Archive';
       lockErrorMsg.textContent = '';
@@ -1940,8 +2124,7 @@
           const userEntered = lockPassInput.value.trim().toLowerCase();
           if (userEntered === requiredPassword) {
             lockScreen.classList.remove('active');
-            renderPhotoGrid(branch);
-            modalPhotoGrid.classList.add('active');
+            showPortalContent(branch);
           } else {
             lockErrorMsg.textContent = 'Incorrect keyword. The door remains sealed.';
             lockPassInput.value = '';
@@ -1956,15 +2139,17 @@
         setTimeout(() => lockPassInput.focus(), 100);
       } else {
         lockScreen.classList.remove('active');
-        renderPhotoGrid(branch);
-        modalPhotoGrid.classList.add('active');
+        showPortalContent(branch);
       }
 
       galleryModal.classList.add('active');
+      if (isIntroduction && !requiredPassword) closeModalBtn.focus();
     }
 
     function closeGallery() {
       galleryModal.classList.remove('active');
+      if (introductionTrigger && introductionTrigger.isConnected) introductionTrigger.focus();
+      introductionTrigger = null;
     }
 
     closeModalBtn.addEventListener('click', closeGallery);
@@ -1973,6 +2158,19 @@
     });
 
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab' && galleryModal.classList.contains('active') && galleryModal.classList.contains('poem-mode')) {
+        const controls = [...galleryModal.querySelectorAll('button, input, [tabindex="0"]')]
+          .filter(el => !el.disabled && el.getClientRects().length > 0);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
       if (e.key === 'Escape') {
         if (lightbox.classList.contains('active')) {
           lightbox.classList.remove('active');
@@ -1988,6 +2186,71 @@
       lightboxImg.src = '';
     });
 
+    function buildSlices(branches) {
+      const slicesMap = new Map();
+      const introductions = branches.filter(b => b.portal_type === 'introduction');
+      if (introductions.length) {
+        slicesMap.set(LANDING_SLICE, {
+          name: LANDING_SLICE,
+          bg: introductions[0].slice_bg || 'cosmos',
+          items: introductions,
+          isLanding: true
+        });
+      }
+      branches.filter(b => b.portal_type !== 'introduction').forEach((b) => {
+        const sName = b.slice || 'Prime Cosmos';
+        if (!slicesMap.has(sName)) {
+          slicesMap.set(sName, { name: sName, bg: b.slice_bg || 'cosmos', items: [] });
+        }
+        slicesMap.get(sName).items.push(b);
+      });
+      const priority = slice => slice.isLanding ? 0 : slice.name === 'Prime Cosmos' ? 1 : 2;
+      return Array.from(slicesMap.values()).sort((a, b) => priority(a) - priority(b));
+    }
+
+    function createIntroductionNode(branch, theme) {
+      const node = document.createElement('button');
+      node.type = 'button';
+      node.className = `portal-node introduction-node theme-${theme}`;
+      node.setAttribute('aria-label', `Enter ${branch.title || branch.id}'s portal`);
+      node.setAttribute('aria-haspopup', 'dialog');
+      node.dataset.person = branch.id;
+      const ring = document.createElement('span');
+      ring.className = 'portal-ring';
+      if (branch.thumbnail) {
+        const portrait = document.createElement('img');
+        portrait.className = 'portal-thumb';
+        portrait.src = branch.thumbnail;
+        portrait.alt = '';
+        ring.appendChild(portrait);
+      } else {
+        const sigil = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        sigil.setAttribute('viewBox', '0 0 100 100');
+        sigil.setAttribute('class', 'introduction-sigil');
+        sigil.setAttribute('aria-hidden', 'true');
+        sigil.innerHTML = branch.id === 'introduction-janice'
+          ? '<g fill="none" stroke="currentColor" stroke-width="0.7" opacity="0.5"><circle cx="50" cy="50" r="43"/><ellipse cx="50" cy="50" rx="39" ry="18"/><ellipse cx="50" cy="50" rx="39" ry="18" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="39" ry="18" transform="rotate(120 50 50)"/></g>'
+          : '<g fill="none" stroke="currentColor" stroke-width="0.7" opacity="0.5"><circle cx="50" cy="50" r="43"/><path d="M50 7 93 50 50 93 7 50Z M20 20H80V80H20Z"/><circle cx="50" cy="50" r="32" stroke-dasharray="2 4"/></g>';
+        const initial = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        initial.setAttribute('x', '50');
+        initial.setAttribute('y', '63');
+        initial.textContent = Array.from(branch.title || '?')[0];
+        sigil.appendChild(initial);
+        ring.appendChild(sigil);
+      }
+      const label = document.createElement('span');
+      label.className = 'portal-label';
+      const title = document.createElement('span');
+      title.className = 'portal-title';
+      title.textContent = branch.title || branch.id;
+      const subtitle = document.createElement('span');
+      subtitle.className = 'portal-subtitle';
+      subtitle.textContent = branch.subtitle || 'An introduction in verse';
+      label.append(title, subtitle);
+      node.append(ring, label);
+      return node;
+    }
+
     async function loadPortals() {
       try {
         const res = await fetch(`branches.json?t=${Date.now()}`);
@@ -1996,30 +2259,14 @@
 
         disksContainer.innerHTML = '';
 
-        // Group branches by 3D Slice / Disk
-        const slicesMap = new Map();
-        branches.forEach((b) => {
-          const sName = b.slice || 'Prime Cosmos';
-          const sBg = b.slice_bg || 'cosmos';
-          if (!slicesMap.has(sName)) {
-            slicesMap.set(sName, { name: sName, bg: sBg, items: [] });
-          }
-          slicesMap.get(sName).items.push(b);
-        });
-
-        sliceList = Array.from(slicesMap.values());
+        // The two introductions open first; the archive disks retain their order.
+        sliceList = buildSlices(branches);
         if (sliceList.length === 0) return;
-
-        // Force Prime Cosmos to always be the default startup disk (index 0)
-        sliceList.sort((a, b) => {
-          if (a.name === 'Prime Cosmos') return -1;
-          if (b.name === 'Prime Cosmos') return 1;
-          return 0;
-        });
 
         sliceList.forEach((sliceObj, sIdx) => {
           const diskPlane = document.createElement('div');
           diskPlane.className = 'disk-plane';
+          diskPlane.classList.toggle('landing-disk', Boolean(sliceObj.isLanding));
 
           const halo = document.createElement('div');
           halo.className = 'disk-halo-ring';
@@ -2048,14 +2295,15 @@
 
             renderFilament(ligamentsGroup, x, y, idx, theme, filamentStyle);
 
-            const node = document.createElement('div');
-            node.className = `portal-node theme-${theme}`;
+            const isIntroduction = branch.portal_type === 'introduction';
+            const node = isIntroduction ? createIntroductionNode(branch, theme) : document.createElement('div');
+            if (!isIntroduction) node.className = `portal-node theme-${theme}`;
             node.style.left = `${x}px`;
             node.style.top = `${y}px`;
 
             const thumbSrc = branch.thumbnail || (branch.grid_thumbs && branch.grid_thumbs[0]) || (branch.photos && branch.photos[0]) || '';
 
-            node.innerHTML = `
+            if (!isIntroduction) node.innerHTML = `
               <div class="portal-ring">
                 <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
               </div>
@@ -2075,8 +2323,8 @@
             const nextSlice = sliceList[nextSliceIdx];
 
             // Position far out to the side (455px radius, outside the 340px portal halo ring)
-            const bridgeAngleDeg = chooseBridgeAngle(sliceObj.items);
-            const bridgeDist = 455;
+            const bridgeAngleDeg = sliceObj.isLanding ? 42 : chooseBridgeAngle(sliceObj.items);
+            const bridgeDist = sliceObj.isLanding ? 385 : 455;
             const bridgeRad = (bridgeAngleDeg * Math.PI) / 180;
             const bx = CENTER_X + Math.cos(bridgeRad) * bridgeDist;
             const by = CENTER_Y + Math.sin(bridgeRad) * bridgeDist;

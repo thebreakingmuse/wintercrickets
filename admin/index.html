@@ -344,6 +344,7 @@
     input[type="text"],
     input[type="password"],
     input[type="number"],
+    textarea,
     select {
       background: var(--bg-input);
       border: 1.5px solid rgba(212, 175, 55, 0.4);
@@ -358,9 +359,37 @@
     }
 
     input:focus,
+    textarea:focus,
     select:focus {
       border-color: var(--gold);
       box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+    }
+
+    #inp-poem-text {
+      min-height: 310px;
+      resize: vertical;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .poem-style-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: none;
+      letter-spacing: 0.04em;
+    }
+
+    .portal-list-initial {
+      display: grid;
+      place-items: center;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
     }
 
     /* Swatch & Option Pills */
@@ -765,6 +794,23 @@
         </div>
       </div>
 
+      <!-- Poems for the two opening disc introductions. -->
+      <div id="introduction-fields" hidden>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="inp-poem-title">Poem title <span class="label-hint">( optional )</span></label>
+            <input type="text" id="inp-poem-title" />
+          </div>
+          <div class="form-group full-width">
+            <label for="inp-poem-text">Introduction poem <span class="label-hint">( line breaks are preserved )</span></label>
+            <textarea id="inp-poem-text" rows="15" spellcheck="true"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="poem-style-option"><input type="checkbox" id="chk-poem-italic" /> Italic verse</label>
+          </div>
+        </div>
+      </div>
+
       <!-- 2. Glow Theme & Filament Swatches -->
       <div class="form-grid">
         <div class="form-group full-width">
@@ -891,6 +937,7 @@
     const THUMB_DIM = 400;
     const THUMB_WEBP_QUALITY = 0.78;
 
+    const LANDING_SLICE = 'Janice & Paul';
     let branches = [];
     let editingIndex = -1;
     let selectedTheme = 'nocturnal';
@@ -918,6 +965,10 @@
     const inpId = document.getElementById('inp-id');
     const inpSubtitle = document.getElementById('inp-subtitle');
     const inpPassword = document.getElementById('inp-password');
+    const introductionFields = document.getElementById('introduction-fields');
+    const inpPoemTitle = document.getElementById('inp-poem-title');
+    const inpPoemText = document.getElementById('inp-poem-text');
+    const chkPoemItalic = document.getElementById('chk-poem-italic');
     const selSlice = document.getElementById('sel-slice');
     const inpNewSlice = document.getElementById('inp-new-slice');
     const selRealmBg = document.getElementById('sel-realm-bg');
@@ -1100,10 +1151,25 @@
       return map;
     }
 
+    function isEditingIntroduction() {
+      return editingIndex >= 0 && branches[editingIndex] && branches[editingIndex].portal_type === 'introduction';
+    }
+
+    function setIntroductionEditor(branch = null) {
+      const isIntroduction = Boolean(branch && branch.portal_type === 'introduction');
+      introductionFields.hidden = !isIntroduction;
+      inpPoemTitle.value = isIntroduction ? branch.poem_title || '' : '';
+      inpPoemText.value = isIntroduction ? branch.poem_text || '' : '';
+      chkPoemItalic.checked = isIntroduction && Boolean(branch.poem_italic);
+      selSlice.disabled = isIntroduction;
+      inpNewSlice.disabled = isIntroduction;
+    }
+
     function populateSliceDropdown(selectedSliceName = 'Prime Cosmos') {
       const sliceMap = getSliceMap();
       selSlice.innerHTML = '';
       for (const [sName, sBg] of sliceMap.entries()) {
+        if (sName === LANDING_SLICE && !isEditingIntroduction()) continue;
         const opt = document.createElement('option');
         opt.value = sName;
         opt.textContent = `${sName} (${sBg})`;
@@ -1159,14 +1225,18 @@
         sidebarList.appendChild(header);
 
         items.forEach(({ branch, idx }) => {
+          const isIntroduction = branch.portal_type === 'introduction';
           const item = document.createElement('div');
           item.className = `portal-list-item ${idx === editingIndex ? 'selected' : ''}`;
           const thumbUrl = branch.thumbnail ? `../${branch.thumbnail}` : '';
+          const thumbnailMarkup = isIntroduction && !thumbUrl
+            ? `<span class="portal-list-thumb portal-list-initial" aria-hidden="true">${branch.id === 'introduction-janice' ? 'J' : 'P'}</span>`
+            : `<img class="portal-list-thumb" src="${thumbUrl}" alt="" onerror="this.style.opacity=0.2" />`;
           item.innerHTML = `
-            <img class="portal-list-thumb" src="${thumbUrl}" alt="" onerror="this.style.opacity=0.2" />
+            ${thumbnailMarkup}
             <div class="portal-list-meta">
               <div class="portal-list-name">${branch.title || branch.id}</div>
-              <div class="portal-list-sub">${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos</div>
+              <div class="portal-list-sub">${isIntroduction ? 'Opening disc • Poem' : `${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos`}</div>
             </div>
           `;
           item.addEventListener('click', () => loadPortalIntoForm(idx));
@@ -1228,8 +1298,12 @@
       inpId.disabled = false;
       inpSubtitle.value = 'Gallery & Archive';
       inpPassword.value = '';
+      setIntroductionEditor();
 
-      const currentSlice = getActiveSliceName();
+      const selectedSlice = getActiveSliceName();
+      const currentSlice = selectedSlice === LANDING_SLICE
+        ? [...getSliceMap().keys()].find(name => name !== LANDING_SLICE) || 'Prime Cosmos'
+        : selectedSlice;
       populateSliceDropdown(currentSlice);
       setThemePill('celestial');
       selFilament.value = 'standard';
@@ -1251,17 +1325,19 @@
     function loadPortalIntoForm(idx) {
       editingIndex = idx;
       const b = branches[idx];
+      const isIntroduction = b.portal_type === 'introduction';
       editorModeTitle.textContent = `Editing: ${b.title || b.id}`;
-      editorFolderBadge.textContent = `portals/${b.id}/`;
-      deletePortalBtn.style.display = 'inline-flex';
+      editorFolderBadge.textContent = isIntroduction ? 'Opening disc introduction' : `portals/${b.id}/`;
+      deletePortalBtn.style.display = isIntroduction ? 'none' : 'inline-flex';
 
       inpTitle.value = b.title || b.id;
       inpId.value = b.id;
       inpId.disabled = true;
       inpSubtitle.value = b.subtitle || 'Gallery & Archive';
       inpPassword.value = b.password || '';
+      setIntroductionEditor(b);
 
-      populateSliceDropdown(b.slice || 'Prime Cosmos');
+      populateSliceDropdown(isIntroduction ? LANDING_SLICE : b.slice || 'Prime Cosmos');
       selRealmBg.value = b.slice_bg || 'cosmos';
       setThemePill(b.theme || 'nocturnal');
       selFilament.value = b.filament || 'standard';
@@ -1559,6 +1635,7 @@
 
     // --- Atomic Single-Commit Push ---
     publishBtn.addEventListener('click', async () => {
+      const isIntroduction = isEditingIntroduction();
       const title = inpTitle.value.trim();
       const folderId = inpId.value.trim();
       if (!title || !folderId) {
@@ -1578,19 +1655,30 @@
         }
       });
 
-      if (finalPhotos.length === 0) {
+      if (isIntroduction && !inpPoemText.value.trim()) {
+        alert('Please add the introduction poem before publishing.');
+        return;
+      }
+
+      if (!isIntroduction && finalPhotos.length === 0) {
         alert('Please add at least one photo to this portal before publishing.');
         return;
       }
 
-      const sliceName = getActiveSliceName();
+      const sliceName = isIntroduction ? LANDING_SLICE : getActiveSliceName();
       const sliceBg = selRealmBg.value;
       const thumbChoice = selThumbPreset.value === 'first_photo'
-        ? (finalGridThumbs[0] || finalPhotos[0])
+        ? (finalGridThumbs[0] || finalPhotos[0] || '')
         : selThumbPreset.value;
 
       const portalObj = {
         id: folderId,
+        ...(isIntroduction ? {
+          portal_type: 'introduction',
+          poem_title: inpPoemTitle.value.trim(),
+          poem_text: inpPoemText.value,
+          poem_italic: chkPoemItalic.checked
+        } : {}),
         title,
         subtitle: inpSubtitle.value.trim() || 'Gallery & Archive',
         slice: sliceName,
