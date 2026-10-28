@@ -1783,6 +1783,14 @@
 
         sliceList = Array.from(slicesMap.values());
         if (sliceList.length === 0) return;
+	
+	// Force Prime Cosmos to always be the default startup disk (index 0)
+        sliceList.sort((a, b) => {
+          if (a.name === 'Prime Cosmos') return -1;
+          if (b.name === 'Prime Cosmos') return 1;
+          return 0;
+        });
+
 
         sliceList.forEach((sliceObj, sIdx) => {
           const diskPlane = document.createElement('div');
