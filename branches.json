@@ -266,27 +266,6 @@
     "filament": "standard"
   },
   {
-    "id": "sanctum-arcana",
-    "title": "Sanctum Arcana",
-    "subtitle": "Gallery & Archive",
-    "theme": "celestial",
-    "angle": -155,
-    "distance": 340,
-    "thumbnail": "templates/arcane.jpg",
-    "photos": [
-      "portals/sanctum-arcana/signal-2026-05-11-233026_002.webp",
-      "portals/sanctum-arcana/signal-2026-05-11-233026_003.webp"
-    ],
-    "grid_thumbs": [
-      "portals/sanctum-arcana/grid_thumbs/signal-2026-05-11-233026_002.webp",
-      "portals/sanctum-arcana/grid_thumbs/signal-2026-05-11-233026_003.webp"
-    ],
-    "password": "arcana",
-    "slice": "Prime Cosmos",
-    "slice_bg": "cosmos",
-    "filament": "standard"
-  },
-  {
     "id": "Goth Photo Shootz",
     "title": "Goth Photo Shootz",
     "subtitle": "bloody kisses",
