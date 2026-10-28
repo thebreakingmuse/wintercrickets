@@ -1,469 +1,233 @@
 import json
 import os
 import subprocess
+from pathlib import Path
+from PIL import Image, ImageOps
 
-try:
-  from PIL import Image, ImageOps
-
-  PILLOW_AVAILABLE = True
-except ImportError:
-  PILLOW_AVAILABLE = False
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PORTALS_DIR = os.path.join(BASE_DIR, "portals")
-TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
-JSON_PATH = os.path.join(BASE_DIR, "branches.json")
-
-VALID_THEMES = ["nocturnal", "cyber", "celestial", "oceanic", "rose"]
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
-
-MAX_FULL_DIMENSION = 1920
+# --- Configuration ---
+PORTALS_DIR = Path("portals")
+BRANCHES_FILE = Path("branches.json")
+MAX_FULL_DIM = 1920
 FULL_WEBP_QUALITY = 82
-GRID_THUMB_SIZE = (400, 400)
-GRID_THUMB_QUALITY = 78
+THUMB_DIM = 400
+THUMB_WEBP_QUALITY = 78
 
-PORTAL_PRESETS = {
-    "1": {
-        "name": "Esoteric & Arcane",
-        "prefix": "arcane",
-        "default_theme": "celestial",
-    },
-    "2": {
-        "name": "Natural & Organic",
-        "prefix": "natural",
-        "default_theme": "oceanic",
-    },
-    "3": {
-        "name": "Fantasy & Love",
-        "prefix": "love",
-        "default_theme": "rose",
-    },
-    "4": {
-        "name": "Ancient Locked Door",
-        "prefix": "door",
-        "default_theme": "nocturnal",
-    },
-}
+VALID_RAW_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"}
 
-REALM_BACKGROUNDS = {
-    "1": {
-        "id": "cosmos",
-        "name": "Obsidian & Violet Nebula (Default Cosmic Void)",
-    },
-    "2": {
-        "id": "verdant",
-        "name": "Bioluminescent Canopy (Subterranean Emerald & Spores)",
-    },
-    "3": {
-        "id": "ember",
-        "name": "Alchemical Sanctuary (Red Ochre, Copper & Floating Embers)",
-    },
-    "4": {"id": "abyss", "name": "Abyssal Trench (Deep Sapphire & Aqua Glow)"},
-    "5": {
-        "id": "astral",
-        "name": "Silver Eclipse (Celestial Monochrome & Diamond Stars)",
-    },
-    "6": {
-        "id": "nyc",
-        "name": (
-            "New York City Nocturne (Twilight Skyline, Towers & River Lights)"
-        ),
-    },
-}
+THEMES = ["nocturnal", "cyber", "celestial", "oceanic", "rose"]
+FILAMENTS = ["standard", "vine", "tendril", "suspension", "grid"]
+REALM_BGS = ["cosmos", "nyc", "verdant", "ember", "abyss", "astral"]
 
-FILAMENT_STYLES = {
-    "1": {"id": "standard", "name": "Standard Glowing Gradient"},
-    "2": {"id": "vine", "name": "Twisting Organic Vine"},
-    "3": {"id": "tendril", "name": "Dual-Strand Braided Tendril"},
-    "4": {
-        "id": "suspension",
-        "name": "Brooklyn Bridge Suspension Span (Cables & Vertical Struts)",
-    },
-    "5": {
-        "id": "grid",
-        "name": "NYC Electric Grid & Subway Conduit (Angular Dual-Rail)",
-    },
-}
+
+def run_cmd(cmd_list):
+    """Run a shell command and return (returncode, stdout, stderr)."""
+    result = subprocess.run(cmd_list, capture_output=True, text=True)
+    return result.returncode, result.stdout.strip(), result.stderr.strip()
+
+
+def git_auto_pull():
+    """Pull latest web uploads from thebreakingmuse/wintercrickets before scanning."""
+    print("\n✦ Syncing latest changes from GitHub (thebreakingmuse/wintercrickets)...")
+    code, out, err = run_cmd(["git", "pull", "--rebase", "--autostash", "origin", "main"])
+    if code == 0:
+        print(f"  ✓ Local workspace is up to date with GitHub. ({out or 'No new remote changes'})")
+    else:
+        print(f"  ⚠️ Note during git pull: {err or out}")
+        print("  Continuing with local portal scan...")
 
 
 def load_branches():
-  if not os.path.exists(JSON_PATH):
-    return []
-  try:
-    with open(JSON_PATH, "r", encoding="utf-8") as f:
-      return json.load(f)
-  except json.JSONDecodeError as e:
-    print(f"\n[!] Error reading branches.json: {e}")
+    if BRANCHES_FILE.exists():
+        try:
+            with open(BRANCHES_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"⚠️ Could not parse {BRANCHES_FILE}: {e}")
     return []
 
 
 def save_branches(branches):
-  with open(JSON_PATH, "w", encoding="utf-8") as f:
-    json.dump(branches, f, indent=2, ensure_ascii=False)
+    with open(BRANCHES_FILE, "w", encoding="utf-8") as f:
+        json.dump(branches, f, indent=2, ensure_ascii=False)
+    print(f"✓ Updated {BRANCHES_FILE} ({len(branches)} portals total).")
 
 
-def suggest_angle(existing_angles):
-  if not existing_angles:
-    return -25
-  candidates = [
-      -25,
-      25,
-      155,
-      -155,
-      -65,
-      65,
-      115,
-      -115,
-      0,
-      180,
-      -90,
-      90,
-      -45,
-      45,
-      135,
-      -135,
-  ]
-  for c in candidates:
-    if all(abs((c - a + 180) % 360 - 180) >= 22 for a in existing_angles):
-      return c
-  return (existing_angles[-1] + 35) % 360 - 180
+def suggest_open_angle(branches, slice_name, exclude_id=None):
+    used = [
+        b.get("angle", 0)
+        for b in branches
+        if (b.get("slice") or "Prime Cosmos") == slice_name and b.get("id") != exclude_id
+    ]
+    if not used:
+        return -25
+    candidates = [-25, 25, 155, -155, -65, 65, 115, -115, 0, 180, -90, 90, -45, 45, 135, -135]
+    for c in candidates:
+        if all(abs(((c - a + 540) % 360) - 180) >= 24 for a in used):
+            return c
+    return ((used[-1] + 35) % 360) - 180
 
 
-def find_template_file(prefix):
-  if not os.path.exists(TEMPLATES_DIR):
-    return None
-  for f in sorted(os.listdir(TEMPLATES_DIR)):
-    name, ext = os.path.splitext(f)
-    if ext.lower() in IMAGE_EXTENSIONS and name.lower().startswith(
-        prefix.lower()
-    ):
-      return f"templates/{f}"
-  return None
+def make_grid_thumb(img, thumb_path):
+    """Create a 400x400 center-cropped WebP thumbnail."""
+    thumb_path.parent.mkdir(parents=True, exist_ok=True)
+    cropped = ImageOps.fit(img, (THUMB_DIM, THUMB_DIM), method=Image.Resampling.LANCZOS)
+    cropped.save(thumb_path, "WEBP", quality=THUMB_WEBP_QUALITY)
 
 
-def optimize_full_images(folder_path, folder_name):
-  if not PILLOW_AVAILABLE:
-    return
-  files = sorted([
-      f
-      for f in os.listdir(folder_path)
-      if os.path.isfile(os.path.join(folder_path, f))
-  ])
-  for filename in files:
-    name, ext = os.path.splitext(filename)
-    ext_lower = ext.lower()
-    if ext_lower not in IMAGE_EXTENSIONS or ext_lower == ".gif":
-      continue
-    src_path = os.path.join(folder_path, filename)
-    dest_path = os.path.join(folder_path, f"{name}.webp")
-    try:
-      with Image.open(src_path) as im:
-        if getattr(im, "is_animated", False):
-          continue
-        width, height = im.size
-        file_size_kb = os.path.getsize(src_path) / 1024.0
-        if (
-            ext_lower == ".webp"
-            and max(width, height) <= MAX_FULL_DIMENSION
-            and file_size_kb <= 650
-        ):
-          continue
-        im = ImageOps.exif_transpose(im)
-        if im.mode not in ("RGB", "RGBA"):
-          im = im.convert("RGB")
-        if max(im.size) > MAX_FULL_DIMENSION:
-          im.thumbnail(
-              (MAX_FULL_DIMENSION, MAX_FULL_DIMENSION), Image.Resampling.LANCZOS
-          )
-        im.save(dest_path, "WEBP", quality=FULL_WEBP_QUALITY, method=4)
-      if ext_lower != ".webp" and os.path.exists(dest_path):
-        os.remove(src_path)
-    except Exception as e:
-      print(f"    [!] Could not optimize {filename}: {e}")
+def process_portal_folder(folder_path):
+    """
+    Fast-scan a portal folder:
+    - If a file is ALREADY .webp and its grid_thumbs/<name>.webp exists, skip Pillow completely!
+    - If a raw image (.jpg/.png) is found, convert to 1920px .webp, create 400x400 thumb, and remove raw file.
+    """
+    thumbs_dir = folder_path / "grid_thumbs"
+    thumbs_dir.mkdir(parents=True, exist_ok=True)
 
+    converted_count = 0
+    skipped_count = 0
 
-def generate_grid_thumbnails(folder_path, folder_name, image_filenames):
-  if not PILLOW_AVAILABLE:
-    return [f"portals/{folder_name}/{img}" for img in image_filenames]
-  thumbs_dir = os.path.join(folder_path, "grid_thumbs")
-  os.makedirs(thumbs_dir, exist_ok=True)
-  grid_thumb_paths = []
-  expected_thumbs = set()
-  for img_name in image_filenames:
-    src_path = os.path.join(folder_path, img_name)
-    base_name = os.path.splitext(img_name)[0]
-    thumb_filename = f"{base_name}.webp"
-    expected_thumbs.add(thumb_filename)
-    dest_path = os.path.join(thumbs_dir, thumb_filename)
-    if not os.path.exists(dest_path) or os.path.getmtime(
-        src_path
-    ) > os.path.getmtime(dest_path):
-      try:
-        with Image.open(src_path) as im:
-          im = ImageOps.exif_transpose(im)
-          if im.mode not in ("RGB", "RGBA"):
-            im = im.convert("RGB")
-          thumb_im = ImageOps.fit(im, GRID_THUMB_SIZE, Image.Resampling.LANCZOS)
-          thumb_im.save(dest_path, "WEBP", quality=GRID_THUMB_QUALITY, method=4)
-      except Exception:
-        grid_thumb_paths.append(f"portals/{folder_name}/{img_name}")
-        continue
-    grid_thumb_paths.append(
-        f"portals/{folder_name}/grid_thumbs/{thumb_filename}"
-    )
-  for existing_thumb in os.listdir(thumbs_dir):
-    if existing_thumb not in expected_thumbs:
-      try:
-        os.remove(os.path.join(thumbs_dir, existing_thumb))
-      except OSError:
-        pass
-  return grid_thumb_paths
+    all_files = sorted([p for p in folder_path.iterdir() if p.is_file()])
 
+    for file_path in all_files:
+        ext = file_path.suffix.lower()
+        if ext not in VALID_RAW_EXTS:
+            continue
 
-def get_folder_media(folder_path, folder_name):
-  optimize_full_images(folder_path, folder_name)
-  files = sorted([
-      f
-      for f in os.listdir(folder_path)
-      if os.path.isfile(os.path.join(folder_path, f))
-  ])
-  images = [
-      f for f in files if os.path.splitext(f)[1].lower() in IMAGE_EXTENSIONS
-  ]
-  if not images:
-    return None, [], []
-  custom_thumb = None
-  for img in images:
-    if "thumb" in img.lower():
-      custom_thumb = f"portals/{folder_name}/{img}"
-      break
-  gallery_files = [img for img in images if "thumb" not in img.lower()]
-  if not gallery_files:
-    gallery_files = images
-  photos = [f"portals/{folder_name}/{img}" for img in gallery_files]
-  grid_thumbs = generate_grid_thumbnails(
-      folder_path, folder_name, gallery_files
-  )
-  return custom_thumb, photos, grid_thumbs
+        clean_stem = file_path.stem.lower().replace(" ", "-")
+        target_webp = folder_path / f"{clean_stem}.webp"
+        target_thumb = thumbs_dir / f"{clean_stem}.webp"
 
+        # FAST PATH: Already a .webp with matching filename AND grid_thumb exists -> instant skip!
+        if ext == ".webp" and file_path == target_webp and target_thumb.exists():
+            skipped_count += 1
+            continue
 
-def choose_slice(branches):
-  slice_map = {}
-  for b in branches:
-    s_name = b.get("slice") or "Prime Cosmos"
-    s_bg = b.get("slice_bg") or "cosmos"
-    if s_name not in slice_map:
-      slice_map[s_name] = s_bg
-  if not slice_map:
-    slice_map["Prime Cosmos"] = "cosmos"
+        # Otherwise, open with Pillow to convert/resize or generate missing thumbnail
+        try:
+            with Image.open(file_path) as raw_img:
+                img = ImageOps.exif_transpose(raw_img)
+                if img.mode not in ("RGB", "RGBA"):
+                    img = img.convert("RGB")
 
-  existing_slices = list(slice_map.keys())
-  print("\n    Select 3D Portal Disk (Slice):")
-  for idx, s_name in enumerate(existing_slices, 1):
-    print(f"      [{idx}] {s_name} (Realm: {slice_map[s_name]})")
-  new_idx = len(existing_slices) + 1
-  print(f"      [{new_idx}] + Create a New 3D Disk / Slice")
+                # Save full 1920px max WebP if needed
+                if ext != ".webp" or file_path != target_webp:
+                    w, h = img.size
+                    if max(w, h) > MAX_FULL_DIM:
+                        img.thumbnail((MAX_FULL_DIM, MAX_FULL_DIM), Image.Resampling.LANCZOS)
+                    img.save(target_webp, "WEBP", quality=FULL_WEBP_QUALITY)
 
-  choice = input("    Choice [1]: ").strip() or "1"
-  if choice.isdigit() and 1 <= int(choice) <= len(existing_slices):
-    chosen_name = existing_slices[int(choice) - 1]
-    return chosen_name, slice_map[chosen_name]
+                # Generate 400x400 grid thumbnail if missing or new
+                if not target_thumb.exists() or ext != ".webp":
+                    make_grid_thumb(img, target_thumb)
 
-  new_name = (
-      input("    Enter Name for New 3D Disk [New York City]: ").strip()
-      or "New York City"
-  )
-  print("\n    Select Background Aesthetic for this Disk:")
-  for key, bg in REALM_BACKGROUNDS.items():
-    print(f"      [{key}] {bg['name']}")
-  bg_choice = input("    Realm Choice [6]: ").strip() or "6"
-  chosen_bg = REALM_BACKGROUNDS.get(bg_choice, REALM_BACKGROUNDS["6"])["id"]
-  return new_name, chosen_bg
+            # Remove original non-webp file or un-normalized filename
+            if file_path != target_webp and file_path.exists():
+                file_path.unlink()
 
+            converted_count += 1
+        except Exception as e:
+            print(f"  ⚠️ Error processing {file_path.name}: {e}")
 
-def choose_portal_style(custom_thumb, photos):
-  if custom_thumb:
-    return custom_thumb, "nocturnal"
-  print("\n    Select a Portal Ring Thumbnail:")
-  for key, preset in PORTAL_PRESETS.items():
-    found = find_template_file(preset["prefix"])
-    status = f"({found})" if found else "(place in templates/ folder)"
-    print(f"      [{key}] {preset['name']} {status}")
-  print("      [5] Use first photo in this gallery folder")
-  choice = input("    Choice [1]: ").strip() or "1"
-  if choice in PORTAL_PRESETS:
-    preset = PORTAL_PRESETS[choice]
-    template_path = find_template_file(preset["prefix"])
-    if template_path:
-      return template_path, preset["default_theme"]
+    # Collect final sorted .webp paths
+    final_webps = sorted([p for p in folder_path.glob("*.webp") if p.is_file()])
+    photos_list = [f"portals/{folder_path.name}/{p.name}" for p in final_webps]
+    thumbs_list = [f"portals/{folder_path.name}/grid_thumbs/{p.name}" for p in final_webps]
+
+    if converted_count > 0:
+        print(f"  ⚡ [{folder_path.name}] Converted {converted_count} new photo(s), fast-skipped {skipped_count} existing.")
     else:
-      fallback = f"templates/{preset['prefix']}.webp"
-      return fallback, preset["default_theme"]
-  return photos[0], "nocturnal"
+        print(f"  ✓ [{folder_path.name}] Fast-skipped {skipped_count} already-optimized WebP photo(s).")
+
+    return photos_list, thumbs_list
 
 
-def choose_filament_style():
-  print("\n    Select Connective Filament Style:")
-  for key, style in FILAMENT_STYLES.items():
-    print(f"      [{key}] {style['name']}")
-  choice = input("    Choice [1]: ").strip() or "1"
-  return FILAMENT_STYLES.get(choice, FILAMENT_STYLES["1"])["id"]
+def sync_all_portals():
+    PORTALS_DIR.mkdir(exist_ok=True)
+    branches = load_branches()
+    branch_map = {b["id"]: b for b in branches if "id" in b}
 
+    subfolders = sorted([d for d in PORTALS_DIR.iterdir() if d.is_dir() and not d.name.startswith(".")])
 
-def git_sync():
-  print("\n" + "=" * 60)
-  print("  GIT & NETLIFY DEPLOYMENT SYNC")
-  print("=" * 60)
-  if not os.path.exists(os.path.join(BASE_DIR, ".git")):
-    return
-  status = subprocess.run(
-      ["git", "status", "--porcelain"],
-      cwd=BASE_DIR,
-      capture_output=True,
-      text=True,
-  )
-  if not status.stdout.strip():
-    print("✓ Git working tree is already clean.")
-  choice = (
-      input("\nPush latest updates to GitHub & Netlify now? [Y/n]: ")
-      .strip()
-      .lower()
-  )
-  if choice not in ("", "y", "yes"):
-    return
-  commit_msg = (
-      input(
-          "Commit message (press Enter for 'Sync portal network updates'): "
-      ).strip()
-      or "Sync portal network updates"
-  )
-  try:
-    subprocess.run(["git", "add", "."], cwd=BASE_DIR, check=True)
-    subprocess.run(["git", "commit", "-m", commit_msg], cwd=BASE_DIR, check=True)
-    subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, check=True)
-    print("\n✨ SUCCESS! Changes pushed to GitHub.")
-  except subprocess.CalledProcessError as e:
-    print(f"\n[!] Git command failed (exit code {e.returncode}).")
+    for folder in subfolders:
+        folder_id = folder.name
+        photos, grid_thumbs = process_portal_folder(folder)
 
+        if not photos:
+            continue
 
-def main():
-  print("\n" + "=" * 60)
-  print("  ESOTERIC PORTAL NETWORK — 3D DISK & FOLDER SYNC")
-  print("=" * 60 + "\n")
-  os.makedirs(PORTALS_DIR, exist_ok=True)
-  os.makedirs(TEMPLATES_DIR, exist_ok=True)
-  branches = load_branches()
-  folders = sorted([
-      f
-      for f in os.listdir(PORTALS_DIR)
-      if os.path.isdir(os.path.join(PORTALS_DIR, f)) and not f.startswith(".")
-  ])
-  changes_made = False
+        if folder_id in branch_map:
+            # Update photo lists while preserving all existing settings
+            entry = branch_map[folder_id]
+            entry["photos"] = photos
+            entry["grid_thumbs"] = grid_thumbs
+            if not entry.get("thumbnail"):
+                entry["thumbnail"] = "templates/arcane.webp"
+        else:
+            # Brand-new portal folder discovered locally
+            print(f"\n✨ New portal folder detected: 'portals/{folder_id}'")
+            default_title = folder_id.replace("-", " ").replace("_", " ").title()
+            title = input(f"  Enter Display Title [{default_title}]: ").strip() or default_title
+            slice_name = input("  Enter 3D Disk Name [Prime Cosmos]: ").strip() or "Prime Cosmos"
+            slice_bg = input(f"  Enter Realm Background ({'/'.join(REALM_BGS)}) [cosmos]: ").strip() or "cosmos"
+            theme = input(f"  Enter Glow Theme ({'/'.join(THEMES)}) [nocturnal]: ").strip() or "nocturnal"
+            filament = input(f"  Enter Filament Style ({'/'.join(FILAMENTS)}) [standard]: ").strip() or "standard"
+            password = input("  Optional Password Lock (Enter for public): ").strip().lower()
 
-  kept_branches = []
-  for b in branches:
-    bid = b.get("id")
-    if bid not in folders:
-      changes_made = True
-    else:
-      if "slice" not in b:
-        b["slice"] = "Prime Cosmos"
-        b["slice_bg"] = "cosmos"
-        changes_made = True
-      if "filament" not in b:
-        b["filament"] = "standard"
-        changes_made = True
-      kept_branches.append(b)
-  branches = kept_branches
+            angle = suggest_open_angle(branches, slice_name, exclude_id=folder_id)
 
-  existing_map = {b["id"]: b for b in branches}
+            new_entry = {
+                "id": folder_id,
+                "title": title,
+                "subtitle": "Gallery & Archive",
+                "slice": slice_name,
+                "slice_bg": slice_bg if slice_bg in REALM_BGS else "cosmos",
+                "theme": theme if theme in THEMES else "nocturnal",
+                "filament": filament if filament in FILAMENTS else "standard",
+                "angle": angle,
+                "distance": 340,
+                "thumbnail": "templates/arcane.webp",
+                "photos": photos,
+                "grid_thumbs": grid_thumbs,
+                "password": password
+            }
+            branches.append(new_entry)
+            branch_map[folder_id] = new_entry
 
-  for folder in folders:
-    folder_path = os.path.join(PORTALS_DIR, folder)
-    custom_thumb, photos, grid_thumbs = get_folder_media(folder_path, folder)
-    if not photos:
-      continue
-
-    if folder in existing_map:
-      branch = existing_map[folder]
-      updated = False
-      if branch.get("photos") != photos:
-        branch["photos"] = photos
-        updated = True
-      if branch.get("grid_thumbs") != grid_thumbs:
-        branch["grid_thumbs"] = grid_thumbs
-        updated = True
-      if updated:
-        changes_made = True
-    else:
-      print(
-          f"\n[+] NEW PORTAL FOLDER DETECTED: '{folder}' ({len(photos)} photos)"
-      )
-
-      # 1. Select 3D Disk / Slice and Realm Background
-      slice_name, slice_bg = choose_slice(branches)
-      slice_angles = [
-          b.get("angle", 0)
-          for b in branches
-          if b.get("slice", "Prime Cosmos") == slice_name
-      ]
-
-      default_title = folder.replace("-", " ").replace("_", " ").title()
-      title = (
-          input(f"\n    Display Title [{default_title}]: ").strip()
-          or default_title
-      )
-      subtitle = (
-          input("    Subtitle [Gallery & Archive]: ").strip()
-          or "Gallery & Archive"
-      )
-      password = (
-          input(
-              "    Access Keyword/Password (leave blank for public access): "
-          )
-          .strip()
-          .lower()
-      )
-
-      thumb, suggested_theme = choose_portal_style(custom_thumb, photos)
-      theme = (
-          input(f"    Glow Theme [{suggested_theme}]: ").strip().lower()
-          or suggested_theme
-      )
-      filament = choose_filament_style()
-
-      sug_angle = suggest_angle(slice_angles)
-      angle_in = input(
-          f"\n    Radial Angle on '{slice_name}' in degrees [{sug_angle}]: "
-      ).strip()
-      angle = int(angle_in) if angle_in.lstrip("-").isdigit() else sug_angle
-      dist_in = input("    Distance from center in px [340]: ").strip()
-      distance = int(dist_in) if dist_in.isdigit() else 340
-
-      new_branch = {
-          "id": folder,
-          "title": title,
-          "subtitle": subtitle,
-          "slice": slice_name,
-          "slice_bg": slice_bg,
-          "theme": theme,
-          "filament": filament,
-          "angle": angle,
-          "distance": distance,
-          "thumbnail": thumb,
-          "photos": photos,
-          "grid_thumbs": grid_thumbs,
-          "password": password,
-      }
-      branches.append(new_branch)
-      changes_made = True
-      print(f"    ✓ Added '{title}' to disk '{slice_name}' in branches.json")
-
-  if changes_made:
     save_branches(branches)
-    print("\n✓ branches.json updated successfully!")
-  git_sync()
+    return branches
+
+
+def git_push_changes():
+    choice = input("\n🚀 Push all updates to GitHub (thebreakingmuse/wintercrickets) now? [Y/n]: ").strip().lower()
+    if choice not in ("", "y", "yes"):
+        print("Skipped GitHub push.")
+        return
+
+    print("Staging files...")
+    run_cmd(["git", "add", "."])
+
+    status_code, status_out, _ = run_cmd(["git", "status", "--porcelain"])
+    if not status_out:
+        print("✓ No new file changes to commit. Everything is already in sync!")
+        return
+
+    run_cmd(["git", "commit", "-m", "Sync portals & studio updates"])
+
+    print("Pulling any last-second remote updates with rebase...")
+    run_cmd(["git", "pull", "--rebase", "origin", "main"])
+
+    print("Pushing to https://github.com/thebreakingmuse/wintercrickets.git ...")
+    code, out, err = run_cmd(["git", "push", "origin", "main"])
+    if code == 0:
+        print("✨ Successfully pushed to wintercrickets! Netlify (darklyvibrant) is now deploying depthofsparkle.life.")
+    else:
+        print(f"⚠️ Push encountered an issue:\n{err or out}")
 
 
 if __name__ == "__main__":
-  main()
+    print("====================================================")
+    print("  ESOTERIC PORTAL SYNC — wintercrickets Fast Engine ")
+    print("====================================================")
+    git_auto_pull()
+    sync_all_portals()
+    git_push_changes()
