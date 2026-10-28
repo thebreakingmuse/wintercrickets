@@ -49,9 +49,9 @@
       --hub-glow-secondary: rgba(0, 240, 255, 0.3);
     }
     body[data-realm="wilderness"] {
-      --gold-accent: #b5d7bc;
-      --hub-glow-primary: rgba(181, 215, 188, 0.4);
-      --hub-glow-secondary: rgba(145, 184, 200, 0.28);
+      --gold-accent: #a8e6cf;
+      --hub-glow-primary: rgba(168, 230, 207, 0.4);
+      --hub-glow-secondary: rgba(100, 181, 246, 0.28);
     }
 
     * {
@@ -225,61 +225,47 @@
       100% { opacity: 1; r: 3.6; }
     }
 
-    /* 7. Wilderness (Nocturnal Forest Canopy & Moon) */
+    /* 7. Wilderness (Nocturnal Forest Canopy, Stars & Luminous Moon) */
     .realm-wilderness {
-      --wilderness-sky-top: #070c1d;
-      --wilderness-sky-mid: #101b32;
-      --wilderness-horizon: #203b3a;
-      --wilderness-forest-far: #1b3540;
-      --wilderness-forest-mid: #10252f;
-      --wilderness-forest-near: #050f18;
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse at 74% 20%, rgba(114, 157, 174, 0.13), transparent 42%),
-        radial-gradient(ellipse at 45% 100%, rgba(91, 131, 112, 0.24), transparent 58%),
-        linear-gradient(180deg, var(--wilderness-sky-top) 0%, var(--wilderness-sky-mid) 40%, #1a3342 76%, var(--wilderness-horizon) 100%);
+      background: linear-gradient(
+        180deg,
+        #02040a 0%,
+        #06101e 40%,
+        #0b1d2c 72%,
+        #071418 90%,
+        #020608 100%
+      );
+    }
+    .realm-wilderness::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1.2px 1.2px at 14% 16%, rgba(255, 255, 255, 0.85), transparent),
+        radial-gradient(1.8px 1.8px at 32% 10%, rgba(168, 230, 207, 0.75), transparent),
+        radial-gradient(1px 1px at 64% 18%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(2px 2px at 84% 12%, rgba(226, 234, 252, 0.75), transparent),
+        radial-gradient(1.4px 1.4px at 48% 28%, rgba(255, 255, 255, 0.65), transparent),
+        radial-gradient(1.5px 1.5px at 22% 40%, rgba(168, 230, 207, 0.55), transparent);
+      background-size: 380px 380px;
+      opacity: 0.85;
     }
 
-    .wilderness-stars-svg {
+    .wilderness-scene-svg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       display: block;
-      opacity: 0.85;
     }
 
-    /* A separate moon viewport keeps the disc circular and visible on phones. */
-    .wilderness-moon-svg {
-      position: absolute;
-      top: clamp(20px, 7vh, 90px);
-      right: clamp(6px, 9vw, 170px);
-      width: clamp(150px, 16vw, 240px);
-      height: auto;
-      display: block;
+    .wilderness-star-twinkle {
+      animation: starPulse 3.6s ease-in-out infinite alternate;
     }
 
-    .wilderness-forest-svg {
-      position: absolute;
-      bottom: -1px;
-      left: 50%;
-      width: 100%;
-      min-width: 1100px;
-      height: clamp(260px, 46vh, 520px);
-      max-height: 70vh;
-      transform: translateX(-50%);
-      display: block;
-    }
-
-    .wilderness-forest-far { fill: var(--wilderness-forest-far); }
-    .wilderness-forest-mid { fill: var(--wilderness-forest-mid); }
-    .wilderness-forest-near { fill: var(--wilderness-forest-near); }
-
-    @media (max-width: 600px) {
-      .wilderness-moon-svg {
-        top: 120px;
-        right: 12px;
-      }
+    @keyframes starPulse {
+      0% { opacity: 0.35; }
+      100% { opacity: 1; }
     }
 
     /* Top Title Banner */
@@ -501,6 +487,41 @@
       fill: #050811;
       stroke-width: 1.8;
       filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    /* Gothic Wrought-Iron & Thorny Lancet Filament Styles */
+    .ligament-gothic-spine {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: butt;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-gothic-tracery {
+      fill: none;
+      stroke-width: 1.25;
+      stroke-dasharray: 10 4 2 4;
+      stroke-linecap: round;
+      animation: pulseFlow 16s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.78;
+    }
+
+    .ligament-gothic-thorns {
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 4px currentColor);
+      opacity: 0.88;
+    }
+
+    .ligament-gothic-finial {
+      fill: #050508;
+      stroke-width: 1.6;
+      filter: drop-shadow(0 0 6px currentColor);
     }
 
     @keyframes electricSurge {
@@ -1329,99 +1350,68 @@
       </svg>
     </div>
 
-    <!-- 7. Wilderness: vector stars, moonlight, and layered forest canopy. -->
-    <div class="realm-layer realm-wilderness" data-realm-id="wilderness" aria-hidden="true">
-      <svg class="wilderness-stars-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+    <!-- 7. Wilderness Nocturnal Forest Canopy & Moon Realm Layer -->
+    <div class="realm-layer realm-wilderness" data-realm-id="wilderness">
+      <svg class="wilderness-scene-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
         <defs>
-          <radialGradient id="wilderness-star-glow">
-            <stop offset="0%" stop-color="#fff5d6" stop-opacity="0.75" />
-            <stop offset="25%" stop-color="#d8eee6" stop-opacity="0.24" />
-            <stop offset="100%" stop-color="#d8eee6" stop-opacity="0" />
+          <radialGradient id="wilderness-moon-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f4f9ff" stop-opacity="0.95" />
+            <stop offset="28%" stop-color="#c9e4ff" stop-opacity="0.45" />
+            <stop offset="65%" stop-color="#64b5f6" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="#06101e" stop-opacity="0" />
           </radialGradient>
-          <pattern id="wilderness-stars" width="431" height="337" patternUnits="userSpaceOnUse">
-            <g fill="#d8e8ed">
-              <circle cx="23" cy="31" r="0.9" opacity="0.7" />
-              <circle cx="109" cy="83" r="0.7" opacity="0.55" />
-              <circle cx="61" cy="197" r="0.65" opacity="0.45" />
-              <circle cx="239" cy="49" r="0.8" opacity="0.65" />
-              <circle cx="319" cy="271" r="0.75" opacity="0.5" />
-              <circle cx="397" cy="123" r="1" opacity="0.6" />
-            </g>
-            <circle cx="173" cy="151" r="6" fill="url(#wilderness-star-glow)" />
-            <circle cx="173" cy="151" r="1.1" fill="#fff5d6" />
-            <circle cx="353" cy="213" r="4" fill="url(#wilderness-star-glow)" />
-            <circle cx="353" cy="213" r="0.8" fill="#e6f0e4" />
-          </pattern>
-        </defs>
-        <rect width="1600" height="1000" fill="url(#wilderness-stars)" />
-      </svg>
-
-      <svg class="wilderness-moon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" focusable="false">
-        <defs>
-          <radialGradient id="wilderness-moon-halo">
-            <stop offset="0%" stop-color="#e2efda" stop-opacity="0.22" />
-            <stop offset="45%" stop-color="#b5d6d5" stop-opacity="0.15" />
-            <stop offset="100%" stop-color="#91b8c8" stop-opacity="0" />
-          </radialGradient>
-          <radialGradient id="wilderness-moon-disc" cx="32%" cy="27%" r="80%">
-            <stop offset="0%" stop-color="#fffde9" />
-            <stop offset="46%" stop-color="#e5ecdb" />
-            <stop offset="80%" stop-color="#bdced0" />
-            <stop offset="100%" stop-color="#9bb3be" />
-          </radialGradient>
-        </defs>
-        <circle cx="100" cy="100" r="98" fill="url(#wilderness-moon-halo)" />
-        <circle cx="100" cy="100" r="44" fill="url(#wilderness-moon-disc)" />
-        <g fill="#718d93" opacity="0.18">
-          <circle cx="113" cy="112" r="10" />
-          <circle cx="89" cy="88" r="6" />
-          <circle cx="123" cy="87" r="4" />
-          <circle cx="85" cy="120" r="3" />
-        </g>
-      </svg>
-
-      <svg class="wilderness-forest-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520" preserveAspectRatio="none" focusable="false">
-        <defs>
-          <path id="wilderness-fir" d="M50 0 27 64h12L17 112h15L7 164h21L0 222h43v38h14v-38h43L72 164h21L68 112h15L61 64h12Z" />
+          <linearGradient id="wilderness-mist" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#a8e6cf" stop-opacity="0" />
+            <stop offset="55%" stop-color="#a8e6cf" stop-opacity="0.08" />
+            <stop offset="100%" stop-color="#03090c" stop-opacity="0.85" />
+          </linearGradient>
         </defs>
 
-        <!-- Distant silhouettes, softened by blue-green night haze. -->
-        <g class="wilderness-forest-far">
-          <use href="#wilderness-fir" transform="translate(-20 240) scale(.70)" />
-          <use href="#wilderness-fir" transform="translate(120 220) scale(.78)" />
-          <use href="#wilderness-fir" transform="translate(275 260) scale(.60)" />
-          <use href="#wilderness-fir" transform="translate(420 205) scale(.85)" />
-          <use href="#wilderness-fir" transform="translate(590 252) scale(.70)" />
-          <use href="#wilderness-fir" transform="translate(760 230) scale(.75)" />
-          <use href="#wilderness-fir" transform="translate(925 245) scale(.68)" />
-          <use href="#wilderness-fir" transform="translate(1090 215) scale(.85)" />
-          <use href="#wilderness-fir" transform="translate(1265 255) scale(.70)" />
-          <use href="#wilderness-fir" transform="translate(1450 210) scale(.83)" />
-          <path d="M0 382C240 338 410 402 630 365S1000 360 1240 355S1450 368 1600 340V520H0Z" />
+        <!-- Luminous Full Moon & Outer Halo -->
+        <circle cx="1240" cy="190" r="190" fill="url(#wilderness-moon-glow)" />
+        <circle cx="1240" cy="190" r="46" fill="#eef6ff" />
+        <circle cx="1226" cy="176" r="9" fill="#d0e2f5" opacity="0.45" />
+        <circle cx="1254" cy="202" r="13" fill="#d0e2f5" opacity="0.35" />
+        <circle cx="1232" cy="210" r="6" fill="#d0e2f5" opacity="0.4" />
+
+        <!-- Starfield & Constellations -->
+        <g fill="#ffffff">
+          <circle class="wilderness-star-twinkle" cx="180" cy="120" r="1.8" />
+          <circle class="wilderness-star-twinkle" cx="340" cy="80" r="2.2" />
+          <circle class="wilderness-star-twinkle" cx="520" cy="160" r="1.5" />
+          <circle class="wilderness-star-twinkle" cx="780" cy="95" r="2.4" />
+          <circle class="wilderness-star-twinkle" cx="960" cy="140" r="1.6" />
+          <circle class="wilderness-star-twinkle" cx="1440" cy="110" r="2" />
+          <circle class="wilderness-star-twinkle" cx="260" cy="240" r="1.4" />
+          <circle class="wilderness-star-twinkle" cx="670" cy="230" r="1.9" />
+          <circle class="wilderness-star-twinkle" cx="1050" cy="270" r="1.5" />
         </g>
 
-        <g class="wilderness-forest-mid">
-          <use href="#wilderness-fir" transform="translate(20 230) scale(.95)" />
-          <use href="#wilderness-fir" transform="translate(175 205) scale(1.05)" />
-          <use href="#wilderness-fir" transform="translate(365 265) scale(.82)" />
-          <use href="#wilderness-fir" transform="translate(570 255) scale(.90)" />
-          <use href="#wilderness-fir" transform="translate(790 275) scale(.80)" />
-          <use href="#wilderness-fir" transform="translate(1010 245) scale(.94)" />
-          <use href="#wilderness-fir" transform="translate(1240 232) scale(1.05)" />
-          <use href="#wilderness-fir" transform="translate(1470 215) scale(1.15)" />
-          <path d="M0 422C200 378 360 430 570 407S920 392 1120 410S1430 390 1600 408V520H0Z" />
-        </g>
+        <!-- Distant Mountain Ridge -->
+        <path fill="#071320" d="M0,900 L0,650 L180,560 L370,630 L590,510 L820,615 L1060,525 L1310,605 L1490,545 L1600,590 L1600,900 Z" />
 
-        <!-- Foreground trees frame a lower, open central canopy. -->
-        <g class="wilderness-forest-near">
-          <use href="#wilderness-fir" transform="translate(-35 155) scale(1.55)" />
-          <use href="#wilderness-fir" transform="translate(120 260) scale(1.15)" />
-          <use href="#wilderness-fir" transform="translate(325 330) scale(.80)" />
-          <use href="#wilderness-fir" transform="translate(1110 330) scale(.85)" />
-          <use href="#wilderness-fir" transform="translate(1320 250) scale(1.20)" />
-          <use href="#wilderness-fir" transform="translate(1475 135) scale(1.65)" />
-          <path d="M0 470C160 427 310 483 480 458S800 474 970 457S1290 464 1450 438L1600 460V520H0Z" />
-        </g>
+        <!-- Midground Pine Forest Ridge -->
+        <path fill="#050e17" d="
+          M0,900 L0,690
+          L30,640 L55,695 L85,620 L115,690 L145,605 L175,685 L210,630 L240,695
+          L280,615 L315,690 L350,595 L385,685 L420,625 L455,695 L495,610 L530,685
+          L575,630 L610,695 L650,600 L690,685 L730,620 L765,690 L805,615 L845,690
+          L885,605 L925,685 L965,625 L1005,695 L1045,590 L1085,680 L1125,615 L1165,690
+          L1205,600 L1245,685 L1285,620 L1325,695 L1365,585 L1405,680 L1445,615 L1485,690
+          L1525,605 L1565,685 L1600,630 L1600,900 Z" />
+
+        <!-- Soft Nocturnal Valley Mist -->
+        <rect x="0" y="560" width="1600" height="340" fill="url(#wilderness-mist)" />
+
+        <!-- Foreground Towering Conifer Silhouette Canopy -->
+        <path fill="#020609" stroke="rgba(168, 230, 207, 0.12)" stroke-width="0.8" d="
+          M0,900 L0,640
+          L25,570 L10,575 L40,510 L25,515 L55,455 L85,515 L70,510 L100,575 L85,570 L115,650
+          L145,595 L130,600 L165,530 L150,535 L185,470 L220,535 L205,530 L240,600 L225,595 L260,675
+          L310,635 L350,565 L335,570 L375,495 L415,570 L400,565 L440,635 L485,695
+          L1115,695 L1160,625 L1145,630 L1185,555 L1170,560 L1210,485 L1250,560 L1235,555 L1275,630 L1260,625 L1305,685
+          L1350,600 L1335,605 L1375,525 L1360,530 L1400,450 L1440,530 L1425,525 L1465,605 L1450,600 L1490,670
+          L1520,585 L1505,590 L1545,505 L1530,510 L1565,435 L1600,510 L1600,900 Z" />
       </svg>
     </div>
   </div>
@@ -1775,6 +1765,84 @@
           svgGroup.appendChild(dot);
         });
 
+      } else if (filamentStyle === 'gothic') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+
+        // 1. Pointed Gothic Lancet Arch Spine
+        const peakX = CENTER_X + dx * 0.5 + nx * 28;
+        const peakY = CENTER_Y + dy * 0.5 + ny * 28;
+        const c1x = CENTER_X + dx * 0.22 + nx * 22;
+        const c1y = CENTER_Y + dy * 0.22 + ny * 22;
+        const c2x = CENTER_X + dx * 0.78 + nx * 22;
+        const c2y = CENTER_Y + dy * 0.78 + ny * 22;
+        const lancetD = `M ${CENTER_X} ${CENTER_Y} Q ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${peakX.toFixed(1)} ${peakY.toFixed(1)} Q ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${x2} ${y2}`;
+
+        // 2. Counter-Curving Sub-Tracery Arch
+        const counterPeakX = CENTER_X + dx * 0.5 - nx * 16;
+        const counterPeakY = CENTER_Y + dy * 0.5 - ny * 16;
+        const cc1x = CENTER_X + dx * 0.25 - nx * 12;
+        const cc1y = CENTER_Y + dy * 0.25 - ny * 12;
+        const cc2x = CENTER_X + dx * 0.75 - nx * 12;
+        const cc2y = CENTER_Y + dy * 0.75 - ny * 12;
+        const traceryD = `M ${CENTER_X} ${CENTER_Y} Q ${cc1x.toFixed(1)} ${cc1y.toFixed(1)} ${counterPeakX.toFixed(1)} ${counterPeakY.toFixed(1)} Q ${cc2x.toFixed(1)} ${cc2y.toFixed(1)} ${x2} ${y2}`;
+
+        // 3. Wrought-Iron Spikes / Briar Thorns along the Span
+        let thornsD = '';
+        const thornSteps = [0.22, 0.36, 0.5, 0.64, 0.78];
+        thornSteps.forEach((t, tIdx) => {
+          const bx = CENTER_X + dx * t;
+          const by = CENTER_Y + dy * t;
+          const spikeLen = t === 0.5 ? 24 : (tIdx % 2 === 0 ? 15 : 19);
+          const s1x = bx + nx * spikeLen;
+          const s1y = by + ny * spikeLen;
+          const s2x = bx - nx * (spikeLen * 0.75);
+          const s2y = by - ny * (spikeLen * 0.75);
+          thornsD += `M ${s2x.toFixed(1)} ${s2y.toFixed(1)} L ${s1x.toFixed(1)} ${s1y.toFixed(1)} `;
+        });
+
+        const thornsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        thornsPath.setAttribute('d', thornsD.trim());
+        thornsPath.setAttribute('class', 'ligament-gothic-thorns');
+        thornsPath.setAttribute('stroke', color);
+        thornsPath.style.color = color;
+        svgGroup.appendChild(thornsPath);
+
+        const traceryPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        traceryPath.setAttribute('d', traceryD);
+        traceryPath.setAttribute('class', 'ligament-gothic-tracery');
+        traceryPath.setAttribute('stroke', color);
+        traceryPath.style.color = color;
+        svgGroup.appendChild(traceryPath);
+
+        const spinePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        spinePath.setAttribute('d', lancetD);
+        spinePath.setAttribute('class', 'ligament-gothic-spine');
+        spinePath.setAttribute('stroke', `url(#grad-${theme})`);
+        spinePath.style.color = color;
+        svgGroup.appendChild(spinePath);
+
+        // 4. Diamond Iron Finials at Key Nodes
+        [0.36, 0.5, 0.64].forEach((t) => {
+          const fx = CENTER_X + dx * t;
+          const fy = CENTER_Y + dy * t;
+          const size = t === 0.5 ? 5.5 : 4;
+          const diamond = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          const pTop = `${(fx + nx * size).toFixed(1)},${(fy + ny * size).toFixed(1)}`;
+          const pRight = `${(fx + (dx / len) * size).toFixed(1)},${(fy + (dy / len) * size).toFixed(1)}`;
+          const pBot = `${(fx - nx * size).toFixed(1)},${(fy - ny * size).toFixed(1)}`;
+          const pLeft = `${(fx - (dx / len) * size).toFixed(1)},${(fy - (dy / len) * size).toFixed(1)}`;
+          diamond.setAttribute('points', `${pTop} ${pRight} ${pBot} ${pLeft}`);
+          diamond.setAttribute('class', 'ligament-gothic-finial');
+          diamond.setAttribute('stroke', color);
+          diamond.style.color = color;
+          svgGroup.appendChild(diamond);
+        });
+
       } else {
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));
@@ -1941,14 +2009,13 @@
 
         sliceList = Array.from(slicesMap.values());
         if (sliceList.length === 0) return;
-	
-	// Force Prime Cosmos to always be the default startup disk (index 0)
+
+        // Force Prime Cosmos to always be the default startup disk (index 0)
         sliceList.sort((a, b) => {
           if (a.name === 'Prime Cosmos') return -1;
           if (b.name === 'Prime Cosmos') return 1;
           return 0;
         });
-
 
         sliceList.forEach((sliceObj, sIdx) => {
           const diskPlane = document.createElement('div');

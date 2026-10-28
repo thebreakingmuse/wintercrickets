@@ -434,11 +434,20 @@
       overflow: visible;
     }
 
-    /* Batch Photo Dropzone */
+    /* Batch Photo Dropzone & Library Drawer Trigger */
+    .photo-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
     .dropzone {
       border: 2px dashed rgba(212, 175, 55, 0.45);
       border-radius: 12px;
-      padding: 28px 20px;
+      padding: 24px 20px;
       text-align: center;
       background: rgba(10, 8, 20, 0.65);
       cursor: pointer;
@@ -526,6 +535,81 @@
       justify-content: center;
     }
 
+    /* Cross-Portal Library Modal Drawer */
+    #library-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 2, 6, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+      padding: 24px;
+    }
+
+    #library-modal.active {
+      display: flex;
+    }
+
+    .library-content-box {
+      width: min(94vw, 1000px);
+      height: 80vh;
+      background: rgba(12, 10, 22, 0.98);
+      border: 1.5px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      box-shadow: 0 0 50px rgba(0,0,0,0.9);
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 14px;
+      overflow-y: auto;
+      padding: 6px;
+    }
+
+    .library-card {
+      position: relative;
+      height: 130px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      background: #06050a;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .library-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(212,175,55,0.4);
+    }
+
+    .library-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .library-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(4,4,10,0.85);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      padding: 3px 6px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     /* Status & Progress Bar */
     .status-box {
       margin-top: 20px;
@@ -594,11 +678,11 @@
     </div>
   </header>
 
-  <!-- Direct GitHub Vault Authentication Gate (Bypasses Netlify Git Gateway 400 Bugs Completely) -->
+  <!-- Direct GitHub Vault Authentication Gate -->
   <section id="auth-gate">
     <h2>Sanctum Vault Key</h2>
     <p class="auth-sub">
-      Enter your Studio Author Name and your GitHub Access Key for <strong>thebreakingmuse/wintercrickets</strong>. Your key is stored privately on this device for instant publishing to <strong>depthofsparkle.life</strong>.
+      Enter your Studio Author Name and your GitHub Access Key for <strong>thebreakingmuse/wintercrickets</strong>.
     </p>
 
     <div class="auth-field">
@@ -643,12 +727,12 @@
       <div class="form-grid">
         <div class="form-group">
           <label>Portal Display Title</label>
-          <input type="text" id="inp-title" placeholder="e.g., Brooklyn Bridge Nocturne" />
+          <input type="text" id="inp-title" placeholder="e.g., Nocturnal Outdoor" />
         </div>
 
         <div class="form-group">
           <label>Folder ID <span class="label-hint">( inside portals/ )</span></label>
-          <input type="text" id="inp-id" placeholder="e.g., brooklyn-bridge" />
+          <input type="text" id="inp-id" placeholder="e.g., nocturnal-outdoor" />
         </div>
 
         <div class="form-group">
@@ -664,16 +748,16 @@
         <div class="form-group">
           <label>3D Portal Disk (Slice)</label>
           <select id="sel-slice"></select>
-          <input type="text" id="inp-new-slice" placeholder="Enter new 3D Disk name (e.g., New York City)" style="display:none; margin-top:8px;" />
+          <input type="text" id="inp-new-slice" placeholder="Enter new 3D Disk name (e.g., Outdoor Sanctuary)" style="display:none; margin-top:8px;" />
         </div>
 
         <div class="form-group">
           <label>Disk Realm Background Aesthetic</label>
           <select id="sel-realm-bg">
             <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
+            <option value="wilderness">Wilderness — Nocturnal Forest Canopy & Moon</option>
             <option value="nyc">NYC — New York City Nocturne Skyline</option>
             <option value="verdant">Verdant — Bioluminescent Canopy</option>
-            <option value="wilderness">Wilderness — Nocturnal Forest Canopy &amp; Moon</option>
             <option value="ember">Ember — Alchemical Red Ochre & Copper</option>
             <option value="abyss">Abyss — Deep Sapphire & Aqua Trench</option>
             <option value="astral">Astral — Silver Eclipse & Diamond Stars</option>
@@ -698,6 +782,7 @@
           <label>Connective Filament Style</label>
           <select id="sel-filament">
             <option value="standard">Standard Glowing Gradient</option>
+            <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
             <option value="vine">Twisting Organic Vine</option>
             <option value="tendril">Dual-Strand Braided Tendril</option>
             <option value="suspension">Brooklyn Bridge Suspension Span</option>
@@ -708,11 +793,11 @@
         <div class="form-group">
           <label>Portal Ring Thumbnail</label>
           <select id="sel-thumb-preset">
+            <option value="first_photo">Use First Photo in Gallery (Recommended)</option>
             <option value="templates/arcane.webp">Esoteric & Arcane (templates/arcane.webp)</option>
             <option value="templates/natural.webp">Natural & Organic (templates/natural.webp)</option>
             <option value="templates/love.webp">Fantasy & Love (templates/love.webp)</option>
             <option value="templates/door.webp">Ancient Locked Door (templates/door.webp)</option>
-            <option value="first_photo">Use First Photo in Gallery</option>
           </select>
         </div>
       </div>
@@ -738,13 +823,17 @@
         </div>
       </div>
 
-      <!-- 4. Browser WebP Photo Processor & Uploader -->
+      <!-- 4. Browser WebP Photo Processor & Cross-Portal Library Picker -->
       <div class="form-group full-width">
-        <label>Portal Gallery Photos <span class="label-hint">(Auto-converts to 1920px .webp + 400x400 grid_thumbs)</span></label>
+        <div class="photo-action-bar">
+          <label>Portal Gallery Photos <span class="label-hint">(Auto-converts to WebP)</span></label>
+          <button type="button" id="open-library-btn" class="btn">📂 Reference Photo from Another Portal</button>
+        </div>
+
         <input type="file" id="file-input" multiple accept="image/*" style="display:none;" />
         <div class="dropzone" id="dropzone">
-          <h3>+ Tap or Drag Photos Here</h3>
-          <p>Select multiple photos from your phone or computer — automatically compressed to WebP in your browser</p>
+          <h3>+ Tap or Drag New Photos Here</h3>
+          <p>Automatically optimized and compressed in your browser</p>
         </div>
 
         <div id="existing-photos-summary" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;"></div>
@@ -768,6 +857,20 @@
       </div>
     </section>
   </main>
+
+  <!-- Cross-Portal Photo Library Modal Drawer -->
+  <div id="library-modal">
+    <div class="library-content-box">
+      <div class="panel-title">
+        <span>Select Photo to Reference from Network</span>
+        <button type="button" id="close-library-btn" class="btn" style="padding: 4px 10px; font-size:0.7rem;">Close</button>
+      </div>
+      <div class="library-grid" id="library-grid"></div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
+        Click any photo to instantly link it into this portal's gallery.
+      </div>
+    </div>
+  </div>
 
   <script>
     const GITHUB_OWNER = 'thebreakingmuse';
@@ -829,6 +932,11 @@
 
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('file-input');
+    const openLibraryBtn = document.getElementById('open-library-btn');
+    const libraryModal = document.getElementById('library-modal');
+    const closeLibraryBtn = document.getElementById('close-library-btn');
+    const libraryGrid = document.getElementById('library-grid');
+
     const existingPhotosSummary = document.getElementById('existing-photos-summary');
     const photoPreviewGrid = document.getElementById('photo-preview-grid');
 
@@ -869,7 +977,6 @@
       return session;
     }
 
-    // Direct GitHub REST API Request to thebreakingmuse/wintercrickets
     async function githubApiRequest(path, options = {}, customToken = null) {
       const session = getVaultSession();
       const token = customToken || (session && session.token);
@@ -930,22 +1037,18 @@
       connectVaultBtn.textContent = 'Verifying wintercrickets Access...';
 
       try {
-        // Verify read/write access to thebreakingmuse/wintercrickets
         const repoInfo = await githubApiRequest('', { method: 'GET' }, token);
-        if (!repoInfo || !repoInfo.full_name) {
-          throw new Error('Could not verify repository access.');
-        }
+        if (!repoInfo || !repoInfo.full_name) throw new Error('Could not verify repository access.');
         saveVaultSession(author, token);
         enterLoggedInState(author);
       } catch (err) {
-        showAuthMessage(`Could not connect to thebreakingmuse/wintercrickets. Make sure your token has "Contents: Read & Write" permission. (${err.message})`);
+        showAuthMessage(`Could not connect. Make sure your token has "Contents: Read & Write". (${err.message})`);
       } finally {
         connectVaultBtn.disabled = false;
         connectVaultBtn.textContent = '✨ Unlock Portal Studio';
       }
     });
 
-    // Auto-login if token is already saved in browser
     (async function initVault() {
       const saved = getVaultSession();
       if (saved && saved.token) {
@@ -958,7 +1061,6 @@
       enterLoggedOutState();
     })();
 
-    // Load branches.json directly from GitHub (always 100% up-to-date even before Netlify finishes building)
     async function fetchBranchesData() {
       try {
         const fileData = await githubApiRequest(`/contents/branches.json?ref=${GITHUB_BRANCH}&t=${Date.now()}`);
@@ -971,7 +1073,6 @@
           branches = [];
         }
       } catch (e) {
-        // Fallback to relative fetch if needed
         try {
           const res = await fetch(`../branches.json?t=${Date.now()}`);
           branches = res.ok ? await res.json() : [];
@@ -1024,7 +1125,7 @@
       if (selSlice.value === '__NEW__') {
         inpNewSlice.style.display = 'block';
         inpNewSlice.focus();
-        selRealmBg.value = 'nyc';
+        selRealmBg.value = 'wilderness';
       } else {
         inpNewSlice.style.display = 'none';
         const sliceMap = getSliceMap();
@@ -1037,7 +1138,7 @@
 
     function getActiveSliceName() {
       if (selSlice.value === '__NEW__') {
-        return inpNewSlice.value.trim() || 'New York City';
+        return inpNewSlice.value.trim() || 'Outdoor Sanctuary';
       }
       return selSlice.value || 'Prime Cosmos';
     }
@@ -1132,7 +1233,7 @@
       populateSliceDropdown(currentSlice);
       setThemePill('celestial');
       selFilament.value = 'standard';
-      selThumbPreset.value = 'templates/arcane.webp';
+      selThumbPreset.value = 'first_photo';
 
       inpAngle.value = suggestOpenAngle(currentSlice);
       inpDistance.value = 340;
@@ -1281,6 +1382,49 @@
     window.addEventListener('touchmove', e => { if (isDraggingRadar) updateRadarFromPointer(e); }, { passive: false });
     window.addEventListener('touchend', () => { isDraggingRadar = false; });
 
+    // --- Cross-Portal Photo Library Drawer Logic ---
+    openLibraryBtn.addEventListener('click', () => {
+      libraryGrid.innerHTML = '';
+      let totalPhotosFound = 0;
+
+      branches.forEach(b => {
+        const pList = b.photos || [];
+        const tList = b.grid_thumbs || [];
+        pList.forEach((fullPath, idx) => {
+          totalPhotosFound++;
+          const thumbPath = tList[idx] || fullPath;
+
+          const card = document.createElement('div');
+          card.className = 'library-card';
+          card.innerHTML = `
+            <img src="../${thumbPath}" alt="" loading="lazy" />
+            <div class="library-card-label">${b.title || b.id}</div>
+          `;
+
+          card.addEventListener('click', () => {
+            if (!existingPhotos.includes(fullPath)) {
+              existingPhotos.push(fullPath);
+              existingGridThumbs.push(thumbPath);
+              renderPhotoPreviews();
+            }
+            libraryModal.classList.remove('active');
+          });
+
+          libraryGrid.appendChild(card);
+        });
+      });
+
+      if (totalPhotosFound === 0) {
+        libraryGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted);">No photos found in other portals yet.</div>';
+      }
+
+      libraryModal.classList.add('active');
+    });
+
+    closeLibraryBtn.addEventListener('click', () => libraryModal.classList.remove('active'));
+    libraryModal.addEventListener('click', e => { if (e.target === libraryModal) libraryModal.classList.remove('active'); });
+
+    // --- Browser WebP Processor ---
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
@@ -1386,7 +1530,7 @@
         div.className = 'queued-item';
         div.innerHTML = `
           <img src="../${thumbPath}" alt="" />
-          <span class="queued-badge">Saved</span>
+          <span class="queued-badge">Linked</span>
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
         div.querySelector('.remove-photo-btn').addEventListener('click', () => {
@@ -1413,7 +1557,7 @@
       });
     }
 
-    // --- Atomic Single-Commit Push Straight to github.com/thebreakingmuse/wintercrickets ---
+    // --- Atomic Single-Commit Push ---
     publishBtn.addEventListener('click', async () => {
       const title = inpTitle.value.trim();
       const folderId = inpId.value.trim();
@@ -1441,7 +1585,9 @@
 
       const sliceName = getActiveSliceName();
       const sliceBg = selRealmBg.value;
-      const thumbChoice = selThumbPreset.value === 'first_photo' ? finalPhotos[0] : selThumbPreset.value;
+      const thumbChoice = selThumbPreset.value === 'first_photo'
+        ? (finalGridThumbs[0] || finalPhotos[0])
+        : selThumbPreset.value;
 
       const portalObj = {
         id: folderId,
@@ -1480,7 +1626,6 @@
         const session = getVaultSession();
         const authorLabel = (session && session.author) || 'Studio';
 
-        // 1. Get latest commit on main
         const refData = await githubApiRequest(`/git/refs/heads/${GITHUB_BRANCH}`);
         const latestCommitSha = refData.object.sha;
         const commitData = await githubApiRequest(`/git/commits/${latestCommitSha}`);
@@ -1488,10 +1633,9 @@
 
         const treeItems = [];
 
-        // 2. Upload new WebP photos & 400x400 thumbnails as Git blobs
         for (let i = 0; i < queuedNewFiles.length; i++) {
           const item = queuedNewFiles[i];
-          statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${queuedNewFiles.length} to wintercrickets...`;
+          statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${queuedNewFiles.length}...`;
           progressFill.style.width = `${15 + Math.round(((i + 1) / (queuedNewFiles.length + 1)) * 65)}%`;
 
           const fullBlobRes = await githubApiRequest('/git/blobs', {
@@ -1517,7 +1661,6 @@
           });
         }
 
-        // 3. Add updated branches.json to the same atomic Git tree
         statusText.textContent = 'Updating branches.json & committing to wintercrickets...';
         progressFill.style.width = '88%';
 
@@ -1550,7 +1693,7 @@
         branches = updatedBranches;
         queuedNewFiles = [];
         progressFill.style.width = '100%';
-        statusText.textContent = `✨ Published '${title}' to wintercrickets! Netlify (darklyvibrant) is now deploying to depthofsparkle.life.`;
+        statusText.textContent = `✨ Published '${title}'! Netlify is now deploying to depthofsparkle.life.`;
 
         populateSliceDropdown(sliceName);
         const savedIdx = branches.findIndex(b => b.id === folderId);
