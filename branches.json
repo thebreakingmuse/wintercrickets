@@ -484,10 +484,13 @@
     "id": "Green Mountain Falls",
     "title": "Green Mountain Falls",
     "subtitle": "god bless america",
+    "slice": "Wilderness",
+    "slice_bg": "wilderness",
     "theme": "oceanic",
-    "angle": -115,
-    "distance": 340,
-    "thumbnail": "templates/natural.jpg",
+    "filament": "standard",
+    "angle": 41,
+    "distance": 200,
+    "thumbnail": "portals/Green Mountain Falls/PXL_20261010_192055635.webp",
     "photos": [
       "portals/Green Mountain Falls/PXL_20261010_192055635.webp",
       "portals/Green Mountain Falls/PXL_20261010_192119077.webp",
@@ -594,10 +597,7 @@
       "portals/Green Mountain Falls/grid_thumbs/PXL_20261010_200032294.webp",
       "portals/Green Mountain Falls/grid_thumbs/PXL_20261010_200136533.webp"
     ],
-    "password": "",
-    "slice": "Prime Cosmos",
-    "slice_bg": "cosmos",
-    "filament": "standard"
+    "password": ""
   },
   {
     "id": "Woodland Park Aspen Grove",
