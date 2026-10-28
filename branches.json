@@ -272,10 +272,13 @@
     "id": "Goth Photo Shootz",
     "title": "Goth Photo Shootz",
     "subtitle": "bloody kisses",
-    "theme": "celestial",
+    "slice": "Photo Shootz",
+    "slice_bg": "abyss",
+    "theme": "nocturnal",
+    "filament": "standard",
     "angle": 65,
     "distance": 340,
-    "thumbnail": "templates/arcane.jpg",
+    "thumbnail": "portals/Goth Photo Shootz/1783038682058.webp",
     "photos": [
       "portals/Goth Photo Shootz/1783038682058.webp",
       "portals/Goth Photo Shootz/PXL_20260702_060745180.webp",
@@ -320,10 +323,7 @@
       "portals/Goth Photo Shootz/grid_thumbs/PXL_20260702_063002933.webp",
       "portals/Goth Photo Shootz/grid_thumbs/PXL_20260702_063004027.webp"
     ],
-    "password": "",
-    "slice": "Prime Cosmos",
-    "slice_bg": "cosmos",
-    "filament": "standard"
+    "password": ""
   },
   {
     "id": "Endless sand (& castle) trip",
