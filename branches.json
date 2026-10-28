@@ -953,9 +953,8 @@
     "filament": "grid",
     "angle": -140,
     "distance": 300,
-    "thumbnail": "portals/nyc/20191204_205152.webp",
+    "thumbnail": "portals/nyc/9932.webp",
     "photos": [
-      "portals/nyc/20191204_205152.webp",
       "portals/nyc/9932.webp",
       "portals/nyc/9928.webp",
       "portals/nyc/9927.webp",
@@ -967,7 +966,6 @@
       "portals/nyc/9851.webp"
     ],
     "grid_thumbs": [
-      "portals/nyc/grid_thumbs/20191204_205152.webp",
       "portals/nyc/grid_thumbs/9932.webp",
       "portals/nyc/grid_thumbs/9928.webp",
       "portals/nyc/grid_thumbs/9927.webp",
