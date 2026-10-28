@@ -1,0 +1,26 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: portals
+public_folder: portals
+
+collections:
+  - name: portals
+    label: Portal Archives
+    folder: portals
+    create: true
+    identifier_field: title
+    fields:
+      - { label: "Portal ID (Folder Name)", name: "id", widget: "string" }
+      - { label: "Display Title", name: "title", widget: "string" }
+      - { label: "Subtitle", name: "subtitle", widget: "string", default: "Gallery & Archive" }
+      - { label: "3D Disk (Slice)", name: "slice", widget: "string", default: "Prime Cosmos" }
+      - { label: "Disk Background Realm", name: "slice_bg", widget: "select", options: ["cosmos", "nyc", "verdant", "ember", "abyss", "astral"], default: "cosmos" }
+      - { label: "Glow Theme", name: "theme", widget: "select", options: ["nocturnal", "cyber", "celestial", "oceanic", "rose"], default: "nocturnal" }
+      - { label: "Filament Style", name: "filament", widget: "select", options: ["standard", "vine", "tendril", "suspension", "grid"], default: "standard" }
+      - { label: "Radial Angle (°)", name: "angle", widget: "number", default: -25 }
+      - { label: "Distance from Center", name: "distance", widget: "number", default: 340 }
+      - { label: "Thumbnail Image", name: "thumbnail", widget: "image" }
+      - { label: "Gallery Photos", name: "photos", widget: "list", field: { label: "Photo", name: "photo", widget: "image" } }
+      - { label: "Password Lock (Optional)", name: "password", widget: "string", required: false }
