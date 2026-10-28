@@ -16,7 +16,7 @@ VALID_RAW_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"}
 
 THEMES = ["nocturnal", "cyber", "celestial", "oceanic", "rose"]
 FILAMENTS = ["standard", "vine", "tendril", "suspension", "grid"]
-REALM_BGS = ["cosmos", "nyc", "verdant", "ember", "abyss", "astral"]
+REALM_BGS = ["cosmos", "nyc", "verdant", "ember", "abyss", "astral", "wilderness"]
 
 
 def run_cmd(cmd_list):

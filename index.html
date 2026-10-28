@@ -48,6 +48,11 @@
       --hub-glow-primary: rgba(255, 190, 11, 0.45);
       --hub-glow-secondary: rgba(0, 240, 255, 0.3);
     }
+    body[data-realm="wilderness"] {
+      --gold-accent: #b5d7bc;
+      --hub-glow-primary: rgba(181, 215, 188, 0.4);
+      --hub-glow-secondary: rgba(145, 184, 200, 0.28);
+    }
 
     * {
       box-sizing: border-box;
@@ -218,6 +223,63 @@
     @keyframes beaconPulse {
       0% { opacity: 0.35; r: 2; }
       100% { opacity: 1; r: 3.6; }
+    }
+
+    /* 7. Wilderness (Nocturnal Forest Canopy & Moon) */
+    .realm-wilderness {
+      --wilderness-sky-top: #070c1d;
+      --wilderness-sky-mid: #101b32;
+      --wilderness-horizon: #203b3a;
+      --wilderness-forest-far: #1b3540;
+      --wilderness-forest-mid: #10252f;
+      --wilderness-forest-near: #050f18;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 74% 20%, rgba(114, 157, 174, 0.13), transparent 42%),
+        radial-gradient(ellipse at 45% 100%, rgba(91, 131, 112, 0.24), transparent 58%),
+        linear-gradient(180deg, var(--wilderness-sky-top) 0%, var(--wilderness-sky-mid) 40%, #1a3342 76%, var(--wilderness-horizon) 100%);
+    }
+
+    .wilderness-stars-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0.85;
+    }
+
+    /* A separate moon viewport keeps the disc circular and visible on phones. */
+    .wilderness-moon-svg {
+      position: absolute;
+      top: clamp(20px, 7vh, 90px);
+      right: clamp(6px, 9vw, 170px);
+      width: clamp(150px, 16vw, 240px);
+      height: auto;
+      display: block;
+    }
+
+    .wilderness-forest-svg {
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      width: 100%;
+      min-width: 1100px;
+      height: clamp(260px, 46vh, 520px);
+      max-height: 70vh;
+      transform: translateX(-50%);
+      display: block;
+    }
+
+    .wilderness-forest-far { fill: var(--wilderness-forest-far); }
+    .wilderness-forest-mid { fill: var(--wilderness-forest-mid); }
+    .wilderness-forest-near { fill: var(--wilderness-forest-near); }
+
+    @media (max-width: 600px) {
+      .wilderness-moon-svg {
+        top: 120px;
+        right: 12px;
+      }
     }
 
     /* Top Title Banner */
@@ -1266,6 +1328,102 @@
         </g>
       </svg>
     </div>
+
+    <!-- 7. Wilderness: vector stars, moonlight, and layered forest canopy. -->
+    <div class="realm-layer realm-wilderness" data-realm-id="wilderness" aria-hidden="true">
+      <svg class="wilderness-stars-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <radialGradient id="wilderness-star-glow">
+            <stop offset="0%" stop-color="#fff5d6" stop-opacity="0.75" />
+            <stop offset="25%" stop-color="#d8eee6" stop-opacity="0.24" />
+            <stop offset="100%" stop-color="#d8eee6" stop-opacity="0" />
+          </radialGradient>
+          <pattern id="wilderness-stars" width="431" height="337" patternUnits="userSpaceOnUse">
+            <g fill="#d8e8ed">
+              <circle cx="23" cy="31" r="0.9" opacity="0.7" />
+              <circle cx="109" cy="83" r="0.7" opacity="0.55" />
+              <circle cx="61" cy="197" r="0.65" opacity="0.45" />
+              <circle cx="239" cy="49" r="0.8" opacity="0.65" />
+              <circle cx="319" cy="271" r="0.75" opacity="0.5" />
+              <circle cx="397" cy="123" r="1" opacity="0.6" />
+            </g>
+            <circle cx="173" cy="151" r="6" fill="url(#wilderness-star-glow)" />
+            <circle cx="173" cy="151" r="1.1" fill="#fff5d6" />
+            <circle cx="353" cy="213" r="4" fill="url(#wilderness-star-glow)" />
+            <circle cx="353" cy="213" r="0.8" fill="#e6f0e4" />
+          </pattern>
+        </defs>
+        <rect width="1600" height="1000" fill="url(#wilderness-stars)" />
+      </svg>
+
+      <svg class="wilderness-moon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" focusable="false">
+        <defs>
+          <radialGradient id="wilderness-moon-halo">
+            <stop offset="0%" stop-color="#e2efda" stop-opacity="0.22" />
+            <stop offset="45%" stop-color="#b5d6d5" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="#91b8c8" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="wilderness-moon-disc" cx="32%" cy="27%" r="80%">
+            <stop offset="0%" stop-color="#fffde9" />
+            <stop offset="46%" stop-color="#e5ecdb" />
+            <stop offset="80%" stop-color="#bdced0" />
+            <stop offset="100%" stop-color="#9bb3be" />
+          </radialGradient>
+        </defs>
+        <circle cx="100" cy="100" r="98" fill="url(#wilderness-moon-halo)" />
+        <circle cx="100" cy="100" r="44" fill="url(#wilderness-moon-disc)" />
+        <g fill="#718d93" opacity="0.18">
+          <circle cx="113" cy="112" r="10" />
+          <circle cx="89" cy="88" r="6" />
+          <circle cx="123" cy="87" r="4" />
+          <circle cx="85" cy="120" r="3" />
+        </g>
+      </svg>
+
+      <svg class="wilderness-forest-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520" preserveAspectRatio="none" focusable="false">
+        <defs>
+          <path id="wilderness-fir" d="M50 0 27 64h12L17 112h15L7 164h21L0 222h43v38h14v-38h43L72 164h21L68 112h15L61 64h12Z" />
+        </defs>
+
+        <!-- Distant silhouettes, softened by blue-green night haze. -->
+        <g class="wilderness-forest-far">
+          <use href="#wilderness-fir" transform="translate(-20 240) scale(.70)" />
+          <use href="#wilderness-fir" transform="translate(120 220) scale(.78)" />
+          <use href="#wilderness-fir" transform="translate(275 260) scale(.60)" />
+          <use href="#wilderness-fir" transform="translate(420 205) scale(.85)" />
+          <use href="#wilderness-fir" transform="translate(590 252) scale(.70)" />
+          <use href="#wilderness-fir" transform="translate(760 230) scale(.75)" />
+          <use href="#wilderness-fir" transform="translate(925 245) scale(.68)" />
+          <use href="#wilderness-fir" transform="translate(1090 215) scale(.85)" />
+          <use href="#wilderness-fir" transform="translate(1265 255) scale(.70)" />
+          <use href="#wilderness-fir" transform="translate(1450 210) scale(.83)" />
+          <path d="M0 382C240 338 410 402 630 365S1000 360 1240 355S1450 368 1600 340V520H0Z" />
+        </g>
+
+        <g class="wilderness-forest-mid">
+          <use href="#wilderness-fir" transform="translate(20 230) scale(.95)" />
+          <use href="#wilderness-fir" transform="translate(175 205) scale(1.05)" />
+          <use href="#wilderness-fir" transform="translate(365 265) scale(.82)" />
+          <use href="#wilderness-fir" transform="translate(570 255) scale(.90)" />
+          <use href="#wilderness-fir" transform="translate(790 275) scale(.80)" />
+          <use href="#wilderness-fir" transform="translate(1010 245) scale(.94)" />
+          <use href="#wilderness-fir" transform="translate(1240 232) scale(1.05)" />
+          <use href="#wilderness-fir" transform="translate(1470 215) scale(1.15)" />
+          <path d="M0 422C200 378 360 430 570 407S920 392 1120 410S1430 390 1600 408V520H0Z" />
+        </g>
+
+        <!-- Foreground trees frame a lower, open central canopy. -->
+        <g class="wilderness-forest-near">
+          <use href="#wilderness-fir" transform="translate(-35 155) scale(1.55)" />
+          <use href="#wilderness-fir" transform="translate(120 260) scale(1.15)" />
+          <use href="#wilderness-fir" transform="translate(325 330) scale(.80)" />
+          <use href="#wilderness-fir" transform="translate(1110 330) scale(.85)" />
+          <use href="#wilderness-fir" transform="translate(1320 250) scale(1.20)" />
+          <use href="#wilderness-fir" transform="translate(1475 135) scale(1.65)" />
+          <path d="M0 470C160 427 310 483 480 458S800 474 970 457S1290 464 1450 438L1600 460V520H0Z" />
+        </g>
+      </svg>
+    </div>
   </div>
 
   <header>
@@ -1628,7 +1786,7 @@
     }
 
     function applyRealmAesthetic(realmId, sliceName) {
-      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc'];
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness'];
       const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
 
       document.body.setAttribute('data-realm', targetRealm);
