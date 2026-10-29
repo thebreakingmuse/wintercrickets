@@ -1203,6 +1203,52 @@
       .poem-text.emerging { animation: none; }
     }
 
+
+    /* Decorative poem realms remain behind the selectable verse. */
+    #gallery-modal.poem-mode .modal-content-box {
+      position: relative;
+      isolation: isolate;
+    }
+    #gallery-modal.poem-mode .modal-title-group { display: none; }
+    #gallery-modal.poem-mode .modal-header {
+      position: relative;
+      z-index: 1;
+      justify-content: flex-end;
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 12px;
+    }
+    #gallery-modal.poem-mode #modal-poem-panel,
+    #gallery-modal.poem-mode #lock-screen { position: relative; z-index: 1; }
+    #gallery-modal.poem-mode #modal-poem-panel {
+      min-height: 0;
+      border-radius: 10px;
+      background: linear-gradient(90deg, transparent, rgba(3, 8, 12, 0.4) 12%, rgba(3, 8, 12, 0.4) 88%, transparent);
+      text-shadow: 0 1px 3px #020606;
+    }
+    #gallery-modal.poem-mode[data-poem-theme="natural"] .modal-content-box {
+      background: radial-gradient(ellipse at 0% 15%, rgba(79, 130, 83, 0.22), transparent 55%),
+        radial-gradient(ellipse at 100% 100%, rgba(68, 114, 88, 0.22), transparent 55%), #07110e;
+    }
+    #gallery-modal.poem-mode[data-poem-theme="cosmic"] .modal-content-box {
+      background: radial-gradient(ellipse at 100% 10%, rgba(90, 76, 166, 0.28), transparent 55%),
+        radial-gradient(ellipse at 0% 95%, rgba(38, 102, 132, 0.23), transparent 55%), #080c1c;
+    }
+    .poem-ornament {
+      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #gallery-modal.poem-mode[data-poem-theme="natural"] .poem-ornament-natural,
+    #gallery-modal.poem-mode[data-poem-theme="cosmic"] .poem-ornament-cosmic { display: block; }
+    .poem-vine-glow { filter: drop-shadow(0 0 4px rgba(149, 207, 155, 0.26)); }
+    .poem-cosmic-glow { filter: drop-shadow(0 0 5px rgba(146, 176, 244, 0.3)); }
+
     /* Password Lock Screen View */
     #lock-screen {
       display: none;
@@ -1631,6 +1677,58 @@
   <!-- Gallery Modal Overlay -->
   <div id="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-content-box">
+
+      <svg class="poem-ornament poem-ornament-natural" viewBox="0 0 760 900" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="poem-woodland-vine" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#b9c78d" stop-opacity=".6"/><stop offset=".5" stop-color="#80ba9c" stop-opacity=".22"/><stop offset="1" stop-color="#d6c692" stop-opacity=".5"/>
+          </linearGradient>
+          <g id="poem-woodland-leaf">
+            <path d="M0 0C-20-4-30-24-18-38C2-29 7-12 0 0Z" fill="#82b391" fill-opacity=".25" stroke="#b5d0a6" stroke-opacity=".4" stroke-width=".6"/>
+            <path d="M0 0Q-8-18-18-35" fill="none" stroke="#b5d0a6" stroke-opacity=".28" stroke-width=".7"/>
+          </g>
+        </defs>
+        <g class="poem-vine-glow" fill="none" stroke="url(#poem-woodland-vine)" stroke-width="1.5">
+          <path d="M38 930C-28 780 105 745 48 590S-10 370 57 240S15 70 112-25"/>
+          <path d="M-20 840C93 807 13 707 48 655S99 596 48 540M48 590C95 559 106 503 71 469M57 240C109 213 123 156 80 134M38 160C-8 126 1 80 40 65"/>
+          <path d="M727 950C807 785 655 725 718 565S772 355 704 222S757 72 658-25"/>
+          <path d="M718 565C660 530 651 470 697 446M704 222C650 204 643 152 680 127M723 754C661 731 671 675 705 656M736 355C791 321 771 274 746 252"/>
+          <path d="M-25 898Q165 797 272 900M788 888Q618 801 510 925" stroke-opacity=".45"/>
+        </g>
+        <g class="poem-vine-glow">
+          <use href="#poem-woodland-leaf" transform="translate(58 239) rotate(55)"/><use href="#poem-woodland-leaf" transform="translate(48 590) rotate(-30)"/>
+          <use href="#poem-woodland-leaf" transform="translate(72 469) rotate(100)"/><use href="#poem-woodland-leaf" transform="translate(42 733) rotate(35)"/>
+          <use href="#poem-woodland-leaf" transform="translate(80 134) rotate(120)"/><use href="#poem-woodland-leaf" transform="translate(30 374) rotate(-55)"/>
+          <use href="#poem-woodland-leaf" transform="translate(704 222) rotate(-55)"/><use href="#poem-woodland-leaf" transform="translate(697 446) rotate(-100)"/>
+          <use href="#poem-woodland-leaf" transform="translate(718 565) rotate(30)"/><use href="#poem-woodland-leaf" transform="translate(705 656) rotate(-90)"/>
+          <use href="#poem-woodland-leaf" transform="translate(727 785) rotate(-50)"/><use href="#poem-woodland-leaf" transform="translate(680 127) rotate(-125)"/>
+          <use href="#poem-woodland-leaf" transform="translate(155 861) rotate(80)"/><use href="#poem-woodland-leaf" transform="translate(609 863) rotate(-70)"/>
+        </g>
+      </svg>
+      <svg class="poem-ornament poem-ornament-cosmic" viewBox="0 0 760 900" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="poem-aether-trail" x1="0" y1="1" x2="1" y2="0">
+            <stop stop-color="#84cbd0" stop-opacity=".4"/><stop offset=".5" stop-color="#9f91dd" stop-opacity=".32"/><stop offset="1" stop-color="#ead8b5" stop-opacity=".55"/>
+          </linearGradient>
+        </defs>
+        <g class="poem-cosmic-glow" fill="none" stroke="url(#poem-aether-trail)">
+          <path d="M-40 925C175 810-78 700 64 566S134 331-35 270S130 72 26-35" stroke-width="1.5"/>
+          <path d="M-20 886C124 798-33 692 85 564S151 346-16 277S157 61 49-30" stroke-width=".7" opacity=".6"/>
+          <path d="M800 925C587 794 837 692 695 548S635 308 806 245S620 65 730-35" stroke-width="1.6"/>
+          <path d="M785 872C640 781 790 687 674 548S623 330 784 251S599 54 710-30" stroke-width=".7" opacity=".65"/>
+          <path d="M-80 860C180 705 465 1050 830 755M-45 135C191-25 476 202 827 40" stroke-width=".8" opacity=".3"/>
+          <ellipse cx="662" cy="178" rx="80" ry="25" transform="rotate(-48 662 178)" stroke-width=".8" opacity=".32"/>
+          <circle cx="662" cy="178" r="48" stroke-width=".6" opacity=".2"/>
+        </g>
+        <g fill="#e3e9ff">
+          <circle cx="47" cy="98" r="1.5" opacity=".6"/><circle cx="695" cy="86" r="1.1" opacity=".5"/>
+          <circle cx="717" cy="335" r="1.5" opacity=".6"/><circle cx="36" cy="449" r="1" opacity=".45"/>
+          <circle cx="99" cy="778" r="1.4" opacity=".6"/><circle cx="689" cy="744" r="1.1" opacity=".6"/>
+          <circle cx="555" cy="852" r="1.2" opacity=".4"/><circle cx="184" cy="47" r=".8" opacity=".4"/>
+        </g>
+        <g stroke="#c4c7f0" stroke-width=".8" opacity=".45"><path d="M78 315v14m-7-7h14M688 610v16m-8-8h16M607 59v12m-6-6h12"/></g>
+      </svg>
+
       <div class="modal-header">
         <div class="modal-title-group">
           <h2 id="modal-title">Portal Title</h2>
@@ -2119,10 +2217,18 @@
       const isIntroduction = branch.portal_type === 'introduction';
       introductionTrigger = isIntroduction ? document.activeElement : null;
       galleryModal.classList.toggle('poem-mode', isIntroduction);
+      galleryModal.dataset.poemTheme = isIntroduction ? (branch.id === 'introduction-janice' ? 'natural' : 'cosmic') : '';
+      if (isIntroduction) {
+        galleryModal.removeAttribute('aria-labelledby');
+        galleryModal.setAttribute('aria-label', `${branch.title || branch.id} poem`);
+      } else {
+        galleryModal.removeAttribute('aria-label');
+        galleryModal.setAttribute('aria-labelledby', 'modal-title');
+      }
       modalPoemPanel.hidden = true;
       modalPhotoGrid.classList.remove('active');
       if (isIntroduction) {
-        const poemColor = themeColors[branch.theme] || themeColors.nocturnal;
+        const poemColor = branch.id === 'introduction-janice' ? '#9bcaaa' : '#aabfee';
         galleryModal.style.setProperty('--poem-border', poemColor);
         galleryModal.style.setProperty('--poem-glow', `${poemColor}33`);
       }
