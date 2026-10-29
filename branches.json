@@ -994,7 +994,9 @@
       "portals/nyc/grid_thumbs/9848.webp",
       "portals/nyc/grid_thumbs/9851.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "summit",
@@ -1006,10 +1008,10 @@
     "filament": "suspension",
     "angle": 106,
     "distance": 390,
-    "thumbnail": "portals/summit/grid_thumbs/pxl_20261023_020817639.webp",
+    "thumbnail": "portals/summit/grid_thumbs/pxl_20261023_021007184.webp",
     "photos": [
-      "portals/summit/pxl_20261023_020817639.webp",
       "portals/summit/pxl_20261023_021007184.webp",
+      "portals/summit/pxl_20261023_020817639.webp",
       "portals/summit/pxl_20261023_021009480.webp",
       "portals/summit/pxl_20261023_021018227.webp",
       "portals/summit/pxl_20261023_021101830.webp",
@@ -1049,8 +1051,8 @@
       "portals/summit/pxl_20261023_023737274-long_exposure-01.webp"
     ],
     "grid_thumbs": [
-      "portals/summit/grid_thumbs/pxl_20261023_020817639.webp",
       "portals/summit/grid_thumbs/pxl_20261023_021007184.webp",
+      "portals/summit/grid_thumbs/pxl_20261023_020817639.webp",
       "portals/summit/grid_thumbs/pxl_20261023_021009480.webp",
       "portals/summit/grid_thumbs/pxl_20261023_021018227.webp",
       "portals/summit/grid_thumbs/pxl_20261023_021101830.webp",
@@ -1089,6 +1091,8 @@
       "portals/summit/grid_thumbs/pxl_20261023_023734933-long_exposure-02-original.webp",
       "portals/summit/grid_thumbs/pxl_20261023_023737274-long_exposure-01.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   }
 ]
