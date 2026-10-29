@@ -7,7 +7,7 @@
   <script>if (/#(invite|recovery|confirmation)_token=/.test(location.hash)) location.replace('/admin/' + location.hash);</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     :root {
       --gold-accent: #d4af37;
@@ -1002,14 +1002,23 @@
       flex-direction: column;
       gap: 4px;
       margin-top: 18px;
-      padding: 9px 22px;
+      padding: 4px 22px 12px;
+      min-width: 190px;
       border-color: var(--node-border);
     }
 
     .introduction-node .portal-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.6rem;
-      letter-spacing: 0.15em;
+      font-family: 'Great Vibes', 'Cormorant Garamond', cursive;
+      font-size: 3.15rem;
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .introduction-node[data-person="introduction-paul"] .portal-title {
+      font-family: 'Allura', 'Cormorant Garamond', cursive;
+      font-size: 3.35rem;
     }
 
     .introduction-node .portal-subtitle {
@@ -2209,15 +2218,19 @@
     }
 
     function createIntroductionNode(branch, theme) {
+      const person = {
+        'introduction-janice': { initial: 'J', name: 'Janice' },
+        'introduction-paul': { initial: 'P', name: 'Paul' }
+      }[branch.id];
       const node = document.createElement('button');
       node.type = 'button';
       node.className = `portal-node introduction-node theme-${theme}`;
-      node.setAttribute('aria-label', `Enter ${branch.title || branch.id}'s portal`);
+      node.setAttribute('aria-label', `Enter ${person ? person.name : branch.title || branch.id}'s portal`);
       node.setAttribute('aria-haspopup', 'dialog');
       node.dataset.person = branch.id;
       const ring = document.createElement('span');
       ring.className = 'portal-ring';
-      if (branch.thumbnail) {
+      if (branch.thumbnail && !person) {
         const portrait = document.createElement('img');
         portrait.className = 'portal-thumb';
         portrait.src = branch.thumbnail;
@@ -2234,7 +2247,7 @@
         const initial = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         initial.setAttribute('x', '50');
         initial.setAttribute('y', '63');
-        initial.textContent = Array.from(branch.title || '?')[0];
+        initial.textContent = person ? person.initial : Array.from(branch.title || '?')[0];
         sigil.appendChild(initial);
         ring.appendChild(sigil);
       }
@@ -2242,7 +2255,7 @@
       label.className = 'portal-label';
       const title = document.createElement('span');
       title.className = 'portal-title';
-      title.textContent = branch.title || branch.id;
+      title.textContent = person ? person.name : branch.title || branch.id;
       const subtitle = document.createElement('span');
       subtitle.className = 'portal-subtitle';
       subtitle.textContent = branch.subtitle || 'An introduction in verse';

@@ -1737,6 +1737,8 @@
     publishBtn.addEventListener('click', async () => {
       const title = inpTitle.value.trim();
       const folderId = inpId.value.trim();
+      const isIntroduction = ['introduction-janice', 'introduction-paul'].includes(folderId)
+        || (editingIndex >= 0 && branches[editingIndex].portal_type === 'introduction');
       if (!title || !folderId) {
         alert('Please enter a Portal Display Title and Folder ID.');
         return;
@@ -1754,7 +1756,7 @@
         }
       });
 
-      if (finalPhotos.length === 0) {
+      if (!isIntroduction && finalPhotos.length === 0) {
         alert('Please add at least one photo to this portal before publishing.');
         return;
       }
@@ -1770,6 +1772,8 @@
       const bridgeDistVal = parseInt(inpBridgeDistance.value, 10) || 455;
 
       const portalObj = {
+        ...(editingIndex >= 0 ? branches[editingIndex] : {}),
+        ...(isIntroduction ? { portal_type: 'introduction' } : {}),
         id: folderId,
         title,
         subtitle: inpSubtitle.value.trim() || 'Gallery & Archive',
