@@ -2,7 +2,7 @@
   {
     "id": "introduction-janice",
     "title": "Janice",
-    "subtitle": "An introduction in verse",
+    "subtitle": "",
     "portal_type": "introduction",
     "slice": "Janice & Paul",
     "slice_bg": "cosmos",
@@ -23,7 +23,7 @@
   {
     "id": "introduction-paul",
     "title": "Paul",
-    "subtitle": "An introduction in verse",
+    "subtitle": "",
     "slice": "Janice & Paul",
     "slice_bg": "cosmos",
     "theme": "celestial",

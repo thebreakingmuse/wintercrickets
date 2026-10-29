@@ -7,7 +7,7 @@
   <script>if (/#(invite|recovery|confirmation)_token=/.test(location.hash)) location.replace('/admin/' + location.hash);</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
     :root {
       --gold-accent: #d4af37;
@@ -1008,21 +1008,19 @@
     }
 
     .introduction-node .portal-title {
-      font-family: 'Great Vibes', 'Cormorant Garamond', cursive;
+      font-family: 'Pinyon Script', 'Cormorant Garamond', cursive;
       font-size: 3.15rem;
       font-weight: 400;
       line-height: 1.3;
       letter-spacing: 0;
       text-transform: none;
+      -webkit-text-stroke: 0.2px currentColor;
+      text-shadow: 0 0 6px rgba(255, 236, 190, 0.2), 0 0 14px rgba(212, 175, 55, 0.1);
     }
 
     .introduction-node[data-person="introduction-paul"] .portal-title {
-      font-family: 'Allura', 'Cormorant Garamond', cursive;
+      font-family: 'Herr Von Muellerhoff', 'Cormorant Garamond', cursive;
       font-size: 3.35rem;
-    }
-
-    .introduction-node .portal-subtitle {
-      font-size: 1.05rem;
     }
 
     .introduction-node:focus-visible {
@@ -2119,7 +2117,8 @@
         galleryModal.style.setProperty('--poem-glow', `${poemColor}33`);
       }
       modalTitle.textContent = branch.title || branch.id;
-      modalSubtitle.textContent = branch.subtitle || 'Gallery & Archive';
+      modalSubtitle.textContent = isIntroduction ? '' : branch.subtitle || 'Gallery & Archive';
+      modalSubtitle.hidden = isIntroduction;
       lockErrorMsg.textContent = '';
       lockPassInput.value = '';
 
@@ -2256,10 +2255,7 @@
       const title = document.createElement('span');
       title.className = 'portal-title';
       title.textContent = person ? person.name : branch.title || branch.id;
-      const subtitle = document.createElement('span');
-      subtitle.className = 'portal-subtitle';
-      subtitle.textContent = branch.subtitle || 'An introduction in verse';
-      label.append(title, subtitle);
+      label.appendChild(title);
       node.append(ring, label);
       return node;
     }
