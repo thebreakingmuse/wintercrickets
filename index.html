@@ -2322,9 +2322,16 @@
             const nextSliceIdx = (sIdx + 1) % sliceList.length;
             const nextSlice = sliceList[nextSliceIdx];
 
-            // Position far out to the side (455px radius, outside the 340px portal halo ring)
-            const bridgeAngleDeg = sliceObj.isLanding ? 42 : chooseBridgeAngle(sliceObj.items);
-            const bridgeDist = sliceObj.isLanding ? 385 : 455;
+            // Read custom bridge_angle and bridge_distance from the disk's portals (or fallback to auto)
+            const customAngle = sliceObj.items.find(b => b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '')?.bridge_angle;
+            const customDist = sliceObj.items.find(b => b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '')?.bridge_distance;
+
+            const bridgeAngleDeg = (customAngle !== undefined && !isNaN(parseFloat(customAngle)))
+              ? parseFloat(customAngle)
+              : chooseBridgeAngle(sliceObj.items);
+            const bridgeDist = (customDist !== undefined && !isNaN(parseFloat(customDist)))
+              ? parseFloat(customDist)
+              : 455;
             const bridgeRad = (bridgeAngleDeg * Math.PI) / 180;
             const bx = CENTER_X + Math.cos(bridgeRad) * bridgeDist;
             const by = CENTER_Y + Math.sin(bridgeRad) * bridgeDist;

@@ -344,7 +344,6 @@
     input[type="text"],
     input[type="password"],
     input[type="number"],
-    textarea,
     select {
       background: var(--bg-input);
       border: 1.5px solid rgba(212, 175, 55, 0.4);
@@ -359,37 +358,9 @@
     }
 
     input:focus,
-    textarea:focus,
     select:focus {
       border-color: var(--gold);
       box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
-    }
-
-    #inp-poem-text {
-      min-height: 310px;
-      resize: vertical;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    .poem-style-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-transform: none;
-      letter-spacing: 0.04em;
-    }
-
-    .portal-list-initial {
-      display: grid;
-      place-items: center;
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.3rem;
-      color: var(--gold);
     }
 
     /* Swatch & Option Pills */
@@ -429,7 +400,7 @@
     /* Interactive 3D Disk Radar & Placement Section */
     .radar-layout {
       display: grid;
-      grid-template-columns: 290px 1fr;
+      grid-template-columns: 300px 1fr;
       gap: 22px;
       align-items: center;
       background: rgba(5, 4, 10, 0.75);
@@ -439,10 +410,17 @@
       margin-bottom: 22px;
     }
 
+    .radar-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
     .radar-box {
       position: relative;
-      width: 270px;
-      height: 270px;
+      width: 280px;
+      height: 280px;
       margin: 0 auto;
       border-radius: 50%;
       background: radial-gradient(circle, #141028 0%, #05050a 80%);
@@ -461,6 +439,35 @@
       width: 100%;
       height: 100%;
       overflow: visible;
+    }
+
+    .drag-mode-toggle {
+      display: flex;
+      gap: 6px;
+      background: rgba(10, 8, 18, 0.9);
+      padding: 4px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .drag-mode-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .drag-mode-btn.active {
+      background: rgba(212, 175, 55, 0.25);
+      color: var(--gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
     }
 
     /* Batch Photo Dropzone & Library Drawer Trigger */
@@ -794,23 +801,6 @@
         </div>
       </div>
 
-      <!-- Poems for the two opening disc introductions. -->
-      <div id="introduction-fields" hidden>
-        <div class="form-grid">
-          <div class="form-group full-width">
-            <label for="inp-poem-title">Poem title <span class="label-hint">( optional )</span></label>
-            <input type="text" id="inp-poem-title" />
-          </div>
-          <div class="form-group full-width">
-            <label for="inp-poem-text">Introduction poem <span class="label-hint">( line breaks are preserved )</span></label>
-            <textarea id="inp-poem-text" rows="15" spellcheck="true"></textarea>
-          </div>
-          <div class="form-group full-width">
-            <label class="poem-style-option"><input type="checkbox" id="chk-poem-italic" /> Italic verse</label>
-          </div>
-        </div>
-      </div>
-
       <!-- 2. Glow Theme & Filament Swatches -->
       <div class="form-grid">
         <div class="form-group full-width">
@@ -848,24 +838,53 @@
         </div>
       </div>
 
-      <!-- 3. Interactive 3D Disk Radar Placement -->
+      <!-- 3. Interactive 3D Disk Radar Placement & Dimensional Shift Controls -->
       <div class="radar-layout">
-        <div class="radar-box" id="radar-box" title="Drag portal node around the ring">
-          <svg class="radar-svg" viewBox="0 0 1000 1000" id="radar-svg"></svg>
+        <div class="radar-column">
+          <div class="radar-box" id="radar-box" title="Drag node around the ring">
+            <svg class="radar-svg" viewBox="0 0 1000 1000" id="radar-svg"></svg>
+          </div>
+          <div class="drag-mode-toggle">
+            <button type="button" class="drag-mode-btn active" id="drag-mode-portal">Drag: Portal Node</button>
+            <button type="button" class="drag-mode-btn" id="drag-mode-bridge">Drag: Shift Warp</button>
+          </div>
         </div>
+
         <div>
-          <label style="display:block; margin-bottom:10px;">Interactive Disk Placement <span class="label-hint">(Drag node on radar or adjust below)</span></label>
+          <label style="display:block; margin-bottom:10px;">
+            Portal Node Placement <span class="label-hint">(Drag on radar or adjust below)</span>
+          </label>
           <div class="form-grid" style="margin-bottom:12px;">
             <div class="form-group">
-              <label>Radial Angle (°)</label>
+              <label>Portal Radial Angle (°)</label>
               <input type="number" id="inp-angle" value="-25" min="-180" max="180" />
             </div>
             <div class="form-group">
-              <label>Distance from Center (px)</label>
+              <label>Portal Distance (px)</label>
               <input type="number" id="inp-distance" value="340" min="180" max="460" />
             </div>
           </div>
           <button type="button" id="auto-angle-btn" class="btn">✨ Auto-Find Open Angle on Disk</button>
+
+          <!-- Dimensional Shift Conduit Placement Section -->
+          <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(212, 175, 55, 0.22);">
+            <label style="display:block; margin-bottom:10px; color: var(--gold);">
+              Dimensional Shift Warp Conduit <span class="label-hint">(Shared across this Disk)</span>
+            </label>
+            <div class="form-grid" style="margin-bottom:12px;">
+              <div class="form-group">
+                <label>Shift Angle (°)</label>
+                <input type="number" id="inp-bridge-angle" placeholder="Auto (-32)" min="-180" max="180" />
+              </div>
+              <div class="form-group">
+                <label>Shift Length (px)</label>
+                <input type="number" id="inp-bridge-distance" value="455" min="220" max="490" />
+              </div>
+            </div>
+            <button type="button" id="auto-bridge-btn" class="btn" style="font-size:0.72rem; padding:8px 13px;">
+              🌀 Auto-Place Dimensional Shift Corner
+            </button>
+          </div>
         </div>
       </div>
 
@@ -937,10 +956,10 @@
     const THUMB_DIM = 400;
     const THUMB_WEBP_QUALITY = 0.78;
 
-    const LANDING_SLICE = 'Janice & Paul';
     let branches = [];
     let editingIndex = -1;
     let selectedTheme = 'nocturnal';
+    let radarDragTarget = 'portal'; // 'portal' or 'bridge'
     let existingPhotos = [];
     let existingGridThumbs = [];
     let queuedNewFiles = [];
@@ -965,10 +984,6 @@
     const inpId = document.getElementById('inp-id');
     const inpSubtitle = document.getElementById('inp-subtitle');
     const inpPassword = document.getElementById('inp-password');
-    const introductionFields = document.getElementById('introduction-fields');
-    const inpPoemTitle = document.getElementById('inp-poem-title');
-    const inpPoemText = document.getElementById('inp-poem-text');
-    const chkPoemItalic = document.getElementById('chk-poem-italic');
     const selSlice = document.getElementById('sel-slice');
     const inpNewSlice = document.getElementById('inp-new-slice');
     const selRealmBg = document.getElementById('sel-realm-bg');
@@ -977,6 +992,12 @@
     const inpAngle = document.getElementById('inp-angle');
     const inpDistance = document.getElementById('inp-distance');
     const autoAngleBtn = document.getElementById('auto-angle-btn');
+
+    const inpBridgeAngle = document.getElementById('inp-bridge-angle');
+    const inpBridgeDistance = document.getElementById('inp-bridge-distance');
+    const autoBridgeBtn = document.getElementById('auto-bridge-btn');
+    const dragModePortalBtn = document.getElementById('drag-mode-portal');
+    const dragModeBridgeBtn = document.getElementById('drag-mode-bridge');
 
     const radarBox = document.getElementById('radar-box');
     const radarSvg = document.getElementById('radar-svg');
@@ -996,6 +1017,15 @@
     const progressFill = document.getElementById('progress-fill');
     const publishBtn = document.getElementById('publish-btn');
     const deletePortalBtn = document.getElementById('delete-portal-btn');
+
+    function setRadarDragMode(mode) {
+      radarDragTarget = mode;
+      dragModePortalBtn.classList.toggle('active', mode === 'portal');
+      dragModeBridgeBtn.classList.toggle('active', mode === 'bridge');
+    }
+
+    dragModePortalBtn.addEventListener('click', () => setRadarDragMode('portal'));
+    dragModeBridgeBtn.addEventListener('click', () => setRadarDragMode('bridge'));
 
     function showAuthMessage(msg, type = 'error') {
       authFeedback.textContent = msg;
@@ -1151,25 +1181,19 @@
       return map;
     }
 
-    function isEditingIntroduction() {
-      return editingIndex >= 0 && branches[editingIndex] && branches[editingIndex].portal_type === 'introduction';
-    }
+    function loadDiskBridgeSettings(sliceName) {
+      const diskPortals = branches.filter(b => (b.slice || 'Prime Cosmos') === sliceName);
+      const foundAngle = diskPortals.find(b => b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '')?.bridge_angle;
+      const foundDist = diskPortals.find(b => b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '')?.bridge_distance;
 
-    function setIntroductionEditor(branch = null) {
-      const isIntroduction = Boolean(branch && branch.portal_type === 'introduction');
-      introductionFields.hidden = !isIntroduction;
-      inpPoemTitle.value = isIntroduction ? branch.poem_title || '' : '';
-      inpPoemText.value = isIntroduction ? branch.poem_text || '' : '';
-      chkPoemItalic.checked = isIntroduction && Boolean(branch.poem_italic);
-      selSlice.disabled = isIntroduction;
-      inpNewSlice.disabled = isIntroduction;
+      inpBridgeAngle.value = foundAngle !== undefined ? foundAngle : '';
+      inpBridgeDistance.value = foundDist !== undefined ? foundDist : 455;
     }
 
     function populateSliceDropdown(selectedSliceName = 'Prime Cosmos') {
       const sliceMap = getSliceMap();
       selSlice.innerHTML = '';
       for (const [sName, sBg] of sliceMap.entries()) {
-        if (sName === LANDING_SLICE && !isEditingIntroduction()) continue;
         const opt = document.createElement('option');
         opt.value = sName;
         opt.textContent = `${sName} (${sBg})`;
@@ -1185,6 +1209,7 @@
       if (sliceMap.has(selectedSliceName)) {
         selRealmBg.value = sliceMap.get(selectedSliceName);
       }
+      loadDiskBridgeSettings(selectedSliceName);
     }
 
     selSlice.addEventListener('change', () => {
@@ -1192,12 +1217,15 @@
         inpNewSlice.style.display = 'block';
         inpNewSlice.focus();
         selRealmBg.value = 'wilderness';
+        inpBridgeAngle.value = '';
+        inpBridgeDistance.value = 455;
       } else {
         inpNewSlice.style.display = 'none';
         const sliceMap = getSliceMap();
         if (sliceMap.has(selSlice.value)) {
           selRealmBg.value = sliceMap.get(selSlice.value);
         }
+        loadDiskBridgeSettings(selSlice.value);
       }
       renderRadar();
     });
@@ -1225,18 +1253,14 @@
         sidebarList.appendChild(header);
 
         items.forEach(({ branch, idx }) => {
-          const isIntroduction = branch.portal_type === 'introduction';
           const item = document.createElement('div');
           item.className = `portal-list-item ${idx === editingIndex ? 'selected' : ''}`;
           const thumbUrl = branch.thumbnail ? `../${branch.thumbnail}` : '';
-          const thumbnailMarkup = isIntroduction && !thumbUrl
-            ? `<span class="portal-list-thumb portal-list-initial" aria-hidden="true">${branch.id === 'introduction-janice' ? 'J' : 'P'}</span>`
-            : `<img class="portal-list-thumb" src="${thumbUrl}" alt="" onerror="this.style.opacity=0.2" />`;
           item.innerHTML = `
-            ${thumbnailMarkup}
+            <img class="portal-list-thumb" src="${thumbUrl}" alt="" onerror="this.style.opacity=0.2" />
             <div class="portal-list-meta">
               <div class="portal-list-name">${branch.title || branch.id}</div>
-              <div class="portal-list-sub">${isIntroduction ? 'Opening disc • Poem' : `${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos`}</div>
+              <div class="portal-list-sub">${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos</div>
             </div>
           `;
           item.addEventListener('click', () => loadPortalIntoForm(idx));
@@ -1282,8 +1306,30 @@
       return (existingAngles[existingAngles.length - 1] + 35) % 360 - 180;
     }
 
+    function suggestOpenBridgeCorner(sliceName) {
+      const preferredCorners = [-32, -148, 32, 148, -90];
+      const usedAngles = branches
+        .filter((b, idx) => (b.slice || 'Prime Cosmos') === sliceName && idx !== editingIndex)
+        .map(b => b.angle ?? 0);
+      usedAngles.push(parseFloat(inpAngle.value) || 0);
+
+      for (const candidate of preferredCorners) {
+        const isClear = usedAngles.every(a => Math.abs(((candidate - a + 540) % 360) - 180) >= 26);
+        if (isClear) return candidate;
+      }
+      return -32;
+    }
+
     autoAngleBtn.addEventListener('click', () => {
       inpAngle.value = suggestOpenAngle(getActiveSliceName());
+      setRadarDragMode('portal');
+      renderRadar();
+    });
+
+    autoBridgeBtn.addEventListener('click', () => {
+      inpBridgeAngle.value = suggestOpenBridgeCorner(getActiveSliceName());
+      inpBridgeDistance.value = 455;
+      setRadarDragMode('bridge');
       renderRadar();
     });
 
@@ -1298,12 +1344,8 @@
       inpId.disabled = false;
       inpSubtitle.value = 'Gallery & Archive';
       inpPassword.value = '';
-      setIntroductionEditor();
 
-      const selectedSlice = getActiveSliceName();
-      const currentSlice = selectedSlice === LANDING_SLICE
-        ? [...getSliceMap().keys()].find(name => name !== LANDING_SLICE) || 'Prime Cosmos'
-        : selectedSlice;
+      const currentSlice = getActiveSliceName();
       populateSliceDropdown(currentSlice);
       setThemePill('celestial');
       selFilament.value = 'standard';
@@ -1325,19 +1367,18 @@
     function loadPortalIntoForm(idx) {
       editingIndex = idx;
       const b = branches[idx];
-      const isIntroduction = b.portal_type === 'introduction';
       editorModeTitle.textContent = `Editing: ${b.title || b.id}`;
-      editorFolderBadge.textContent = isIntroduction ? 'Opening disc introduction' : `portals/${b.id}/`;
-      deletePortalBtn.style.display = isIntroduction ? 'none' : 'inline-flex';
+      editorFolderBadge.textContent = `portals/${b.id}/`;
+      deletePortalBtn.style.display = 'inline-flex';
 
       inpTitle.value = b.title || b.id;
       inpId.value = b.id;
       inpId.disabled = true;
       inpSubtitle.value = b.subtitle || 'Gallery & Archive';
       inpPassword.value = b.password || '';
-      setIntroductionEditor(b);
 
-      populateSliceDropdown(isIntroduction ? LANDING_SLICE : b.slice || 'Prime Cosmos');
+      const sliceName = b.slice || 'Prime Cosmos';
+      populateSliceDropdown(sliceName);
       selRealmBg.value = b.slice_bg || 'cosmos';
       setThemePill(b.theme || 'nocturnal');
       selFilament.value = b.filament || 'standard';
@@ -1347,6 +1388,13 @@
 
       inpAngle.value = b.angle ?? 0;
       inpDistance.value = b.distance ?? 340;
+
+      if (b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '') {
+        inpBridgeAngle.value = b.bridge_angle;
+      }
+      if (b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '') {
+        inpBridgeDistance.value = b.bridge_distance;
+      }
 
       existingPhotos = [...(b.photos || [])];
       existingGridThumbs = [...(b.grid_thumbs || [])];
@@ -1384,6 +1432,7 @@
       hub.setAttribute('stroke-width', '5');
       radarSvg.appendChild(hub);
 
+      // Existing portals on the same disk
       branches.forEach((b, idx) => {
         if (idx === editingIndex) return;
         if ((b.slice || 'Prime Cosmos') !== sliceName) return;
@@ -1411,6 +1460,44 @@
         radarSvg.appendChild(dot);
       });
 
+      // Dimensional Shift Warp Conduit & Node on Radar Preview
+      const rawBAngle = inpBridgeAngle.value.trim();
+      const bAngle = rawBAngle !== '' ? parseFloat(rawBAngle) : suggestOpenBridgeCorner(sliceName);
+      const bDist = parseFloat(inpBridgeDistance.value) || 455;
+      const bRad = (bAngle * Math.PI) / 180;
+      const bx = 500 + Math.cos(bRad) * bDist;
+      const by = 500 + Math.sin(bRad) * bDist;
+
+      const bridgeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      bridgeLine.setAttribute('x1', 500);
+      bridgeLine.setAttribute('y1', 500);
+      bridgeLine.setAttribute('x2', bx);
+      bridgeLine.setAttribute('y2', by);
+      bridgeLine.setAttribute('stroke', '#d4af37');
+      bridgeLine.setAttribute('stroke-width', radarDragTarget === 'bridge' ? '8' : '5');
+      bridgeLine.setAttribute('stroke-dasharray', '10 6');
+      radarSvg.appendChild(bridgeLine);
+
+      const bridgeHalo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      bridgeHalo.setAttribute('cx', bx);
+      bridgeHalo.setAttribute('cy', by);
+      bridgeHalo.setAttribute('r', 46);
+      bridgeHalo.setAttribute('fill', 'none');
+      bridgeHalo.setAttribute('stroke', '#d4af37');
+      bridgeHalo.setAttribute('stroke-width', '2.5');
+      bridgeHalo.setAttribute('stroke-dasharray', '6 5');
+      radarSvg.appendChild(bridgeHalo);
+
+      const bridgeDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      bridgeDot.setAttribute('cx', bx);
+      bridgeDot.setAttribute('cy', by);
+      bridgeDot.setAttribute('r', 34);
+      bridgeDot.setAttribute('fill', '#22183c');
+      bridgeDot.setAttribute('stroke', radarDragTarget === 'bridge' ? '#ffffff' : '#d4af37');
+      bridgeDot.setAttribute('stroke-width', '5');
+      radarSvg.appendChild(bridgeDot);
+
+      // Active Portal Node being edited
       const activeRad = (activeAngle * Math.PI) / 180;
       const ax = 500 + Math.cos(activeRad) * activeDist;
       const ay = 500 + Math.sin(activeRad) * activeDist;
@@ -1421,7 +1508,7 @@
       activeLine.setAttribute('x2', ax);
       activeLine.setAttribute('y2', ay);
       activeLine.setAttribute('stroke', activeColor);
-      activeLine.setAttribute('stroke-width', '8');
+      activeLine.setAttribute('stroke-width', radarDragTarget === 'portal' ? '8' : '5');
       activeLine.setAttribute('stroke-dasharray', '14 8');
       radarSvg.appendChild(activeLine);
 
@@ -1430,13 +1517,15 @@
       activeNode.setAttribute('cy', ay);
       activeNode.setAttribute('r', 46);
       activeNode.setAttribute('fill', activeColor);
-      activeNode.setAttribute('stroke', '#ffffff');
+      activeNode.setAttribute('stroke', radarDragTarget === 'portal' ? '#ffffff' : 'rgba(255,255,255,0.6)');
       activeNode.setAttribute('stroke-width', '6');
       radarSvg.appendChild(activeNode);
     }
 
-    inpAngle.addEventListener('input', renderRadar);
-    inpDistance.addEventListener('input', renderRadar);
+    inpAngle.addEventListener('input', () => { setRadarDragMode('portal'); renderRadar(); });
+    inpDistance.addEventListener('input', () => { setRadarDragMode('portal'); renderRadar(); });
+    inpBridgeAngle.addEventListener('input', () => { setRadarDragMode('bridge'); renderRadar(); });
+    inpBridgeDistance.addEventListener('input', () => { setRadarDragMode('bridge'); renderRadar(); });
 
     let isDraggingRadar = false;
     function updateRadarFromPointer(e) {
@@ -1446,7 +1535,18 @@
       const dx = clientX - (rect.left + rect.width / 2);
       const dy = clientY - (rect.top + rect.height / 2);
       const deg = Math.round((Math.atan2(dy, dx) * 180) / Math.PI);
-      inpAngle.value = deg;
+
+      // Convert pointer distance to 1000x1000 viewBox units
+      const scale = 1000 / (rect.width || 280);
+      const rawDist = Math.round(Math.hypot(dx, dy) * scale);
+
+      if (radarDragTarget === 'bridge') {
+        inpBridgeAngle.value = deg;
+        inpBridgeDistance.value = Math.max(220, Math.min(490, rawDist));
+      } else {
+        inpAngle.value = deg;
+        inpDistance.value = Math.max(180, Math.min(460, rawDist));
+      }
       renderRadar();
     }
 
@@ -1635,7 +1735,6 @@
 
     // --- Atomic Single-Commit Push ---
     publishBtn.addEventListener('click', async () => {
-      const isIntroduction = isEditingIntroduction();
       const title = inpTitle.value.trim();
       const folderId = inpId.value.trim();
       if (!title || !folderId) {
@@ -1655,30 +1754,23 @@
         }
       });
 
-      if (isIntroduction && !inpPoemText.value.trim()) {
-        alert('Please add the introduction poem before publishing.');
-        return;
-      }
-
-      if (!isIntroduction && finalPhotos.length === 0) {
+      if (finalPhotos.length === 0) {
         alert('Please add at least one photo to this portal before publishing.');
         return;
       }
 
-      const sliceName = isIntroduction ? LANDING_SLICE : getActiveSliceName();
+      const sliceName = getActiveSliceName();
       const sliceBg = selRealmBg.value;
       const thumbChoice = selThumbPreset.value === 'first_photo'
-        ? (finalGridThumbs[0] || finalPhotos[0] || '')
+        ? (finalGridThumbs[0] || finalPhotos[0])
         : selThumbPreset.value;
+
+      const rawBridgeAngle = inpBridgeAngle.value.trim();
+      const bridgeAngleVal = rawBridgeAngle !== '' ? parseInt(rawBridgeAngle, 10) : null;
+      const bridgeDistVal = parseInt(inpBridgeDistance.value, 10) || 455;
 
       const portalObj = {
         id: folderId,
-        ...(isIntroduction ? {
-          portal_type: 'introduction',
-          poem_title: inpPoemTitle.value.trim(),
-          poem_text: inpPoemText.value,
-          poem_italic: chkPoemItalic.checked
-        } : {}),
         title,
         subtitle: inpSubtitle.value.trim() || 'Gallery & Archive',
         slice: sliceName,
@@ -1687,6 +1779,8 @@
         filament: selFilament.value,
         angle: parseInt(inpAngle.value, 10) || 0,
         distance: parseInt(inpDistance.value, 10) || 340,
+        bridge_angle: bridgeAngleVal,
+        bridge_distance: bridgeDistVal,
         thumbnail: thumbChoice,
         photos: finalPhotos,
         grid_thumbs: finalGridThumbs,
@@ -1699,9 +1793,13 @@
       } else {
         updatedBranches.push(portalObj);
       }
+
+      // Sync Disk-level settings (slice_bg, bridge_angle, bridge_distance) across all portals on this disk
       updatedBranches.forEach(b => {
         if ((b.slice || 'Prime Cosmos') === sliceName) {
           b.slice_bg = sliceBg;
+          b.bridge_angle = bridgeAngleVal;
+          b.bridge_distance = bridgeDistVal;
         }
       });
 
