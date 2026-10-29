@@ -971,7 +971,7 @@
     "filament": "grid",
     "angle": -140,
     "distance": 300,
-    "thumbnail": "portals/nyc/9932.webp",
+    "thumbnail": "portals/nyc/grid_thumbs/9932.webp",
     "photos": [
       "portals/nyc/9932.webp",
       "portals/nyc/9928.webp",
@@ -981,7 +981,8 @@
       "portals/nyc/9858.webp",
       "portals/nyc/9852.webp",
       "portals/nyc/9848.webp",
-      "portals/nyc/9851.webp"
+      "portals/nyc/9851.webp",
+      "portals/summit/pxl_20261023_021605406.webp"
     ],
     "grid_thumbs": [
       "portals/nyc/grid_thumbs/9932.webp",
@@ -992,7 +993,8 @@
       "portals/nyc/grid_thumbs/9858.webp",
       "portals/nyc/grid_thumbs/9852.webp",
       "portals/nyc/grid_thumbs/9848.webp",
-      "portals/nyc/grid_thumbs/9851.webp"
+      "portals/nyc/grid_thumbs/9851.webp",
+      "portals/summit/grid_thumbs/pxl_20261023_021605406.webp"
     ],
     "password": "",
     "bridge_angle": null,
