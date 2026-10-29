@@ -112,7 +112,9 @@
       "portals/paddleboarding/grid_thumbs/PXL_20260920_003224307~2.webp",
       "portals/paddleboarding/grid_thumbs/PXL_20260920_004827643.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "castle rock incline",
@@ -223,7 +225,9 @@
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220747412.webp",
       "portals/castle rock incline/grid_thumbs/PXL_20260927_220750156.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "denver psytrance sputnik",
@@ -379,9 +383,9 @@
     "slice_bg": "wilderness",
     "theme": "celestial",
     "filament": "tendril",
-    "angle": 115,
-    "distance": 340,
-    "thumbnail": "portals/Endless sand (& castle) trip/PXL_20260515_215757196.webp",
+    "angle": 91,
+    "distance": 411,
+    "thumbnail": "portals/Endless sand (& castle) trip/grid_thumbs/PXL_20260515_215757196.webp",
     "photos": [
       "portals/Endless sand (& castle) trip/PXL_20260515_215757196.webp",
       "portals/Endless sand (& castle) trip/PXL_20260515_215805781.webp",
@@ -524,7 +528,9 @@
       "portals/Endless sand (& castle) trip/grid_thumbs/PXL_20260517_043955791.NIGHT.webp",
       "portals/Endless sand (& castle) trip/grid_thumbs/PXL_20260517_183303876.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "Green Mountain Falls",
@@ -643,7 +649,9 @@
       "portals/Green Mountain Falls/grid_thumbs/PXL_20261010_200032294.webp",
       "portals/Green Mountain Falls/grid_thumbs/PXL_20261010_200136533.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "Woodland Park Aspen Grove",
@@ -850,7 +858,9 @@
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215113517.webp",
       "portals/Woodland Park Aspen Grove/grid_thumbs/PXL_20261010_215739194.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "Apogea 26' ♥️",
