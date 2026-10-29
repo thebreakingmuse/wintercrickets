@@ -316,7 +316,9 @@
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_193617853.webp",
       "portals/denver psytrance sputnik/grid_thumbs/PXL_20260927_193620340.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "Goth Photo Shootz",
@@ -874,13 +876,6 @@
     "distance": 390,
     "thumbnail": "templates/love.webp",
     "photos": [
-      "portals/Apogea 26' ♥️/PXL_20260611_134525079.webp",
-      "portals/Apogea 26' ♥️/PXL_20260611_134530463.webp",
-      "portals/Apogea 26' ♥️/PXL_20260611_134546491.webp",
-      "portals/Apogea 26' ♥️/PXL_20260611_134547777.webp",
-      "portals/Apogea 26' ♥️/PXL_20260611_134549387.webp",
-      "portals/Apogea 26' ♥️/PXL_20260611_134627910.webp",
-      "portals/Apogea 26' ♥️/PXL_20260611_134629089.webp",
       "portals/Apogea 26' ♥️/PXL_20260611_223658154.webp",
       "portals/Apogea 26' ♥️/PXL_20260611_223705281.webp",
       "portals/Apogea 26' ♥️/PXL_20260611_223706386.webp",
@@ -927,13 +922,6 @@
       "portals/Apogea 26' ♥️/PXL_20260614_011315940.webp"
     ],
     "grid_thumbs": [
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134525079.webp",
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134530463.webp",
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134546491.webp",
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134547777.webp",
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134549387.webp",
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134627910.webp",
-      "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_134629089.webp",
       "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_223658154.webp",
       "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_223705281.webp",
       "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260611_223706386.webp",
@@ -979,7 +967,9 @@
       "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011311538.webp",
       "portals/Apogea 26' ♥️/grid_thumbs/PXL_20260614_011315940.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "nyc",
