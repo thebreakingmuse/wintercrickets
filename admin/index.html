@@ -570,6 +570,27 @@
       align-items: center;
       justify-content: center;
     }
+.photo-ctrl-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: rgba(8, 6, 16, 0.85);
+      color: var(--gold);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .photo-ctrl-btn:hover {
+      background: var(--gold);
+      color: #050509;
+      border-color: #fff;
+    }
 
     /* Cross-Portal Library Modal Drawer */
     #library-modal {
@@ -1693,22 +1714,55 @@
       renderPhotoPreviews();
     }
 
-    function renderPhotoPreviews() {
+   function renderPhotoPreviews() {
       existingPhotosSummary.textContent = existingPhotos.length
         ? `Currently saved in portal: ${existingPhotos.length} photo(s) | Queued to upload: ${queuedNewFiles.length} new photo(s)`
         : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
 
       photoPreviewGrid.innerHTML = '';
 
+      const totalPhotos = existingPhotos.length + queuedNewFiles.length;
+
+      // Render Existing / Linked Photos
       existingPhotos.forEach((pPath, idx) => {
         const thumbPath = existingGridThumbs[idx] || pPath;
+        const isFirst = (idx === 0 && queuedNewFiles.length === 0);
         const div = document.createElement('div');
         div.className = 'queued-item';
         div.innerHTML = `
           <img src="../${thumbPath}" alt="" />
-          <span class="queued-badge">Linked</span>
+          <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold);' : ''}">${isFirst ? '★ Portal Icon' : 'Linked'}</span>
+          <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 4px;">
+            ${idx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move Left">‹</button>` : ''}
+            ${idx < totalPhotos - 1 ? `<button type="button" class="photo-ctrl-btn move-right-btn" title="Move Right">›</button>` : ''}
+          </div>
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
+
+        // Move Left / First
+        const moveLeft = div.querySelector('.move-left-btn');
+        if (moveLeft) {
+          moveLeft.addEventListener('click', () => {
+            const itemP = existingPhotos.splice(idx, 1)[0];
+            const itemT = existingGridThumbs.splice(idx, 1)[0];
+            existingPhotos.unshift(itemP);
+            existingGridThumbs.unshift(itemT);
+            renderPhotoPreviews();
+          });
+        }
+
+        // Move Right
+        const moveRight = div.querySelector('.move-right-btn');
+        if (moveRight) {
+          moveRight.addEventListener('click', () => {
+            const itemP = existingPhotos.splice(idx, 1)[0];
+            const itemT = existingGridThumbs.splice(idx, 1)[0];
+            existingPhotos.splice(idx + 1, 0, itemP);
+            existingGridThumbs.splice(idx + 1, 0, itemT);
+            renderPhotoPreviews();
+          });
+        }
+
         div.querySelector('.remove-photo-btn').addEventListener('click', () => {
           existingPhotos.splice(idx, 1);
           existingGridThumbs.splice(idx, 1);
@@ -1717,14 +1771,40 @@
         photoPreviewGrid.appendChild(div);
       });
 
+      // Render Queued New Files
       queuedNewFiles.forEach((item, idx) => {
+        const globalIdx = existingPhotos.length + idx;
+        const isFirst = (globalIdx === 0);
         const div = document.createElement('div');
         div.className = 'queued-item';
         div.innerHTML = `
           <img src="${item.previewUrl}" alt="" />
-          <span class="queued-badge">New • ${item.sizeKb}KB</span>
+          <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold);' : ''}">${isFirst ? '★ Portal Icon' : `New • ${item.sizeKb}KB`}</span>
+          <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 4px;">
+            ${globalIdx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move Left">‹</button>` : ''}
+            ${globalIdx < totalPhotos - 1 ? `<button type="button" class="photo-ctrl-btn move-right-btn" title="Move Right">›</button>` : ''}
+          </div>
           <button type="button" class="remove-photo-btn" title="Remove queued photo">×</button>
         `;
+
+        const moveLeft = div.querySelector('.move-left-btn');
+        if (moveLeft) {
+          moveLeft.addEventListener('click', () => {
+            const moved = queuedNewFiles.splice(idx, 1)[0];
+            queuedNewFiles.unshift(moved);
+            renderPhotoPreviews();
+          });
+        }
+
+        const moveRight = div.querySelector('.move-right-btn');
+        if (moveRight) {
+          moveRight.addEventListener('click', () => {
+            const moved = queuedNewFiles.splice(idx, 1)[0];
+            queuedNewFiles.splice(idx + 1, 0, moved);
+            renderPhotoPreviews();
+          });
+        }
+
         div.querySelector('.remove-photo-btn').addEventListener('click', () => {
           queuedNewFiles.splice(idx, 1);
           renderPhotoPreviews();
