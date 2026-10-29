@@ -17,8 +17,8 @@
     "poem_title": "",
     "poem_text": "Like a darkly vibrant piece of mossy forestwood,\nresiding softly in an alpine grotto on\na warm winter day,\nlush from snowmelt and\nperfumed by witchy wintergreen,\nits body a plush surface of \nmoist velveteen,\nenchanting the lips of a passing\nsatyr who stopped and took a sip, \na lick,\nthen a kiss-\nenchanting juices exuding from such\nmoist crevices erupted \nhis hooves and phallus into \na clamorous,\nrapturous\nbliss.",
     "poem_italic": false,
-    "bridge_angle": 89,
-    "bridge_distance": 346
+    "bridge_angle": 0,
+    "bridge_distance": 266
   },
   {
     "id": "introduction-paul",
@@ -30,8 +30,8 @@
     "filament": "standard",
     "angle": 90,
     "distance": 418,
-    "bridge_angle": 89,
-    "bridge_distance": 346,
+    "bridge_angle": 0,
+    "bridge_distance": 266,
     "thumbnail": "portals/introduction-paul/grid_thumbs/20200520_160845.webp",
     "photos": [
       "portals/introduction-paul/20200520_160845.webp"
