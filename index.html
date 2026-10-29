@@ -982,6 +982,11 @@
       box-shadow: 0 0 36px var(--node-glow), 0 0 80px rgba(5, 4, 13, 0.6), inset 0 0 30px var(--node-glow);
     }
 
+    .introduction-node[data-person="introduction-janice"] .portal-thumb {
+      object-fit: contain;
+      background: #020104;
+    }
+
     .introduction-sigil {
       display: block;
       width: 100%;
@@ -2229,10 +2234,13 @@
       node.dataset.person = branch.id;
       const ring = document.createElement('span');
       ring.className = 'portal-ring';
-      if (branch.thumbnail && !person) {
+      const portraitSrc = branch.id === 'introduction-janice'
+        ? 'assets/janice-avatar.png'
+        : !person ? branch.thumbnail : '';
+      if (portraitSrc) {
         const portrait = document.createElement('img');
         portrait.className = 'portal-thumb';
-        portrait.src = branch.thumbnail;
+        portrait.src = portraitSrc;
         portrait.alt = '';
         ring.appendChild(portrait);
       } else {
