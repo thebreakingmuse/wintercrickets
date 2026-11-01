@@ -524,6 +524,18 @@
       filter: drop-shadow(0 0 6px currentColor);
     }
 
+    /* Connecting Path Illumination for Focused/Hovered Portrait Portals */
+    .portal-filament-group {
+      transition: filter 0.28s ease, opacity 0.28s ease;
+    }
+
+    .portal-filament-group.is-illuminated path,
+    .portal-filament-group.is-illuminated circle,
+    .portal-filament-group.is-illuminated polygon {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor);
+    }
+
     @keyframes electricSurge {
       to { stroke-dashoffset: -336; }
     }
@@ -959,27 +971,100 @@
       white-space: nowrap;
     }
 
-    /* The opening disc's two personal doorways. */
+    /* The opening disc's two personal doorways (Janice & Paul) */
     body.landing-disc-active #network-stage {
       flex-shrink: 0;
     }
 
     button.introduction-node {
       appearance: none;
+      -webkit-appearance: none;
       border: 0;
-      padding: 0;
+      padding: 10px 18px 14px;
       background: transparent;
       color: inherit;
       font: inherit;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.28s ease;
     }
 
+    /* Preserve Violet for Janice and Gold for Paul */
+    .introduction-node[data-person="introduction-janice"] {
+      --intro-accent: #c58cff;
+      --intro-inner-ring: rgba(226, 196, 255, 0.88);
+      --intro-outer-ring: rgba(186, 122, 255, 0.48);
+      --intro-outer-faint: rgba(217, 179, 255, 0.32);
+      --intro-glow-rest: rgba(179, 102, 255, 0.28);
+      --intro-glow-active: rgba(197, 140, 255, 0.54);
+    }
+
+    .introduction-node[data-person="introduction-paul"] {
+      --intro-accent: #e6c35c;
+      --intro-inner-ring: rgba(255, 232, 168, 0.88);
+      --intro-outer-ring: rgba(212, 175, 55, 0.5);
+      --intro-outer-faint: rgba(255, 225, 140, 0.32);
+      --intro-glow-rest: rgba(212, 175, 55, 0.26);
+      --intro-glow-active: rgba(255, 209, 102, 0.52);
+    }
+
+    /* Portrait Frame: Crisp Inner Ring + Delicate Outer Ring + Soft Surrounding Glow */
     .introduction-node .portal-ring {
       width: 190px;
       height: 190px;
-      padding: 9px;
-      border-width: 1px;
-      background: radial-gradient(circle at 45% 35%, rgba(40, 29, 55, 0.95), #080610 75%);
-      box-shadow: 0 0 36px var(--node-glow), 0 0 80px rgba(5, 4, 13, 0.6), inset 0 0 30px var(--node-glow);
+      padding: 7px;
+      border: 1.5px solid var(--intro-inner-ring);
+      background: radial-gradient(circle at 45% 35%, rgba(34, 25, 48, 0.92), #07050e 78%);
+      box-shadow:
+        0 0 26px var(--intro-glow-rest),
+        0 0 54px rgba(5, 4, 13, 0.55),
+        inset 0 0 18px var(--intro-glow-rest);
+      overflow: visible;
+      transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+
+    /* Delicate Ornamental Outer Ring */
+    .introduction-node .portal-ring::before {
+      content: "";
+      position: absolute;
+      inset: -7px;
+      border-radius: 50%;
+      border: 1px solid var(--intro-outer-ring);
+      box-shadow: 0 0 12px var(--intro-glow-rest);
+      opacity: 0.82;
+      animation: none;
+      pointer-events: none;
+      transition:
+        border-color 0.28s ease,
+        opacity 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+
+    /* Restrained Celestial Filigree Whisper Ring */
+    .introduction-node .portal-ring::after {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 1px dashed var(--intro-outer-faint);
+      opacity: 0.55;
+      pointer-events: none;
+      transition:
+        border-color 0.28s ease,
+        opacity 0.28s ease;
+    }
+
+    .introduction-node .portal-thumb {
+      border-radius: 50%;
+      clip-path: circle(50%);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16);
+      transition: filter 0.28s ease;
     }
 
     .introduction-node[data-person="introduction-janice"] .portal-thumb {
@@ -990,6 +1075,51 @@
     .introduction-node[data-person="introduction-paul"] .portal-thumb {
       object-fit: cover;
       object-position: 46% 50%;
+    }
+
+    /* Subtle 3px Portrait Lift & Frame Illumination on Hover, Focus, or Touch */
+    .introduction-node:hover,
+    .introduction-node:focus-visible,
+    .introduction-node.is-touch-active {
+      transform: translate(-50%, -50%);
+      z-index: 16;
+    }
+
+    .introduction-node:hover .portal-ring,
+    .introduction-node:focus-visible .portal-ring,
+    .introduction-node:active .portal-ring,
+    .introduction-node.is-touch-active .portal-ring {
+      transform: translateY(-3px);
+      border-color: #fffdf7;
+      box-shadow:
+        0 0 30px var(--intro-glow-active),
+        0 0 58px var(--intro-glow-rest),
+        inset 0 0 22px var(--intro-glow-rest);
+    }
+
+    .introduction-node:hover .portal-ring::before,
+    .introduction-node:focus-visible .portal-ring::before,
+    .introduction-node:active .portal-ring::before,
+    .introduction-node.is-touch-active .portal-ring::before {
+      border-color: var(--intro-inner-ring);
+      opacity: 1;
+      box-shadow: 0 0 16px var(--intro-glow-active);
+    }
+
+    .introduction-node:hover .portal-ring::after,
+    .introduction-node:focus-visible .portal-ring::after,
+    .introduction-node:active .portal-ring::after,
+    .introduction-node.is-touch-active .portal-ring::after {
+      border-color: var(--intro-outer-ring);
+      opacity: 0.85;
+    }
+
+    .introduction-node:hover .portal-thumb,
+    .introduction-node:focus-visible .portal-thumb,
+    .introduction-node:active .portal-thumb,
+    .introduction-node.is-touch-active .portal-thumb {
+      transform: none;
+      filter: brightness(1.05);
     }
 
     .introduction-sigil {
@@ -1007,25 +1137,36 @@
       text-anchor: middle;
     }
 
+    /* Floating Expressive Script Nameplate & Curved Underline Flourish */
     .introduction-node .portal-label {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      margin-top: 18px;
-      padding: 4px 22px 12px;
-      min-width: 190px;
-      border-color: var(--node-border);
+      align-items: center;
+      gap: 0;
+      margin-top: 14px;
+      padding: 2px 10px 0;
+      min-width: 0;
+      background: transparent;
+      backdrop-filter: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
     }
 
     .introduction-node .portal-title {
       font-family: 'Pinyon Script', 'Cormorant Garamond', cursive;
       font-size: 3.15rem;
       font-weight: 400;
-      line-height: 1.3;
-      letter-spacing: 0;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
       text-transform: none;
+      color: var(--text-main);
       -webkit-text-stroke: 0.2px currentColor;
-      text-shadow: 0 0 6px rgba(255, 236, 190, 0.2), 0 0 14px rgba(212, 175, 55, 0.1);
+      text-shadow:
+        0 2px 10px rgba(3, 2, 8, 0.96),
+        0 0 18px rgba(3, 2, 8, 0.9),
+        0 0 14px var(--intro-glow-rest);
+      transition: color 0.28s ease, text-shadow 0.28s ease;
     }
 
     .introduction-node[data-person="introduction-paul"] .portal-title {
@@ -1033,10 +1174,42 @@
       font-size: 3.35rem;
     }
 
+    .introduction-node:hover .portal-title,
+    .introduction-node:focus-visible .portal-title,
+    .introduction-node:active .portal-title,
+    .introduction-node.is-touch-active .portal-title {
+      color: #ffffff;
+      text-shadow:
+        0 2px 10px rgba(3, 2, 8, 0.98),
+        0 0 20px var(--intro-glow-active),
+        0 0 30px var(--intro-glow-rest);
+    }
+
+    .introduction-flourish {
+      display: block;
+      width: 142px;
+      height: 18px;
+      margin-top: -2px;
+      color: var(--intro-accent);
+      opacity: 0.76;
+      filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 6px var(--intro-glow-rest));
+      transition: opacity 0.28s ease, filter 0.28s ease;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .introduction-node:hover .introduction-flourish,
+    .introduction-node:focus-visible .introduction-flourish,
+    .introduction-node:active .introduction-flourish,
+    .introduction-node.is-touch-active .introduction-flourish {
+      opacity: 1;
+      filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 10px var(--intro-glow-active));
+    }
+
     .introduction-node:focus-visible {
-      outline: 2px solid var(--text-main);
-      outline-offset: 12px;
-      border-radius: 28px;
+      outline: 1.5px solid var(--intro-inner-ring);
+      outline-offset: 8px;
+      border-radius: 32px;
     }
 
     /* Color Themes */
@@ -1152,6 +1325,24 @@
       border-color: var(--poem-border, var(--gold-accent));
       background: radial-gradient(ellipse at 50% 0%, var(--poem-glow, rgba(179, 102, 255, 0.15)), transparent 65%), rgba(10, 8, 18, 0.98);
       box-shadow: 0 0 65px rgba(0, 0, 0, 0.85), 0 0 35px var(--poem-glow);
+      transition: border-color 0.65s ease, box-shadow 0.65s ease;
+    }
+
+    /* Brief Selection Accent Carry-Over into Poetry Panel Opening */
+    #gallery-modal.poem-mode[data-selection-accent="violet"] .modal-content-box {
+      border-color: rgba(217, 179, 255, 0.85);
+      box-shadow:
+        0 0 65px rgba(0, 0, 0, 0.88),
+        0 0 44px rgba(179, 102, 255, 0.46),
+        inset 0 0 24px rgba(179, 102, 255, 0.16);
+    }
+
+    #gallery-modal.poem-mode[data-selection-accent="gold"] .modal-content-box {
+      border-color: rgba(255, 232, 163, 0.88);
+      box-shadow:
+        0 0 65px rgba(0, 0, 0, 0.88),
+        0 0 44px rgba(212, 175, 55, 0.46),
+        inset 0 0 24px rgba(212, 175, 55, 0.16);
     }
 
     #modal-poem-panel[hidden] { display: none; }
@@ -1200,7 +1391,23 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .poem-text.emerging { animation: none; }
+      .poem-text.emerging,
+      .ligament-path,
+      .ligament-vine-tendril,
+      .ligament-suspension-deck,
+      .ligament-grid-surge,
+      .ligament-gothic-tracery {
+        animation: none !important;
+      }
+      button.introduction-node,
+      .introduction-node .portal-ring,
+      .introduction-node:hover .portal-ring,
+      .introduction-node:focus-visible .portal-ring,
+      .introduction-node:active .portal-ring,
+      .introduction-node.is-touch-active .portal-ring {
+        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+        transform: none !important;
+      }
     }
 
 
@@ -1432,6 +1639,10 @@
       .portal-ring {
         width: 96px;
         height: 96px;
+      }
+      .introduction-node .portal-ring {
+        width: 190px;
+        height: 190px;
       }
       body.landing-disc-active #network-stage { transform: scale(0.5); }
     }
@@ -1847,6 +2058,7 @@
     let sliceList = [];
     let currentSliceIndex = 0;
     let introductionTrigger = null;
+    let selectionAccentTimer = null;
 
     function buildCurvedPath(x1, y1, x2, y2, index, bendFactor = 0.18) {
       const midX = (x1 + x2) / 2;
@@ -2213,9 +2425,9 @@
       }
     }
 
-    function openGallery(branch) {
+    function openGallery(branch, triggerEl = null) {
       const isIntroduction = branch.portal_type === 'introduction';
-      introductionTrigger = isIntroduction ? document.activeElement : null;
+      introductionTrigger = isIntroduction ? (triggerEl || document.activeElement) : null;
       galleryModal.classList.toggle('poem-mode', isIntroduction);
       galleryModal.dataset.poemTheme = isIntroduction ? (branch.id === 'introduction-janice' ? 'natural' : 'cosmic') : '';
       if (isIntroduction) {
@@ -2227,11 +2439,22 @@
       }
       modalPoemPanel.hidden = true;
       modalPhotoGrid.classList.remove('active');
+
+      clearTimeout(selectionAccentTimer);
       if (isIntroduction) {
         const poemColor = branch.id === 'introduction-janice' ? '#9bcaaa' : '#aabfee';
         galleryModal.style.setProperty('--poem-border', poemColor);
         galleryModal.style.setProperty('--poem-glow', `${poemColor}33`);
+
+        const accentKey = branch.id === 'introduction-janice' ? 'violet' : 'gold';
+        galleryModal.setAttribute('data-selection-accent', accentKey);
+        selectionAccentTimer = setTimeout(() => {
+          galleryModal.removeAttribute('data-selection-accent');
+        }, 720);
+      } else {
+        galleryModal.removeAttribute('data-selection-accent');
       }
+
       modalTitle.textContent = branch.title || branch.id;
       modalSubtitle.textContent = isIntroduction ? '' : branch.subtitle || 'Gallery & Archive';
       modalSubtitle.hidden = isIntroduction;
@@ -2271,6 +2494,8 @@
     }
 
     function closeGallery() {
+      clearTimeout(selectionAccentTimer);
+      galleryModal.removeAttribute('data-selection-accent');
       galleryModal.classList.remove('active');
       if (introductionTrigger && introductionTrigger.isConnected) introductionTrigger.focus();
       introductionTrigger = null;
@@ -2332,7 +2557,7 @@
       return Array.from(slicesMap.values()).sort((a, b) => priority(a) - priority(b));
     }
 
-    function createIntroductionNode(branch, theme) {
+    function createIntroductionNode(branch, theme, filamentGroup) {
       const person = {
         'introduction-janice': { initial: 'J', name: 'Janice' },
         'introduction-paul': { initial: 'P', name: 'Paul' }
@@ -2343,6 +2568,7 @@
       node.setAttribute('aria-label', `Enter ${person ? person.name : branch.title || branch.id}'s portal`);
       node.setAttribute('aria-haspopup', 'dialog');
       node.dataset.person = branch.id;
+
       const ring = document.createElement('span');
       ring.className = 'portal-ring';
       const portraits = {
@@ -2371,13 +2597,52 @@
         sigil.appendChild(initial);
         ring.appendChild(sigil);
       }
+
       const label = document.createElement('span');
       label.className = 'portal-label';
       const title = document.createElement('span');
       title.className = 'portal-title';
       title.textContent = person ? person.name : branch.title || branch.id;
-      label.appendChild(title);
+
+      const flourish = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      flourish.setAttribute('viewBox', '0 0 160 22');
+      flourish.setAttribute('class', 'introduction-flourish');
+      flourish.setAttribute('aria-hidden', 'true');
+      flourish.setAttribute('focusable', 'false');
+      flourish.innerHTML = `
+        <path d="M 14 4 Q 80 18 146 4" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" opacity="0.88" />
+        <path d="M 40 9 Q 80 19 120 9" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.52" />
+        <polygon points="80,7.2 83.2,10.8 80,14.4 76.8,10.8" fill="currentColor" opacity="0.92" />
+        <circle cx="26" cy="6.2" r="1.1" fill="currentColor" opacity="0.65" />
+        <circle cx="134" cy="6.2" r="1.1" fill="currentColor" opacity="0.65" />
+      `;
+
+      label.append(title, flourish);
       node.append(ring, label);
+
+      const setPathIlluminated = (active) => {
+        if (filamentGroup) filamentGroup.classList.toggle('is-illuminated', active);
+      };
+
+      node.addEventListener('mouseenter', () => setPathIlluminated(true));
+      node.addEventListener('mouseleave', () => setPathIlluminated(false));
+      node.addEventListener('focus', () => setPathIlluminated(true));
+      node.addEventListener('blur', () => setPathIlluminated(false));
+      node.addEventListener('touchstart', () => {
+        node.classList.add('is-touch-active');
+        setPathIlluminated(true);
+      }, { passive: true });
+      node.addEventListener('touchend', () => {
+        setTimeout(() => {
+          node.classList.remove('is-touch-active');
+          setPathIlluminated(false);
+        }, 320);
+      }, { passive: true });
+      node.addEventListener('touchcancel', () => {
+        node.classList.remove('is-touch-active');
+        setPathIlluminated(false);
+      }, { passive: true });
+
       return node;
     }
 
@@ -2420,13 +2685,23 @@
             const x = CENTER_X + Math.cos(angleRad) * distance;
             const y = CENTER_Y + Math.sin(angleRad) * distance;
 
-            const theme = themeColors[branch.theme] ? branch.theme : 'nocturnal';
+            const isIntroduction = branch.portal_type === 'introduction';
+            const theme = branch.id === 'introduction-janice'
+              ? 'nocturnal'
+              : branch.id === 'introduction-paul'
+                ? 'celestial'
+                : (themeColors[branch.theme] ? branch.theme : 'nocturnal');
             const filamentStyle = branch.filament || 'standard';
 
-            renderFilament(ligamentsGroup, x, y, idx, theme, filamentStyle);
+            const portalFilamentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            portalFilamentGroup.setAttribute('class', 'portal-filament-group');
+            portalFilamentGroup.setAttribute('data-portal-id', branch.id);
+            renderFilament(portalFilamentGroup, x, y, idx, theme, filamentStyle);
+            ligamentsGroup.appendChild(portalFilamentGroup);
 
-            const isIntroduction = branch.portal_type === 'introduction';
-            const node = isIntroduction ? createIntroductionNode(branch, theme) : document.createElement('div');
+            const node = isIntroduction
+              ? createIntroductionNode(branch, theme, portalFilamentGroup)
+              : document.createElement('div');
             if (!isIntroduction) node.className = `portal-node theme-${theme}`;
             node.style.left = `${x}px`;
             node.style.top = `${y}px`;
@@ -2443,7 +2718,7 @@
               </div>
             `;
 
-            node.addEventListener('click', () => openGallery(branch));
+            node.addEventListener('click', () => openGallery(branch, node));
             diskPlane.appendChild(node);
           });
 
