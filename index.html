@@ -540,7 +540,7 @@
       to { stroke-dashoffset: -336; }
     }
 
-    /* Dimensional Shift — Astrolabe Calibration Beam Styles */
+    /* Dimensional Shift — Alchemical Axis Styles */
     .bridge-filament-group {
       cursor: pointer;
       pointer-events: auto;
@@ -549,141 +549,147 @@
     .bridge-outer-aura {
       fill: none;
       stroke: var(--gold-accent);
-      stroke-width: 10;
+      stroke-width: 5;
       stroke-linecap: round;
-      opacity: 0.12;
-      filter: blur(5px);
+      opacity: 0.1;
+      filter: blur(4px);
       transition: opacity 0.45s ease, stroke-width 0.45s ease;
     }
 
-    /* Crisp central axis — the instrument's sight line */
+    /* Hairline spine */
     .bridge-axis-path {
       fill: none;
       stroke: #fff8e7;
-      stroke-width: 1.6;
+      stroke-width: 1;
       stroke-linecap: round;
-      opacity: 0.92;
-      filter: drop-shadow(0 0 6px var(--gold-accent)) drop-shadow(0 0 14px var(--gold-accent));
+      opacity: 0.85;
+      filter: drop-shadow(0 0 4px var(--gold-accent));
       transition: stroke-width 0.45s ease, opacity 0.45s ease;
     }
 
-    /* Slow degree-reading sweep travelling along the axis */
+    /* Slow transmutation sweep travelling along the spine */
     .bridge-axis-sweep {
       fill: none;
       stroke: var(--gold-accent);
-      stroke-width: 2.4;
+      stroke-width: 1.6;
       stroke-linecap: round;
-      stroke-dasharray: 3 9;
-      opacity: 0.55;
-      animation: bridgeCalibrate 9s linear infinite;
+      stroke-dasharray: 2 14;
+      opacity: 0.5;
+      animation: bridgeCalibrate 11s linear infinite;
     }
 
-    /* Wide slow-breathing parabolic arcs (SMIL drives the breathing) */
-    .bridge-calibration-arc {
+    /* Slender breathing vesica around the spine */
+    .bridge-vesica-arc {
+      fill: none;
+      stroke: var(--gold-accent);
+      stroke-width: 0.7;
+      stroke-linecap: round;
+      opacity: 0.5;
+      transition: opacity 0.45s ease, stroke-width 0.45s ease;
+    }
+
+    .bridge-tick {
+      stroke: var(--gold-accent);
+      stroke-width: 0.7;
+      stroke-linecap: round;
+      opacity: 0.55;
+      transition: opacity 0.45s ease;
+    }
+
+    /* Classical element marks between stations */
+    .bridge-element-mark path,
+    .bridge-element-mark line {
+      fill: none;
+      stroke: #fff8e7;
+      stroke-width: 0.8;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      opacity: 0.7;
+    }
+
+    /* Alchemical glyph stations */
+    .bridge-glyph .glyph-backing {
+      fill: rgba(8, 6, 16, 0.92);
+      stroke: var(--gold-accent);
+      stroke-width: 0.6;
+      stroke-opacity: 0.45;
+    }
+
+    .bridge-glyph .glyph-art circle,
+    .bridge-glyph .glyph-art path,
+    .bridge-glyph .glyph-art rect,
+    .bridge-glyph .glyph-art line {
       fill: none;
       stroke: var(--gold-accent);
       stroke-width: 1.1;
       stroke-linecap: round;
-      opacity: 0.55;
-      filter: drop-shadow(0 0 5px var(--gold-accent));
-      transition: opacity 0.45s ease, stroke-width 0.45s ease;
+      stroke-linejoin: round;
     }
 
-    .bridge-calibration-arc.is-secondary {
-      stroke: rgba(255, 248, 231, 0.85);
-      stroke-width: 0.8;
-      stroke-dasharray: 2 5;
-      opacity: 0.38;
+    .bridge-glyph .glyph-art .glyph-fill {
+      fill: #fff8e7;
+      stroke: none;
     }
 
-    /* Celestial degree tick-marks perpendicular to the axis */
-    .bridge-tick {
-      stroke: var(--gold-accent);
-      stroke-width: 1;
-      stroke-linecap: round;
-      opacity: 0.75;
-      transition: opacity 0.45s ease;
-    }
-
-    .bridge-tick.is-major {
-      stroke: #fff8e7;
-      stroke-width: 1.2;
-      opacity: 0.85;
-    }
-
-    /* Crescent moon & sun nodes at the harmonic thirds */
-    .bridge-harmonic-node {
-      transform-box: fill-box;
-      transform-origin: center;
-      filter: drop-shadow(0 0 7px var(--gold-accent));
+    .bridge-glyph .glyph-art {
+      filter: drop-shadow(0 0 4px var(--gold-accent));
       transition: filter 0.45s ease;
     }
 
-    .bridge-harmonic-node .harmonic-crescent {
-      fill: #fff8e7;
-      stroke: none;
-      opacity: 0.95;
-    }
-
-    .bridge-harmonic-node .harmonic-sun-core {
-      fill: var(--gold-accent);
+    .bridge-glyph.is-luminary .glyph-backing {
       stroke: #fff8e7;
-      stroke-width: 0.8;
+      stroke-opacity: 0.6;
     }
 
-    .bridge-harmonic-node .harmonic-sun-ray {
-      stroke: var(--gold-accent);
-      stroke-width: 1;
-      stroke-linecap: round;
-      opacity: 0.9;
-    }
-
-    .bridge-harmonic-node .harmonic-halo {
-      fill: none;
-      stroke: var(--gold-accent);
-      stroke-width: 0.7;
-      stroke-dasharray: 2 3;
-      opacity: 0.6;
-      animation: slowSpin 40s linear infinite;
+    /* The philosopher's-stone seal turns slowly; its orbit counter-turns */
+    .bridge-glyph.is-seal .glyph-art {
       transform-box: fill-box;
       transform-origin: center;
+      animation: slowSpin 70s linear infinite;
     }
 
-    .bridge-harmonic-node.is-sun .harmonic-halo {
-      animation-direction: reverse;
+    .bridge-glyph .glyph-orbit {
+      fill: none;
+      stroke: #fff8e7;
+      stroke-width: 0.6;
+      stroke-dasharray: 1 3.2;
+      opacity: 0.6;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: slowSpinReverse 45s linear infinite;
     }
 
     /* Illumination when the visitor approaches the instrument */
     .bridge-filament-group:hover .bridge-outer-aura,
     .bridge-filament-group.is-aligned .bridge-outer-aura {
-      opacity: 0.3;
-      stroke-width: 15;
+      opacity: 0.26;
+      stroke-width: 8;
     }
 
     .bridge-filament-group:hover .bridge-axis-path,
     .bridge-filament-group.is-aligned .bridge-axis-path {
-      stroke-width: 2.1;
+      stroke-width: 1.3;
       opacity: 1;
     }
 
-    .bridge-filament-group:hover .bridge-calibration-arc,
-    .bridge-filament-group.is-aligned .bridge-calibration-arc {
+    .bridge-filament-group:hover .bridge-vesica-arc,
+    .bridge-filament-group.is-aligned .bridge-vesica-arc {
       opacity: 0.9;
-      stroke-width: 1.5;
+      stroke-width: 1;
     }
 
     .bridge-filament-group:hover .bridge-tick,
     .bridge-filament-group.is-aligned .bridge-tick {
-      opacity: 1;
+      opacity: 0.9;
     }
 
-    .bridge-filament-group:hover .bridge-harmonic-node,
-    .bridge-filament-group.is-aligned .bridge-harmonic-node {
-      filter: drop-shadow(0 0 12px #fff8e7) drop-shadow(0 0 20px var(--gold-accent));
+    .bridge-filament-group:hover .bridge-glyph .glyph-art,
+    .bridge-filament-group.is-aligned .bridge-glyph .glyph-art {
+      filter: drop-shadow(0 0 7px #fff8e7) drop-shadow(0 0 14px var(--gold-accent));
     }
 
     @keyframes bridgeCalibrate {
-      to { stroke-dashoffset: -240; }
+      to { stroke-dashoffset: -256; }
     }
 
     /* Outlying Dimensional Shift Portal Node */
@@ -1534,7 +1540,8 @@
       .armillary-ouroboros,
       .armillary-dial,
       .armillary-sphere,
-      .harmonic-halo {
+      .bridge-glyph.is-seal .glyph-art,
+      .bridge-glyph .glyph-orbit {
         animation: none !important;
       }
       .armillary-vesica {
@@ -2243,46 +2250,68 @@
       return d;
     }
 
+    // Alchemical glyphs drawn in a 20x20 box centred on (0,0). Stroke/fill come from CSS.
+    function alchemyGlyph(name) {
+      switch (name) {
+        case 'salt':      // ⊖ — circle bisected
+          return '<circle cx="0" cy="0" r="6"/><line x1="-6" y1="0" x2="6" y2="0"/>';
+        case 'mercury':   // ☿ — crescent over circle over cross
+          return '<path d="M -4.6 -9.2 A 4.8 4.8 0 0 0 4.6 -9.2"/><circle cx="0" cy="-2" r="4"/><line x1="0" y1="2" x2="0" y2="9.5"/><line x1="-3.4" y1="6" x2="3.4" y2="6"/>';
+        case 'sulfur':    // 🜍 — triangle over cross
+          return '<path d="M 0 -9.5 L 5.6 -0.5 L -5.6 -0.5 Z"/><line x1="0" y1="-0.5" x2="0" y2="9.5"/><line x1="-3.6" y1="5" x2="3.6" y2="5"/>';
+        case 'antimony':  // ♁ — cross over circle
+          return '<circle cx="0" cy="3" r="4.6"/><line x1="0" y1="-1.6" x2="0" y2="-9.5"/><line x1="-3.6" y1="-6" x2="3.6" y2="-6"/>';
+        case 'luna':      // ☽ — crescent
+          return '<path class="glyph-fill" d="M 0 -7.5 A 7.5 7.5 0 1 0 0 7.5 A 9 9 0 0 1 0 -7.5 Z"/>';
+        case 'sol':       // ☉ — circle with point
+          return '<circle cx="0" cy="0" r="6.4"/><circle class="glyph-fill" cx="0" cy="0" r="1.7"/>';
+        case 'stone':     // squared circle — circle, triangle, square, circle
+          return '<circle cx="0" cy="0" r="10"/><path d="M 0 -10 L 8.66 5 L -8.66 5 Z"/><rect x="-4.02" y="-3.04" width="8.04" height="8.04"/><circle cx="0" cy="0.98" r="4.02"/>';
+        // Classical elements — small marks used between the stations
+        case 'fire':  return '<path d="M 0 -3.4 L 3.2 2.2 L -3.2 2.2 Z"/>';
+        case 'water': return '<path d="M 0 3.4 L 3.2 -2.2 L -3.2 -2.2 Z"/>';
+        case 'air':   return '<path d="M 0 -3.4 L 3.2 2.2 L -3.2 2.2 Z"/><line x1="-2.4" y1="0.2" x2="2.4" y2="0.2"/>';
+        case 'earth': return '<path d="M 0 3.4 L 3.2 -2.2 L -3.2 -2.2 Z"/><line x1="-2.4" y1="-0.2" x2="2.4" y2="-0.2"/>';
+        default: return '';
+      }
+    }
+
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Builds the full calibration beam: axis, breathing arcs, degree ticks, moon & sun nodes.
-    function renderCalibrationBeam(group, x1, y1, x2, y2, angleDeg) {
+    // Builds the slender alchemical axis: hairline spine inside a breathing vesica,
+    // tria prima + Luna/Sol stations, the philosopher's-stone seal at the midpoint,
+    // and classical-element marks between stations.
+    function renderCalibrationBeam(group, x1, y1, x2, y2) {
       const svgNS = 'http://www.w3.org/2000/svg';
       const dx = x2 - x1;
       const dy = y2 - y1;
       const len = Math.hypot(dx, dy) || 1;
-      const ux = dx / len, uy = dy / len;     // along the axis
-      const nx = -uy, ny = ux;                // perpendicular
+      const nx = -dy / len, ny = dx / len;
       // Keep ornament clear of the hub (r≈85) and the shift node (r≈45)
       const tStart = Math.min(0.45, 100 / len);
-      const tEnd = Math.max(0.55, 1 - 56 / len);
+      const tEnd = Math.max(0.55, 1 - 58 / len);
       const axisD = buildCalibrationArcPath(x1, y1, x2, y2, 0);
+      const at = (t) => [x1 + dx * t, y1 + dy * t];
 
-      // Soft aura
+      // Faint aura along the spine
       const aura = document.createElementNS(svgNS, 'path');
       aura.setAttribute('d', axisD);
       aura.setAttribute('class', 'bridge-outer-aura');
       group.appendChild(aura);
 
-      // Breathing parabolic arcs, one each side of the axis
-      const arcSpecs = [
-        { sign: 1,  base: 30, swell: 46, dur: '7.5s', cls: 'bridge-calibration-arc' },
-        { sign: -1, base: 30, swell: 46, dur: '7.5s', cls: 'bridge-calibration-arc' },
-        { sign: 1,  base: 18, swell: 26, dur: '9.5s', cls: 'bridge-calibration-arc is-secondary' },
-        { sign: -1, base: 18, swell: 26, dur: '9.5s', cls: 'bridge-calibration-arc is-secondary' },
-      ];
-      arcSpecs.forEach((spec, i) => {
-        const restD = buildCalibrationArcPath(x1, y1, x2, y2, spec.sign * spec.base, tStart * 0.6, 1 - (1 - tEnd) * 0.6);
-        const fullD = buildCalibrationArcPath(x1, y1, x2, y2, spec.sign * spec.swell, tStart * 0.6, 1 - (1 - tEnd) * 0.6);
+      // Slender vesica: two narrow arcs that breathe in and out around the spine
+      [1, -1].forEach((sign, i) => {
+        const restD = buildCalibrationArcPath(x1, y1, x2, y2, sign * 9, tStart * 0.7, 1 - (1 - tEnd) * 0.7);
+        const fullD = buildCalibrationArcPath(x1, y1, x2, y2, sign * 13, tStart * 0.7, 1 - (1 - tEnd) * 0.7);
         const arc = document.createElementNS(svgNS, 'path');
         arc.setAttribute('d', restD);
-        arc.setAttribute('class', spec.cls);
+        arc.setAttribute('class', 'bridge-vesica-arc');
         if (!prefersReducedMotion) {
           const anim = document.createElementNS(svgNS, 'animate');
           anim.setAttribute('attributeName', 'd');
           anim.setAttribute('values', `${restD};${fullD};${restD}`);
-          anim.setAttribute('dur', spec.dur);
-          anim.setAttribute('begin', `${(i * 0.9).toFixed(1)}s`);
+          anim.setAttribute('dur', '8s');
+          anim.setAttribute('begin', `${i * 0.4}s`);
           anim.setAttribute('repeatCount', 'indefinite');
           anim.setAttribute('calcMode', 'spline');
           anim.setAttribute('keySplines', '0.42 0 0.58 1;0.42 0 0.58 1');
@@ -2291,7 +2320,7 @@
         group.appendChild(arc);
       });
 
-      // Crisp axis + slow calibration sweep
+      // Hairline spine + slow transmutation sweep
       const axis = document.createElementNS(svgNS, 'path');
       axis.setAttribute('d', axisD);
       axis.setAttribute('class', 'bridge-axis-path');
@@ -2302,54 +2331,58 @@
       sweep.setAttribute('class', 'bridge-axis-sweep');
       group.appendChild(sweep);
 
-      // Degree tick-marks: every 1/36 of the span, a major mark every third
-      const tickCount = 36;
+      // Stations along the spine (positions as fractions of the span)
+      const stations = [
+        { t: 0.25,  glyph: 'salt' },
+        { t: 1 / 3, glyph: 'luna',  cls: 'is-luminary' },
+        { t: 0.42,  glyph: 'mercury' },
+        { t: 0.5,   glyph: 'stone', cls: 'is-seal' },
+        { t: 0.58,  glyph: 'sulfur' },
+        { t: 2 / 3, glyph: 'sol',   cls: 'is-luminary' },
+        { t: 0.75,  glyph: 'antimony' },
+      ].filter(st => st.t >= tStart && st.t <= tEnd);
+
+      // Hairline degree ticks, skipping the neighbourhood of each station
+      const tickCount = 48;
       for (let i = 0; i <= tickCount; i++) {
         const t = i / tickCount;
         if (t < tStart || t > tEnd) continue;
-        // Leave room around the harmonic nodes
-        if (Math.abs(t - 1 / 3) < 0.045 || Math.abs(t - 2 / 3) < 0.045) continue;
-        const isMajor = i % 3 === 0;
-        const half = isMajor ? 8 : 4.5;
-        const cx = x1 + dx * t, cy = y1 + dy * t;
+        if (stations.some(st => Math.abs(t - st.t) < 0.028)) continue;
+        const [cx, cy] = at(t);
+        const half = 2.2;
         const tick = document.createElementNS(svgNS, 'line');
         tick.setAttribute('x1', (cx - nx * half).toFixed(1));
         tick.setAttribute('y1', (cy - ny * half).toFixed(1));
         tick.setAttribute('x2', (cx + nx * half).toFixed(1));
         tick.setAttribute('y2', (cy + ny * half).toFixed(1));
-        tick.setAttribute('class', `bridge-tick${isMajor ? ' is-major' : ''}`);
+        tick.setAttribute('class', 'bridge-tick');
         group.appendChild(tick);
       }
 
-      // Harmonic nodes: crescent moon at 1/3, sun at 2/3
-      const moonT = 1 / 3, sunT = 2 / 3;
-      const mx = x1 + dx * moonT, my = y1 + dy * moonT;
-      const sx = x1 + dx * sunT, sy = y1 + dy * sunT;
-
-      const moon = document.createElementNS(svgNS, 'g');
-      moon.setAttribute('class', 'bridge-harmonic-node is-moon');
-      moon.setAttribute('transform', `translate(${mx.toFixed(1)} ${my.toFixed(1)}) rotate(${angleDeg})`);
-      moon.innerHTML = `
-        <circle class="harmonic-halo" cx="0" cy="0" r="13.5"/>
-        <path class="harmonic-crescent" d="M 0 -8 A 8 8 0 1 0 0 8 A 9.5 9.5 0 0 1 0 -8 Z"/>
-      `;
-      group.appendChild(moon);
-
-      const sun = document.createElementNS(svgNS, 'g');
-      sun.setAttribute('class', 'bridge-harmonic-node is-sun');
-      sun.setAttribute('transform', `translate(${sx.toFixed(1)} ${sy.toFixed(1)}) rotate(${angleDeg})`);
-      let rays = '';
-      for (let r = 0; r < 8; r++) {
-        const a = (r / 8) * Math.PI * 2;
-        const inner = 7.5, outer = r % 2 === 0 ? 13 : 11;
-        rays += `<line class="harmonic-sun-ray" x1="${(Math.cos(a) * inner).toFixed(2)}" y1="${(Math.sin(a) * inner).toFixed(2)}" x2="${(Math.cos(a) * outer).toFixed(2)}" y2="${(Math.sin(a) * outer).toFixed(2)}"/>`;
+      // Element marks midway between consecutive stations, cycling fire/water/air/earth
+      const elements = ['fire', 'water', 'air', 'earth'];
+      for (let i = 0; i < stations.length - 1; i++) {
+        const t = (stations[i].t + stations[i + 1].t) / 2;
+        const [cx, cy] = at(t);
+        const el = document.createElementNS(svgNS, 'g');
+        el.setAttribute('class', 'bridge-element-mark');
+        el.setAttribute('transform', `translate(${cx.toFixed(1)} ${cy.toFixed(1)})`);
+        el.innerHTML = alchemyGlyph(elements[i % elements.length]);
+        group.appendChild(el);
       }
-      sun.innerHTML = `
-        <circle class="harmonic-halo" cx="0" cy="0" r="16"/>
-        ${rays}
-        <circle class="harmonic-sun-core" cx="0" cy="0" r="5.2"/>
-      `;
-      group.appendChild(sun);
+
+      // Glyph stations — a dark disc behind each so the spine doesn't cut through the symbol
+      stations.forEach((st) => {
+        const [cx, cy] = at(st.t);
+        const g = document.createElementNS(svgNS, 'g');
+        g.setAttribute('class', `bridge-glyph ${st.cls || ''}`.trim());
+        g.setAttribute('transform', `translate(${cx.toFixed(1)} ${cy.toFixed(1)})`);
+        const r = st.glyph === 'stone' ? 13 : 9.5;
+        g.innerHTML = `<circle class="glyph-backing" cx="0" cy="0" r="${r}"/>` +
+          (st.glyph === 'stone' ? `<circle class="glyph-orbit" cx="0" cy="0" r="15.5"/>` : '') +
+          `<g class="glyph-art">${alchemyGlyph(st.glyph)}</g>`;
+        group.appendChild(g);
+      });
     }
 
     // Picks an outlying corner angle that stays clear of existing portals on that slice
@@ -2990,7 +3023,7 @@
 
             const bridgeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             bridgeGroup.setAttribute('class', 'bridge-filament-group');
-            renderCalibrationBeam(bridgeGroup, CENTER_X, CENTER_Y, bx, by, bridgeAngleDeg);
+            renderCalibrationBeam(bridgeGroup, CENTER_X, CENTER_Y, bx, by);
 
             bridgeGroup.addEventListener('click', () => switchToSlice(nextSliceIdx));
             ligamentsGroup.appendChild(bridgeGroup);
