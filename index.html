@@ -3405,8 +3405,9 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       const slicesMap = new Map();
       const introductions = branches.filter(b => b.portal_type === 'introduction');
       if (introductions.length) {
-        slicesMap.set(LANDING_SLICE, {
-          name: LANDING_SLICE,
+        const landingName = (introductions.find(b => typeof b.slice === 'string' && b.slice.trim())?.slice || LANDING_SLICE).trim();
+        slicesMap.set(landingName, {
+          name: landingName,
           bg: introductions[0].slice_bg || 'cosmos',
           items: introductions,
           isLanding: true
