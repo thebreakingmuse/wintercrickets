@@ -60,16 +60,14 @@
       padding: 0;
     }
 
-    html, body {
-      width: 100%;
-      height: 100%;
+    body {
       background-color: #050508;
       color: var(--text-main);
       font-family: 'Cinzel', serif;
+      min-height: 100vh;
       overflow: hidden;
       position: relative;
       user-select: none;
-      -webkit-font-smoothing: antialiased;
     }
 
     /* Cross-Fading Realm Backdrop Layers */
@@ -330,20 +328,20 @@
     #network-stage {
       position: absolute;
       left: 50%;
-      top: 52%;
+      top: 50%;
       width: 1000px;
       height: 1000px;
       transform: translate(-50%, -50%);
       transform-origin: center center;
       transform-style: preserve-3d;
+      flex-shrink: 0;
     }
 
-    /* Critical Fix: Ensure #disks-container fills the 1000x1000 stage instead of collapsing to 0x0 */
     #disks-container {
       position: absolute;
       inset: 0;
-      width: 1000px;
-      height: 1000px;
+      width: 100%;
+      height: 100%;
       transform-style: preserve-3d;
       pointer-events: none;
     }
@@ -352,8 +350,8 @@
     .disk-plane {
       position: absolute;
       inset: 0;
-      width: 1000px;
-      height: 1000px;
+      width: 100%;
+      height: 100%;
       transform-style: preserve-3d;
       transition: 
         transform 1.15s cubic-bezier(0.22, 1, 0.36, 1),
@@ -404,8 +402,8 @@
     .ligaments-svg {
       position: absolute;
       inset: 0;
-      width: 1000px;
-      height: 1000px;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 2;
       overflow: visible;
@@ -558,7 +556,6 @@
       pointer-events: auto;
     }
 
-    /* Invisible 16px hit-target so the skinny line is still easy to click/hover */
     .bridge-hit-target {
       fill: none;
       stroke: transparent;
@@ -742,7 +739,7 @@
       filter: drop-shadow(0 0 6px #ffffff);
     }
 
-    /* Floating Engraved Label (Matches Janice & Paul Floating Script Style) */
+    /* Floating Engraved Label */
     .bridge-label {
       margin-top: 10px;
       text-align: center;
@@ -1677,13 +1674,7 @@
       height: 28px;
     }
 
-    /* Responsive Scaling for Tablet & Mobile Viewports */
-    @media (max-width: 1024px) {
-      #network-stage {
-        transform: translate(-50%, -50%) scale(0.76);
-      }
-    }
-
+    /* Mobile & Tablet Responsive Stage Scaling */
     @media (max-width: 768px) {
       #cosmos-viewport {
         perspective: none;
@@ -1693,12 +1684,16 @@
       .disk-plane {
         transform-style: flat;
       }
+      #network-stage {
+        top: 52%;
+        transform: translate(-50%, -50%) scale(0.54);
+      }
+      body.landing-disc-active #network-stage {
+        transform: translate(-50%, -50%) scale(0.5);
+      }
       .disk-plane.inactive-disk-above,
       .disk-plane.inactive-disk-below {
         display: none;
-      }
-      #network-stage {
-        transform: translate(-50%, -50%) scale(0.56);
       }
       .portal-ring {
         width: 96px;
@@ -1707,9 +1702,6 @@
       .introduction-node .portal-ring {
         width: 190px;
         height: 190px;
-      }
-      body.landing-disc-active #network-stage {
-        transform: translate(-50%, -50%) scale(0.5);
       }
     }
 
@@ -1819,4 +1811,1163 @@
         <rect x="0" y="358" width="1600" height="62" fill="url(#nyc-river-grad)" />
         <line x1="0" y1="358" x2="1600" y2="358" stroke="rgba(255, 190, 11, 0.35)" stroke-width="1" />
         <g stroke="#ffbe0b" stroke-linecap="round" stroke-opacity="0.35">
-          <line x1="220" y1="368"
+          <line x1="220" y1="368" x2="275" y2="368" stroke-width="2" stroke="#00f0ff" />
+          <line x1="230" y1="378" x2="265" y2="378" stroke-width="1.5" stroke="#00f0ff" />
+          <line x1="630" y1="366" x2="705" y2="366" stroke-width="2.2" />
+          <line x1="642" y1="376" x2="690" y2="376" stroke-width="1.6" />
+          <line x1="650" y1="386" x2="682" y2="386" stroke-width="1.2" />
+          <line x1="835" y1="370" x2="890" y2="370" stroke-width="2" />
+          <line x1="845" y1="382" x2="880" y2="382" stroke-width="1.4" />
+          <line x1="1255" y1="368" x2="1475" y2="368" stroke-width="1.8" stroke-dasharray="12 18" />
+          <line x1="1270" y1="380" x2="1460" y2="380" stroke-width="1.2" stroke-dasharray="8 22" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- 7. Wilderness Nocturnal Forest Canopy & Moon Realm Layer -->
+    <div class="realm-layer realm-wilderness" data-realm-id="wilderness">
+      <svg class="wilderness-scene-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <radialGradient id="wilderness-moon-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f4f9ff" stop-opacity="0.95" />
+            <stop offset="28%" stop-color="#c9e4ff" stop-opacity="0.45" />
+            <stop offset="65%" stop-color="#64b5f6" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="#06101e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="wilderness-mist" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#a8e6cf" stop-opacity="0" />
+            <stop offset="55%" stop-color="#a8e6cf" stop-opacity="0.08" />
+            <stop offset="100%" stop-color="#03090c" stop-opacity="0.85" />
+          </linearGradient>
+        </defs>
+
+        <!-- Luminous Full Moon & Outer Halo -->
+        <circle cx="1240" cy="190" r="190" fill="url(#wilderness-moon-glow)" />
+        <circle cx="1240" cy="190" r="46" fill="#eef6ff" />
+        <circle cx="1226" cy="176" r="9" fill="#d0e2f5" opacity="0.45" />
+        <circle cx="1254" cy="202" r="13" fill="#d0e2f5" opacity="0.35" />
+        <circle cx="1232" cy="210" r="6" fill="#d0e2f5" opacity="0.4" />
+
+        <!-- Starfield & Constellations -->
+        <g fill="#ffffff">
+          <circle class="wilderness-star-twinkle" cx="180" cy="120" r="1.8" />
+          <circle class="wilderness-star-twinkle" cx="340" cy="80" r="2.2" />
+          <circle class="wilderness-star-twinkle" cx="520" cy="160" r="1.5" />
+          <circle class="wilderness-star-twinkle" cx="780" cy="95" r="2.4" />
+          <circle class="wilderness-star-twinkle" cx="960" cy="140" r="1.6" />
+          <circle class="wilderness-star-twinkle" cx="1440" cy="110" r="2" />
+          <circle class="wilderness-star-twinkle" cx="260" cy="240" r="1.4" />
+          <circle class="wilderness-star-twinkle" cx="670" cy="230" r="1.9" />
+          <circle class="wilderness-star-twinkle" cx="1050" cy="270" r="1.5" />
+        </g>
+
+        <!-- Distant Mountain Ridge -->
+        <path fill="#071320" d="M0,900 L0,650 L180,560 L370,630 L590,510 L820,615 L1060,525 L1310,605 L1490,545 L1600,590 L1600,900 Z" />
+
+        <!-- Midground Pine Forest Ridge -->
+        <path fill="#050e17" d="
+          M0,900 L0,690
+          L30,640 L55,695 L85,620 L115,690 L145,605 L175,685 L210,630 L240,695
+          L280,615 L315,690 L350,595 L385,685 L420,625 L455,695 L495,610 L530,685
+          L575,630 L610,695 L650,600 L690,685 L730,620 L765,690 L805,615 L845,690
+          L885,605 L925,685 L965,625 L1005,695 L1045,590 L1085,680 L1125,615 L1165,690
+          L1205,600 L1245,685 L1285,620 L1325,695 L1365,585 L1405,680 L1445,615 L1485,690
+          L1525,605 L1565,685 L1600,630 L1600,900 Z" />
+
+        <!-- Soft Nocturnal Valley Mist -->
+        <rect x="0" y="560" width="1600" height="340" fill="url(#wilderness-mist)" />
+
+        <!-- Foreground Towering Conifer Silhouette Canopy -->
+        <path fill="#020609" stroke="rgba(168, 230, 207, 0.12)" stroke-width="0.8" d="
+          M0,900 L0,640
+          L25,570 L10,575 L40,510 L25,515 L55,455 L85,515 L70,510 L100,575 L85,570 L115,650
+          L145,595 L130,600 L165,530 L150,535 L185,470 L220,535 L205,530 L240,600 L225,595 L260,675
+          L310,635 L350,565 L335,570 L375,495 L415,570 L400,565 L440,635 L485,695
+          L1115,695 L1160,625 L1145,630 L1185,555 L1170,560 L1210,485 L1250,560 L1235,555 L1275,630 L1260,625 L1305,685
+          L1350,600 L1335,605 L1375,525 L1360,530 L1400,450 L1440,530 L1425,525 L1465,605 L1450,600 L1490,670
+          L1520,585 L1505,590 L1545,505 L1530,510 L1565,435 L1600,510 L1600,900 Z" />
+      </svg>
+    </div>
+  </div>
+
+  <header>
+    <h1>Esoteric Winter Crickets</h1>
+    <p>Select a resonating node to enter its archive</p>
+    <div id="active-slice-badge" style="display: none;">Disk: Prime Cosmos</div>
+  </header>
+
+  <main id="cosmos-viewport">
+    <div id="network-stage">
+      <!-- Shared SVG Gradient Defs -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#b366ff" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#6a00f4" stop-opacity="0.2" />
+          </linearGradient>
+          <linearGradient id="grad-cyber" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#0066ff" stop-opacity="0.2" />
+          </linearGradient>
+          <linearGradient id="grad-celestial" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd166" stop-opacity="0.95" />
+            <stop offset="100%" stop-color="#d4af37" stop-opacity="0.2" />
+          </linearGradient>
+          <linearGradient id="grad-oceanic" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#00bbf9" stop-opacity="0.2" />
+          </linearGradient>
+          <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff4d79" stop-opacity="0.95" />
+            <stop offset="50%" stop-color="#ff85a2" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#e0115f" stop-opacity="0.2" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Central Hub & Animated Orbiting Winter Crickets -->
+      <div class="center-hub">
+        <div class="cricket-orbit">
+          <svg class="cricket-icon top" viewBox="0 0 64 64"></svg>
+          <svg class="cricket-icon bottom" viewBox="0 0 64 64"></svg>
+          <svg class="cricket-icon left" viewBox="0 0 64 64"></svg>
+          <svg class="cricket-icon right" viewBox="0 0 64 64"></svg>
+        </div>
+
+        <svg class="hub-geometry" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(212,175,55,0.45)" stroke-width="0.8" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(179,102,255,0.4)" stroke-width="0.7" stroke-dasharray="3 2" />
+          <polygon points="50,6 90,73 10,73" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="0.9" />
+          <polygon points="50,94 90,27 10,27" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="0.9" />
+          <circle cx="50" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.1" style="color: var(--gold-accent)" />
+          <circle cx="50" cy="50" r="3.5" fill="currentColor" style="color: var(--gold-accent)" />
+        </svg>
+      </div>
+
+      <!-- 3D Disks Container -->
+      <div id="disks-container"></div>
+    </div>
+  </main>
+
+  <!-- Gallery Modal Overlay -->
+  <div id="gallery-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content-box">
+
+      <svg class="poem-ornament poem-ornament-natural" viewBox="0 0 760 900" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="poem-woodland-vine" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#b9c78d" stop-opacity=".6"/><stop offset=".5" stop-color="#80ba9c" stop-opacity=".22"/><stop offset="1" stop-color="#d6c692" stop-opacity=".5"/>
+          </linearGradient>
+          <g id="poem-woodland-leaf">
+            <path d="M0 0C-20-4-30-24-18-38C2-29 7-12 0 0Z" fill="#82b391" fill-opacity=".25" stroke="#b5d0a6" stroke-opacity=".4" stroke-width=".6"/>
+            <path d="M0 0Q-8-18-18-35" fill="none" stroke="#b5d0a6" stroke-opacity=".28" stroke-width=".7"/>
+          </g>
+        </defs>
+        <g class="poem-vine-glow" fill="none" stroke="url(#poem-woodland-vine)" stroke-width="1.5">
+          <path d="M38 930C-28 780 105 745 48 590S-10 370 57 240S15 70 112-25"/>
+          <path d="M-20 840C93 807 13 707 48 655S99 596 48 540M48 590C95 559 106 503 71 469M57 240C109 213 123 156 80 134M38 160C-8 126 1 80 40 65"/>
+          <path d="M727 950C807 785 655 725 718 565S772 355 704 222S757 72 658-25"/>
+          <path d="M718 565C660 530 651 470 697 446M704 222C650 204 643 152 680 127M723 754C661 731 671 675 705 656M736 355C791 321 771 274 746 252"/>
+          <path d="M-25 898Q165 797 272 900M788 888Q618 801 510 925" stroke-opacity=".45"/>
+        </g>
+        <g class="poem-vine-glow">
+          <use href="#poem-woodland-leaf" transform="translate(58 239) rotate(55)"/><use href="#poem-woodland-leaf" transform="translate(48 590) rotate(-30)"/>
+          <use href="#poem-woodland-leaf" transform="translate(72 469) rotate(100)"/><use href="#poem-woodland-leaf" transform="translate(42 733) rotate(35)"/>
+          <use href="#poem-woodland-leaf" transform="translate(80 134) rotate(120)"/><use href="#poem-woodland-leaf" transform="translate(30 374) rotate(-55)"/>
+          <use href="#poem-woodland-leaf" transform="translate(704 222) rotate(-55)"/><use href="#poem-woodland-leaf" transform="translate(697 446) rotate(-100)"/>
+          <use href="#poem-woodland-leaf" transform="translate(718 565) rotate(30)"/><use href="#poem-woodland-leaf" transform="translate(705 656) rotate(-90)"/>
+          <use href="#poem-woodland-leaf" transform="translate(727 785) rotate(-50)"/><use href="#poem-woodland-leaf" transform="translate(680 127) rotate(-125)"/>
+          <use href="#poem-woodland-leaf" transform="translate(155 861) rotate(80)"/><use href="#poem-woodland-leaf" transform="translate(609 863) rotate(-70)"/>
+        </g>
+      </svg>
+      <svg class="poem-ornament poem-ornament-cosmic" viewBox="0 0 760 900" preserveAspectRatio="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="poem-aether-trail" x1="0" y1="1" x2="1" y2="0">
+            <stop stop-color="#84cbd0" stop-opacity=".4"/><stop offset=".5" stop-color="#9f91dd" stop-opacity=".32"/><stop offset="1" stop-color="#ead8b5" stop-opacity=".55"/>
+          </linearGradient>
+        </defs>
+        <g class="poem-cosmic-glow" fill="none" stroke="url(#poem-aether-trail)">
+          <path d="M-40 925C175 810-78 700 64 566S134 331-35 270S130 72 26-35" stroke-width="1.5"/>
+          <path d="M-20 886C124 798-33 692 85 564S151 346-16 277S157 61 49-30" stroke-width=".7" opacity=".6"/>
+          <path d="M800 925C587 794 837 692 695 548S635 308 806 245S620 65 730-35" stroke-width="1.6"/>
+          <path d="M785 872C640 781 790 687 674 548S623 330 784 251S599 54 710-30" stroke-width=".7" opacity=".65"/>
+          <path d="M-80 860C180 705 465 1050 830 755M-45 135C191-25 476 202 827 40" stroke-width=".8" opacity=".3"/>
+          <ellipse cx="662" cy="178" rx="80" ry="25" transform="rotate(-48 662 178)" stroke-width=".8" opacity=".32"/>
+          <circle cx="662" cy="178" r="48" stroke-width=".6" opacity=".2"/>
+        </g>
+        <g fill="#e3e9ff">
+          <circle cx="47" cy="98" r="1.5" opacity=".6"/><circle cx="695" cy="86" r="1.1" opacity=".5"/>
+          <circle cx="717" cy="335" r="1.5" opacity=".6"/><circle cx="36" cy="449" r="1" opacity=".45"/>
+          <circle cx="99" cy="778" r="1.4" opacity=".6"/><circle cx="689" cy="744" r="1.1" opacity=".6"/>
+          <circle cx="555" cy="852" r="1.2" opacity=".4"/><circle cx="184" cy="47" r=".8" opacity=".4"/>
+        </g>
+        <g stroke="#c4c7f0" stroke-width=".8" opacity=".45"><path d="M78 315v14m-7-7h14M688 610v16m-8-8h16M607 59v12m-6-6h12"/></g>
+      </svg>
+
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 id="modal-title">Portal Title</h2>
+          <p id="modal-subtitle">Gallery & Archive</p>
+        </div>
+        <button class="close-btn" id="close-modal-btn">Close [Esc]</button>
+      </div>
+
+      <!-- Password Lock Screen View -->
+      <div id="lock-screen">
+        <p>🔒 This archive is sealed behind an ancient threshold.</p>
+        <input type="password" id="lock-pass-input" class="lock-input" placeholder="Enter keyword..." autocomplete="off" />
+        <button id="lock-submit-btn" class="unlock-btn">Unlock Portal</button>
+        <div id="lock-error-msg" class="lock-error"></div>
+      </div>
+
+      <!-- Photos Grid View -->
+      <div class="photo-grid" id="modal-photo-grid"></div>
+
+      <!-- Personal introduction: text is inserted literally, preserving verse. -->
+      <article id="modal-poem-panel" tabindex="0" aria-label="Poem" hidden>
+        <h3 class="poem-title" id="modal-poem-title" hidden></h3>
+        <div class="poem-text" id="modal-poem-text"></div>
+        <p class="poem-empty" id="modal-poem-empty" hidden>This poem has not been added yet.</p>
+      </article>
+    </div>
+  </div>
+
+  <!-- Fullscreen Image Lightbox -->
+  <div id="lightbox">
+    <img id="lightbox-img" src="" alt="Expanded view" />
+  </div>
+
+  <!-- Hidden Sanctum Sigil Link to Portal Studio (/admin/) -->
+  <a href="/admin/" class="sanctum-sigil-link" title="Portal Studio" aria-label="Enter Portal Studio">
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="32" cy="32" r="28" stroke-dasharray="3 3" opacity="0.7" />
+      <polygon points="32,7 51,48 13,48" opacity="0.85" />
+      <polygon points="32,57 51,16 13,16" opacity="0.85" />
+      <circle cx="32" cy="32" r="7.5" />
+      <circle cx="32" cy="32" r="2.2" fill="currentColor" />
+    </svg>
+  </a>
+
+  <script>
+    const CENTER_X = 500;
+    const CENTER_Y = 500;
+    const LANDING_SLICE = 'Janice & Paul';
+
+    const themeColors = {
+      nocturnal: '#b366ff',
+      cyber: '#00f0ff',
+      celestial: '#ffd166',
+      oceanic: '#00f5d4',
+      rose: '#ff4d79'
+    };
+
+    const FALLBACK_BRANCHES = [
+      {
+        id: 'introduction-janice',
+        title: 'Janice',
+        portal_type: 'introduction',
+        theme: 'nocturnal',
+        filament: 'vine',
+        angle: 180,
+        distance: 290,
+        slice_bg: 'cosmos'
+      },
+      {
+        id: 'introduction-paul',
+        title: 'Paul',
+        portal_type: 'introduction',
+        theme: 'celestial',
+        filament: 'gothic',
+        angle: 0,
+        distance: 290,
+        slice_bg: 'cosmos'
+      }
+    ];
+
+    const CRICKET_SVG_MARKUP = `
+      <path class="cricket-antenna ant-l" d="M29 15 C24 6, 13 2, 4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path class="cricket-antenna ant-r" d="M35 15 C40 6, 51 2, 60 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+
+      <path class="cricket-leg leg-fl gait-a" d="M28 21 L17 15 L12 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="cricket-leg leg-fr gait-b" d="M36 21 L47 15 L52 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <path class="cricket-leg leg-ml gait-b" d="M27 28 L14 26 L9 33" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="cricket-leg leg-mr gait-a" d="M37 28 L50 26 L55 33" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <g class="cricket-leg leg-hl gait-a">
+        <path d="M28 35 C20 31, 13 23, 11 25 C9 27, 15 37, 23 41 L14 55 L10 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <g class="cricket-leg leg-hr gait-b">
+        <path d="M36 35 C44 31, 51 23, 53 25 C55 27, 49 37, 41 41 L50 55 L54 58" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <g class="cricket-body">
+        <path d="M29 50 L23 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M35 50 L41 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+
+        <ellipse cx="32" cy="17" rx="4.2" ry="3.6" fill="currentColor"/>
+        <circle cx="28.2" cy="16" r="1.3" fill="#fff3b0"/>
+        <circle cx="35.8" cy="16" r="1.3" fill="#fff3b0"/>
+
+        <rect x="27" y="20.5" width="10" height="7.5" rx="2.8" fill="currentColor" stroke="#080612" stroke-width="0.9"/>
+
+        <ellipse cx="32" cy="39" rx="5.6" ry="12.5" fill="currentColor" stroke="#080612" stroke-width="0.9"/>
+        <path d="M32 28 L32 50 M28.5 31 L35.5 35 M35.5 31 L28.5 35 M28.5 37 L35.5 41 M35.5 37 L28.5 41 M29 43 L35 46" fill="none" stroke="#080612" stroke-width="0.9" stroke-linecap="round"/>
+      </g>
+    `;
+
+    document.querySelectorAll('.cricket-icon').forEach((svgEl, idx) => {
+      svgEl.innerHTML = CRICKET_SVG_MARKUP;
+      const delay = -(idx * 0.19).toFixed(2) + 's';
+      svgEl.querySelectorAll('.cricket-leg, .cricket-body, .cricket-antenna').forEach((part) => {
+        part.style.animationDelay = delay;
+      });
+    });
+
+    const disksContainer = document.getElementById('disks-container');
+    const activeSliceBadge = document.getElementById('active-slice-badge');
+    const galleryModal = document.getElementById('gallery-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalSubtitle = document.getElementById('modal-subtitle');
+    const modalPhotoGrid = document.getElementById('modal-photo-grid');
+    const modalPoemPanel = document.getElementById('modal-poem-panel');
+    const modalPoemTitle = document.getElementById('modal-poem-title');
+    let modalPoemText = document.getElementById('modal-poem-text');
+    const modalPoemEmpty = document.getElementById('modal-poem-empty');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lockScreen = document.getElementById('lock-screen');
+    const lockPassInput = document.getElementById('lock-pass-input');
+    const lockSubmitBtn = document.getElementById('lock-submit-btn');
+    const lockErrorMsg = document.getElementById('lock-error-msg');
+
+    let sliceList = [];
+    let currentSliceIndex = 0;
+    let introductionTrigger = null;
+    let selectionAccentTimer = null;
+
+    function buildCurvedPath(x1, y1, x2, y2, index, bendFactor = 0.18) {
+      const midX = (x1 + x2) / 2;
+      const midY = (y1 + y2) / 2;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const offsetDirection = index % 2 === 0 ? 1 : -1;
+      const ctrlX = midX - dy * bendFactor * offsetDirection;
+      const ctrlY = midY + dx * bendFactor * offsetDirection;
+      return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
+    }
+
+    function buildWavePath(x1, y1, x2, y2, phase = 1) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const c1x = x1 + dx * 0.33 - dy * 0.14 * phase;
+      const c1y = y1 + dy * 0.33 + dx * 0.14 * phase;
+      const c2x = x1 + dx * 0.66 + dy * 0.14 * phase;
+      const c2y = y1 + dy * 0.66 - dx * 0.14 * phase;
+      return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
+    }
+
+    // Picks an outlying corner angle that stays clear of existing portals on that slice
+    function chooseBridgeAngle(sliceItems) {
+      const preferredCorners = [-32, -148, 32, 148, -90];
+      const usedAngles = sliceItems.map((b, i) => b.angle ?? (i * 60));
+      for (const candidate of preferredCorners) {
+        const isClear = usedAngles.every((a) => Math.abs(((candidate - a + 540) % 360) - 180) >= 26);
+        if (isClear) return candidate;
+      }
+      return -32;
+    }
+
+    function renderFilament(svgGroup, x2, y2, idx, theme, filamentStyle) {
+      const color = themeColors[theme] || themeColors.nocturnal;
+
+      if (filamentStyle === 'vine') {
+        const mainVine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainVine.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, 1));
+        mainVine.setAttribute('class', 'ligament-vine-main');
+        mainVine.setAttribute('stroke', `url(#grad-${theme})`);
+        mainVine.style.color = color;
+        svgGroup.appendChild(mainVine);
+
+        const offTendril = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        offTendril.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, -0.85));
+        offTendril.setAttribute('class', 'ligament-vine-tendril');
+        offTendril.setAttribute('stroke', color);
+        offTendril.style.color = color;
+        svgGroup.appendChild(offTendril);
+
+      } else if (filamentStyle === 'tendril') {
+        const strandA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strandA.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx, 0.22));
+        strandA.setAttribute('class', 'ligament-path');
+        strandA.setAttribute('stroke', `url(#grad-${theme})`);
+        strandA.style.color = color;
+        svgGroup.appendChild(strandA);
+
+        const strandB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strandB.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx + 1, 0.16));
+        strandB.setAttribute('class', 'ligament-vine-tendril');
+        strandB.setAttribute('stroke', color);
+        strandB.style.color = color;
+        svgGroup.appendChild(strandB);
+
+      } else if (filamentStyle === 'suspension') {
+        const midX = (CENTER_X + x2) / 2;
+        const midY = (CENTER_Y + y2) / 2;
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const ctrlX = midX - dy * 0.24 * dir;
+        const ctrlY = midY + dx * 0.24 * dir;
+
+        let strutsD = '';
+        const steps = [0.22, 0.32, 0.42, 0.52, 0.62, 0.72, 0.82];
+        steps.forEach((t) => {
+          const inv = 1 - t;
+          const lx = inv * CENTER_X + t * x2;
+          const ly = inv * CENTER_Y + t * y2;
+          const cx = inv * inv * CENTER_X + 2 * inv * t * ctrlX + t * t * x2;
+          const cy = inv * inv * CENTER_Y + 2 * inv * t * ctrlY + t * t * y2;
+          strutsD += `M ${lx.toFixed(1)} ${ly.toFixed(1)} L ${cx.toFixed(1)} ${cy.toFixed(1)} `;
+        });
+
+        const strutsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strutsPath.setAttribute('d', strutsD.trim());
+        strutsPath.setAttribute('class', 'ligament-suspension-struts');
+        strutsPath.setAttribute('stroke', color);
+        svgGroup.appendChild(strutsPath);
+
+        const deckPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        deckPath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        deckPath.setAttribute('class', 'ligament-suspension-deck');
+        deckPath.setAttribute('stroke', `url(#grad-${theme})`);
+        deckPath.style.color = color;
+        svgGroup.appendChild(deckPath);
+
+        const cablePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        cablePath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`);
+        cablePath.setAttribute('class', 'ligament-suspension-cable');
+        cablePath.setAttribute('stroke', color);
+        cablePath.style.color = color;
+        svgGroup.appendChild(cablePath);
+
+      } else if (filamentStyle === 'grid') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+        const offset = 26;
+
+        const p1x = CENTER_X + dx * 0.34 + nx * offset;
+        const p1y = CENTER_Y + dy * 0.34 + ny * offset;
+        const p2x = CENTER_X + dx * 0.68 + nx * offset;
+        const p2y = CENTER_Y + dy * 0.68 + ny * offset;
+        const mainD = `M ${CENTER_X} ${CENTER_Y} L ${p1x.toFixed(1)} ${p1y.toFixed(1)} L ${p2x.toFixed(1)} ${p2y.toFixed(1)} L ${x2} ${y2}`;
+
+        const subOffset = offset - 9;
+        const s1x = CENTER_X + dx * 0.34 + nx * subOffset;
+        const s1y = CENTER_Y + dy * 0.34 + ny * subOffset;
+        const s2x = CENTER_X + dx * 0.68 + nx * subOffset;
+        const s2y = CENTER_Y + dy * 0.68 + ny * subOffset;
+        const subD = `M ${CENTER_X} ${CENTER_Y} L ${s1x.toFixed(1)} ${s1y.toFixed(1)} L ${s2x.toFixed(1)} ${s2y.toFixed(1)} L ${x2} ${y2}`;
+
+        const subRail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        subRail.setAttribute('d', subD);
+        subRail.setAttribute('class', 'ligament-grid-subrail');
+        subRail.setAttribute('stroke', color);
+        svgGroup.appendChild(subRail);
+
+        const mainRail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainRail.setAttribute('d', mainD);
+        mainRail.setAttribute('class', 'ligament-grid-rail');
+        mainRail.setAttribute('stroke', `url(#grad-${theme})`);
+        mainRail.style.color = color;
+        svgGroup.appendChild(mainRail);
+
+        const surgePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        surgePath.setAttribute('d', mainD);
+        surgePath.setAttribute('class', 'ligament-grid-surge');
+        surgePath.style.color = color;
+        svgGroup.appendChild(surgePath);
+
+        [[p1x, p1y], [p2x, p2y]].forEach(([jx, jy]) => {
+          const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          dot.setAttribute('cx', jx.toFixed(1));
+          dot.setAttribute('cy', jy.toFixed(1));
+          dot.setAttribute('r', '3.4');
+          dot.setAttribute('class', 'ligament-grid-station');
+          dot.setAttribute('stroke', color);
+          dot.style.color = color;
+          svgGroup.appendChild(dot);
+        });
+
+      } else if (filamentStyle === 'gothic') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+
+        // 1. Pointed Gothic Lancet Arch Spine
+        const peakX = CENTER_X + dx * 0.5 + nx * 28;
+        const peakY = CENTER_Y + dy * 0.5 + ny * 28;
+        const c1x = CENTER_X + dx * 0.22 + nx * 22;
+        const c1y = CENTER_Y + dy * 0.22 + ny * 22;
+        const c2x = CENTER_X + dx * 0.78 + nx * 22;
+        const c2y = CENTER_Y + dy * 0.78 + ny * 22;
+        const lancetD = `M ${CENTER_X} ${CENTER_Y} Q ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${peakX.toFixed(1)} ${peakY.toFixed(1)} Q ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${x2} ${y2}`;
+
+        // 2. Counter-Curving Sub-Tracery Arch
+        const counterPeakX = CENTER_X + dx * 0.5 - nx * 16;
+        const counterPeakY = CENTER_Y + dy * 0.5 - ny * 16;
+        const cc1x = CENTER_X + dx * 0.25 - nx * 12;
+        const cc1y = CENTER_Y + dy * 0.25 - ny * 12;
+        const cc2x = CENTER_X + dx * 0.75 - nx * 12;
+        const cc2y = CENTER_Y + dy * 0.75 - ny * 12;
+        const traceryD = `M ${CENTER_X} ${CENTER_Y} Q ${cc1x.toFixed(1)} ${cc1y.toFixed(1)} ${counterPeakX.toFixed(1)} ${counterPeakY.toFixed(1)} Q ${cc2x.toFixed(1)} ${cc2y.toFixed(1)} ${x2} ${y2}`;
+
+        // 3. Wrought-Iron Spikes / Briar Thorns along the Span
+        let thornsD = '';
+        const thornSteps = [0.22, 0.36, 0.5, 0.64, 0.78];
+        thornSteps.forEach((t, tIdx) => {
+          const bx = CENTER_X + dx * t;
+          const by = CENTER_Y + dy * t;
+          const spikeLen = t === 0.5 ? 24 : (tIdx % 2 === 0 ? 15 : 19);
+          const s1x = bx + nx * spikeLen;
+          const s1y = by + ny * spikeLen;
+          const s2x = bx - nx * (spikeLen * 0.75);
+          const s2y = by - ny * (spikeLen * 0.75);
+          thornsD += `M ${s2x.toFixed(1)} ${s2y.toFixed(1)} L ${s1x.toFixed(1)} ${s1y.toFixed(1)} `;
+        });
+
+        const thornsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        thornsPath.setAttribute('d', thornsD.trim());
+        thornsPath.setAttribute('class', 'ligament-gothic-thorns');
+        thornsPath.setAttribute('stroke', color);
+        thornsPath.style.color = color;
+        svgGroup.appendChild(thornsPath);
+
+        const traceryPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        traceryPath.setAttribute('d', traceryD);
+        traceryPath.setAttribute('class', 'ligament-gothic-tracery');
+        traceryPath.setAttribute('stroke', color);
+        traceryPath.style.color = color;
+        svgGroup.appendChild(traceryPath);
+
+        const spinePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        spinePath.setAttribute('d', lancetD);
+        spinePath.setAttribute('class', 'ligament-gothic-spine');
+        spinePath.setAttribute('stroke', `url(#grad-${theme})`);
+        spinePath.style.color = color;
+        svgGroup.appendChild(spinePath);
+
+        // 4. Diamond Iron Finials at Key Nodes
+        [0.36, 0.5, 0.64].forEach((t) => {
+          const fx = CENTER_X + dx * t;
+          const fy = CENTER_Y + dy * t;
+          const size = t === 0.5 ? 5.5 : 4;
+          const diamond = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          const pTop = `${(fx + nx * size).toFixed(1)},${(fy + ny * size).toFixed(1)}`;
+          const pRight = `${(fx + (dx / len) * size).toFixed(1)},${(fy + (dy / len) * size).toFixed(1)}`;
+          const pBot = `${(fx - nx * size).toFixed(1)},${(fy - ny * size).toFixed(1)}`;
+          const pLeft = `${(fx - (dx / len) * size).toFixed(1)},${(fy - (dy / len) * size).toFixed(1)}`;
+          diamond.setAttribute('points', `${pTop} ${pRight} ${pBot} ${pLeft}`);
+          diamond.setAttribute('class', 'ligament-gothic-finial');
+          diamond.setAttribute('stroke', color);
+          diamond.style.color = color;
+          svgGroup.appendChild(diamond);
+        });
+
+      } else {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));
+        path.setAttribute('class', 'ligament-path');
+        path.setAttribute('stroke', `url(#grad-${theme})`);
+        path.style.color = color;
+        svgGroup.appendChild(path);
+      }
+    }
+
+    function applyRealmAesthetic(realmId, sliceName) {
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness'];
+      const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
+
+      document.body.setAttribute('data-realm', targetRealm);
+
+      document.querySelectorAll('.realm-layer').forEach((layer) => {
+        if (layer.getAttribute('data-realm-id') === targetRealm) {
+          layer.classList.add('active');
+        } else {
+          layer.classList.remove('active');
+        }
+      });
+
+      if (sliceList.length > 1) {
+        activeSliceBadge.style.display = 'inline-block';
+        activeSliceBadge.textContent = `Active Disk: ${sliceName}`;
+      }
+    }
+
+    function switchToSlice(targetIndex) {
+      currentSliceIndex = targetIndex;
+      const activeSlice = sliceList[currentSliceIndex];
+      applyRealmAesthetic(activeSlice.bg, activeSlice.name);
+      document.body.classList.toggle('landing-disc-active', Boolean(activeSlice.isLanding));
+
+      const diskEls = document.querySelectorAll('.disk-plane');
+      diskEls.forEach((el, idx) => {
+        el.inert = idx !== currentSliceIndex;
+        el.setAttribute('aria-hidden', idx === currentSliceIndex ? 'false' : 'true');
+        el.classList.remove('active-disk', 'inactive-disk-above', 'inactive-disk-below');
+        if (idx === currentSliceIndex) {
+          el.classList.add('active-disk');
+        } else if (idx < currentSliceIndex) {
+          el.classList.add('inactive-disk-above');
+        } else {
+          el.classList.add('inactive-disk-below');
+        }
+      });
+    }
+
+    function renderPhotoGrid(branch) {
+      modalPhotoGrid.innerHTML = '';
+      const photos = branch.photos || [];
+      const thumbs = branch.grid_thumbs || [];
+
+      photos.forEach((fullPhotoPath, idx) => {
+        const previewPath = thumbs[idx] || fullPhotoPath;
+
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+
+        const img = document.createElement('img');
+        img.src = previewPath;
+        img.alt = branch.title || 'Portal image';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.addEventListener('load', () => img.classList.add('loaded'));
+
+        img.addEventListener('error', () => {
+          if (img.src !== fullPhotoPath) img.src = fullPhotoPath;
+        });
+
+        card.appendChild(img);
+
+        card.addEventListener('click', () => {
+          lightboxImg.src = fullPhotoPath;
+          lightbox.classList.add('active');
+        });
+
+        modalPhotoGrid.appendChild(card);
+      });
+    }
+
+    function showPortalContent(branch) {
+      if (branch.portal_type === 'introduction') {
+        const poem = typeof branch.poem_text === 'string' ? branch.poem_text : '';
+        modalPhotoGrid.classList.remove('active');
+        modalPoemTitle.textContent = branch.poem_title || '';
+        modalPoemTitle.hidden = !branch.poem_title;
+        const verse = document.createElement('div');
+        verse.className = 'poem-text emerging';
+        verse.id = 'modal-poem-text';
+        verse.style.fontStyle = branch.poem_italic ? 'italic' : 'normal';
+        verse.textContent = poem;
+        modalPoemText.replaceWith(verse);
+        modalPoemText = verse;
+        modalPoemEmpty.hidden = Boolean(poem.trim());
+        modalPoemPanel.hidden = false;
+        modalPoemPanel.scrollTop = 0;
+      } else {
+        renderPhotoGrid(branch);
+        modalPhotoGrid.classList.add('active');
+      }
+    }
+
+    function openGallery(branch, triggerEl = null) {
+      const isIntroduction = branch.portal_type === 'introduction';
+      introductionTrigger = isIntroduction ? (triggerEl || document.activeElement) : null;
+      galleryModal.classList.toggle('poem-mode', isIntroduction);
+      galleryModal.dataset.poemTheme = isIntroduction ? (branch.id === 'introduction-janice' ? 'natural' : 'cosmic') : '';
+      if (isIntroduction) {
+        galleryModal.removeAttribute('aria-labelledby');
+        galleryModal.setAttribute('aria-label', `${branch.title || branch.id} poem`);
+      } else {
+        galleryModal.removeAttribute('aria-label');
+        galleryModal.setAttribute('aria-labelledby', 'modal-title');
+      }
+      modalPoemPanel.hidden = true;
+      modalPhotoGrid.classList.remove('active');
+
+      clearTimeout(selectionAccentTimer);
+      if (isIntroduction) {
+        const poemColor = branch.id === 'introduction-janice' ? '#9bcaaa' : '#aabfee';
+        galleryModal.style.setProperty('--poem-border', poemColor);
+        galleryModal.style.setProperty('--poem-glow', `${poemColor}33`);
+
+        const accentKey = branch.id === 'introduction-janice' ? 'violet' : 'gold';
+        galleryModal.setAttribute('data-selection-accent', accentKey);
+        selectionAccentTimer = setTimeout(() => {
+          galleryModal.removeAttribute('data-selection-accent');
+        }, 720);
+      } else {
+        galleryModal.removeAttribute('data-selection-accent');
+      }
+
+      modalTitle.textContent = branch.title || branch.id;
+      modalSubtitle.textContent = isIntroduction ? '' : branch.subtitle || 'Gallery & Archive';
+      modalSubtitle.hidden = isIntroduction;
+      lockErrorMsg.textContent = '';
+      lockPassInput.value = '';
+
+      const requiredPassword = (branch.password || '').trim().toLowerCase();
+
+      if (requiredPassword) {
+        lockScreen.classList.add('active');
+        modalPhotoGrid.classList.remove('active');
+
+        const attemptUnlock = () => {
+          const userEntered = lockPassInput.value.trim().toLowerCase();
+          if (userEntered === requiredPassword) {
+            lockScreen.classList.remove('active');
+            showPortalContent(branch);
+          } else {
+            lockErrorMsg.textContent = 'Incorrect keyword. The door remains sealed.';
+            lockPassInput.value = '';
+            lockPassInput.focus();
+          }
+        };
+
+        lockSubmitBtn.onclick = attemptUnlock;
+        lockPassInput.onkeydown = (e) => {
+          if (e.key === 'Enter') attemptUnlock();
+        };
+        setTimeout(() => lockPassInput.focus(), 100);
+      } else {
+        lockScreen.classList.remove('active');
+        showPortalContent(branch);
+      }
+
+      galleryModal.classList.add('active');
+      if (isIntroduction && !requiredPassword) closeModalBtn.focus();
+    }
+
+    function closeGallery() {
+      clearTimeout(selectionAccentTimer);
+      galleryModal.removeAttribute('data-selection-accent');
+      galleryModal.classList.remove('active');
+      if (introductionTrigger && introductionTrigger.isConnected) introductionTrigger.focus();
+      introductionTrigger = null;
+    }
+
+    closeModalBtn.addEventListener('click', closeGallery);
+    galleryModal.addEventListener('click', (e) => {
+      if (e.target === galleryModal) closeGallery();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab' && galleryModal.classList.contains('active') && galleryModal.classList.contains('poem-mode')) {
+        const controls = [...galleryModal.querySelectorAll('button, input, [tabindex="0"]')]
+          .filter(el => !el.disabled && el.getClientRects().length > 0);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+      if (e.key === 'Escape') {
+        if (lightbox.classList.contains('active')) {
+          lightbox.classList.remove('active');
+          lightboxImg.src = '';
+        } else {
+          closeGallery();
+        }
+      }
+    });
+
+    lightbox.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+      lightboxImg.src = '';
+    });
+
+    function buildSlices(branches) {
+      const slicesMap = new Map();
+      const introductions = branches.filter(b => b.portal_type === 'introduction');
+      if (introductions.length) {
+        slicesMap.set(LANDING_SLICE, {
+          name: LANDING_SLICE,
+          bg: introductions[0].slice_bg || 'cosmos',
+          items: introductions,
+          isLanding: true
+        });
+      }
+      branches.filter(b => b.portal_type !== 'introduction').forEach((b) => {
+        const sName = b.slice || 'Prime Cosmos';
+        if (!slicesMap.has(sName)) {
+          slicesMap.set(sName, { name: sName, bg: b.slice_bg || 'cosmos', items: [] });
+        }
+        slicesMap.get(sName).items.push(b);
+      });
+      const priority = slice => slice.isLanding ? 0 : slice.name === 'Prime Cosmos' ? 1 : 2;
+      return Array.from(slicesMap.values()).sort((a, b) => priority(a) - priority(b));
+    }
+
+    function createIntroductionNode(branch, theme, filamentGroup) {
+      const person = {
+        'introduction-janice': { initial: 'J', name: 'Janice' },
+        'introduction-paul': { initial: 'P', name: 'Paul' }
+      }[branch.id];
+      const node = document.createElement('button');
+      node.type = 'button';
+      node.className = `portal-node introduction-node theme-${theme}`;
+      node.setAttribute('aria-label', `Enter ${person ? person.name : branch.title || branch.id}'s portal`);
+      node.setAttribute('aria-haspopup', 'dialog');
+      node.dataset.person = branch.id;
+
+      const ring = document.createElement('span');
+      ring.className = 'portal-ring';
+      const portraits = {
+        'introduction-janice': 'assets/janice-avatar.png',
+        'introduction-paul': 'assets/paul-avatar.jpg'
+      };
+      const portraitSrc = portraits[branch.id] || (!person ? branch.thumbnail : '');
+
+      const appendFallbackSigil = () => {
+        ring.innerHTML = '';
+        const sigil = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        sigil.setAttribute('viewBox', '0 0 100 100');
+        sigil.setAttribute('class', 'introduction-sigil');
+        sigil.setAttribute('aria-hidden', 'true');
+        sigil.innerHTML = branch.id === 'introduction-janice'
+          ? '<g fill="none" stroke="currentColor" stroke-width="0.7" opacity="0.5"><circle cx="50" cy="50" r="43"/><ellipse cx="50" cy="50" rx="39" ry="18"/><ellipse cx="50" cy="50" rx="39" ry="18" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="39" ry="18" transform="rotate(120 50 50)"/></g>'
+          : '<g fill="none" stroke="currentColor" stroke-width="0.7" opacity="0.5"><circle cx="50" cy="50" r="43"/><path d="M50 7 93 50 50 93 7 50Z M20 20H80V80H20Z"/><circle cx="50" cy="50" r="32" stroke-dasharray="2 4"/></g>';
+        const initial = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        initial.setAttribute('x', '50');
+        initial.setAttribute('y', '63');
+        initial.textContent = person ? person.initial : Array.from(branch.title || '?')[0];
+        sigil.appendChild(initial);
+        ring.appendChild(sigil);
+      };
+
+      if (portraitSrc) {
+        const portrait = document.createElement('img');
+        portrait.className = 'portal-thumb';
+        portrait.src = portraitSrc;
+        portrait.alt = '';
+        portrait.addEventListener('error', appendFallbackSigil, { once: true });
+        ring.appendChild(portrait);
+      } else {
+        appendFallbackSigil();
+      }
+
+      const label = document.createElement('span');
+      label.className = 'portal-label';
+      const title = document.createElement('span');
+      title.className = 'portal-title';
+      title.textContent = person ? person.name : branch.title || branch.id;
+
+      const flourish = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      flourish.setAttribute('viewBox', '0 0 160 22');
+      flourish.setAttribute('class', 'introduction-flourish');
+      flourish.setAttribute('aria-hidden', 'true');
+      flourish.setAttribute('focusable', 'false');
+      flourish.innerHTML = `
+        <path d="M 14 4 Q 80 18 146 4" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" opacity="0.88" />
+        <path d="M 40 9 Q 80 19 120 9" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.52" />
+        <polygon points="80,7.2 83.2,10.8 80,14.4 76.8,10.8" fill="currentColor" opacity="0.92" />
+        <circle cx="26" cy="6.2" r="1.1" fill="currentColor" opacity="0.65" />
+        <circle cx="134" cy="6.2" r="1.1" fill="currentColor" opacity="0.65" />
+      `;
+
+      label.append(title, flourish);
+      node.append(ring, label);
+
+      const setPathIlluminated = (active) => {
+        if (filamentGroup) filamentGroup.classList.toggle('is-illuminated', active);
+      };
+
+      node.addEventListener('mouseenter', () => setPathIlluminated(true));
+      node.addEventListener('mouseleave', () => setPathIlluminated(false));
+      node.addEventListener('focus', () => setPathIlluminated(true));
+      node.addEventListener('blur', () => setPathIlluminated(false));
+      node.addEventListener('touchstart', () => {
+        node.classList.add('is-touch-active');
+        setPathIlluminated(true);
+      }, { passive: true });
+      node.addEventListener('touchend', () => {
+        setTimeout(() => {
+          node.classList.remove('is-touch-active');
+          setPathIlluminated(false);
+        }, 320);
+      }, { passive: true });
+      node.addEventListener('touchcancel', () => {
+        node.classList.remove('is-touch-active');
+        setPathIlluminated(false);
+      }, { passive: true });
+
+      return node;
+    }
+
+    async function loadPortals() {
+      let branches = [];
+      try {
+        const res = await fetch(`branches.json?t=${Date.now()}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const rawText = await res.text();
+        const cleanedText = rawText
+          .replace(/^<<<<<<<.*$/gm, '')
+          .replace(/^=======.*$/gm, '')
+          .replace(/^>>>>>>>.*$/gm, '');
+        const parsed = JSON.parse(cleanedText);
+        branches = Array.isArray(parsed) && parsed.length ? parsed : FALLBACK_BRANCHES;
+      } catch (err) {
+        console.warn('Using fallback landing portals because branches.json could not be fetched/parsed:', err);
+        branches = FALLBACK_BRANCHES;
+      }
+
+      try {
+        disksContainer.innerHTML = '';
+
+        // The two introductions open first; the archive disks retain their order.
+        sliceList = buildSlices(branches);
+        if (sliceList.length === 0) {
+          sliceList = buildSlices(FALLBACK_BRANCHES);
+        }
+
+        sliceList.forEach((sliceObj, sIdx) => {
+          const diskPlane = document.createElement('div');
+          diskPlane.className = 'disk-plane';
+          diskPlane.classList.toggle('landing-disk', Boolean(sliceObj.isLanding));
+
+          const halo = document.createElement('div');
+          halo.className = 'disk-halo-ring';
+          diskPlane.appendChild(halo);
+
+          const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svgEl.setAttribute('class', 'ligaments-svg');
+          svgEl.setAttribute('viewBox', '0 0 1000 1000');
+          svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+          const ligamentsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          svgEl.appendChild(ligamentsGroup);
+          diskPlane.appendChild(svgEl);
+
+          // Render portals belonging to this 3D Disk
+          sliceObj.items.forEach((branch, idx) => {
+            const angleDeg = branch.angle ?? (idx * 60);
+            const distance = branch.distance ?? 340;
+            const angleRad = (angleDeg * Math.PI) / 180;
+
+            const x = CENTER_X + Math.cos(angleRad) * distance;
+            const y = CENTER_Y + Math.sin(angleRad) * distance;
+
+            const isIntroduction = branch.portal_type === 'introduction';
+            const theme = branch.id === 'introduction-janice'
+              ? 'nocturnal'
+              : branch.id === 'introduction-paul'
+                ? 'celestial'
+                : (themeColors[branch.theme] ? branch.theme : 'nocturnal');
+            const filamentStyle = branch.filament || 'standard';
+
+            const portalFilamentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            portalFilamentGroup.setAttribute('class', 'portal-filament-group');
+            portalFilamentGroup.setAttribute('data-portal-id', branch.id);
+            renderFilament(portalFilamentGroup, x, y, idx, theme, filamentStyle);
+            ligamentsGroup.appendChild(portalFilamentGroup);
+
+            const node = isIntroduction
+              ? createIntroductionNode(branch, theme, portalFilamentGroup)
+              : document.createElement('div');
+            if (!isIntroduction) node.className = `portal-node theme-${theme}`;
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+
+            const thumbSrc = branch.thumbnail || (branch.grid_thumbs && branch.grid_thumbs[0]) || (branch.photos && branch.photos[0]) || '';
+
+            if (!isIntroduction) node.innerHTML = `
+              <div class="portal-ring">
+                <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
+              </div>
+              <div class="portal-label">
+                <div class="portal-title">${branch.title || branch.id}</div>
+                <div class="portal-subtitle">${branch.subtitle || ''}</div>
+              </div>
+            `;
+
+            node.addEventListener('click', () => openGallery(branch, node));
+            diskPlane.appendChild(node);
+          });
+
+          // If multiple slices exist, render the Alchemical Armillary & Slender Astrolabe Conduit
+          if (sliceList.length > 1) {
+            const nextSliceIdx = (sIdx + 1) % sliceList.length;
+            const nextSlice = sliceList[nextSliceIdx];
+
+            const customAngle = sliceObj.items.find(b => b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '')?.bridge_angle;
+            const customDist = sliceObj.items.find(b => b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '')?.bridge_distance;
+
+            const bridgeAngleDeg = (customAngle !== undefined && !isNaN(parseFloat(customAngle)))
+              ? parseFloat(customAngle)
+              : chooseBridgeAngle(sliceObj.items);
+            const bridgeDist = (customDist !== undefined && !isNaN(parseFloat(customDist)))
+              ? parseFloat(customDist)
+              : 455;
+            const bridgeRad = (bridgeAngleDeg * Math.PI) / 180;
+            const bx = CENTER_X + Math.cos(bridgeRad) * bridgeDist;
+            const by = CENTER_Y + Math.sin(bridgeRad) * bridgeDist;
+
+            const dx = bx - CENTER_X;
+            const dy = by - CENTER_Y;
+            const len = Math.hypot(dx, dy) || 1;
+            const ux = dx / len;
+            const uy = dy / len;
+            const nx = -uy;
+            const ny = ux;
+
+            // Gentle, slender S-curve axis mundi path
+            const c1x = CENTER_X + dx * 0.33 + nx * 10;
+            const c1y = CENTER_Y + dy * 0.33 + ny * 10;
+            const c2x = CENTER_X + dx * 0.66 - nx * 10;
+            const c2y = CENTER_Y + dy * 0.66 - ny * 10;
+            const coreAxisD = `M ${CENTER_X} ${CENTER_Y} C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${bx.toFixed(1)} ${by.toFixed(1)}`;
+
+            // Whisper-thin flanking astrolabe calibration arcs
+            const midX = (CENTER_X + bx) / 2;
+            const midY = (CENTER_Y + by) / 2;
+            const arcSpread = 14;
+            const arcLeftD = `M ${CENTER_X} ${CENTER_Y} Q ${(midX + nx * arcSpread).toFixed(1)} ${(midY + ny * arcSpread).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
+            const arcRightD = `M ${CENTER_X} ${CENTER_Y} Q ${(midX - nx * arcSpread).toFixed(1)} ${(midY - ny * arcSpread).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
+
+            // Fine perpendicular degree ticks along the central axis
+            let ticksD = '';
+            const tickSteps = [0.22, 0.28, 0.38, 0.44, 0.50, 0.56, 0.62, 0.72, 0.78, 0.86];
+            tickSteps.forEach((t, tIdx) => {
+              const tx = CENTER_X + dx * t;
+              const ty = CENTER_Y + dy * t;
+              const halfTick = (t === 0.50) ? 6.5 : (tIdx % 2 === 0 ? 4.2 : 2.5);
+              ticksD += `M ${(tx - nx * halfTick).toFixed(1)} ${(ty - ny * halfTick).toFixed(1)} L ${(tx + nx * halfTick).toFixed(1)} ${(ty + ny * halfTick).toFixed(1)} `;
+            });
+
+            const bridgeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            bridgeGroup.setAttribute('class', 'bridge-filament-group');
+
+            // 0. Invisible hit target for effortless clicking
+            const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            hitPath.setAttribute('d', coreAxisD);
+            hitPath.setAttribute('class', 'bridge-hit-target');
+            bridgeGroup.appendChild(hitPath);
+
+            // 1. Subtle 2px glow underlay
+            const auraPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            auraPath.setAttribute('d', coreAxisD);
+            auraPath.setAttribute('class', 'bridge-outer-aura');
+            bridgeGroup.appendChild(auraPath);
+
+            // 2. Flanking astrolabe arcs
+            [arcLeftD, arcRightD].forEach((arcD) => {
+              const arcPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              arcPath.setAttribute('d', arcD);
+              arcPath.setAttribute('class', 'bridge-astrolabe-arc');
+              bridgeGroup.appendChild(arcPath);
+            });
+
+            // 3. Perpendicular calibration ticks
+            const ticksPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            ticksPath.setAttribute('d', ticksD.trim());
+            ticksPath.setAttribute('class', 'bridge-astrolabe-ticks');
+            bridgeGroup.appendChild(ticksPath);
+
+            // 4. Crisp 1.15px core filament
+            const corePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            corePath.setAttribute('d', coreAxisD);
+            corePath.setAttribute('class', 'bridge-core-path');
+            bridgeGroup.appendChild(corePath);
+
+            // 5. Slender traveling photon pulse
+            const surgePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            surgePath.setAttribute('d', coreAxisD);
+            surgePath.setAttribute('class', 'bridge-warp-surge');
+            bridgeGroup.appendChild(surgePath);
+
+            // 6. Delicate harmonic nodes at 1/3 and 2/3 along the axis
+            [0.33, 0.66].forEach((t, nIdx) => {
+              const hx = CENTER_X + dx * t;
+              const hy = CENTER_Y + dy * t;
+              const nodeCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+              nodeCircle.setAttribute('cx', hx.toFixed(1));
+              nodeCircle.setAttribute('cy', hy.toFixed(1));
+              nodeCircle.setAttribute('r', nIdx === 1 ? '3.4' : '2.6');
+              nodeCircle.setAttribute('class', 'bridge-harmonic-node');
+              bridgeGroup.appendChild(nodeCircle);
+            });
+
+            bridgeGroup.addEventListener('click', () => switchToSlice(nextSliceIdx));
+            ligamentsGroup.appendChild(bridgeGroup);
+
+            const bridgeNode = document.createElement('div');
+            bridgeNode.className = 'bridge-node';
+            bridgeNode.style.left = `${bx}px`;
+            bridgeNode.style.top = `${by}px`;
+            bridgeNode.innerHTML = `
+              <div class="bridge-sigil-ring">
+                <svg class="bridge-sigil-svg" viewBox="0 0 64 64">
+                  <!-- Outer Ouroboros Serpent Ring (Head meeting Tail at Top) -->
+                  <g class="armillary-ouroboros">
+                    <path d="M 30 4.2 A 27.8 27.8 0 1 0 34.2 4.2" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" />
+                    <circle cx="32" cy="32" r="27.8" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-dasharray="1 3.5" opacity="0.7" />
+                    <!-- Serpent Head biting Tail at 12 o'clock -->
+                    <polygon points="32,1.8 36,4.2 32,6.6 28.5,4.2" fill="currentColor" stroke="#ffffff" stroke-width="0.4" />
+                    <circle cx="33.2" cy="4.2" r="0.65" fill="#050508" />
+                  </g>
+
+                  <!-- 3D Interlocking Armillary Meridian Sphere -->
+                  <g class="armillary-rings">
+                    <circle cx="32" cy="32" r="20.5" fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.88" />
+                    <!-- Tilted Ecliptic Band with Degree Ticks -->
+                    <ellipse cx="32" cy="32" rx="20.5" ry="7.5" fill="none" stroke="currentColor" stroke-width="1.05" transform="rotate(-28 32 32)" />
+                    <ellipse cx="32" cy="32" rx="20.5" ry="7.5" fill="none" stroke="#ffffff" stroke-width="0.55" stroke-dasharray="1.5 2.5" transform="rotate(-28 32 32)" opacity="0.75" />
+                    <!-- Orthogonal Meridian Rings -->
+                    <ellipse cx="32" cy="32" rx="9" ry="20.5" fill="none" stroke="currentColor" stroke-width="0.75" transform="rotate(22 32 32)" opacity="0.7" />
+                    <ellipse cx="32" cy="32" rx="20.5" ry="9" fill="none" stroke="currentColor" stroke-width="0.75" transform="rotate(22 32 32)" opacity="0.7" />
+                    <!-- Axis Mundi Spindle -->
+                    <line x1="32" y1="8.5" x2="32" y2="55.5" stroke="currentColor" stroke-width="0.65" stroke-dasharray="2 2" opacity="0.65" transform="rotate(22 32 32)" />
+                  </g>
+
+                  <!-- Central Vesica Piscis Portal Keyhole -->
+                  <g class="armillary-keyhole">
+                    <path d="M 32 22.5 Q 38.5 32 32 41.5 Q 25.5 32 32 22.5 Z" fill="rgba(255, 255, 255, 0.14)" stroke="#ffffff" stroke-width="1.15" />
+                    <circle cx="32" cy="32" r="2.8" fill="#ffffff" />
+                    <circle cx="32" cy="32" r="1.1" fill="#050508" />
+                  </g>
+                </svg>
+              </div>
+              <div class="bridge-label">
+                <div class="bridge-title">Dimensional Shift</div>
+                <div class="bridge-sub">Warp to: ${nextSlice.name}</div>
+              </div>
+            `;
+            bridgeNode.addEventListener('click', () => switchToSlice(nextSliceIdx));
+            diskPlane.appendChild(bridgeNode);
+          }
+
+          disksContainer.appendChild(diskPlane);
+        });
+
+        switchToSlice(0);
+      } catch (err) {
+        console.error('Error rendering portal network:', err);
+      }
+    }
+
+    loadPortals();
+  </script>
+</body>
+</html>
