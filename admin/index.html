@@ -397,6 +397,372 @@
       box-shadow: 0 0 8px currentColor;
     }
 
+    /* Live Filament Specimen Preview Box */
+    .filament-preview-box {
+      margin-top: 8px;
+      height: 54px;
+      border-radius: 8px;
+      background: radial-gradient(ellipse at center, #141028 0%, #05050a 85%);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .filament-preview-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    @keyframes pulseFlow {
+      to { stroke-dashoffset: -140; }
+    }
+
+    @keyframes electricSurge {
+      to { stroke-dashoffset: -336; }
+    }
+
+    @keyframes sporeBreathe {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .ligament-path {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-dasharray: 8 6;
+      animation: pulseFlow 14s linear infinite;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.82;
+    }
+
+    .ligament-vine-main {
+      fill: none;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.9;
+    }
+
+    .ligament-vine-tendril {
+      fill: none;
+      stroke-width: 1.4;
+      stroke-dasharray: 4 3;
+      stroke-linecap: round;
+      animation: pulseFlow 18s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.7;
+    }
+
+    /* Suspension Bridge Filament Styles */
+    .ligament-suspension-cable {
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-suspension-deck {
+      fill: none;
+      stroke-width: 1.8;
+      stroke-dasharray: 7 5;
+      stroke-linecap: round;
+      animation: pulseFlow 12s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.85;
+    }
+
+    .ligament-suspension-struts {
+      fill: none;
+      stroke-width: 1;
+      stroke-linecap: round;
+      opacity: 0.55;
+    }
+
+    /* NYC Electric Grid & Subway Conduit Filament Styles */
+    .ligament-grid-rail {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: square;
+      stroke-linejoin: bevel;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.85;
+    }
+
+    .ligament-grid-subrail {
+      fill: none;
+      stroke-width: 1.1;
+      stroke-linecap: square;
+      stroke-linejoin: bevel;
+      opacity: 0.45;
+    }
+
+    .ligament-grid-surge {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: bevel;
+      stroke-dasharray: 18 150;
+      animation: electricSurge 3.2s linear infinite;
+      filter: drop-shadow(0 0 8px currentColor);
+      opacity: 0.95;
+    }
+
+    .ligament-grid-station {
+      fill: #050811;
+      stroke-width: 1.8;
+      filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    /* Gothic Wrought-Iron & Thorny Lancet Filament Styles */
+    .ligament-gothic-spine {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: butt;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-gothic-tracery {
+      fill: none;
+      stroke-width: 1.25;
+      stroke-dasharray: 10 4 2 4;
+      stroke-linecap: round;
+      animation: pulseFlow 16s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.78;
+    }
+
+    .ligament-gothic-thorns {
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 4px currentColor);
+      opacity: 0.88;
+    }
+
+    .ligament-gothic-finial {
+      fill: #050508;
+      stroke-width: 1.6;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    /* 1. Constellation — Star-Chart & Celestial Transit Filament Styles */
+    .ligament-constellation-arc {
+      fill: none;
+      stroke-width: 1;
+      stroke-dasharray: 3 6;
+      stroke-linecap: round;
+      opacity: 0.42;
+    }
+
+    .ligament-constellation-line {
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.88;
+    }
+
+    .ligament-constellation-transit {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14 140;
+      animation: pulseFlow 9s linear infinite;
+      filter: drop-shadow(0 0 8px currentColor);
+      opacity: 0.9;
+    }
+
+    .ligament-constellation-ring {
+      fill: rgba(6, 5, 14, 0.85);
+      stroke-width: 1;
+      stroke-dasharray: 2 2;
+      opacity: 0.72;
+    }
+
+    .ligament-constellation-star {
+      fill: #ffffff;
+      stroke-width: 0.8;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    /* 2. Mycelium — Bioluminescent Mycelial Network Filament Styles */
+    .ligament-mycelium-main {
+      fill: none;
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.9;
+    }
+
+    .ligament-mycelium-branch {
+      fill: none;
+      stroke-width: 1.25;
+      stroke-linecap: round;
+      stroke-dasharray: 6 3;
+      animation: pulseFlow 16s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.72;
+    }
+
+    .ligament-mycelium-rootlet {
+      fill: none;
+      stroke-width: 1;
+      stroke-linecap: round;
+      opacity: 0.65;
+    }
+
+    .ligament-mycelium-spore {
+      fill: #ffffff;
+      stroke-width: 1.4;
+      filter: drop-shadow(0 0 7px currentColor);
+      animation: sporeBreathe 3.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes sporeBreathe {
+      0% { opacity: 0.55; }
+      100% { opacity: 1; }
+    }
+
+    /* 3. Serpent — Twin Caduceus & Kundalini Coils Filament Styles */
+    .ligament-serpent-staff {
+      fill: none;
+      stroke-width: 1;
+      stroke-dasharray: 2 5;
+      stroke-linecap: round;
+      opacity: 0.48;
+    }
+
+    .ligament-serpent-coil-a {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-serpent-coil-b {
+      fill: none;
+      stroke-width: 1.6;
+      stroke-dasharray: 9 4;
+      stroke-linecap: round;
+      animation: pulseFlow 14s linear infinite;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.82;
+    }
+
+    .ligament-serpent-node {
+      fill: #070510;
+      stroke-width: 1.5;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    /* 4. Ley-Line — Sacred Geometry & Sigil Ley-Line Filament Styles */
+    .ligament-leyline-core {
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-leyline-rail {
+      fill: none;
+      stroke-width: 0.85;
+      stroke-dasharray: 8 4 2 4;
+      stroke-linecap: round;
+      animation: pulseFlow 20s linear infinite;
+      opacity: 0.62;
+    }
+
+    .ligament-leyline-sigil-bg {
+      fill: #06050e;
+      stroke-width: 1.3;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    .ligament-leyline-sigil-mark {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 1.1;
+      stroke-linejoin: round;
+      opacity: 0.9;
+    }
+
+    /* 5. Tide — Abyssal Bioluminescent Current Filament Styles */
+    .ligament-tide-primary {
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px currentColor);
+      opacity: 0.9;
+    }
+
+    .ligament-tide-secondary {
+      fill: none;
+      stroke-width: 1.4;
+      stroke-dasharray: 12 6;
+      stroke-linecap: round;
+      animation: pulseFlow 11s linear infinite;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.76;
+    }
+
+    .ligament-tide-tertiary {
+      fill: none;
+      stroke-width: 1;
+      stroke-dasharray: 3 7;
+      stroke-linecap: round;
+      animation: pulseFlow 15s linear infinite reverse;
+      opacity: 0.6;
+    }
+
+    .ligament-tide-pearl {
+      fill: rgba(255, 255, 255, 0.2);
+      stroke-width: 1.2;
+      filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    /* 6. Prism — Refracted Crystal & Sunbeam Lattice Filament Styles */
+    .ligament-prism-facet {
+      fill: rgba(255, 255, 255, 0.03);
+      stroke-width: 1.6;
+      stroke-linejoin: bevel;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.88;
+    }
+
+    .ligament-prism-rib {
+      fill: none;
+      stroke-width: 0.95;
+      stroke-linecap: round;
+      opacity: 0.55;
+    }
+
+    .ligament-prism-beam {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-dasharray: 22 120;
+      animation: electricSurge 3.8s linear infinite;
+      filter: drop-shadow(0 0 9px currentColor);
+      opacity: 0.92;
+    }
+
+
     /* Interactive 3D Disk Radar & Placement Section */
     .radar-layout {
       display: grid;
@@ -570,8 +936,7 @@
       align-items: center;
       justify-content: center;
     }
-
-    .photo-ctrl-btn {
+.photo-ctrl-btn {
       width: 22px;
       height: 22px;
       border-radius: 4px;
@@ -815,8 +1180,6 @@
             <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
             <option value="wilderness">Wilderness — Nocturnal Forest Canopy & Moon</option>
             <option value="nyc">NYC — New York City Nocturne Skyline</option>
-            <option value="noir">Film Noir — Darkroom & Photo Studio Gallery</option>
-            <option value="cybernetic">Cybernetic — Robot Fantasy Sanctum</option>
             <option value="verdant">Verdant — Bioluminescent Canopy</option>
             <option value="ember">Ember — Alchemical Red Ochre & Copper</option>
             <option value="abyss">Abyss — Deep Sapphire & Aqua Trench</option>
@@ -842,14 +1205,21 @@
           <label>Connective Filament Style</label>
           <select id="sel-filament">
             <option value="standard">Standard Glowing Gradient</option>
-            <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
-            <option value="alchemical">Alchemical Caduceus & Planetary Helix</option>
-            <option value="mycelium">Bioluminescent Mycelial Hyphae & Spores</option>
+            <option value="constellation">Star-Chart &amp; Celestial Transit</option>
+            <option value="mycelium">Bioluminescent Mycelial Network</option>
+            <option value="serpent">Twin Caduceus &amp; Kundalini Coils</option>
+            <option value="leyline">Sacred Geometry &amp; Sigil Ley-Line</option>
+            <option value="tide">Abyssal Bioluminescent Current</option>
+            <option value="prism">Refracted Crystal &amp; Sunbeam Lattice</option>
+            <option value="gothic">Gothic Wrought-Iron &amp; Briar Tracery</option>
             <option value="vine">Twisting Organic Vine</option>
             <option value="tendril">Dual-Strand Braided Tendril</option>
             <option value="suspension">Brooklyn Bridge Suspension Span</option>
-            <option value="grid">NYC Electric Grid & Subway Conduit</option>
+            <option value="grid">NYC Electric Grid &amp; Subway Conduit</option>
           </select>
+          <div class="filament-preview-box" title="Live preview of selected filament &amp; glow theme">
+            <svg class="filament-preview-svg" viewBox="0 0 360 64" id="filament-preview-svg"></svg>
+          </div>
         </div>
 
         <div class="form-group">
@@ -1242,7 +1612,7 @@
       if (selSlice.value === '__NEW__') {
         inpNewSlice.style.display = 'block';
         inpNewSlice.focus();
-        selRealmBg.value = 'noir';
+        selRealmBg.value = 'wilderness';
         inpBridgeAngle.value = '';
         inpBridgeDistance.value = 455;
       } else {
@@ -1431,6 +1801,699 @@
       renderRadar();
     }
 
+    function buildCurvedPath(x1, y1, x2, y2, index, bendFactor = 0.18) {
+      const midX = (x1 + x2) / 2;
+      const midY = (y1 + y2) / 2;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const offsetDirection = index % 2 === 0 ? 1 : -1;
+      const ctrlX = midX - dy * bendFactor * offsetDirection;
+      const ctrlY = midY + dx * bendFactor * offsetDirection;
+      return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
+    }
+
+    function buildWavePath(x1, y1, x2, y2, phase = 1) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const c1x = x1 + dx * 0.33 - dy * 0.14 * phase;
+      const c1y = y1 + dy * 0.33 + dx * 0.14 * phase;
+      const c2x = x1 + dx * 0.66 + dy * 0.14 * phase;
+      const c2y = y1 + dy * 0.66 - dx * 0.14 * phase;
+      return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
+    }
+
+
+    function renderFilament(svgGroup, x2, y2, idx, theme, filamentStyle, CENTER_X = 500, CENTER_Y = 500) {
+      const color = THEME_COLORS[theme] || THEME_COLORS.nocturnal;
+
+      if (filamentStyle === 'vine') {
+        const mainVine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainVine.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, 1));
+        mainVine.setAttribute('class', 'ligament-vine-main');
+        mainVine.setAttribute('stroke', `url(#grad-${theme})`);
+        mainVine.style.color = color;
+        svgGroup.appendChild(mainVine);
+
+        const offTendril = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        offTendril.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, -0.85));
+        offTendril.setAttribute('class', 'ligament-vine-tendril');
+        offTendril.setAttribute('stroke', color);
+        offTendril.style.color = color;
+        svgGroup.appendChild(offTendril);
+
+      } else if (filamentStyle === 'tendril') {
+        const strandA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strandA.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx, 0.22));
+        strandA.setAttribute('class', 'ligament-path');
+        strandA.setAttribute('stroke', `url(#grad-${theme})`);
+        strandA.style.color = color;
+        svgGroup.appendChild(strandA);
+
+        const strandB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strandB.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx + 1, 0.16));
+        strandB.setAttribute('class', 'ligament-vine-tendril');
+        strandB.setAttribute('stroke', color);
+        strandB.style.color = color;
+        svgGroup.appendChild(strandB);
+
+      } else if (filamentStyle === 'suspension') {
+        const midX = (CENTER_X + x2) / 2;
+        const midY = (CENTER_Y + y2) / 2;
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const ctrlX = midX - dy * 0.24 * dir;
+        const ctrlY = midY + dx * 0.24 * dir;
+
+        let strutsD = '';
+        const steps = [0.22, 0.32, 0.42, 0.52, 0.62, 0.72, 0.82];
+        steps.forEach((t) => {
+          const inv = 1 - t;
+          const lx = inv * CENTER_X + t * x2;
+          const ly = inv * CENTER_Y + t * y2;
+          const cx = inv * inv * CENTER_X + 2 * inv * t * ctrlX + t * t * x2;
+          const cy = inv * inv * CENTER_Y + 2 * inv * t * ctrlY + t * t * y2;
+          strutsD += `M ${lx.toFixed(1)} ${ly.toFixed(1)} L ${cx.toFixed(1)} ${cy.toFixed(1)} `;
+        });
+
+        const strutsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        strutsPath.setAttribute('d', strutsD.trim());
+        strutsPath.setAttribute('class', 'ligament-suspension-struts');
+        strutsPath.setAttribute('stroke', color);
+        svgGroup.appendChild(strutsPath);
+
+        const deckPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        deckPath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        deckPath.setAttribute('class', 'ligament-suspension-deck');
+        deckPath.setAttribute('stroke', `url(#grad-${theme})`);
+        deckPath.style.color = color;
+        svgGroup.appendChild(deckPath);
+
+        const cablePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        cablePath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`);
+        cablePath.setAttribute('class', 'ligament-suspension-cable');
+        cablePath.setAttribute('stroke', color);
+        cablePath.style.color = color;
+        svgGroup.appendChild(cablePath);
+
+      } else if (filamentStyle === 'grid') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+        const offset = 26;
+
+        const p1x = CENTER_X + dx * 0.34 + nx * offset;
+        const p1y = CENTER_Y + dy * 0.34 + ny * offset;
+        const p2x = CENTER_X + dx * 0.68 + nx * offset;
+        const p2y = CENTER_Y + dy * 0.68 + ny * offset;
+        const mainD = `M ${CENTER_X} ${CENTER_Y} L ${p1x.toFixed(1)} ${p1y.toFixed(1)} L ${p2x.toFixed(1)} ${p2y.toFixed(1)} L ${x2} ${y2}`;
+
+        const subOffset = offset - 9;
+        const s1x = CENTER_X + dx * 0.34 + nx * subOffset;
+        const s1y = CENTER_Y + dy * 0.34 + ny * subOffset;
+        const s2x = CENTER_X + dx * 0.68 + nx * subOffset;
+        const s2y = CENTER_Y + dy * 0.68 + ny * subOffset;
+        const subD = `M ${CENTER_X} ${CENTER_Y} L ${s1x.toFixed(1)} ${s1y.toFixed(1)} L ${s2x.toFixed(1)} ${s2y.toFixed(1)} L ${x2} ${y2}`;
+
+        const subRail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        subRail.setAttribute('d', subD);
+        subRail.setAttribute('class', 'ligament-grid-subrail');
+        subRail.setAttribute('stroke', color);
+        svgGroup.appendChild(subRail);
+
+        const mainRail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainRail.setAttribute('d', mainD);
+        mainRail.setAttribute('class', 'ligament-grid-rail');
+        mainRail.setAttribute('stroke', `url(#grad-${theme})`);
+        mainRail.style.color = color;
+        svgGroup.appendChild(mainRail);
+
+        const surgePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        surgePath.setAttribute('d', mainD);
+        surgePath.setAttribute('class', 'ligament-grid-surge');
+        surgePath.style.color = color;
+        svgGroup.appendChild(surgePath);
+
+        [[p1x, p1y], [p2x, p2y]].forEach(([jx, jy]) => {
+          const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          dot.setAttribute('cx', jx.toFixed(1));
+          dot.setAttribute('cy', jy.toFixed(1));
+          dot.setAttribute('r', '3.4');
+          dot.setAttribute('class', 'ligament-grid-station');
+          dot.setAttribute('stroke', color);
+          dot.style.color = color;
+          svgGroup.appendChild(dot);
+        });
+
+      } else if (filamentStyle === 'gothic') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+
+        // 1. Pointed Gothic Lancet Arch Spine
+        const peakX = CENTER_X + dx * 0.5 + nx * 28;
+        const peakY = CENTER_Y + dy * 0.5 + ny * 28;
+        const c1x = CENTER_X + dx * 0.22 + nx * 22;
+        const c1y = CENTER_Y + dy * 0.22 + ny * 22;
+        const c2x = CENTER_X + dx * 0.78 + nx * 22;
+        const c2y = CENTER_Y + dy * 0.78 + ny * 22;
+        const lancetD = `M ${CENTER_X} ${CENTER_Y} Q ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${peakX.toFixed(1)} ${peakY.toFixed(1)} Q ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${x2} ${y2}`;
+
+        // 2. Counter-Curving Sub-Tracery Arch
+        const counterPeakX = CENTER_X + dx * 0.5 - nx * 16;
+        const counterPeakY = CENTER_Y + dy * 0.5 - ny * 16;
+        const cc1x = CENTER_X + dx * 0.25 - nx * 12;
+        const cc1y = CENTER_Y + dy * 0.25 - ny * 12;
+        const cc2x = CENTER_X + dx * 0.75 - nx * 12;
+        const cc2y = CENTER_Y + dy * 0.75 - ny * 12;
+        const traceryD = `M ${CENTER_X} ${CENTER_Y} Q ${cc1x.toFixed(1)} ${cc1y.toFixed(1)} ${counterPeakX.toFixed(1)} ${counterPeakY.toFixed(1)} Q ${cc2x.toFixed(1)} ${cc2y.toFixed(1)} ${x2} ${y2}`;
+
+        // 3. Wrought-Iron Spikes / Briar Thorns along the Span
+        let thornsD = '';
+        const thornSteps = [0.22, 0.36, 0.5, 0.64, 0.78];
+        thornSteps.forEach((t, tIdx) => {
+          const bx = CENTER_X + dx * t;
+          const by = CENTER_Y + dy * t;
+          const spikeLen = t === 0.5 ? 24 : (tIdx % 2 === 0 ? 15 : 19);
+          const s1x = bx + nx * spikeLen;
+          const s1y = by + ny * spikeLen;
+          const s2x = bx - nx * (spikeLen * 0.75);
+          const s2y = by - ny * (spikeLen * 0.75);
+          thornsD += `M ${s2x.toFixed(1)} ${s2y.toFixed(1)} L ${s1x.toFixed(1)} ${s1y.toFixed(1)} `;
+        });
+
+        const thornsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        thornsPath.setAttribute('d', thornsD.trim());
+        thornsPath.setAttribute('class', 'ligament-gothic-thorns');
+        thornsPath.setAttribute('stroke', color);
+        thornsPath.style.color = color;
+        svgGroup.appendChild(thornsPath);
+
+        const traceryPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        traceryPath.setAttribute('d', traceryD);
+        traceryPath.setAttribute('class', 'ligament-gothic-tracery');
+        traceryPath.setAttribute('stroke', color);
+        traceryPath.style.color = color;
+        svgGroup.appendChild(traceryPath);
+
+        const spinePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        spinePath.setAttribute('d', lancetD);
+        spinePath.setAttribute('class', 'ligament-gothic-spine');
+        spinePath.setAttribute('stroke', `url(#grad-${theme})`);
+        spinePath.style.color = color;
+        svgGroup.appendChild(spinePath);
+
+        // 4. Diamond Iron Finials at Key Nodes
+        [0.36, 0.5, 0.64].forEach((t) => {
+          const fx = CENTER_X + dx * t;
+          const fy = CENTER_Y + dy * t;
+          const size = t === 0.5 ? 5.5 : 4;
+          const diamond = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          const pTop = `${(fx + nx * size).toFixed(1)},${(fy + ny * size).toFixed(1)}`;
+          const pRight = `${(fx + (dx / len) * size).toFixed(1)},${(fy + (dy / len) * size).toFixed(1)}`;
+          const pBot = `${(fx - nx * size).toFixed(1)},${(fy - ny * size).toFixed(1)}`;
+          const pLeft = `${(fx - (dx / len) * size).toFixed(1)},${(fy - (dy / len) * size).toFixed(1)}`;
+          diamond.setAttribute('points', `${pTop} ${pRight} ${pBot} ${pLeft}`);
+          diamond.setAttribute('class', 'ligament-gothic-finial');
+          diamond.setAttribute('stroke', color);
+          diamond.style.color = color;
+          svgGroup.appendChild(diamond);
+        });
+
+      } else if (filamentStyle === 'constellation') {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+
+        // 1. Faint Celestial Reference Arc
+        const refArc = document.createElementNS(svgNS, 'path');
+        refArc.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx + 1, 0.14));
+        refArc.setAttribute('class', 'ligament-constellation-arc');
+        refArc.setAttribute('stroke', color);
+        svgGroup.appendChild(refArc);
+
+        // 2. Star-Chart Polyline & Vertices
+        const starWaypoints = [
+          { t: 0.24, off: 14, major: false },
+          { t: 0.37, off: -11, major: true },
+          { t: 0.50, off: 18, major: false },
+          { t: 0.64, off: -14, major: true },
+          { t: 0.77, off: 9, major: false }
+        ];
+        let chartD = `M ${CENTER_X} ${CENTER_Y}`;
+        const coords = [];
+        starWaypoints.forEach((wp) => {
+          const sx = CENTER_X + dx * wp.t + nx * wp.off;
+          const sy = CENTER_Y + dy * wp.t + ny * wp.off;
+          coords.push({ x: sx, y: sy, major: wp.major });
+          chartD += ` L ${sx.toFixed(1)} ${sy.toFixed(1)}`;
+        });
+        chartD += ` L ${x2} ${y2}`;
+
+        const chartLine = document.createElementNS(svgNS, 'path');
+        chartLine.setAttribute('d', chartD);
+        chartLine.setAttribute('class', 'ligament-constellation-line');
+        chartLine.setAttribute('stroke', `url(#grad-${theme})`);
+        chartLine.style.color = color;
+        svgGroup.appendChild(chartLine);
+
+        const transitLine = document.createElementNS(svgNS, 'path');
+        transitLine.setAttribute('d', chartD);
+        transitLine.setAttribute('class', 'ligament-constellation-transit');
+        transitLine.style.color = color;
+        svgGroup.appendChild(transitLine);
+
+        // 3. Star Magnitude Nodes & Compass Crosshairs
+        coords.forEach((pt) => {
+          if (pt.major) {
+            const ring = document.createElementNS(svgNS, 'circle');
+            ring.setAttribute('cx', pt.x.toFixed(1));
+            ring.setAttribute('cy', pt.y.toFixed(1));
+            ring.setAttribute('r', '6.2');
+            ring.setAttribute('class', 'ligament-constellation-ring');
+            ring.setAttribute('stroke', color);
+            svgGroup.appendChild(ring);
+
+            const rOut = 5.4;
+            const rIn = 1.5;
+            const starPoly = document.createElementNS(svgNS, 'polygon');
+            const pts = [
+              `${pt.x.toFixed(1)},${(pt.y - rOut).toFixed(1)}`,
+              `${(pt.x + rIn).toFixed(1)},${(pt.y - rIn).toFixed(1)}`,
+              `${(pt.x + rOut).toFixed(1)},${pt.y.toFixed(1)}`,
+              `${(pt.x + rIn).toFixed(1)},${(pt.y + rIn).toFixed(1)}`,
+              `${pt.x.toFixed(1)},${(pt.y + rOut).toFixed(1)}`,
+              `${(pt.x - rIn).toFixed(1)},${(pt.y + rIn).toFixed(1)}`,
+              `${(pt.x - rOut).toFixed(1)},${pt.y.toFixed(1)}`,
+              `${(pt.x - rIn).toFixed(1)},${(pt.y - rIn).toFixed(1)}`
+            ].join(' ');
+            starPoly.setAttribute('points', pts);
+            starPoly.setAttribute('class', 'ligament-constellation-star');
+            starPoly.setAttribute('stroke', color);
+            starPoly.style.color = color;
+            svgGroup.appendChild(starPoly);
+          } else {
+            const dot = document.createElementNS(svgNS, 'circle');
+            dot.setAttribute('cx', pt.x.toFixed(1));
+            dot.setAttribute('cy', pt.y.toFixed(1));
+            dot.setAttribute('r', '2.4');
+            dot.setAttribute('class', 'ligament-constellation-star');
+            dot.setAttribute('stroke', color);
+            dot.style.color = color;
+            svgGroup.appendChild(dot);
+          }
+        });
+
+      } else if (filamentStyle === 'mycelium') {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+        const ux = dx / len;
+        const uy = dy / len;
+
+        // 1. Anastomosing Secondary Fungal Loops
+        const loops = [
+          { t1: 0.22, t2: 0.48, bow: 22 },
+          { t1: 0.36, t2: 0.64, bow: -19 },
+          { t1: 0.52, t2: 0.79, bow: 17 }
+        ];
+        let branchesD = '';
+        loops.forEach((lp) => {
+          const sx = CENTER_X + dx * lp.t1;
+          const sy = CENTER_Y + dy * lp.t1;
+          const ex = CENTER_X + dx * lp.t2;
+          const ey = CENTER_Y + dy * lp.t2;
+          const tm = (lp.t1 + lp.t2) / 2;
+          const cx = CENTER_X + dx * tm + nx * lp.bow;
+          const cy = CENTER_Y + dy * tm + ny * lp.bow;
+          branchesD += `M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)} `;
+        });
+
+        const branchPath = document.createElementNS(svgNS, 'path');
+        branchPath.setAttribute('d', branchesD.trim());
+        branchPath.setAttribute('class', 'ligament-mycelium-branch');
+        branchPath.setAttribute('stroke', color);
+        branchPath.style.color = color;
+        svgGroup.appendChild(branchPath);
+
+        // 2. Primary Sinuous Hypha
+        const mainHypha = document.createElementNS(svgNS, 'path');
+        mainHypha.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, 0.9 * dir));
+        mainHypha.setAttribute('class', 'ligament-mycelium-main');
+        mainHypha.setAttribute('stroke', `url(#grad-${theme})`);
+        mainHypha.style.color = color;
+        svgGroup.appendChild(mainHypha);
+
+        // 3. Delicate Rootlets & Glowing Spore Caps
+        const spores = [
+          { t: 0.30, side: 1, reach: 16 },
+          { t: 0.45, side: -1, reach: 18 },
+          { t: 0.60, side: 1, reach: 15 },
+          { t: 0.72, side: -1, reach: 13 }
+        ];
+        let rootletsD = '';
+        spores.forEach((sp, sIdx) => {
+          const bx = CENTER_X + dx * sp.t;
+          const by = CENTER_Y + dy * sp.t;
+          const tx = bx + ux * 12 + nx * sp.side * sp.reach;
+          const ty = by + uy * 12 + ny * sp.side * sp.reach;
+          const ctrlX = bx + ux * 4 + nx * sp.side * (sp.reach * 0.85);
+          const ctrlY = by + uy * 4 + ny * sp.side * (sp.reach * 0.85);
+          rootletsD += `M ${bx.toFixed(1)} ${by.toFixed(1)} Q ${ctrlX.toFixed(1)} ${ctrlY.toFixed(1)} ${tx.toFixed(1)} ${ty.toFixed(1)} `;
+
+          const spore = document.createElementNS(svgNS, 'circle');
+          spore.setAttribute('cx', tx.toFixed(1));
+          spore.setAttribute('cy', ty.toFixed(1));
+          spore.setAttribute('r', (sIdx % 2 === 0 ? 2.5 : 2.0).toFixed(1));
+          spore.setAttribute('class', 'ligament-mycelium-spore');
+          spore.setAttribute('stroke', color);
+          spore.style.color = color;
+          spore.style.animationDelay = `${(sIdx * 0.45).toFixed(2)}s`;
+          svgGroup.appendChild(spore);
+        });
+
+        const rootletsPath = document.createElementNS(svgNS, 'path');
+        rootletsPath.setAttribute('d', rootletsD.trim());
+        rootletsPath.setAttribute('class', 'ligament-mycelium-rootlet');
+        rootletsPath.setAttribute('stroke', color);
+        svgGroup.insertBefore(rootletsPath, mainHypha);
+
+      } else if (filamentStyle === 'serpent') {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len;
+        const ny = dx / len;
+
+        // 1. Central Caduceus Staff
+        const staff = document.createElementNS(svgNS, 'path');
+        staff.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        staff.setAttribute('class', 'ligament-serpent-staff');
+        staff.setAttribute('stroke', color);
+        svgGroup.appendChild(staff);
+
+        // 2. Twin Braided Sinusoidal Coils
+        const buildSerpentCoil = (phaseSign) => {
+          const steps = 56;
+          let d = `M ${CENTER_X} ${CENTER_Y}`;
+          for (let i = 1; i <= steps; i++) {
+            const t = i / steps;
+            const env = Math.sin(t * Math.PI);
+            const offset = Math.sin(t * Math.PI * 6) * 14 * env * phaseSign;
+            const px = CENTER_X + dx * t + nx * offset;
+            const py = CENTER_Y + dy * t + ny * offset;
+            d += ` L ${px.toFixed(1)} ${py.toFixed(1)}`;
+          }
+          return d;
+        };
+
+        const coilB = document.createElementNS(svgNS, 'path');
+        coilB.setAttribute('d', buildSerpentCoil(-1));
+        coilB.setAttribute('class', 'ligament-serpent-coil-b');
+        coilB.setAttribute('stroke', color);
+        coilB.style.color = color;
+        svgGroup.appendChild(coilB);
+
+        const coilA = document.createElementNS(svgNS, 'path');
+        coilA.setAttribute('d', buildSerpentCoil(1));
+        coilA.setAttribute('class', 'ligament-serpent-coil-a');
+        coilA.setAttribute('stroke', `url(#grad-${theme})`);
+        coilA.style.color = color;
+        svgGroup.appendChild(coilA);
+
+        // 3. Nodal Crossover Rings along the Staff
+        [1 / 3, 0.5, 2 / 3].forEach((t, nIdx) => {
+          const cx = CENTER_X + dx * t;
+          const cy = CENTER_Y + dy * t;
+          const node = document.createElementNS(svgNS, 'circle');
+          node.setAttribute('cx', cx.toFixed(1));
+          node.setAttribute('cy', cy.toFixed(1));
+          node.setAttribute('r', nIdx === 1 ? '4.2' : '3.0');
+          node.setAttribute('class', 'ligament-serpent-node');
+          node.setAttribute('stroke', color);
+          node.style.color = color;
+          svgGroup.appendChild(node);
+        });
+
+      } else if (filamentStyle === 'leyline') {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len;
+        const uy = dy / len;
+        const nx = -uy;
+        const ny = ux;
+
+        // 1. Flanking Parallel Calibration Rails
+        let railsD = '';
+        [6.5, -6.5].forEach((off) => {
+          const sx = CENTER_X + dx * 0.22 + nx * off;
+          const sy = CENTER_Y + dy * 0.22 + ny * off;
+          const ex = CENTER_X + dx * 0.78 + nx * off;
+          const ey = CENTER_Y + dy * 0.78 + ny * off;
+          railsD += `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)} `;
+        });
+        const railsPath = document.createElementNS(svgNS, 'path');
+        railsPath.setAttribute('d', railsD.trim());
+        railsPath.setAttribute('class', 'ligament-leyline-rail');
+        railsPath.setAttribute('stroke', color);
+        svgGroup.appendChild(railsPath);
+
+        // 2. Taut Central Ley-Line Core
+        const coreLine = document.createElementNS(svgNS, 'path');
+        coreLine.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        coreLine.setAttribute('class', 'ligament-leyline-core');
+        coreLine.setAttribute('stroke', `url(#grad-${theme})`);
+        coreLine.style.color = color;
+        svgGroup.appendChild(coreLine);
+
+        // 3. Sacred Geometry Sigil Stations at 0.34, 0.50, 0.66
+        [0.34, 0.50, 0.66].forEach((t) => {
+          const cx = CENTER_X + dx * t;
+          const cy = CENTER_Y + dy * t;
+          const isMid = t === 0.50;
+          const r = isMid ? 8.5 : 5.5;
+
+          const disc = document.createElementNS(svgNS, 'circle');
+          disc.setAttribute('cx', cx.toFixed(1));
+          disc.setAttribute('cy', cy.toFixed(1));
+          disc.setAttribute('r', r.toFixed(1));
+          disc.setAttribute('class', 'ligament-leyline-sigil-bg');
+          disc.setAttribute('stroke', color);
+          disc.style.color = color;
+          svgGroup.appendChild(disc);
+
+          const mark = document.createElementNS(svgNS, 'polygon');
+          const s = isMid ? 6.2 : 3.8;
+          const pts = [
+            `${(cx + ux * s).toFixed(1)},${(cy + uy * s).toFixed(1)}`,
+            `${(cx + nx * (s * 0.72)).toFixed(1)},${(cy + ny * (s * 0.72)).toFixed(1)}`,
+            `${(cx - ux * s).toFixed(1)},${(cy - uy * s).toFixed(1)}`,
+            `${(cx - nx * (s * 0.72)).toFixed(1)},${(cy - ny * (s * 0.72)).toFixed(1)}`
+          ].join(' ');
+          mark.setAttribute('points', pts);
+          mark.setAttribute('class', 'ligament-leyline-sigil-mark');
+          svgGroup.appendChild(mark);
+        });
+
+      } else if (filamentStyle === 'tide') {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+
+        const buildRibbon = (waves, amp, phaseShift) => {
+          const steps = 48;
+          let d = `M ${CENTER_X} ${CENTER_Y}`;
+          for (let i = 1; i <= steps; i++) {
+            const t = i / steps;
+            const env = Math.sin(t * Math.PI);
+            const off = Math.sin(t * Math.PI * waves + phaseShift) * amp * env;
+            const px = CENTER_X + dx * t + nx * off;
+            const py = CENTER_Y + dy * t + ny * off;
+            d += ` L ${px.toFixed(1)} ${py.toFixed(1)}`;
+          }
+          return d;
+        };
+
+        const ribbon3 = document.createElementNS(svgNS, 'path');
+        ribbon3.setAttribute('d', buildRibbon(3, 19, 2.1));
+        ribbon3.setAttribute('class', 'ligament-tide-tertiary');
+        ribbon3.setAttribute('stroke', color);
+        svgGroup.appendChild(ribbon3);
+
+        const ribbon2 = document.createElementNS(svgNS, 'path');
+        ribbon2.setAttribute('d', buildRibbon(2.5, -15, 0.8));
+        ribbon2.setAttribute('class', 'ligament-tide-secondary');
+        ribbon2.setAttribute('stroke', color);
+        ribbon2.style.color = color;
+        svgGroup.appendChild(ribbon2);
+
+        const ribbon1 = document.createElementNS(svgNS, 'path');
+        ribbon1.setAttribute('d', buildRibbon(2, 12, 0));
+        ribbon1.setAttribute('class', 'ligament-tide-primary');
+        ribbon1.setAttribute('stroke', `url(#grad-${theme})`);
+        ribbon1.style.color = color;
+        svgGroup.appendChild(ribbon1);
+
+        // Bioluminescent Pearl Clusters
+        [
+          { t: 0.28, off: 8, r: 2.2 },
+          { t: 0.33, off: 13, r: 1.5 },
+          { t: 0.50, off: -10, r: 3.0 },
+          { t: 0.55, off: -5, r: 1.8 },
+          { t: 0.70, off: 9, r: 2.4 }
+        ].forEach((p) => {
+          const pearl = document.createElementNS(svgNS, 'circle');
+          pearl.setAttribute('cx', (CENTER_X + dx * p.t + nx * p.off).toFixed(1));
+          pearl.setAttribute('cy', (CENTER_Y + dy * p.t + ny * p.off).toFixed(1));
+          pearl.setAttribute('r', p.r.toFixed(1));
+          pearl.setAttribute('class', 'ligament-tide-pearl');
+          pearl.setAttribute('stroke', color);
+          pearl.style.color = color;
+          svgGroup.appendChild(pearl);
+        });
+
+      } else if (filamentStyle === 'prism') {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len;
+        const ny = dx / len;
+
+        // 1. Contiguous Crystalline Diamond Facets along the Span
+        const stops = [0.18, 0.34, 0.50, 0.66, 0.82];
+        let ribsD = '';
+        for (let i = 0; i < stops.length - 1; i++) {
+          const tA = stops[i];
+          const tB = stops[i + 1];
+          const tMid = (tA + tB) / 2;
+          const halfW = (i === 1 || i === 2) ? 13 : 9.5;
+
+          const ax = CENTER_X + dx * tA;
+          const ay = CENTER_Y + dy * tA;
+          const bx = CENTER_X + dx * tB;
+          const by = CENTER_Y + dy * tB;
+          const lx = CENTER_X + dx * tMid + nx * halfW;
+          const ly = CENTER_Y + dy * tMid + ny * halfW;
+          const rx = CENTER_X + dx * tMid - nx * halfW;
+          const ry = CENTER_Y + dy * tMid - ny * halfW;
+
+          const facet = document.createElementNS(svgNS, 'polygon');
+          facet.setAttribute('points', `${ax.toFixed(1)},${ay.toFixed(1)} ${lx.toFixed(1)},${ly.toFixed(1)} ${bx.toFixed(1)},${by.toFixed(1)} ${rx.toFixed(1)},${ry.toFixed(1)}`);
+          facet.setAttribute('class', 'ligament-prism-facet');
+          facet.setAttribute('stroke', `url(#grad-${theme})`);
+          facet.style.color = color;
+          svgGroup.appendChild(facet);
+
+          ribsD += `M ${lx.toFixed(1)} ${ly.toFixed(1)} L ${rx.toFixed(1)} ${ry.toFixed(1)} `;
+        }
+
+        const ribsPath = document.createElementNS(svgNS, 'path');
+        ribsPath.setAttribute('d', ribsD.trim());
+        ribsPath.setAttribute('class', 'ligament-prism-rib');
+        ribsPath.setAttribute('stroke', color);
+        svgGroup.appendChild(ribsPath);
+
+        // 2. Centerline Refraction Spine & Light Pulse
+        const spineD = `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`;
+        const spine = document.createElementNS(svgNS, 'path');
+        spine.setAttribute('d', spineD);
+        spine.setAttribute('class', 'ligament-prism-rib');
+        spine.setAttribute('stroke', color);
+        svgGroup.appendChild(spine);
+
+        const beam = document.createElementNS(svgNS, 'path');
+        beam.setAttribute('d', spineD);
+        beam.setAttribute('class', 'ligament-prism-beam');
+        beam.style.color = color;
+        svgGroup.appendChild(beam);
+
+      } else {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));
+        path.setAttribute('class', 'ligament-path');
+        path.setAttribute('stroke', `url(#grad-${theme})`);
+        path.style.color = color;
+        svgGroup.appendChild(path);
+      }
+    }
+
+
+    const filamentPreviewSvg = document.getElementById('filament-preview-svg');
+    const STUDIO_GRAD_DEFS = `<defs>
+        <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#b366ff" stop-opacity="0.95" />
+          <stop offset="100%" stop-color="#6a00f4" stop-opacity="0.35" />
+        </linearGradient>
+        <linearGradient id="grad-cyber" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.95" />
+          <stop offset="100%" stop-color="#0066ff" stop-opacity="0.35" />
+        </linearGradient>
+        <linearGradient id="grad-celestial" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffd166" stop-opacity="0.95" />
+          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.35" />
+        </linearGradient>
+        <linearGradient id="grad-oceanic" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.95" />
+          <stop offset="100%" stop-color="#00bbf9" stop-opacity="0.35" />
+        </linearGradient>
+        <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff4d79" stop-opacity="0.95" />
+          <stop offset="50%" stop-color="#ff85a2" stop-opacity="0.65" />
+          <stop offset="100%" stop-color="#e0115f" stop-opacity="0.35" />
+        </linearGradient>
+      </defs>`;
+
+    function renderFilamentPreview() {
+      if (!filamentPreviewSvg) return;
+      const style = selFilament.value || 'standard';
+      const theme = selectedTheme || 'nocturnal';
+      const color = THEME_COLORS[theme] || '#d4af37';
+      filamentPreviewSvg.innerHTML = STUDIO_GRAD_DEFS;
+
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      renderFilament(g, 332, 32, 0, theme, style, 28, 32);
+      filamentPreviewSvg.appendChild(g);
+
+      // Hub & Portal endpoint nodes in specimen preview
+      [['28', '7'], ['332', '9']].forEach(([cx, r], i) => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx);
+        c.setAttribute('cy', '32');
+        c.setAttribute('r', r);
+        c.setAttribute('fill', i === 0 ? '#141028' : color);
+        c.setAttribute('stroke', i === 0 ? '#d4af37' : '#ffffff');
+        c.setAttribute('stroke-width', '2');
+        filamentPreviewSvg.appendChild(c);
+      });
+    }
+
+    selFilament.addEventListener('change', () => {
+      renderFilamentPreview();
+      renderRadar();
+    });
+
     function renderRadar() {
       const sliceName = getActiveSliceName();
       const activeAngle = parseFloat(inpAngle.value) || 0;
@@ -1486,7 +2549,7 @@
         radarSvg.appendChild(dot);
       });
 
-      // Slender Alchemical Astrolabe Warp Conduit & Node on Radar Preview
+      // Dimensional Shift Warp Conduit & Node on Radar Preview
       const rawBAngle = inpBridgeAngle.value.trim();
       const bAngle = rawBAngle !== '' ? parseFloat(rawBAngle) : suggestOpenBridgeCorner(sliceName);
       const bDist = parseFloat(inpBridgeDistance.value) || 455;
@@ -1500,8 +2563,8 @@
       bridgeLine.setAttribute('x2', bx);
       bridgeLine.setAttribute('y2', by);
       bridgeLine.setAttribute('stroke', '#d4af37');
-      bridgeLine.setAttribute('stroke-width', radarDragTarget === 'bridge' ? '4.5' : '2.5');
-      bridgeLine.setAttribute('stroke-dasharray', '6 5');
+      bridgeLine.setAttribute('stroke-width', radarDragTarget === 'bridge' ? '8' : '5');
+      bridgeLine.setAttribute('stroke-dasharray', '10 6');
       radarSvg.appendChild(bridgeLine);
 
       const bridgeHalo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1510,8 +2573,8 @@
       bridgeHalo.setAttribute('r', 46);
       bridgeHalo.setAttribute('fill', 'none');
       bridgeHalo.setAttribute('stroke', '#d4af37');
-      bridgeHalo.setAttribute('stroke-width', '2');
-      bridgeHalo.setAttribute('stroke-dasharray', '4 4');
+      bridgeHalo.setAttribute('stroke-width', '2.5');
+      bridgeHalo.setAttribute('stroke-dasharray', '6 5');
       radarSvg.appendChild(bridgeHalo);
 
       const bridgeDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1520,7 +2583,7 @@
       bridgeDot.setAttribute('r', 34);
       bridgeDot.setAttribute('fill', '#22183c');
       bridgeDot.setAttribute('stroke', radarDragTarget === 'bridge' ? '#ffffff' : '#d4af37');
-      bridgeDot.setAttribute('stroke-width', '4');
+      bridgeDot.setAttribute('stroke-width', '5');
       radarSvg.appendChild(bridgeDot);
 
       // Active Portal Node being edited
@@ -1528,15 +2591,11 @@
       const ax = 500 + Math.cos(activeRad) * activeDist;
       const ay = 500 + Math.sin(activeRad) * activeDist;
 
-      const activeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      activeLine.setAttribute('x1', 500);
-      activeLine.setAttribute('y1', 500);
-      activeLine.setAttribute('x2', ax);
-      activeLine.setAttribute('y2', ay);
-      activeLine.setAttribute('stroke', activeColor);
-      activeLine.setAttribute('stroke-width', radarDragTarget === 'portal' ? '8' : '5');
-      activeLine.setAttribute('stroke-dasharray', '14 8');
-      radarSvg.appendChild(activeLine);
+      renderFilamentPreview();
+      radarSvg.insertAdjacentHTML('afterbegin', STUDIO_GRAD_DEFS);
+      const activeFilamentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      renderFilament(activeFilamentGroup, ax, ay, editingIndex >= 0 ? editingIndex : 0, selectedTheme, selFilament.value || 'standard', 500, 500);
+      radarSvg.appendChild(activeFilamentGroup);
 
       const activeNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       activeNode.setAttribute('cx', ax);
@@ -1719,7 +2778,7 @@
       renderPhotoPreviews();
     }
 
-    function renderPhotoPreviews() {
+   function renderPhotoPreviews() {
       existingPhotosSummary.textContent = existingPhotos.length
         ? `Currently saved in portal: ${existingPhotos.length} photo(s) | Queued to upload: ${queuedNewFiles.length} new photo(s)`
         : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
@@ -1744,6 +2803,7 @@
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
 
+        // Move Left / First
         const moveLeft = div.querySelector('.move-left-btn');
         if (moveLeft) {
           moveLeft.addEventListener('click', () => {
@@ -1755,6 +2815,7 @@
           });
         }
 
+        // Move Right
         const moveRight = div.querySelector('.move-right-btn');
         if (moveRight) {
           moveRight.addEventListener('click', () => {
