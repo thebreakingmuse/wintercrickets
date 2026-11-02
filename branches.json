@@ -2,15 +2,14 @@
   {
     "id": "introduction-janice",
     "title": "Janice",
-    "subtitle": "",
+    "subtitle": "Gallery & Archive",
     "portal_type": "introduction",
-    "slice": "Janice & Paul",
+    "slice": "Coniunctio",
     "slice_bg": "cosmos",
     "theme": "nocturnal",
     "filament": "vine",
     "angle": 180,
     "distance": 300,
-    "thumbnail": "",
     "photos": [],
     "grid_thumbs": [],
     "password": "",
@@ -18,13 +17,19 @@
     "poem_text": "Like a darkly vibrant piece of mossy forestwood,\nresiding softly in an alpine grotto on\na warm winter day,\nlush from snowmelt and\nperfumed by witchy wintergreen,\nits body a plush surface of \nmoist velveteen,\nenchanting the lips of a passing\nsatyr who stopped and took a sip, \na lick,\nthen a kiss-\nenchanting juices exuding from such\nmoist crevices erupted \nhis hooves and phallus into \na clamorous,\nrapturous\nbliss.",
     "poem_italic": false,
     "bridge_angle": 91,
-    "bridge_distance": 393
+    "bridge_distance": 393,
+    "archetypes": {
+      "zodiacal": "",
+      "mythological": "",
+      "animalia": ""
+    },
+    "profile_text": ""
   },
   {
     "id": "introduction-paul",
     "title": "Paul",
     "subtitle": "",
-    "slice": "Janice & Paul",
+    "slice": "Coniunctio",
     "slice_bg": "cosmos",
     "theme": "celestial",
     "filament": "standard",
