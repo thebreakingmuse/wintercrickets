@@ -3798,7 +3798,52 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     opacity: .8;
   }
   #gallery-modal.has-personal-profile #modal-poem-panel {
-    padding-top: 0;
+    padding-top: 2.5rem;
+  }
+  /* A small circular X replaces the wide Close [Esc] bar so nothing overlaps. */
+  #gallery-modal.has-personal-profile .modal-header {
+    position: static;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  #gallery-modal.has-personal-profile .close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 4;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--profile-line);
+    background: color-mix(in srgb, var(--profile-surface) 80%, #000);
+    color: var(--profile-accent);
+    font-size: 0;
+    line-height: 0;
+    letter-spacing: 0;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .4);
+  }
+  #gallery-modal.has-personal-profile .close-btn::before {
+    content: '';
+    width: 13px;
+    height: 13px;
+    background:
+      linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat;
+    transform: rotate(45deg);
+  }
+  #gallery-modal.has-personal-profile .close-btn:hover,
+  #gallery-modal.has-personal-profile .close-btn:focus-visible {
+    border-color: var(--profile-accent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--profile-accent) 45%, transparent);
+  }
+  #gallery-modal.has-personal-profile .close-btn:focus-visible {
+    outline: 2px solid var(--profile-accent);
+    outline-offset: 3px;
   }
   .profile-part, .profile-part * { box-sizing: border-box; }
   .profile-part {
@@ -3953,6 +3998,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     .archetype-register > div { padding: .9rem .75rem 1rem; }
     .personal-archetypes { padding: 1.25rem .9rem 1.25rem; margin-bottom: 1.75rem; }
     .personal-writing { margin-top: 2rem; padding: 1.25rem 1rem 1.5rem; }
+    #gallery-modal.has-personal-profile .close-btn { top: 10px; right: 10px; width: 32px; height: 32px; }
     .profile-heading { grid-template-columns: 1fr; font-size: 1.1rem; letter-spacing: .06em; }
     .profile-heading::before, .profile-heading::after { display: none; }
     .profile-heading > span { white-space: nowrap; }
@@ -4030,6 +4076,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       </g></svg>`;
   }
 
+  const closeButton = document.getElementById('close-modal-btn');
   const glyphs = {
     zodiacal: `<circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="11" opacity=".55"/>
       <path d="M24 13l2.4 7.4H34l-6.2 4.5 2.4 7.4L24 27.8l-6.2 4.5 2.4-7.4L14 20.4h7.6Z" fill="currentColor" fill-opacity=".18"/>
@@ -4055,6 +4102,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
   function clearProfile() {
     panel.querySelectorAll('.profile-part').forEach(part => part.remove());
     modal.classList.remove('has-personal-profile');
+    closeButton?.removeAttribute('aria-label');
     delete modal.dataset.profilePerson;
   }
 
@@ -4063,9 +4111,10 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     const person = people[branch.id];
     if (!person) return;
     modal.classList.add('has-personal-profile');
+    closeButton?.setAttribute('aria-label', 'Close (Esc)');
     modal.dataset.profilePerson = person;
-    modal.setAttribute('aria-label', `${person === 'janice' ? 'Janice' : 'Paul'}: archetypes, poem and personal writing`);
-    panel.setAttribute('aria-label', 'Archetypes, poem and personal writing');
+    modal.setAttribute('aria-label', `${person === 'janice' ? 'Janice' : 'Paul'}: archetypes, poem and personal links`);
+    panel.setAttribute('aria-label', 'Archetypes, poem and personal links');
 
     // 1. Archetypes sit at the top of the container.
     const archetypes = document.createElement('section');
@@ -4096,11 +4145,11 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     panel.prepend(poemHeading);
     panel.prepend(archetypes);
 
-    // 3. Personal writing closes the container.
+    // 3. Personal links closes the container.
     const writing = document.createElement('section');
     writing.className = 'profile-part personal-writing';
     writing.setAttribute('aria-labelledby', 'personal-writing-heading');
-    writing.innerHTML = `${emblem(person)}${heading('personal-writing-heading', 'Personal writing')}<p class="personal-writing-text"></p>`;
+    writing.innerHTML = `${emblem(person)}${heading('personal-writing-heading', 'Personal links')}<p class="personal-writing-text"></p>`;
     const writingText = writing.querySelector('.personal-writing-text');
     const prose = text(branch.profile_text);
     writingText.textContent = prose.trim() ? prose : 'Words will find their home here.';
