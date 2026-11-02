@@ -53,6 +53,16 @@
       --hub-glow-primary: rgba(168, 230, 207, 0.4);
       --hub-glow-secondary: rgba(100, 181, 246, 0.28);
     }
+    body[data-realm="noir"] {
+      --gold-accent: #e6d5b8;
+      --hub-glow-primary: rgba(230, 213, 184, 0.38);
+      --hub-glow-secondary: rgba(193, 18, 31, 0.28);
+    }
+    body[data-realm="cybernetic"] {
+      --gold-accent: #00f5d4;
+      --hub-glow-primary: rgba(0, 245, 212, 0.45);
+      --hub-glow-secondary: rgba(255, 42, 133, 0.32);
+    }
 
     * {
       box-sizing: border-box;
@@ -266,6 +276,111 @@
     @keyframes starPulse {
       0% { opacity: 0.35; }
       100% { opacity: 1; }
+    }
+
+    /* 8. Film Noir Photo Studio & Darkroom Gallery */
+    .realm-noir {
+      background: radial-gradient(circle at 50% 42%, #1c1b20 0%, #0b0b0e 62%, #020203 100%);
+    }
+    .realm-noir::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -24deg,
+          rgba(0, 0, 0, 0.48) 0px,
+          rgba(0, 0, 0, 0.48) 18px,
+          rgba(255, 248, 231, 0.025) 18px,
+          rgba(255, 248, 231, 0.025) 34px
+        ),
+        radial-gradient(1.2px 1.2px at 22% 34%, rgba(255, 250, 240, 0.45), transparent),
+        radial-gradient(1.5px 1.5px at 76% 28%, rgba(230, 213, 184, 0.4), transparent),
+        radial-gradient(1px 1px at 62% 74%, rgba(255, 255, 255, 0.35), transparent);
+      background-size: 100% 100%, 340px 340px, 340px 340px, 340px 340px;
+      opacity: 0.85;
+    }
+
+    .noir-scene-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .noir-safelight-pulse {
+      animation: safelightFlicker 4.5s ease-in-out infinite alternate;
+    }
+
+    .noir-beam-breathe {
+      animation: beamBreathe 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes safelightFlicker {
+      0%, 100% { opacity: 0.72; }
+      45% { opacity: 0.95; }
+      48% { opacity: 0.55; }
+      52% { opacity: 0.9; }
+    }
+
+    @keyframes beamBreathe {
+      0% { opacity: 0.45; }
+      100% { opacity: 0.78; }
+    }
+
+    /* 9. Cybernetic Robot Fantasy Sanctum */
+    .realm-cybernetic {
+      background: linear-gradient(
+        180deg,
+        #03020a 0%,
+        #08071a 38%,
+        #120c2b 72%,
+        #050814 100%
+      );
+    }
+    .realm-cybernetic::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 16% 20%, rgba(0, 245, 212, 0.8), transparent),
+        radial-gradient(2px 2px at 82% 18%, rgba(255, 42, 133, 0.75), transparent),
+        radial-gradient(1.2px 1.2px at 44% 12%, rgba(255, 209, 102, 0.7), transparent),
+        radial-gradient(1.6px 1.6px at 68% 36%, rgba(0, 240, 255, 0.65), transparent);
+      background-size: 360px 360px;
+      opacity: 0.8;
+    }
+
+    .cybernetic-scene-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .cyber-circuit-flow {
+      stroke-dasharray: 14 110;
+      animation: cyberPulse 4.2s linear infinite;
+    }
+
+    .cyber-halo-spin {
+      transform-origin: 800px 390px;
+      animation: slowSpin 48s linear infinite;
+    }
+
+    .cyber-optic-glow {
+      animation: opticPulse 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes cyberPulse {
+      to { stroke-dashoffset: -248; }
+    }
+
+    @keyframes opticPulse {
+      0% { opacity: 0.55; filter: drop-shadow(0 0 4px #ff2a85); }
+      100% { opacity: 1; filter: drop-shadow(0 0 12px #00f5d4); }
     }
 
     /* Top Title Banner */
@@ -532,6 +647,65 @@
       fill: #050508;
       stroke-width: 1.6;
       filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    /* Alchemical Caduceus Twin-Helix & Transmutation Nodes */
+    .ligament-alchemical-staff {
+      fill: none;
+      stroke-width: 1.5;
+      stroke-dasharray: 4 6;
+      opacity: 0.6;
+    }
+
+    .ligament-alchemical-serpent {
+      fill: none;
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.92;
+    }
+
+    .ligament-alchemical-counter {
+      fill: none;
+      stroke-width: 1.8;
+      stroke-dasharray: 12 5;
+      stroke-linecap: round;
+      animation: pulseFlow 14s linear infinite reverse;
+      filter: drop-shadow(0 0 6px currentColor);
+      opacity: 0.82;
+    }
+
+    .ligament-alchemical-node {
+      fill: #050508;
+      stroke-width: 1.8;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+
+    /* Bioluminescent Mycelial Hyphae & Spore Network */
+    .ligament-mycelium-primary {
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 7px currentColor);
+      opacity: 0.9;
+    }
+
+    .ligament-mycelium-hyphae {
+      fill: none;
+      stroke-width: 1.25;
+      stroke-dasharray: 8 4 2 4;
+      stroke-linecap: round;
+      animation: pulseFlow 20s linear infinite;
+      filter: drop-shadow(0 0 5px currentColor);
+      opacity: 0.78;
+    }
+
+    .ligament-mycelium-spore {
+      fill: #ffffff;
+      stroke-width: 1.5;
+      filter: drop-shadow(0 0 8px currentColor);
+      animation: beaconPulse 2.4s ease-in-out infinite alternate;
     }
 
     /* Connecting Path Illumination for Focused/Hovered Portrait Portals */
@@ -1438,6 +1612,8 @@
       .ligament-suspension-deck,
       .ligament-grid-surge,
       .ligament-gothic-tracery,
+      .ligament-alchemical-counter,
+      .ligament-mycelium-hyphae,
       .bridge-astrolabe-arc,
       .bridge-warp-surge {
         animation: none !important;
@@ -1888,6 +2064,213 @@
           L1520,585 L1505,590 L1545,505 L1530,510 L1565,435 L1600,510 L1600,900 Z" />
       </svg>
     </div>
+
+    <!-- 8. Film Noir Photo Studio & Darkroom Gallery Layer -->
+    <div class="realm-layer realm-noir" data-realm-id="noir">
+      <svg class="noir-scene-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="noir-beam-left" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fff6e0" stop-opacity="0.38" />
+            <stop offset="45%" stop-color="#e6d5b8" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="#e6d5b8" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="noir-beam-right" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fff6e0" stop-opacity="0.34" />
+            <stop offset="45%" stop-color="#e6d5b8" stop-opacity="0.1" />
+            <stop offset="100%" stop-color="#e6d5b8" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient id="noir-safelight-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff2a3c" stop-opacity="0.55" />
+            <stop offset="40%" stop-color="#9e0b16" stop-opacity="0.22" />
+            <stop offset="100%" stop-color="#050508" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="noir-floor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0f0e13" stop-opacity="0.4" />
+            <stop offset="100%" stop-color="#020204" stop-opacity="0.98" />
+          </linearGradient>
+        </defs>
+
+        <rect x="0" y="690" width="1600" height="210" fill="url(#noir-floor-grad)" />
+        <line x1="0" y1="690" x2="1600" y2="690" stroke="rgba(230, 213, 184, 0.16)" stroke-width="1" />
+        <line x1="0" y1="702" x2="1600" y2="702" stroke="rgba(255, 255, 255, 0.05)" stroke-width="0.7" />
+
+        <!-- Crimson Darkroom Safelight Aura -->
+        <circle class="noir-safelight-pulse" cx="250" cy="145" r="190" fill="url(#noir-safelight-glow)" />
+        <g class="noir-safelight-pulse">
+          <line x1="250" y1="0" x2="250" y2="118" stroke="#2c2a32" stroke-width="2.5" />
+          <path d="M226,118 L274,118 L284,142 L216,142 Z" fill="#141318" stroke="#e6d5b8" stroke-width="0.9" stroke-opacity="0.45" />
+          <ellipse cx="250" cy="144" rx="22" ry="7" fill="#ff3b4b" />
+          <ellipse cx="250" cy="144" rx="11" ry="3.5" fill="#ffd6d9" />
+        </g>
+
+        <!-- Hanging Silver-Gelatin Prints on Darkroom Drying Line -->
+        <g opacity="0.78">
+          <path d="M 1030 75 Q 1310 128 1600 62" fill="none" stroke="rgba(230, 213, 184, 0.35)" stroke-width="1.1" />
+          <g transform="translate(1115, 92) rotate(-4)">
+            <rect x="-2" y="-10" width="4" height="12" fill="#d4af37" />
+            <rect x="-34" y="0" width="68" height="84" fill="#e8e2d5" fill-opacity="0.82" />
+            <rect x="-29" y="6" width="58" height="62" fill="#0d0c11" />
+            <circle cx="0" cy="28" r="12" fill="#d8d0c1" opacity="0.55" />
+            <path d="M-18,68 Q0,44 18,68 Z" fill="#9e978e" opacity="0.5" />
+          </g>
+          <g transform="translate(1255, 104) rotate(3)">
+            <rect x="-2" y="-10" width="4" height="12" fill="#d4af37" />
+            <rect x="-34" y="0" width="68" height="84" fill="#e8e2d5" fill-opacity="0.75" />
+            <rect x="-29" y="6" width="58" height="62" fill="#0b0b0f" />
+            <path d="M-24,60 L-6,26 L10,48 L20,34 L28,60 Z" fill="#cfc7b8" opacity="0.45" />
+          </g>
+          <g transform="translate(1395, 95) rotate(-2.5)">
+            <rect x="-2" y="-10" width="4" height="12" fill="#d4af37" />
+            <rect x="-34" y="0" width="68" height="84" fill="#e8e2d5" fill-opacity="0.8" />
+            <rect x="-29" y="6" width="58" height="62" fill="#0d0c11" />
+            <ellipse cx="0" cy="36" rx="18" ry="22" fill="none" stroke="#e6d5b8" stroke-width="1.2" opacity="0.55" />
+          </g>
+        </g>
+
+        <!-- Background Gallery Framed Monochrome Canvases -->
+        <g stroke="rgba(230, 213, 184, 0.25)" stroke-width="1.2" fill="#09090d" opacity="0.65">
+          <rect x="75" y="290" width="96" height="128" />
+          <rect x="85" y="302" width="76" height="96" fill="#131218" stroke-width="0.6" />
+          <rect x="1425" y="280" width="102" height="134" />
+          <rect x="1436" y="292" width="80" height="102" fill="#131218" stroke-width="0.6" />
+        </g>
+
+        <!-- Cross-Firing Volumetric Fresnel Spotlight Beams -->
+        <polygon class="noir-beam-breathe" points="195,495 980,180 1180,880 195,535" fill="url(#noir-beam-left)" />
+        <polygon class="noir-beam-breathe" points="1405,495 620,180 420,880 1405,535" fill="url(#noir-beam-right)" />
+
+        <!-- Left Vintage Fresnel Barn-Door Spotlight & Tripod -->
+        <g stroke="#e6d5b8" stroke-opacity="0.48" stroke-width="1.4" fill="#0b0b10">
+          <line x1="175" y1="535" x2="105" y2="885" stroke-width="3" />
+          <line x1="175" y1="535" x2="175" y2="895" stroke-width="2.6" />
+          <line x1="175" y1="535" x2="248" y2="885" stroke-width="3" />
+          <line x1="132" y1="735" x2="218" y2="735" stroke-width="1.4" />
+          <rect x="145" y="482" width="54" height="42" rx="5" fill="#121117" />
+          <polygon points="199,476 220,462 220,542 199,528" fill="#1a1822" />
+          <ellipse cx="204" cy="503" rx="6" ry="18" fill="#fff7e2" stroke="none" />
+        </g>
+
+        <!-- Right Vintage Bellows Plate Camera & Tripod -->
+        <g stroke="#e6d5b8" stroke-opacity="0.48" stroke-width="1.4" fill="#0b0b10">
+          <line x1="1425" y1="540" x2="1352" y2="885" stroke-width="3" />
+          <line x1="1425" y1="540" x2="1425" y2="895" stroke-width="2.6" />
+          <line x1="1425" y1="540" x2="1495" y2="885" stroke-width="3" />
+          <line x1="1380" y1="740" x2="1470" y2="740" stroke-width="1.4" />
+          <rect x="1408" y="484" width="46" height="46" rx="3" fill="#121117" />
+          <polygon points="1408,490 1378,497 1378,517 1408,524" fill="#191720" stroke-dasharray="3 2" />
+          <rect x="1364" y="495" width="14" height="24" rx="2" fill="#24202c" />
+          <ellipse cx="1364" cy="507" rx="4.5" ry="11" fill="#fff7e2" stroke="none" />
+        </g>
+
+        <!-- Film Strip Sprocket Border Hints -->
+        <g fill="rgba(230, 213, 184, 0.12)">
+          <rect x="14" y="40" width="10" height="16" rx="2" />
+          <rect x="14" y="76" width="10" height="16" rx="2" />
+          <rect x="14" y="112" width="10" height="16" rx="2" />
+          <rect x="14" y="772" width="10" height="16" rx="2" />
+          <rect x="14" y="808" width="10" height="16" rx="2" />
+          <rect x="14" y="844" width="10" height="16" rx="2" />
+          <rect x="1576" y="40" width="10" height="16" rx="2" />
+          <rect x="1576" y="76" width="10" height="16" rx="2" />
+          <rect x="1576" y="112" width="10" height="16" rx="2" />
+          <rect x="1576" y="772" width="10" height="16" rx="2" />
+          <rect x="1576" y="808" width="10" height="16" rx="2" />
+          <rect x="1576" y="844" width="10" height="16" rx="2" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- 9. Cybernetic Robot Fantasy Sanctum Layer -->
+    <div class="realm-layer realm-cybernetic" data-realm-id="cybernetic">
+      <svg class="cybernetic-scene-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <radialGradient id="cyber-core-aura" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.42" />
+            <stop offset="45%" stop-color="#ff2a85" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#050814" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="cyber-grid-fade" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.05" />
+            <stop offset="100%" stop-color="#ff2a85" stop-opacity="0.38" />
+          </linearGradient>
+          <linearGradient id="cyber-wing-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.55" />
+            <stop offset="50%" stop-color="#7b2cbf" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#ff2a85" stop-opacity="0.6" />
+          </linearGradient>
+        </defs>
+
+        <circle cx="800" cy="390" r="360" fill="url(#cyber-core-aura)" />
+
+        <!-- Rotating Sacred Hex-Circuit Halo -->
+        <g class="cyber-halo-spin" stroke="url(#cyber-wing-grad)" fill="none">
+          <circle cx="800" cy="390" r="250" stroke-width="1.1" stroke-dasharray="12 6 3 6" opacity="0.6" />
+          <circle cx="800" cy="390" r="282" stroke-width="0.8" stroke-dasharray="4 8" opacity="0.45" />
+          <polygon points="800,122 1032,256 1032,524 800,658 568,524 568,256" stroke-width="1" opacity="0.4" />
+          <polygon points="800,658 1032,524 1032,256 800,122 568,256 568,524" stroke-width="0.8" transform="rotate(30 800 390)" opacity="0.35" />
+        </g>
+
+        <!-- Distant Cyber-Citadel Monolith Spires -->
+        <path fill="#050713" stroke="rgba(0, 245, 212, 0.25)" stroke-width="1" d="
+          M0,640 L0,360 L45,360 L65,320 L65,210 L105,175 L145,210 L145,390 L195,390 L195,280 L240,250 L240,470 L310,470 L310,640 Z
+          M1600,640 L1600,350 L1555,350 L1535,310 L1535,200 L1495,165 L1455,200 L1455,380 L1405,380 L1405,270 L1360,240 L1360,460 L1290,460 L1290,640 Z" />
+
+        <!-- Articulated Mechanical Seraph Wings -->
+        <g stroke="url(#cyber-wing-grad)" stroke-width="1.5" fill="rgba(10, 14, 34, 0.68)">
+          <path d="M 560 360 L 290 205 L 335 275 L 545 385 Z" />
+          <path d="M 545 395 L 235 285 L 285 355 L 535 420 Z" />
+          <path d="M 535 430 L 250 385 L 305 445 L 530 455 Z" />
+          <path d="M 530 465 L 315 475 L 370 525 L 540 490 Z" />
+          <path d="M 1040 360 L 1310 205 L 1265 275 L 1055 385 Z" />
+          <path d="M 1055 395 L 1365 285 L 1315 355 L 1065 420 Z" />
+          <path d="M 1065 430 L 1350 385 L 1295 445 L 1070 455 Z" />
+          <path d="M 1070 465 L 1285 475 L 1230 525 L 1060 490 Z" />
+        </g>
+
+        <!-- Colossal Automaton Guardian Silhouette -->
+        <g fill="#070a1c" stroke="#00f5d4" stroke-opacity="0.45" stroke-width="1.3">
+          <polygon points="800,78 824,158 776,158" fill="#0b112c" />
+          <polygon points="738,112 768,168 726,174" fill="#0b112c" />
+          <polygon points="862,112 832,168 874,174" fill="#0b112c" />
+          <path d="M 744 168 L 856 168 L 872 238 L 836 298 L 764 298 L 728 238 Z" />
+          <polygon class="cyber-optic-glow" points="752,216 792,226 758,234" fill="#00f5d4" stroke="none" />
+          <polygon class="cyber-optic-glow" points="848,216 808,226 842,234" fill="#00f5d4" stroke="none" />
+          <polygon class="cyber-optic-glow" points="800,182 809,198 800,214 791,198" fill="#ff2a85" stroke="none" />
+          <path d="M 520 640 L 555 465 L 675 415 L 745 455 L 705 640 Z" />
+          <path d="M 1080 640 L 1045 465 L 925 415 L 855 455 L 895 640 Z" />
+        </g>
+
+        <!-- Glowing Circuit-Trace Ley Lines -->
+        <g fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="bevel">
+          <path d="M 85 210 L 210 210 L 290 290 L 495 290" stroke="rgba(0, 245, 212, 0.3)" />
+          <path class="cyber-circuit-flow" d="M 85 210 L 210 210 L 290 290 L 495 290" stroke="#00f5d4" />
+          <path d="M 1515 210 L 1390 210 L 1310 290 L 1105 290" stroke="rgba(255, 42, 133, 0.3)" />
+          <path class="cyber-circuit-flow" d="M 1515 210 L 1390 210 L 1310 290 L 1105 290" stroke="#ff2a85" />
+          <circle cx="85" cy="210" r="4" fill="#00f5d4" />
+          <circle cx="1515" cy="210" r="4" fill="#ff2a85" />
+        </g>
+
+        <!-- Perspective Synth-Grid Horizon Floor -->
+        <rect x="0" y="640" width="1600" height="260" fill="url(#cyber-grid-fade)" />
+        <line x1="0" y1="640" x2="1600" y2="640" stroke="#00f5d4" stroke-width="1.6" stroke-opacity="0.7" />
+        <g stroke="rgba(0, 245, 212, 0.28)" stroke-width="1">
+          <line x1="0" y1="664" x2="1600" y2="664" />
+          <line x1="0" y1="696" x2="1600" y2="696" />
+          <line x1="0" y1="738" x2="1600" y2="738" />
+          <line x1="0" y1="792" x2="1600" y2="792" />
+          <line x1="0" y1="860" x2="1600" y2="860" />
+          <line x1="800" y1="640" x2="-200" y2="900" />
+          <line x1="800" y1="640" x2="120" y2="900" />
+          <line x1="800" y1="640" x2="380" y2="900" />
+          <line x1="800" y1="640" x2="600" y2="900" />
+          <line x1="800" y1="640" x2="800" y2="900" stroke="rgba(255, 42, 133, 0.45)" />
+          <line x1="800" y1="640" x2="1000" y2="900" />
+          <line x1="800" y1="640" x2="1220" y2="900" />
+          <line x1="800" y1="640" x2="1480" y2="900" />
+          <line x1="800" y1="640" x2="1800" y2="900" />
+        </g>
+      </svg>
+    </div>
   </div>
 
   <header>
@@ -2168,7 +2551,6 @@
       return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
     }
 
-    // Picks an outlying corner angle that stays clear of existing portals on that slice
     function chooseBridgeAngle(sliceItems) {
       const preferredCorners = [-32, -148, 32, 148, -90];
       const usedAngles = sliceItems.map((b, i) => b.angle ?? (i * 60));
@@ -2312,7 +2694,6 @@
         const nx = (-dy / len) * dir;
         const ny = (dx / len) * dir;
 
-        // 1. Pointed Gothic Lancet Arch Spine
         const peakX = CENTER_X + dx * 0.5 + nx * 28;
         const peakY = CENTER_Y + dy * 0.5 + ny * 28;
         const c1x = CENTER_X + dx * 0.22 + nx * 22;
@@ -2321,7 +2702,6 @@
         const c2y = CENTER_Y + dy * 0.78 + ny * 22;
         const lancetD = `M ${CENTER_X} ${CENTER_Y} Q ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${peakX.toFixed(1)} ${peakY.toFixed(1)} Q ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${x2} ${y2}`;
 
-        // 2. Counter-Curving Sub-Tracery Arch
         const counterPeakX = CENTER_X + dx * 0.5 - nx * 16;
         const counterPeakY = CENTER_Y + dy * 0.5 - ny * 16;
         const cc1x = CENTER_X + dx * 0.25 - nx * 12;
@@ -2330,7 +2710,6 @@
         const cc2y = CENTER_Y + dy * 0.75 - ny * 12;
         const traceryD = `M ${CENTER_X} ${CENTER_Y} Q ${cc1x.toFixed(1)} ${cc1y.toFixed(1)} ${counterPeakX.toFixed(1)} ${counterPeakY.toFixed(1)} Q ${cc2x.toFixed(1)} ${cc2y.toFixed(1)} ${x2} ${y2}`;
 
-        // 3. Wrought-Iron Spikes / Briar Thorns along the Span
         let thornsD = '';
         const thornSteps = [0.22, 0.36, 0.5, 0.64, 0.78];
         thornSteps.forEach((t, tIdx) => {
@@ -2365,7 +2744,6 @@
         spinePath.style.color = color;
         svgGroup.appendChild(spinePath);
 
-        // 4. Diamond Iron Finials at Key Nodes
         [0.36, 0.5, 0.64].forEach((t) => {
           const fx = CENTER_X + dx * t;
           const fy = CENTER_Y + dy * t;
@@ -2382,6 +2760,129 @@
           svgGroup.appendChild(diamond);
         });
 
+      } else if (filamentStyle === 'alchemical') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len;
+        const ny = dx / len;
+        const steps = 48;
+        const waves = 3;
+        const amp = 18;
+
+        let dSerpentA = `M ${CENTER_X} ${CENTER_Y}`;
+        let dSerpentB = `M ${CENTER_X} ${CENTER_Y}`;
+
+        for (let i = 1; i <= steps; i++) {
+          const t = i / steps;
+          const env = Math.sin(t * Math.PI);
+          const wave = Math.sin(t * Math.PI * waves) * amp * env;
+          const ax = CENTER_X + dx * t + nx * wave;
+          const ay = CENTER_Y + dy * t + ny * wave;
+          const bx = CENTER_X + dx * t - nx * wave;
+          const by = CENTER_Y + dy * t - ny * wave;
+          dSerpentA += ` L ${ax.toFixed(1)} ${ay.toFixed(1)}`;
+          dSerpentB += ` L ${bx.toFixed(1)} ${by.toFixed(1)}`;
+        }
+
+        const staffPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        staffPath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        staffPath.setAttribute('class', 'ligament-alchemical-staff');
+        staffPath.setAttribute('stroke', color);
+        svgGroup.appendChild(staffPath);
+
+        const serpentB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        serpentB.setAttribute('d', dSerpentB);
+        serpentB.setAttribute('class', 'ligament-alchemical-counter');
+        serpentB.setAttribute('stroke', color);
+        serpentB.style.color = color;
+        svgGroup.appendChild(serpentB);
+
+        const serpentA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        serpentA.setAttribute('d', dSerpentA);
+        serpentA.setAttribute('class', 'ligament-alchemical-serpent');
+        serpentA.setAttribute('stroke', `url(#grad-${theme})`);
+        serpentA.style.color = color;
+        svgGroup.appendChild(serpentA);
+
+        [1 / 3, 0.5, 2 / 3].forEach((t, nIdx) => {
+          const cx = CENTER_X + dx * t;
+          const cy = CENTER_Y + dy * t;
+          const isCenter = nIdx === 1;
+
+          const outerRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          outerRing.setAttribute('cx', cx.toFixed(1));
+          outerRing.setAttribute('cy', cy.toFixed(1));
+          outerRing.setAttribute('r', isCenter ? '7.5' : '4.5');
+          outerRing.setAttribute('class', 'ligament-alchemical-node');
+          outerRing.setAttribute('stroke', color);
+          outerRing.style.color = color;
+          svgGroup.appendChild(outerRing);
+
+          if (isCenter) {
+            const sunDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            sunDot.setAttribute('cx', cx.toFixed(1));
+            sunDot.setAttribute('cy', cy.toFixed(1));
+            sunDot.setAttribute('r', '2.2');
+            sunDot.setAttribute('fill', '#ffffff');
+            svgGroup.appendChild(sunDot);
+          }
+        });
+
+      } else if (filamentStyle === 'mycelium') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const nx = (-dy / len) * dir;
+        const ny = (dx / len) * dir;
+
+        const p1 = { x: CENTER_X + dx * 0.24 + nx * 16, y: CENTER_Y + dy * 0.24 + ny * 16 };
+        const p2 = { x: CENTER_X + dx * 0.50 - nx * 12, y: CENTER_Y + dy * 0.50 - ny * 12 };
+        const p3 = { x: CENTER_X + dx * 0.76 + nx * 18, y: CENTER_Y + dy * 0.76 + ny * 18 };
+
+        const mainD = `M ${CENTER_X} ${CENTER_Y} Q ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)} T ${p3.x.toFixed(1)} ${p3.y.toFixed(1)} L ${x2} ${y2}`;
+
+        const b1 = { x: CENTER_X + dx * 0.36 - nx * 24, y: CENTER_Y + dy * 0.36 - ny * 24 };
+        const b2 = { x: CENTER_X + dx * 0.66 + nx * 26, y: CENTER_Y + dy * 0.66 + ny * 26 };
+        const s1 = { x: p1.x + nx * 16 + (dx / len) * 14, y: p1.y + ny * 16 + (dy / len) * 14 };
+        const s2 = { x: b1.x - nx * 12 + (dx / len) * 16, y: b1.y - ny * 12 + (dy / len) * 16 };
+        const s3 = { x: b2.x + nx * 14 + (dx / len) * 12, y: b2.y + ny * 14 + (dy / len) * 12 };
+
+        const webD = [
+          `M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} Q ${b1.x.toFixed(1)} ${b1.y.toFixed(1)} ${p3.x.toFixed(1)} ${p3.y.toFixed(1)}`,
+          `M ${p2.x.toFixed(1)} ${p2.y.toFixed(1)} Q ${b2.x.toFixed(1)} ${b2.y.toFixed(1)} ${x2} ${y2}`,
+          `M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} L ${s1.x.toFixed(1)} ${s1.y.toFixed(1)}`,
+          `M ${b1.x.toFixed(1)} ${b1.y.toFixed(1)} L ${s2.x.toFixed(1)} ${s2.y.toFixed(1)}`,
+          `M ${b2.x.toFixed(1)} ${b2.y.toFixed(1)} L ${s3.x.toFixed(1)} ${s3.y.toFixed(1)}`
+        ].join(' ');
+
+        const webPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        webPath.setAttribute('d', webD);
+        webPath.setAttribute('class', 'ligament-mycelium-hyphae');
+        webPath.setAttribute('stroke', color);
+        webPath.style.color = color;
+        svgGroup.appendChild(webPath);
+
+        const mainPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainPath.setAttribute('d', mainD);
+        mainPath.setAttribute('class', 'ligament-mycelium-primary');
+        mainPath.setAttribute('stroke', `url(#grad-${theme})`);
+        mainPath.style.color = color;
+        svgGroup.appendChild(mainPath);
+
+        [s1, s2, s3, p2].forEach((pt, sIdx) => {
+          const spore = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          spore.setAttribute('cx', pt.x.toFixed(1));
+          spore.setAttribute('cy', pt.y.toFixed(1));
+          spore.setAttribute('r', sIdx === 3 ? '3.4' : '2.6');
+          spore.setAttribute('class', 'ligament-mycelium-spore');
+          spore.setAttribute('stroke', color);
+          spore.style.color = color;
+          spore.style.animationDelay = `${(sIdx * 0.45).toFixed(2)}s`;
+          svgGroup.appendChild(spore);
+        });
+
       } else {
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));
@@ -2393,7 +2894,7 @@
     }
 
     function applyRealmAesthetic(realmId, sliceName) {
-      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness'];
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness', 'noir', 'cybernetic'];
       const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
 
       document.body.setAttribute('data-realm', targetRealm);
@@ -2736,7 +3237,6 @@
       try {
         disksContainer.innerHTML = '';
 
-        // The two introductions open first; the archive disks retain their order.
         sliceList = buildSlices(branches);
         if (sliceList.length === 0) {
           sliceList = buildSlices(FALLBACK_BRANCHES);
@@ -2760,7 +3260,6 @@
           svgEl.appendChild(ligamentsGroup);
           diskPlane.appendChild(svgEl);
 
-          // Render portals belonging to this 3D Disk
           sliceObj.items.forEach((branch, idx) => {
             const angleDeg = branch.angle ?? (idx * 60);
             const distance = branch.distance ?? 340;
@@ -2832,21 +3331,18 @@
             const nx = -uy;
             const ny = ux;
 
-            // Gentle, slender S-curve axis mundi path
             const c1x = CENTER_X + dx * 0.33 + nx * 10;
             const c1y = CENTER_Y + dy * 0.33 + ny * 10;
             const c2x = CENTER_X + dx * 0.66 - nx * 10;
             const c2y = CENTER_Y + dy * 0.66 - ny * 10;
             const coreAxisD = `M ${CENTER_X} ${CENTER_Y} C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${bx.toFixed(1)} ${by.toFixed(1)}`;
 
-            // Whisper-thin flanking astrolabe calibration arcs
             const midX = (CENTER_X + bx) / 2;
             const midY = (CENTER_Y + by) / 2;
             const arcSpread = 14;
             const arcLeftD = `M ${CENTER_X} ${CENTER_Y} Q ${(midX + nx * arcSpread).toFixed(1)} ${(midY + ny * arcSpread).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
             const arcRightD = `M ${CENTER_X} ${CENTER_Y} Q ${(midX - nx * arcSpread).toFixed(1)} ${(midY - ny * arcSpread).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
 
-            // Fine perpendicular degree ticks along the central axis
             let ticksD = '';
             const tickSteps = [0.22, 0.28, 0.38, 0.44, 0.50, 0.56, 0.62, 0.72, 0.78, 0.86];
             tickSteps.forEach((t, tIdx) => {
@@ -2859,19 +3355,16 @@
             const bridgeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             bridgeGroup.setAttribute('class', 'bridge-filament-group');
 
-            // 0. Invisible hit target for effortless clicking
             const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             hitPath.setAttribute('d', coreAxisD);
             hitPath.setAttribute('class', 'bridge-hit-target');
             bridgeGroup.appendChild(hitPath);
 
-            // 1. Subtle 2px glow underlay
             const auraPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             auraPath.setAttribute('d', coreAxisD);
             auraPath.setAttribute('class', 'bridge-outer-aura');
             bridgeGroup.appendChild(auraPath);
 
-            // 2. Flanking astrolabe arcs
             [arcLeftD, arcRightD].forEach((arcD) => {
               const arcPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
               arcPath.setAttribute('d', arcD);
@@ -2879,25 +3372,21 @@
               bridgeGroup.appendChild(arcPath);
             });
 
-            // 3. Perpendicular calibration ticks
             const ticksPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             ticksPath.setAttribute('d', ticksD.trim());
             ticksPath.setAttribute('class', 'bridge-astrolabe-ticks');
             bridgeGroup.appendChild(ticksPath);
 
-            // 4. Crisp 1.15px core filament
             const corePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             corePath.setAttribute('d', coreAxisD);
             corePath.setAttribute('class', 'bridge-core-path');
             bridgeGroup.appendChild(corePath);
 
-            // 5. Slender traveling photon pulse
             const surgePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             surgePath.setAttribute('d', coreAxisD);
             surgePath.setAttribute('class', 'bridge-warp-surge');
             bridgeGroup.appendChild(surgePath);
 
-            // 6. Delicate harmonic nodes at 1/3 and 2/3 along the axis
             [0.33, 0.66].forEach((t, nIdx) => {
               const hx = CENTER_X + dx * t;
               const hy = CENTER_Y + dy * t;
@@ -2919,11 +3408,10 @@
             bridgeNode.innerHTML = `
               <div class="bridge-sigil-ring">
                 <svg class="bridge-sigil-svg" viewBox="0 0 64 64">
-                  <!-- Outer Ouroboros Serpent Ring (Head meeting Tail at Top) -->
+                  <!-- Outer Ouroboros Serpent Ring -->
                   <g class="armillary-ouroboros">
                     <path d="M 30 4.2 A 27.8 27.8 0 1 0 34.2 4.2" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" />
                     <circle cx="32" cy="32" r="27.8" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-dasharray="1 3.5" opacity="0.7" />
-                    <!-- Serpent Head biting Tail at 12 o'clock -->
                     <polygon points="32,1.8 36,4.2 32,6.6 28.5,4.2" fill="currentColor" stroke="#ffffff" stroke-width="0.4" />
                     <circle cx="33.2" cy="4.2" r="0.65" fill="#050508" />
                   </g>
@@ -2931,13 +3419,10 @@
                   <!-- 3D Interlocking Armillary Meridian Sphere -->
                   <g class="armillary-rings">
                     <circle cx="32" cy="32" r="20.5" fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.88" />
-                    <!-- Tilted Ecliptic Band with Degree Ticks -->
                     <ellipse cx="32" cy="32" rx="20.5" ry="7.5" fill="none" stroke="currentColor" stroke-width="1.05" transform="rotate(-28 32 32)" />
                     <ellipse cx="32" cy="32" rx="20.5" ry="7.5" fill="none" stroke="#ffffff" stroke-width="0.55" stroke-dasharray="1.5 2.5" transform="rotate(-28 32 32)" opacity="0.75" />
-                    <!-- Orthogonal Meridian Rings -->
                     <ellipse cx="32" cy="32" rx="9" ry="20.5" fill="none" stroke="currentColor" stroke-width="0.75" transform="rotate(22 32 32)" opacity="0.7" />
                     <ellipse cx="32" cy="32" rx="20.5" ry="9" fill="none" stroke="currentColor" stroke-width="0.75" transform="rotate(22 32 32)" opacity="0.7" />
-                    <!-- Axis Mundi Spindle -->
                     <line x1="32" y1="8.5" x2="32" y2="55.5" stroke="currentColor" stroke-width="0.65" stroke-dasharray="2 2" opacity="0.65" transform="rotate(22 32 32)" />
                   </g>
 
