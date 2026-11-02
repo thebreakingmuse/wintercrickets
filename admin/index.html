@@ -331,6 +331,14 @@
       color: var(--gold);
     }
 
+    .disk-rename { margin-top: 10px; }
+    .disk-rename-toggle { padding: 6px 11px; font-size: 0.7rem; }
+    .disk-rename-fields { margin-top: 10px; padding: 12px 14px; border: 1px solid rgba(212,175,55,.35); border-radius: 8px; background: rgba(0,0,0,.25); }
+    .disk-rename-fields label { display: block; margin-bottom: 6px; }
+    .disk-rename-fields strong { color: #e5cc91; font-weight: 600; }
+    .disk-rename-hint { display: block; margin: 8px 0 10px; }
+    .disk-rename-cancel { padding: 6px 11px; font-size: 0.7rem; background: transparent; border: 1px solid rgba(255,255,255,.3); color: inherit; cursor: pointer; border-radius: 6px; }
+    .disk-rename-fields[hidden] { display: none; }
     .label-hint {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
@@ -979,6 +987,15 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           <label>3D Portal Disk (Slice)</label>
           <select id="sel-slice"></select>
           <input type="text" id="inp-new-slice" placeholder="Enter new 3D Disk name (e.g., Outdoor Sanctuary)" style="display:none; margin-top:8px;" />
+          <div class="disk-rename" id="disk-rename">
+            <button type="button" id="rename-slice-btn" class="btn btn-primary disk-rename-toggle" aria-expanded="false" aria-controls="disk-rename-fields">Rename this Disk</button>
+            <div id="disk-rename-fields" class="disk-rename-fields" hidden>
+              <label for="inp-rename-slice">New name for <strong id="rename-slice-current"></strong></label>
+              <input type="text" id="inp-rename-slice" maxlength="60" autocomplete="off" />
+              <p class="label-hint disk-rename-hint">Renames the disk for every portal on it when you click Publish. The disk's background and warp conduit are kept.</p>
+              <button type="button" id="rename-slice-cancel" class="btn disk-rename-cancel">Cancel rename</button>
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -1392,7 +1409,8 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     function studioSliceName(branch) {
       return branch.portal_type === 'introduction' ||
         ['introduction-janice', 'introduction-paul'].includes(branch.id)
-        ? 'Janice & Paul' : (branch.slice || 'Prime Cosmos');
+        ? ((typeof branch.slice === 'string' && branch.slice.trim()) || 'Janice & Paul')
+        : (branch.slice || 'Prime Cosmos');
     }
 
     function getSliceMap() {
@@ -1455,7 +1473,49 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       renderRadar();
     });
 
+    // Disk rename: pending until Publish, then applied to every portal on the disk.
+    const renameSliceBtn = document.getElementById('rename-slice-btn');
+    const renameSliceFields = document.getElementById('disk-rename-fields');
+    const renameSliceCurrent = document.getElementById('rename-slice-current');
+    const inpRenameSlice = document.getElementById('inp-rename-slice');
+    const renameSliceCancel = document.getElementById('rename-slice-cancel');
+    let renameSliceFrom = null;
+
+    function closeDiskRename() {
+      renameSliceFrom = null;
+      inpRenameSlice.value = '';
+      renameSliceFields.hidden = true;
+      renameSliceBtn.setAttribute('aria-expanded', 'false');
+      renameSliceBtn.textContent = 'Rename this Disk';
+    }
+    function openDiskRename() {
+      if (selSlice.value === '__NEW__') return;
+      renameSliceFrom = selSlice.value || 'Prime Cosmos';
+      renameSliceCurrent.textContent = renameSliceFrom;
+      inpRenameSlice.value = renameSliceFrom;
+      renameSliceFields.hidden = false;
+      renameSliceBtn.setAttribute('aria-expanded', 'true');
+      renameSliceBtn.textContent = 'Renaming on Publish';
+      inpRenameSlice.focus();
+      inpRenameSlice.select();
+    }
+    function pendingDiskRename() {
+      if (!renameSliceFrom || renameSliceFields.hidden) return null;
+      const to = inpRenameSlice.value.trim().replace(/\s+/g, ' ');
+      if (!to || to === renameSliceFrom || to === '__NEW__') return null;
+      return { from: renameSliceFrom, to };
+    }
+    renameSliceBtn.addEventListener('click', () => {
+      if (renameSliceFields.hidden) openDiskRename(); else inpRenameSlice.focus();
+    });
+    renameSliceCancel.addEventListener('click', closeDiskRename);
+    selSlice.addEventListener('change', closeDiskRename);
+    renameSliceBtn.disabled = selSlice.value === '__NEW__';
+    selSlice.addEventListener('change', () => { renameSliceBtn.disabled = selSlice.value === '__NEW__'; });
+
     function getActiveSliceName() {
+      const rename = pendingDiskRename();
+      if (rename) return rename.to;
       if (selSlice.value === '__NEW__') {
         return inpNewSlice.value.trim() || 'Outdoor Sanctuary';
       }
@@ -1602,6 +1662,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       inpSubtitle.value = b.subtitle || 'Gallery & Archive';
       inpPassword.value = b.password || '';
 
+      closeDiskRename();
       const sliceName = studioSliceName(b);
       populateSliceDropdown(sliceName);
       selRealmBg.value = b.slice_bg || 'cosmos';
@@ -2049,6 +2110,11 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         return;
       }
 
+      const diskRename = pendingDiskRename();
+      if (diskRename) {
+        const taken = getSliceMap().has(diskRename.to);
+        if (taken && !confirm(`A disk named "${diskRename.to}" already exists. Renaming will merge "${diskRename.from}" into it. Continue?`)) return;
+      }
       const sliceName = getActiveSliceName();
       const sliceBg = selRealmBg.value;
       const thumbChoice = selThumbPreset.value === 'first_photo'
@@ -2089,6 +2155,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
 
       // Sync Disk-level settings (slice_bg, bridge_angle, bridge_distance) across all portals on this disk
       updatedBranches.forEach(b => {
+        if (diskRename && studioSliceName(b) === diskRename.from) b.slice = diskRename.to;
         if (studioSliceName(b) === sliceName) {
           b.slice_bg = sliceBg;
           b.bridge_angle = bridgeAngleVal;
@@ -2158,7 +2225,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         const newCommit = await githubApiRequest('/git/commits', {
           method: 'POST',
           body: JSON.stringify({
-            message: `Portal Studio (${authorLabel}): Update '${title}' on disk '${sliceName}'`,
+            message: diskRename ? `Portal Studio (${authorLabel}): Rename disk '${diskRename.from}' to '${diskRename.to}' and update '${title}'` : `Portal Studio (${authorLabel}): Update '${title}' on disk '${sliceName}'`,
             tree: newTree.sha,
             parents: [latestCommitSha]
           })
@@ -2171,6 +2238,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
 
         branches = updatedBranches;
         queuedNewFiles = [];
+        closeDiskRename();
         progressFill.style.width = '100%';
         statusText.textContent = `✨ Published '${title}'! Netlify is now deploying to depthofsparkle.life.`;
 
