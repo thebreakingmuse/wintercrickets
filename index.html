@@ -65,6 +65,7 @@
       color: var(--text-main);
       font-family: 'Cinzel', serif;
       min-height: 100vh;
+      min-height: 100svh;
       overflow: hidden;
       position: relative;
       user-select: none;
@@ -319,9 +320,11 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+      height: 100svh;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       z-index: 5;
       perspective: 1400px;
     }
@@ -330,10 +333,19 @@
       position: relative;
       width: 1000px;
       height: 1000px;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       transform-style: preserve-3d;
+    }
+
+    #disks-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     /* 3D Disk Planes */
@@ -679,12 +691,4 @@
       transition: border-color 0.35s ease, opacity 0.35s ease;
     }
 
-    .bridge-sigil-ring::after {
-      content: "";
-      position: absolute;
-      inset: -11px;
-      border-radius: 50%;
-      border: 0.75px dashed rgba(255, 255, 255, 0.28);
-      opacity: 0.5;
-      animation: slowSpin 42s linear infinite;
-      pointer-eve
+    .bridge-sigil-ring::after
