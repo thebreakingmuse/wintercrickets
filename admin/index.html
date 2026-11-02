@@ -570,7 +570,8 @@
       align-items: center;
       justify-content: center;
     }
-.photo-ctrl-btn {
+
+    .photo-ctrl-btn {
       width: 22px;
       height: 22px;
       border-radius: 4px;
@@ -814,6 +815,8 @@
             <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
             <option value="wilderness">Wilderness — Nocturnal Forest Canopy & Moon</option>
             <option value="nyc">NYC — New York City Nocturne Skyline</option>
+            <option value="noir">Film Noir — Darkroom & Photo Studio Gallery</option>
+            <option value="cybernetic">Cybernetic — Robot Fantasy Sanctum</option>
             <option value="verdant">Verdant — Bioluminescent Canopy</option>
             <option value="ember">Ember — Alchemical Red Ochre & Copper</option>
             <option value="abyss">Abyss — Deep Sapphire & Aqua Trench</option>
@@ -840,6 +843,8 @@
           <select id="sel-filament">
             <option value="standard">Standard Glowing Gradient</option>
             <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
+            <option value="alchemical">Alchemical Caduceus & Planetary Helix</option>
+            <option value="mycelium">Bioluminescent Mycelial Hyphae & Spores</option>
             <option value="vine">Twisting Organic Vine</option>
             <option value="tendril">Dual-Strand Braided Tendril</option>
             <option value="suspension">Brooklyn Bridge Suspension Span</option>
@@ -1237,7 +1242,7 @@
       if (selSlice.value === '__NEW__') {
         inpNewSlice.style.display = 'block';
         inpNewSlice.focus();
-        selRealmBg.value = 'wilderness';
+        selRealmBg.value = 'noir';
         inpBridgeAngle.value = '';
         inpBridgeDistance.value = 455;
       } else {
@@ -1481,7 +1486,7 @@
         radarSvg.appendChild(dot);
       });
 
-      // Dimensional Shift Warp Conduit & Node on Radar Preview
+      // Slender Alchemical Astrolabe Warp Conduit & Node on Radar Preview
       const rawBAngle = inpBridgeAngle.value.trim();
       const bAngle = rawBAngle !== '' ? parseFloat(rawBAngle) : suggestOpenBridgeCorner(sliceName);
       const bDist = parseFloat(inpBridgeDistance.value) || 455;
@@ -1495,8 +1500,8 @@
       bridgeLine.setAttribute('x2', bx);
       bridgeLine.setAttribute('y2', by);
       bridgeLine.setAttribute('stroke', '#d4af37');
-      bridgeLine.setAttribute('stroke-width', radarDragTarget === 'bridge' ? '8' : '5');
-      bridgeLine.setAttribute('stroke-dasharray', '10 6');
+      bridgeLine.setAttribute('stroke-width', radarDragTarget === 'bridge' ? '4.5' : '2.5');
+      bridgeLine.setAttribute('stroke-dasharray', '6 5');
       radarSvg.appendChild(bridgeLine);
 
       const bridgeHalo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1505,8 +1510,8 @@
       bridgeHalo.setAttribute('r', 46);
       bridgeHalo.setAttribute('fill', 'none');
       bridgeHalo.setAttribute('stroke', '#d4af37');
-      bridgeHalo.setAttribute('stroke-width', '2.5');
-      bridgeHalo.setAttribute('stroke-dasharray', '6 5');
+      bridgeHalo.setAttribute('stroke-width', '2');
+      bridgeHalo.setAttribute('stroke-dasharray', '4 4');
       radarSvg.appendChild(bridgeHalo);
 
       const bridgeDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1515,7 +1520,7 @@
       bridgeDot.setAttribute('r', 34);
       bridgeDot.setAttribute('fill', '#22183c');
       bridgeDot.setAttribute('stroke', radarDragTarget === 'bridge' ? '#ffffff' : '#d4af37');
-      bridgeDot.setAttribute('stroke-width', '5');
+      bridgeDot.setAttribute('stroke-width', '4');
       radarSvg.appendChild(bridgeDot);
 
       // Active Portal Node being edited
@@ -1714,7 +1719,7 @@
       renderPhotoPreviews();
     }
 
-   function renderPhotoPreviews() {
+    function renderPhotoPreviews() {
       existingPhotosSummary.textContent = existingPhotos.length
         ? `Currently saved in portal: ${existingPhotos.length} photo(s) | Queued to upload: ${queuedNewFiles.length} new photo(s)`
         : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
@@ -1739,7 +1744,6 @@
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
 
-        // Move Left / First
         const moveLeft = div.querySelector('.move-left-btn');
         if (moveLeft) {
           moveLeft.addEventListener('click', () => {
@@ -1751,7 +1755,6 @@
           });
         }
 
-        // Move Right
         const moveRight = div.querySelector('.move-right-btn');
         if (moveRight) {
           moveRight.addEventListener('click', () => {
