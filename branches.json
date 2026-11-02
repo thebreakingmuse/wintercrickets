@@ -312,15 +312,15 @@
   },
   {
     "id": "Goth Photo Shootz",
-    "title": "Goth Photo Shootz",
+    "title": "Goth",
     "subtitle": "bloody kisses",
-    "slice": "Photo Shootz",
-    "slice_bg": "abyss",
+    "slice": "Glamour Shootz",
+    "slice_bg": "noir",
     "theme": "nocturnal",
     "filament": "standard",
     "angle": 65,
     "distance": 340,
-    "thumbnail": "portals/Goth Photo Shootz/1783038682058.webp",
+    "thumbnail": "portals/Goth Photo Shootz/grid_thumbs/1783038682058.webp",
     "photos": [
       "portals/Goth Photo Shootz/1783038682058.webp",
       "portals/Goth Photo Shootz/PXL_20260702_060745180.webp",
@@ -365,7 +365,9 @@
       "portals/Goth Photo Shootz/grid_thumbs/PXL_20260702_063002933.webp",
       "portals/Goth Photo Shootz/grid_thumbs/PXL_20260702_063004027.webp"
     ],
-    "password": ""
+    "password": "",
+    "bridge_angle": null,
+    "bridge_distance": 455
   },
   {
     "id": "Endless sand (& castle) trip",
