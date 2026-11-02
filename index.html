@@ -1899,11 +1899,312 @@
       }
     }
   </style>
+<style id="music-and-new-filaments-style">
+/* Music realm and two fine-line filaments. Existing realms stay unchanged. */
+body[data-realm="music"] {
+  --gold-accent: #dcc28d;
+  --hub-glow-primary: rgba(220,194,141,.28);
+  --hub-glow-secondary: rgba(131,177,166,.2);
+}
+.realm-music { background: #080d13; overflow: hidden; }
+.music-scene-svg { display: block; width: 100%; height: 100%; }
+.realm-music:not(.active) .music-scene-svg * { animation-play-state: paused; }
+.music-filament { pointer-events: none; }
+.score-pressure { stroke-dasharray: 16 7 2 7; animation: score-transit 13s linear infinite; }
+.score-note { opacity: .95; }
+.escapement-wheel { animation: escapement-turn 38s linear infinite; transform-origin: 0 0; }
+.escapement-wheel.reverse { animation-direction: reverse; animation-duration: 46s; }
+.escapement-spark { stroke-dasharray: 2 43 1 97; animation: score-transit 18s linear infinite; opacity: .7; }
+.portal-filament-group.is-illuminated .music-filament { filter: drop-shadow(0 0 3px currentColor); }
+.inactive-disk-above .music-filament *, .inactive-disk-below .music-filament *,
+body.music-motion-paused .music-filament *, body.music-motion-paused .music-scene-svg * {
+  animation-play-state: paused !important;
+}
+.music-motion-toggle {
+  display: none; position: fixed; left: 1rem; bottom: 1rem; z-index: 35;
+  padding: .5rem .75rem; border: 1px solid #716449; border-radius: .375rem;
+  background: #0c1017; color: #dfcda7; font-family: 'Cinzel',Georgia,serif;
+  font-size: clamp(.75rem,.7rem + .2vw,.875rem); cursor: pointer;
+}
+body[data-realm="music"] .music-motion-toggle { display: inline-block; }
+.music-motion-toggle:hover { border-color: #dfcda7; background: #1a1b22; }
+.music-motion-toggle:focus-visible { outline: 2px solid #dfcda7; outline-offset: 3px; }
+@keyframes score-transit { to { stroke-dashoffset: -256; } }
+@keyframes escapement-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .music-filament *, .music-scene-svg * { animation: none !important; }
+  .music-motion-toggle { display: none !important; }
+}
+
+</style>
+<script id="shared-new-filaments">
+/* Additive, shared SVG renderer. The same code is embedded in root and Studio. */
+(() => {
+  'use strict';
+  const NS = 'http://www.w3.org/2000/svg';
+  const names = {
+    harmonic: 'Aeolian Score',
+    clockwork: 'Clockwork Escapement'
+  };
+  function element(parent, tag, attrs) {
+    const node = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
+    parent.appendChild(node);
+    return node;
+  }
+  function path(parent, d, cls, attrs = {}) {
+    return element(parent, 'path', {d, class: cls, ...attrs});
+  }
+  function render(parent, x1, y1, x2, y2, kind, color) {
+    if (!Object.hasOwn(names, kind)) return false;
+    const length = Math.hypot(x2 - x1, y2 - y1);
+    if (!Number.isFinite(length) || length < 1) return true;
+    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    const group = element(parent, 'g', {
+      class: `music-filament music-filament-${kind}`,
+      transform: `translate(${x1} ${y1}) rotate(${angle})`,
+      fill: 'none', stroke: color || '#dfc38d',
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+      'aria-hidden': 'true', 'pointer-events': 'none',
+      'data-filament-kind': kind
+    });
+    group.style.color = color || '#dfc38d';
+    const n = value => Number(value.toFixed(2));
+    if (kind === 'harmonic') {
+      // Five slender stave-lines blossom from one thread, never a broad ribbon.
+      for (let line = -2; line <= 2; line++) {
+        let d = '';
+        for (let i = 0; i <= 60; i++) {
+          const t = i / 60;
+          const envelope = Math.sin(t * Math.PI);
+          const y = line * 3.2 * envelope + Math.sin(t * Math.PI * 2) * 3 * envelope;
+          d += `${i ? 'L' : 'M'}${n(length * t)} ${n(y)} `;
+        }
+        path(group, d, 'score-stave', {'stroke-width': line === 0 ? 1.05 : .65, opacity: line === 0 ? .8 : .55});
+      }
+      // A restrained traveling pressure-wave runs through the musical notation.
+      let wave = '';
+      for (let i = 0; i <= 110; i++) {
+        const t = i / 110;
+        const y = Math.sin(t * Math.PI * 12) * Math.sin(t * Math.PI) * 5;
+        wave += `${i ? 'L' : 'M'}${n(length * t)} ${n(y)} `;
+      }
+      path(group, wave, 'score-pressure', {'stroke-width': .8, opacity: .8});
+      if (length > 85) {
+        [.29, .47, .68].forEach((t, i) => {
+          const x = length * t;
+          const y = (i % 2 ? 2.2 : -1.7) + Math.sin(t * Math.PI * 2) * 2;
+          const note = element(group, 'g', {transform: `translate(${n(x)} ${n(y)})`, class: 'score-note'});
+          element(note, 'ellipse', {cx: 0, cy: 0, rx: 2.6, ry: 1.7, transform: 'rotate(-24)', fill: 'currentColor', stroke: 'none'});
+          path(note, 'M2 -1V-12Q9 -10 6 -5', '', {'stroke-width': .85});
+          if (i === 1) path(note, 'M-5 3H7', '', {'stroke-width': .6, opacity: .6});
+        });
+        [.37, .76].forEach(t => path(group, `M${n(length*t)} -6V6`, 'score-bar', {'stroke-width': .6, opacity: .5}));
+      }
+    } else {
+      path(group, `M0 0H${n(length)}`, 'escapement-axis', {'stroke-width': .7, opacity: .65});
+      const knots = length > 110 ? [.26, .5, .74] : [.5];
+      const radius = Math.min(8, length / 10);
+      knots.forEach((t, index) => {
+        const pivot = element(group, 'g', {transform: `translate(${n(length*t)} 0)`});
+        const gear = element(pivot, 'g', {class: `escapement-wheel${index % 2 ? ' reverse' : ''}`});
+        // Twelve physically distinct teeth, with a thin pierced center.
+        let teeth = '';
+        for (let j = 0; j < 96; j++) {
+          const a = j * Math.PI / 48;
+          const r = radius * ([.8, .8, 1, 1, 1, 1, .8, .8][j % 8]);
+          teeth += `${j ? 'L' : 'M'}${n(Math.cos(a)*r)} ${n(Math.sin(a)*r)} `;
+        }
+        path(gear, teeth + 'Z', 'escapement-teeth', {'stroke-width': .85, fill: 'currentColor', 'fill-opacity': .055});
+        element(gear, 'circle', {r: n(radius*.53), 'stroke-width': .6, opacity: .65});
+        path(gear, `M-${n(radius*.5)} 0H${n(radius*.5)}M0 -${n(radius*.5)}V${n(radius*.5)}`, '', {'stroke-width': .6, opacity: .7});
+        element(pivot, 'circle', {r: 1.4, fill: 'currentColor', stroke: 'none'});
+        path(pivot, `M-${n(radius*.35)} -${n(radius+3)}L0 -${n(radius+1)}L${n(radius*.35)} -${n(radius+3)}`, '', {'stroke-width': .7, opacity: .65});
+      });
+      const spindle = length * .5;
+      path(group, `M${n(spindle-10)} 0Q${n(spindle)} 22 ${n(spindle+10)} 0`, 'escapement-pendulum', {'stroke-width': .65, opacity: .4});
+      path(group, `M0 0H${n(length)}`, 'escapement-spark', {'stroke-width': 1.1});
+      [.13,.38,.62,.87].forEach(t => path(group, `M${n(length*t-2)} -2L${n(length*t)} 0L${n(length*t-2)} 2`, '', {'stroke-width': .7, opacity: .55}));
+    }
+    return true;
+  }
+  window.DOSFilaments = Object.freeze({render, names});
+})();
+
+</script>
 </head>
 <body data-realm="cosmos">
 
   <!-- Dynamic Cross-Fading Realm Backdrops -->
   <div id="realm-backdrops">
+    <div class="realm-layer realm-music" data-realm-id="music" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" id="music-landscape" class="music-scene-svg"
+  viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img"
+  aria-labelledby="music-art-title music-art-desc">
+  <title id="music-art-title">The world outside, the music within</title>
+  <desc id="music-art-desc">Moonlit mountains, pines and water on the left face a vaulted music room with an organ and grand piano on the right. Two currents of musical sound waves flow through the landscapes toward one another.</desc>
+  <defs>
+    <linearGradient id="msc-sky" x2=".9" y2="1">
+      <stop stop-color="#101c27"/><stop offset=".48" stop-color="#091019"/><stop offset="1" stop-color="#18121c"/>
+    </linearGradient>
+    <linearGradient id="msc-stone" x2="1" y2=".4">
+      <stop stop-color="#171a24"/><stop offset=".6" stop-color="#28202a"/><stop offset="1" stop-color="#100e17"/>
+    </linearGradient>
+    <linearGradient id="msc-wave" x2="1" y2="0">
+      <stop stop-color="#83bba9" stop-opacity=".08"/><stop offset=".19" stop-color="#9ccab5" stop-opacity=".6"/>
+      <stop offset=".48" stop-color="#b6b9ba" stop-opacity=".3"/><stop offset=".78" stop-color="#dfbf85" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#dfbf85" stop-opacity=".1"/>
+    </linearGradient>
+    <radialGradient id="msc-moonlight">
+      <stop stop-color="#b0c8bf" stop-opacity=".16"/><stop offset="1" stop-color="#96bba9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="msc-lamplight">
+      <stop stop-color="#d7aa69" stop-opacity=".14"/><stop offset="1" stop-color="#d7aa69" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="msc-quiet">
+      <stop stop-color="#05070c" stop-opacity=".84"/><stop offset=".55" stop-color="#05070c" stop-opacity=".62"/>
+      <stop offset="1" stop-color="#05070c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="msc-bottom" x2="0" y2="1">
+      <stop stop-color="#03070a" stop-opacity="0"/><stop offset="1" stop-color="#03070a" stop-opacity=".8"/>
+    </linearGradient>
+    <path id="msc-river" d="M-80 690C140 590 215 830 430 700S700 540 850 665S1110 870 1290 700S1490 570 1680 670"/>
+    <path id="msc-counter" d="M-80 760C130 870 280 610 470 730S720 850 880 720S1150 570 1310 745S1510 860 1680 725"/>
+    <g id="msc-pine" fill="#071514" stroke="#36564b" stroke-width="1">
+      <path d="M0 -122L-16 -86H-9L-25 -61H-17L-34 -28H-22L-40 0H40L22 -28H34L17 -61H25L9 -86H16Z"/>
+      <path d="M0 -112V12" fill="none" stroke="#6e9180" opacity=".3"/>
+    </g>
+    <g id="msc-note" fill="currentColor" stroke="currentColor" stroke-width="1.2">
+      <ellipse rx="4" ry="2.5" transform="rotate(-25)"/><path d="M3 -1V-24Q15 -21 10 -12" fill="none"/>
+    </g>
+    <pattern id="msc-fine-grain" width="23" height="29" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="9" r=".5" fill="#c0b7a1" opacity=".12"/>
+      <circle cx="17" cy="22" r=".45" fill="#c0b7a1" opacity=".1"/>
+    </pattern>
+  </defs>
+  <style>
+    .msc-flow-a{animation:msc-travel 38s linear infinite;stroke-dasharray:280 8 70 14}
+    .msc-flow-b{animation:msc-travel 45s linear infinite reverse;stroke-dasharray:190 9 40 15}
+    .msc-shimmer{animation:msc-breathe 12s ease-in-out infinite alternate}
+    @keyframes msc-travel{to{stroke-dashoffset:-744}}
+    @keyframes msc-breathe{from{opacity:.35}to{opacity:.8}}
+    @media(prefers-reduced-motion:reduce){.msc-flow-a,.msc-flow-b,.msc-shimmer{animation:none!important}}
+    @media(max-width:680px){
+      .msc-outside{transform:translate(0px,480px) scale(.53,.72)}
+      .msc-inside{transform:translate(-180px,480px) scale(.62,.72)}
+      .msc-waves{transform:translate(0px,210px) scale(.5,1.15)}
+      .msc-central-hush{transform:translate(0px,80px) scale(.5,1.15)}
+      .msc-grain{opacity:.25}
+    }
+  </style>
+  <rect width="1600" height="1400" fill="url(#msc-sky)"/>
+  <!-- The outdoor landscape. The terrain is imagined, not a geographical map. -->
+  <g class="msc-outside">
+    <ellipse cx="200" cy="235" rx="280" ry="290" fill="url(#msc-moonlight)"/>
+    <circle cx="186" cy="205" r="39" fill="#c9d1bb" opacity=".58"/>
+    <circle cx="198" cy="195" r="36" fill="#111e26"/>
+    <circle cx="186" cy="205" r="54" fill="none" stroke="#9bbba7" stroke-width=".6" opacity=".18"/>
+    <g fill="#c1d2c9" opacity=".5">
+      <circle cx="77" cy="104" r="1"/><circle cx="279" cy="147" r="1.2"/><circle cx="407" cy="80" r=".8"/>
+      <circle cx="362" cy="263" r="1"/><circle cx="101" cy="340" r=".8"/><circle cx="557" cy="194" r=".9"/>
+      <path d="M440 177v10m-5-5h10M92 254v7m-3.5-3.5h7" fill="none" stroke="#becdc2" stroke-width=".7"/>
+    </g>
+    <path d="M0 579L88 485L145 507L262 349L312 413L355 380L482 528L552 476L677 611L790 646V1000H0Z" fill="#14232b"/>
+    <path d="M151 505L262 349L303 405L274 391L259 414L245 402L220 439L201 445Z" fill="#7f9692" opacity=".2"/>
+    <path d="M0 658L106 602L169 621L242 547L326 589L408 557L500 631L604 601L759 697V1000H0Z" fill="#102322"/>
+    <g fill="none" stroke="#52716b" stroke-width=".7" opacity=".35">
+      <path d="M12 621Q154 548 243 533M45 671Q179 590 291 595M166 679Q337 590 436 625M311 733Q428 662 625 692"/>
+      <path d="M23 782Q209 715 383 754M50 814Q227 749 421 787M122 848Q288 799 506 830"/>
+    </g>
+    <path d="M0 755Q140 691 258 727T527 777Q632 776 749 838L735 1000H0Z" fill="#0a181e"/>
+    <g fill="none" stroke="#83bba9" stroke-width=".75" opacity=".17">
+      <path d="M28 783H235M64 799H354M13 822H178M192 840H432M41 864H300M267 893H515"/>
+    </g>
+    <use href="#msc-pine" transform="translate(64 793) scale(1.58)"/>
+    <use href="#msc-pine" transform="translate(132 777) scale(.96)"/>
+    <use href="#msc-pine" transform="translate(21 812) scale(.84)"/>
+    <use href="#msc-pine" transform="translate(234 784) scale(.65)"/>
+    <use href="#msc-pine" transform="translate(371 801) scale(.46)"/>
+    <path d="M0 909Q133 848 277 910T600 966L754 1000H0Z" fill="#06100f"/>
+    <g stroke="#6c8c72" stroke-width="1" fill="none" opacity=".28">
+      <path d="M42 942q4-50 23-70m-22 61q-21-14-20-26m23 12q24-7 29-27M186 965q-5-40 11-67m-11 42q-20-10-21-27"/>
+    </g>
+  </g>
+  <!-- An interior landscape: architecture, instruments and receding floor. -->
+  <g class="msc-inside">
+    <path d="M1020 1000V385Q1020 140 1320 108Q1587 131 1600 383V1000Z" fill="url(#msc-stone)" stroke="#8f775c" stroke-opacity=".24" stroke-width="1.2"/>
+    <path d="M1087 1000V405Q1087 213 1325 180Q1540 211 1540 405V1000" fill="none" stroke="#b2956d" stroke-width="1" opacity=".23"/>
+    <path d="M1143 817V411Q1143 273 1326 243Q1490 273 1490 411V817" fill="#10121b" stroke="#9f815f" stroke-width=".8" stroke-opacity=".28"/>
+    <path d="M1325 111V242M1114 218L1174 304M1510 216L1468 305M1020 425L1143 429M1491 429H1600" fill="none" stroke="#b2956d" stroke-width=".8" opacity=".18"/>
+    <g fill="#1f1b24" stroke="#806d5a" stroke-width=".8" stroke-opacity=".45">
+      <path d="M1044 413H1080V873H1044ZM1513 412H1545V873H1513Z"/>
+      <path d="M1036 399H1087V418H1036ZM1506 399H1551V418H1506Z"/>
+      <path d="M1033 872H1089V884H1033ZM1505 872H1553V884H1505Z"/>
+    </g>
+    <ellipse cx="1400" cy="650" rx="250" ry="305" fill="url(#msc-lamplight)"/>
+    <!-- Pipe organ, drawn as slender scored metal, rather than an equalizer. -->
+    <g stroke="#bea077" stroke-width="1" fill="#28252a" opacity=".48">
+      <path d="M1236 639V433H1245V639M1251 639V392H1261V639M1267 639V352H1278V639M1285 639V316H1296V639M1303 639V286H1315V639
+        M1323 639V277H1335V639M1343 639V312H1354V639M1362 639V349H1373V639M1380 639V391H1390V639M1397 639V434H1407V639"/>
+      <path d="M1226 641H1418V661H1226Z" fill="#35282a"/>
+    </g>
+    <g stroke="#ceae7c" stroke-width=".7" opacity=".28">
+      <path d="M1240 437v18m16-57v18m16-56v19m18-55v20m18-49v21m21-32v21m20 18v21m19 15v20m18 23v21m17 19v21"/>
+    </g>
+    <path d="M1006 1000L1167 815H1483L1600 948V1000Z" fill="#151319"/>
+    <g fill="none" stroke="#ad8a60" stroke-width=".75" opacity=".2">
+      <path d="M1060 1000L1250 815M1191 1000L1295 815M1360 1000L1340 815M1540 1000L1389 815M1110 886H1543M1061 948H1600M1166 826H1485"/>
+    </g>
+    <!-- A grand piano with an open lid, fine strings, keyboard and curved body. -->
+    <g transform="translate(1235 704)" stroke="#d1ae7d" stroke-width="1" stroke-linejoin="round">
+      <path d="M0 37L110 -47L213 -19L178 39Z" fill="#24212b" stroke-opacity=".55"/>
+      <path d="M8 36L111 -37L193 -16L172 30Z" fill="#181720" stroke-opacity=".25"/>
+      <path d="M0 41L161 42Q202 41 209 70Q217 104 180 115L24 102L0 76Z" fill="#080d13" stroke-opacity=".5"/>
+      <path d="M14 49L145 51V64L13 62Z" fill="#b8ad93" stroke-opacity=".5"/>
+      <path d="M20 50v12m10-11v11m10-11v12m10-11v11m10-11v12m10-11v11m10-11v12m10-11v11m10-11v12m10-11v11m10-11v12m10-11v11" stroke="#13121b" stroke-width="2"/>
+      <path d="M27 104L23 156M171 114L179 162M202 83L219 123" stroke="#65513f" stroke-width="4"/>
+      <path d="M8 41L25 -8M145 39L173 2" stroke-opacity=".45"/>
+      <path d="M26 31L116 -27M49 31L130 -24M74 31L148 -20M96 31L162 -16" stroke-opacity=".18" stroke-width=".65"/>
+      <path d="M-35 111L47 118L36 132L-46 124Z" fill="#1b141b" stroke-opacity=".45"/>
+      <path d="M-37 126L-43 158M32 133L33 162" stroke-opacity=".35" stroke-width="3"/>
+    </g>
+    <g fill="none" stroke="#bc9b6e" stroke-width=".8" opacity=".4">
+      <path d="M1121 710V577M1109 579H1133L1121 553ZM1114 710H1128M1570 724V584M1557 586H1583L1570 561ZM1562 724H1578"/>
+    </g>
+  </g>
+  <!-- Exterior and interior exchange slow, counter-flowing musical currents. -->
+  <g class="msc-waves" fill="none" stroke="url(#msc-wave)" stroke-linecap="round">
+    <g class="msc-flow-a" stroke-width="1.1">
+      <use href="#msc-river" transform="translate(0 -25)"/><use href="#msc-river" transform="translate(0 -13)"/>
+      <use href="#msc-river"/><use href="#msc-river" transform="translate(0 13)"/>
+      <use href="#msc-river" transform="translate(0 25)"/>
+    </g>
+    <g class="msc-flow-b" stroke-width=".9" opacity=".65">
+      <use href="#msc-counter" transform="translate(0 -20)"/><use href="#msc-counter" transform="translate(0 -10)"/>
+      <use href="#msc-counter"/><use href="#msc-counter" transform="translate(0 10)"/>
+      <use href="#msc-counter" transform="translate(0 20)"/>
+    </g>
+    <g class="msc-shimmer" fill="#c4bc98" stroke="none" opacity=".6">
+      <circle cx="171" cy="691" r="2.2"/><circle cx="393" cy="707" r="1.5"/>
+      <circle cx="1180" cy="784" r="1.8"/><circle cx="1443" cy="633" r="2"/>
+    </g>
+    <g color="#acbca6" opacity=".55">
+      <use href="#msc-note" transform="translate(223 735) rotate(-12)"/>
+      <use href="#msc-note" transform="translate(489 649) rotate(9) scale(.8)"/>
+    </g>
+    <g color="#d3b78d" opacity=".5">
+      <use href="#msc-note" transform="translate(1139 763) rotate(14) scale(.8)"/>
+      <use href="#msc-note" transform="translate(1433 655) rotate(-13)"/>
+    </g>
+    <!-- Widely spaced wavefronts, not a thick luminous ribbon. -->
+    <path d="M65 660Q116 720 65 780M82 642Q149 720 82 798M1535 600Q1484 660 1535 720M1518 582Q1451 660 1518 738" stroke-width=".7" opacity=".38"/>
+  </g>
+  <ellipse class="msc-central-hush" cx="800" cy="460" rx="535" ry="380" fill="url(#msc-quiet)"/>
+  <rect y="860" width="1600" height="540" fill="url(#msc-bottom)" opacity=".5"/>
+  <rect class="msc-grain" width="1600" height="1400" fill="url(#msc-fine-grain)" pointer-events="none"/>
+</svg>
+
+    </div>
     <div class="realm-layer realm-cosmos active" data-realm-id="cosmos"></div>
     <div class="realm-layer realm-verdant" data-realm-id="verdant"></div>
     <div class="realm-layer realm-ember" data-realm-id="ember"></div>
@@ -2563,6 +2864,7 @@
 
     function renderFilament(svgGroup, x2, y2, idx, theme, filamentStyle) {
       const color = themeColors[theme] || themeColors.nocturnal;
+      if (window.DOSFilaments.render(svgGroup, CENTER_X, CENTER_Y, x2, y2, filamentStyle, color)) return;
 
       if (filamentStyle === 'vine') {
         const mainVine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -2894,7 +3196,7 @@
     }
 
     function applyRealmAesthetic(realmId, sliceName) {
-      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness', 'noir', 'cybernetic'];
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness', 'noir', 'cybernetic', 'music'];
       const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
 
       document.body.setAttribute('data-realm', targetRealm);
@@ -3708,5 +4010,26 @@
 })();
 </script>
 
+<button type="button" id="music-motion-toggle" class="music-motion-toggle"
+  aria-pressed="false" aria-controls="music-landscape">Pause scene</button>
+<script id="music-scene-framing">
+(() => {
+  'use strict';
+  const scene = document.getElementById('music-landscape');
+  if (!scene) return;
+  const narrow = window.matchMedia('(max-width: 680px)');
+  const frame = () => scene.setAttribute('viewBox',
+    narrow.matches ? '0 0 800 1200' : '0 0 1600 1000');
+  frame();
+  narrow.addEventListener('change', frame);
+  const button = document.getElementById('music-motion-toggle');
+  button.addEventListener('click', () => {
+    const paused = document.body.classList.toggle('music-motion-paused');
+    button.setAttribute('aria-pressed', String(paused));
+    button.textContent = paused ? 'Resume scene' : 'Pause scene';
+  });
+})();
+
+</script>
 </body>
 </html>
