@@ -721,6 +721,178 @@
       }
     }
   </style>
+<style id="new-filaments-style">
+/* Music realm and two fine-line filaments. Existing realms stay unchanged. */
+body[data-realm="music"] {
+  --gold-accent: #dcc28d;
+  --hub-glow-primary: rgba(220,194,141,.28);
+  --hub-glow-secondary: rgba(131,177,166,.2);
+}
+.realm-music { background: #080d13; overflow: hidden; }
+.music-scene-svg { display: block; width: 100%; height: 100%; }
+.realm-music:not(.active) .music-scene-svg * { animation-play-state: paused; }
+.music-filament { pointer-events: none; }
+.score-pressure { stroke-dasharray: 16 7 2 7; animation: score-transit 13s linear infinite; }
+.score-note { opacity: .95; }
+.escapement-wheel { animation: escapement-turn 38s linear infinite; transform-origin: 0 0; }
+.escapement-wheel.reverse { animation-direction: reverse; animation-duration: 46s; }
+.escapement-spark { stroke-dasharray: 2 43 1 97; animation: score-transit 18s linear infinite; opacity: .7; }
+.portal-filament-group.is-illuminated .music-filament { filter: drop-shadow(0 0 3px currentColor); }
+.inactive-disk-above .music-filament *, .inactive-disk-below .music-filament *,
+body.music-motion-paused .music-filament *, body.music-motion-paused .music-scene-svg * {
+  animation-play-state: paused !important;
+}
+.music-motion-toggle {
+  display: none; position: fixed; left: 1rem; bottom: 1rem; z-index: 35;
+  padding: .5rem .75rem; border: 1px solid #716449; border-radius: .375rem;
+  background: #0c1017; color: #dfcda7; font-family: 'Cinzel',Georgia,serif;
+  font-size: clamp(.75rem,.7rem + .2vw,.875rem); cursor: pointer;
+}
+body[data-realm="music"] .music-motion-toggle { display: inline-block; }
+.music-motion-toggle:hover { border-color: #dfcda7; background: #1a1b22; }
+.music-motion-toggle:focus-visible { outline: 2px solid #dfcda7; outline-offset: 3px; }
+@keyframes score-transit { to { stroke-dashoffset: -256; } }
+@keyframes escapement-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .music-filament *, .music-scene-svg * { animation: none !important; }
+  .music-motion-toggle { display: none !important; }
+}
+
+.new-filament-specimens {
+  --specimen-title: clamp(.8rem,.76rem + .2vw,.9rem);
+  --specimen-copy: clamp(.875rem,.84rem + .2vw,1rem);
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  min-width: 0;
+}
+.new-filament-choice {
+  display: block; width: 100%; min-width: 0; padding: 1rem;
+  text-align: left; cursor: pointer; color: #e5d2ab;
+  background: #0c0b13; border: 1px solid #60513b; border-radius: .5rem;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+.new-filament-choice:hover { background: #16121c; border-color: #dcc28d; }
+.new-filament-choice[aria-pressed="true"] { border-color: #e5cc91; background: #211a21; }
+.new-filament-choice:focus-visible { outline: 2px solid #e5cc91; outline-offset: 3px; }
+.new-filament-choice svg { display: block; width: 100%; height: 76px; overflow: visible; }
+.new-filament-choice .specimen-name {
+  display: block; font-family: 'Cinzel',Georgia,serif; font-size: var(--specimen-title);
+  font-weight: 600; line-height: 1.5; letter-spacing: .03em;
+}
+.new-filament-choice .specimen-detail {
+  display: block; color: #c9bdaa; margin-top: .5rem;
+  font-family: 'Cormorant Garamond',Georgia,serif;
+  font-size: var(--specimen-copy); font-style: normal; line-height: 1.5;
+}
+.music-realm-hint {
+  margin-top: .5rem; font-family: 'Cormorant Garamond',Georgia,serif;
+  font-size: clamp(1rem,.95rem + .2vw,1.125rem);
+  font-style: normal; line-height: 1.5; color: #c9bdaa;
+}
+.music-realm-hint[hidden] { display: none; }
+@media(max-width:800px) {
+  .new-filament-specimens { grid-template-columns: minmax(0,1fr); }
+}
+
+</style>
+<script id="shared-new-filaments">
+/* Additive, shared SVG renderer. The same code is embedded in root and Studio. */
+(() => {
+  'use strict';
+  const NS = 'http://www.w3.org/2000/svg';
+  const names = {
+    harmonic: 'Aeolian Score',
+    clockwork: 'Clockwork Escapement'
+  };
+  function element(parent, tag, attrs) {
+    const node = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
+    parent.appendChild(node);
+    return node;
+  }
+  function path(parent, d, cls, attrs = {}) {
+    return element(parent, 'path', {d, class: cls, ...attrs});
+  }
+  function render(parent, x1, y1, x2, y2, kind, color) {
+    if (!Object.hasOwn(names, kind)) return false;
+    const length = Math.hypot(x2 - x1, y2 - y1);
+    if (!Number.isFinite(length) || length < 1) return true;
+    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    const group = element(parent, 'g', {
+      class: `music-filament music-filament-${kind}`,
+      transform: `translate(${x1} ${y1}) rotate(${angle})`,
+      fill: 'none', stroke: color || '#dfc38d',
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+      'aria-hidden': 'true', 'pointer-events': 'none',
+      'data-filament-kind': kind
+    });
+    group.style.color = color || '#dfc38d';
+    const n = value => Number(value.toFixed(2));
+    if (kind === 'harmonic') {
+      // Five slender stave-lines blossom from one thread, never a broad ribbon.
+      for (let line = -2; line <= 2; line++) {
+        let d = '';
+        for (let i = 0; i <= 60; i++) {
+          const t = i / 60;
+          const envelope = Math.sin(t * Math.PI);
+          const y = line * 3.2 * envelope + Math.sin(t * Math.PI * 2) * 3 * envelope;
+          d += `${i ? 'L' : 'M'}${n(length * t)} ${n(y)} `;
+        }
+        path(group, d, 'score-stave', {'stroke-width': line === 0 ? 1.05 : .65, opacity: line === 0 ? .8 : .55});
+      }
+      // A restrained traveling pressure-wave runs through the musical notation.
+      let wave = '';
+      for (let i = 0; i <= 110; i++) {
+        const t = i / 110;
+        const y = Math.sin(t * Math.PI * 12) * Math.sin(t * Math.PI) * 5;
+        wave += `${i ? 'L' : 'M'}${n(length * t)} ${n(y)} `;
+      }
+      path(group, wave, 'score-pressure', {'stroke-width': .8, opacity: .8});
+      if (length > 85) {
+        [.29, .47, .68].forEach((t, i) => {
+          const x = length * t;
+          const y = (i % 2 ? 2.2 : -1.7) + Math.sin(t * Math.PI * 2) * 2;
+          const note = element(group, 'g', {transform: `translate(${n(x)} ${n(y)})`, class: 'score-note'});
+          element(note, 'ellipse', {cx: 0, cy: 0, rx: 2.6, ry: 1.7, transform: 'rotate(-24)', fill: 'currentColor', stroke: 'none'});
+          path(note, 'M2 -1V-12Q9 -10 6 -5', '', {'stroke-width': .85});
+          if (i === 1) path(note, 'M-5 3H7', '', {'stroke-width': .6, opacity: .6});
+        });
+        [.37, .76].forEach(t => path(group, `M${n(length*t)} -6V6`, 'score-bar', {'stroke-width': .6, opacity: .5}));
+      }
+    } else {
+      path(group, `M0 0H${n(length)}`, 'escapement-axis', {'stroke-width': .7, opacity: .65});
+      const knots = length > 110 ? [.26, .5, .74] : [.5];
+      const radius = Math.min(8, length / 10);
+      knots.forEach((t, index) => {
+        const pivot = element(group, 'g', {transform: `translate(${n(length*t)} 0)`});
+        const gear = element(pivot, 'g', {class: `escapement-wheel${index % 2 ? ' reverse' : ''}`});
+        // Twelve physically distinct teeth, with a thin pierced center.
+        let teeth = '';
+        for (let j = 0; j < 96; j++) {
+          const a = j * Math.PI / 48;
+          const r = radius * ([.8, .8, 1, 1, 1, 1, .8, .8][j % 8]);
+          teeth += `${j ? 'L' : 'M'}${n(Math.cos(a)*r)} ${n(Math.sin(a)*r)} `;
+        }
+        path(gear, teeth + 'Z', 'escapement-teeth', {'stroke-width': .85, fill: 'currentColor', 'fill-opacity': .055});
+        element(gear, 'circle', {r: n(radius*.53), 'stroke-width': .6, opacity: .65});
+        path(gear, `M-${n(radius*.5)} 0H${n(radius*.5)}M0 -${n(radius*.5)}V${n(radius*.5)}`, '', {'stroke-width': .6, opacity: .7});
+        element(pivot, 'circle', {r: 1.4, fill: 'currentColor', stroke: 'none'});
+        path(pivot, `M-${n(radius*.35)} -${n(radius+3)}L0 -${n(radius+1)}L${n(radius*.35)} -${n(radius+3)}`, '', {'stroke-width': .7, opacity: .65});
+      });
+      const spindle = length * .5;
+      path(group, `M${n(spindle-10)} 0Q${n(spindle)} 22 ${n(spindle+10)} 0`, 'escapement-pendulum', {'stroke-width': .65, opacity: .4});
+      path(group, `M0 0H${n(length)}`, 'escapement-spark', {'stroke-width': 1.1});
+      [.13,.38,.62,.87].forEach(t => path(group, `M${n(length*t-2)} -2L${n(length*t)} 0L${n(length*t-2)} 2`, '', {'stroke-width': .7, opacity: .55}));
+    }
+    return true;
+  }
+  window.DOSFilaments = Object.freeze({render, names});
+})();
+
+</script>
 </head>
 <body>
 
@@ -812,7 +984,8 @@
         <div class="form-group">
           <label>Disk Realm Background Aesthetic</label>
           <select id="sel-realm-bg">
-            <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
+            <option value="music">Music: Outside / Inside Resonance</option>
+            <option value="cosmos" selected>Cosmos — Obsidian & Violet Nebula</option>
             <option value="wilderness">Wilderness — Nocturnal Forest Canopy & Moon</option>
             <option value="nyc">NYC — New York City Nocturne Skyline</option>
             <option value="noir">Film Noir — Darkroom & Photo Studio Gallery</option>
@@ -825,6 +998,11 @@
         </div>
       </div>
 
+      <p id="music-realm-hint" class="music-realm-hint" hidden>
+        Music is a silent, animated SVG scene: moonlit outdoors on the left,
+        a vaulted music room on the right, and sound waves between them.
+        Publish to apply it to the selected disk.
+      </p>
       <!-- 2. Glow Theme & Filament Swatches -->
       <div class="form-grid">
         <div class="form-group full-width">
@@ -841,7 +1019,9 @@
         <div class="form-group">
           <label>Connective Filament Style</label>
           <select id="sel-filament">
-            <option value="standard">Standard Glowing Gradient</option>
+            <option value="harmonic">Aeolian Score: Musical Staves &amp; Pressure Wave</option>
+            <option value="clockwork">Clockwork Escapement: Toothed Wheels &amp; Light Thread</option>
+            <option value="standard" selected>Standard Glowing Gradient</option>
             <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
             <option value="alchemical">Alchemical Caduceus & Planetary Helix</option>
             <option value="mycelium">Bioluminescent Mycelial Hyphae & Spores</option>
@@ -864,6 +1044,19 @@
         </div>
       </div>
 
+      
+      <div class="new-filament-specimens" aria-label="Two new filament styles">
+        <button type="button" class="new-filament-choice" data-new-filament="harmonic" aria-pressed="false">
+          <span class="specimen-name">Aeolian Score</span>
+          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
+          <span class="specimen-detail">Five fine staves, suspended notes and a traveling pressure-wave.</span>
+        </button>
+        <button type="button" class="new-filament-choice" data-new-filament="clockwork" aria-pressed="false">
+          <span class="specimen-name">Clockwork Escapement</span>
+          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
+          <span class="specimen-detail">Pierced gear wheels turn along a slender mechanical light-thread.</span>
+        </button>
+      </div>
       <!-- 3. Interactive 3D Disk Radar Placement & Dimensional Shift Controls -->
       <div class="radar-layout">
         <div class="radar-column">
@@ -1196,10 +1389,16 @@
       }
     }
 
+    function studioSliceName(branch) {
+      return branch.portal_type === 'introduction' ||
+        ['introduction-janice', 'introduction-paul'].includes(branch.id)
+        ? 'Janice & Paul' : (branch.slice || 'Prime Cosmos');
+    }
+
     function getSliceMap() {
       const map = new Map();
       branches.forEach(b => {
-        const s = b.slice || 'Prime Cosmos';
+        const s = studioSliceName(b);
         const bg = b.slice_bg || 'cosmos';
         if (!map.has(s)) map.set(s, bg);
       });
@@ -1208,7 +1407,7 @@
     }
 
     function loadDiskBridgeSettings(sliceName) {
-      const diskPortals = branches.filter(b => (b.slice || 'Prime Cosmos') === sliceName);
+      const diskPortals = branches.filter(b => studioSliceName(b) === sliceName);
       const foundAngle = diskPortals.find(b => b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '')?.bridge_angle;
       const foundDist = diskPortals.find(b => b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '')?.bridge_distance;
 
@@ -1267,7 +1466,7 @@
       sidebarList.innerHTML = '';
       const groups = new Map();
       branches.forEach((b, idx) => {
-        const s = b.slice || 'Prime Cosmos';
+        const s = studioSliceName(b);
         if (!groups.has(s)) groups.set(s, []);
         groups.get(s).push({ branch: b, idx });
       });
@@ -1320,7 +1519,7 @@
 
     function suggestOpenAngle(sliceName) {
       const existingAngles = branches
-        .filter((b, idx) => idx !== editingIndex && (b.slice || 'Prime Cosmos') === sliceName)
+        .filter((b, idx) => idx !== editingIndex && studioSliceName(b) === sliceName)
         .map(b => b.angle ?? 0);
       if (existingAngles.length === 0) return -25;
       const candidates = [-25, 25, 155, -155, -65, 65, 115, -115, 0, 180, -90, 90, -45, 45, 135, -135];
@@ -1335,7 +1534,7 @@
     function suggestOpenBridgeCorner(sliceName) {
       const preferredCorners = [-32, -148, 32, 148, -90];
       const usedAngles = branches
-        .filter((b, idx) => (b.slice || 'Prime Cosmos') === sliceName && idx !== editingIndex)
+        .filter((b, idx) => studioSliceName(b) === sliceName && idx !== editingIndex)
         .map(b => b.angle ?? 0);
       usedAngles.push(parseFloat(inpAngle.value) || 0);
 
@@ -1403,7 +1602,7 @@
       inpSubtitle.value = b.subtitle || 'Gallery & Archive';
       inpPassword.value = b.password || '';
 
-      const sliceName = b.slice || 'Prime Cosmos';
+      const sliceName = studioSliceName(b);
       populateSliceDropdown(sliceName);
       selRealmBg.value = b.slice_bg || 'cosmos';
       setThemePill(b.theme || 'nocturnal');
@@ -1461,7 +1660,7 @@
       // Existing portals on the same disk
       branches.forEach((b, idx) => {
         if (idx === editingIndex) return;
-        if ((b.slice || 'Prime Cosmos') !== sliceName) return;
+        if (studioSliceName(b) !== sliceName) return;
         const rad = ((b.angle ?? 0) * Math.PI) / 180;
         const dist = b.distance ?? 340;
         const px = 500 + Math.cos(rad) * dist;
@@ -1536,7 +1735,12 @@
       activeLine.setAttribute('stroke', activeColor);
       activeLine.setAttribute('stroke-width', radarDragTarget === 'portal' ? '8' : '5');
       activeLine.setAttribute('stroke-dasharray', '14 8');
-      radarSvg.appendChild(activeLine);
+      const newActiveFilament = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      if (window.DOSFilaments.render(newActiveFilament, 500, 500, ax, ay, selFilament.value, activeColor)) {
+        radarSvg.appendChild(newActiveFilament);
+      } else {
+        radarSvg.appendChild(activeLine);
+      }
 
       const activeNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       activeNode.setAttribute('cx', ax);
@@ -1546,6 +1750,7 @@
       activeNode.setAttribute('stroke', radarDragTarget === 'portal' ? '#ffffff' : 'rgba(255,255,255,0.6)');
       activeNode.setAttribute('stroke-width', '6');
       radarSvg.appendChild(activeNode);
+      window.updateNewFilamentSpecimens?.(selectedTheme);
     }
 
     inpAngle.addEventListener('input', () => { setRadarDragMode('portal'); renderRadar(); });
@@ -1884,7 +2089,7 @@
 
       // Sync Disk-level settings (slice_bg, bridge_angle, bridge_distance) across all portals on this disk
       updatedBranches.forEach(b => {
-        if ((b.slice || 'Prime Cosmos') === sliceName) {
+        if (studioSliceName(b) === sliceName) {
           b.slice_bg = sliceBg;
           b.bridge_angle = bridgeAngleVal;
           b.bridge_distance = bridgeDistVal;
@@ -2220,5 +2425,40 @@
 })();
 </script>
 
+<script id="new-filament-specimen-controls">
+(() => {
+  'use strict';
+  const selector = document.getElementById('sel-filament');
+  const realm = document.getElementById('sel-realm-bg');
+  const buttons = [...document.querySelectorAll('[data-new-filament]')];
+  if (!selector || !window.DOSFilaments) return;
+  window.updateNewFilamentSpecimens = function(theme) {
+    const color = THEME_COLORS[theme] || '#dfc38d';
+    buttons.forEach(button => {
+      const kind = button.dataset.newFilament;
+      button.setAttribute('aria-pressed', String(selector.value === kind));
+      const svg = button.querySelector('svg');
+      svg.replaceChildren();
+      window.DOSFilaments.render(svg, 10, 37, 350, 37, kind, color);
+    });
+  };
+  buttons.forEach(button => button.addEventListener('click', () => {
+    selector.value = button.dataset.newFilament;
+    selector.dispatchEvent(new Event('change', {bubbles: true}));
+  }));
+  selector.addEventListener('change', () => renderRadar());
+  const hint = document.getElementById('music-realm-hint');
+  const updateHint = () => { hint.hidden = realm.value !== 'music'; };
+  // Programmatic form loads update the note via the existing radar redraw.
+  const priorUpdate = window.updateNewFilamentSpecimens;
+  window.updateNewFilamentSpecimens = function(theme) {
+    priorUpdate(theme);
+    updateHint();
+  };
+  realm.addEventListener('change', updateHint);
+  window.updateNewFilamentSpecimens(selectedTheme);
+})();
+
+</script>
 </body>
 </html>
