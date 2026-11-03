@@ -759,6 +759,13 @@ body.music-motion-paused .music-filament *, body.music-motion-paused .music-scen
 body[data-realm="music"] .music-motion-toggle { display: inline-block; }
 .music-motion-toggle:hover { border-color: #dfcda7; background: #1a1b22; }
 .music-motion-toggle:focus-visible { outline: 2px solid #dfcda7; outline-offset: 3px; }
+.pulse-beam { stroke-linecap: round; animation: pulse-travel 2.6s cubic-bezier(.45,0,.55,1) infinite; }
+.pulse-beam-glow { filter: blur(2px); }
+.pulse-halo { animation: pulse-breathe 2.6s ease-in-out infinite; }
+.pulse-relay { animation: pulse-relay 2.6s ease-in-out infinite; }
+@keyframes pulse-travel { from { stroke-dashoffset: 42; } to { stroke-dashoffset: var(--pulse-travel, -400); } }
+@keyframes pulse-breathe { 0%, 100% { opacity: .08; } 50% { opacity: .22; } }
+@keyframes pulse-relay { 0%, 100% { opacity: .35; r: 3.2; } 50% { opacity: 1; r: 4.2; } }
 @keyframes score-transit { to { stroke-dashoffset: -256; } }
 @keyframes escapement-turn { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
@@ -771,7 +778,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
   --specimen-copy: clamp(.875rem,.84rem + .2vw,1rem);
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
+  grid-template-columns: repeat(3, minmax(0,1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
   min-width: 0;
@@ -801,6 +808,9 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
   font-style: normal; line-height: 1.5; color: #c9bdaa;
 }
 .music-realm-hint[hidden] { display: none; }
+@media(max-width:1100px) {
+  .new-filament-specimens { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
 @media(max-width:800px) {
   .new-filament-specimens { grid-template-columns: minmax(0,1fr); }
 }
@@ -813,7 +823,8 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
   const NS = 'http://www.w3.org/2000/svg';
   const names = {
     harmonic: 'Aeolian Score',
-    clockwork: 'Clockwork Escapement'
+    clockwork: 'Clockwork Escapement',
+    pulse: 'Pulsar Beam'
   };
   function element(parent, tag, attrs) {
     const node = document.createElementNS(NS, tag);
@@ -870,6 +881,22 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         });
         [.37, .76].forEach(t => path(group, `M${n(length*t)} -6V6`, 'score-bar', {'stroke-width': .6, opacity: .5}));
       }
+    } else if (kind === 'pulse') {
+      // A slender thread carrying a pulse of light; the beam travels from the hub outward.
+      path(group, `M0 0H${n(length)}`, 'pulse-halo', {'stroke-width': 7, opacity: .12});
+      path(group, `M0 0H${n(length)}`, 'pulse-core', {'stroke-width': 1.2, opacity: .85});
+      const beam = path(group, `M0 0H${n(length)}`, 'pulse-beam', {'stroke-width': 2.8});
+      beam.style.strokeDasharray = `${n(Math.min(42, length * .3))} ${n(length + 42)}`;
+      beam.style.setProperty('--pulse-travel', `${n(-(length + 42))}`);
+      const glow = path(group, `M0 0H${n(length)}`, 'pulse-beam pulse-beam-glow', {'stroke-width': 9, opacity: .55});
+      glow.style.strokeDasharray = beam.style.strokeDasharray;
+      glow.style.setProperty('--pulse-travel', `${n(-(length + 42))}`);
+      // Faint relay rings mark the thread; each brightens as the pulse passes.
+      const stops = length > 120 ? [.25, .5, .75] : [.5];
+      stops.forEach((t, i) => {
+        const ring = element(group, 'circle', {cx: n(length * t), cy: 0, r: 3.2, class: 'pulse-relay', 'stroke-width': .8, opacity: .6});
+        ring.style.animationDelay = `${n(-i * .55)}s`;
+      });
     } else {
       path(group, `M0 0H${n(length)}`, 'escapement-axis', {'stroke-width': .7, opacity: .65});
       const knots = length > 110 ? [.26, .5, .74] : [.5];
@@ -1038,6 +1065,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           <select id="sel-filament">
             <option value="harmonic">Aeolian Score: Musical Staves &amp; Pressure Wave</option>
             <option value="clockwork">Clockwork Escapement: Toothed Wheels &amp; Light Thread</option>
+            <option value="pulse">Pulsar Beam: Pulsing Light Traveling the Thread</option>
             <option value="standard" selected>Standard Glowing Gradient</option>
             <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
             <option value="alchemical">Alchemical Caduceus & Planetary Helix</option>
@@ -1062,7 +1090,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       </div>
 
       
-      <div class="new-filament-specimens" aria-label="Two new filament styles">
+      <div class="new-filament-specimens" aria-label="New filament styles">
         <button type="button" class="new-filament-choice" data-new-filament="harmonic" aria-pressed="false">
           <span class="specimen-name">Aeolian Score</span>
           <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
@@ -1072,6 +1100,11 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           <span class="specimen-name">Clockwork Escapement</span>
           <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
           <span class="specimen-detail">Pierced gear wheels turn along a slender mechanical light-thread.</span>
+        </button>
+        <button type="button" class="new-filament-choice" data-new-filament="pulse" aria-pressed="false">
+          <span class="specimen-name">Pulsar Beam</span>
+          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
+          <span class="specimen-detail">A pulse of light races from the hub along a slender thread, waking relay rings as it passes.</span>
         </button>
       </div>
       <!-- 3. Interactive 3D Disk Radar Placement & Dimensional Shift Controls -->
