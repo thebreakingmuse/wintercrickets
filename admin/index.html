@@ -810,6 +810,37 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
   font-style: normal; line-height: 1.5; color: #c9bdaa;
 }
 .music-realm-hint[hidden] { display: none; }
+/* Classic filament preview card: same drawing styles as the live landing scene. */
+.classic-filament-choice { cursor: default; }
+.classic-filament-choice:hover { background: #211a21; border-color: #e5cc91; }
+.classic-filament-choice[hidden] { display: none; }
+.classic-filament-choice .ligament-path { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 8 6; animation: studioPulseFlow 14s linear infinite; filter: drop-shadow(0 0 6px currentColor); opacity: .82; }
+.classic-filament-choice .ligament-vine-main { fill: none; stroke-width: 2.8; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: .9; }
+.classic-filament-choice .ligament-vine-tendril { fill: none; stroke-width: 1.4; stroke-dasharray: 4 3; stroke-linecap: round; animation: studioPulseFlow 18s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .7; }
+.classic-filament-choice .ligament-suspension-cable { fill: none; stroke-width: 2.4; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: .92; }
+.classic-filament-choice .ligament-suspension-deck { fill: none; stroke-width: 1.8; stroke-dasharray: 7 5; stroke-linecap: round; animation: studioPulseFlow 12s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .85; }
+.classic-filament-choice .ligament-suspension-struts { fill: none; stroke-width: 1; stroke-linecap: round; opacity: .55; }
+.classic-filament-choice .ligament-grid-rail { fill: none; stroke-width: 2.2; stroke-linecap: square; stroke-linejoin: bevel; filter: drop-shadow(0 0 6px currentColor); opacity: .85; }
+.classic-filament-choice .ligament-grid-subrail { fill: none; stroke-width: 1.1; stroke-linecap: square; stroke-linejoin: bevel; opacity: .45; }
+.classic-filament-choice .ligament-grid-surge { fill: none; stroke: #ffffff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: bevel; stroke-dasharray: 18 150; animation: studioElectricSurge 3.2s linear infinite; filter: drop-shadow(0 0 8px currentColor); opacity: .95; }
+.classic-filament-choice .ligament-grid-station { fill: #050811; stroke-width: 1.8; filter: drop-shadow(0 0 5px currentColor); }
+.classic-filament-choice .ligament-gothic-spine { fill: none; stroke-width: 2.5; stroke-linecap: butt; stroke-linejoin: miter; filter: drop-shadow(0 0 7px currentColor); opacity: .92; }
+.classic-filament-choice .ligament-gothic-tracery { fill: none; stroke-width: 1.25; stroke-dasharray: 10 4 2 4; stroke-linecap: round; animation: studioPulseFlow 16s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .78; }
+.classic-filament-choice .ligament-gothic-thorns { fill: none; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; filter: drop-shadow(0 0 4px currentColor); opacity: .88; }
+.classic-filament-choice .ligament-gothic-finial { fill: #050508; stroke-width: 1.6; filter: drop-shadow(0 0 6px currentColor); }
+.classic-filament-choice .ligament-alchemical-staff { fill: none; stroke-width: 1.5; stroke-dasharray: 4 6; opacity: .6; }
+.classic-filament-choice .ligament-alchemical-serpent { fill: none; stroke-width: 2.3; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: .92; }
+.classic-filament-choice .ligament-alchemical-counter { fill: none; stroke-width: 1.8; stroke-dasharray: 12 5; stroke-linecap: round; animation: studioPulseFlow 14s linear infinite reverse; filter: drop-shadow(0 0 6px currentColor); opacity: .82; }
+.classic-filament-choice .ligament-alchemical-node { fill: #050508; stroke-width: 1.8; filter: drop-shadow(0 0 8px currentColor); }
+.classic-filament-choice .ligament-mycelium-primary { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 7px currentColor); opacity: .9; }
+.classic-filament-choice .ligament-mycelium-hyphae { fill: none; stroke-width: 1.25; stroke-dasharray: 8 4 2 4; stroke-linecap: round; animation: studioPulseFlow 20s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .78; }
+.classic-filament-choice .ligament-mycelium-spore { fill: #ffffff; stroke-width: 1.5; filter: drop-shadow(0 0 8px currentColor); animation: studioBeaconPulse 2.4s ease-in-out infinite alternate; }
+@keyframes studioPulseFlow { to { stroke-dashoffset: -140; } }
+@keyframes studioElectricSurge { to { stroke-dashoffset: -336; } }
+@keyframes studioBeaconPulse { 0% { opacity: .35; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .classic-filament-choice svg * { animation: none !important; }
+}
 
 </style>
 <script id="shared-new-filaments">
@@ -1102,6 +1133,11 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
           <span class="specimen-detail">A pulse of light races from the hub along a slender thread, waking relay rings as it passes.</span>
         </button>
+        <div class="new-filament-choice classic-filament-choice" data-classic-filament aria-live="polite" hidden>
+          <span class="specimen-name"></span>
+          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
+          <span class="specimen-detail"></span>
+        </div>
       </div>
       <!-- 3. Interactive 3D Disk Radar Placement & Dimensional Shift Controls -->
       <div class="radar-layout">
@@ -2530,6 +2566,166 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
   const buttons = [...document.querySelectorAll('[data-new-filament]')];
   const specimens = document.querySelector('.new-filament-specimens');
   if (!selector || !window.DOSFilaments) return;
+  const classicCard = document.querySelector('[data-classic-filament]');
+  const CLASSIC_DETAILS = {
+    standard: ['Standard Glowing Gradient', 'A softly curved gradient thread with a slow dashed glow.'],
+    gothic: ['Gothic Wrought-Iron', 'A lancet spine with dashed briar tracery, thorns and diamond finials.'],
+    alchemical: ['Alchemical Caduceus', 'Twin serpents coil around a dotted staff through three planetary nodes.'],
+    mycelium: ['Mycelial Hyphae', 'A wandering primary strand with branching hyphae and pulsing spores.'],
+    vine: ['Twisting Organic Vine', 'An S-curved vine with a fine dashed tendril winding against it.'],
+    tendril: ['Dual-Strand Braided Tendril', 'Two curved strands bowing in opposite directions.'],
+    suspension: ['Brooklyn Bridge Span', 'A suspension cable, dashed deck and vertical struts between them.'],
+    grid: ['NYC Electric Grid', 'Stepped subway rails with stations and a white surge of current.']
+  };
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const GRAD_STOPS = {
+    nocturnal: [['0%', '#b366ff', .9], ['100%', '#6a00f4', .2]],
+    cyber: [['0%', '#00f0ff', .9], ['100%', '#0066ff', .2]],
+    celestial: [['0%', '#ffd166', .95], ['100%', '#d4af37', .2]],
+    oceanic: [['0%', '#00f5d4', .9], ['100%', '#00bbf9', .2]],
+    rose: [['0%', '#ff4d79', .95], ['50%', '#ff85a2', .6], ['100%', '#e0115f', .2]]
+  };
+  function el(tag, attrs, color) {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (color) node.style.color = color;
+    return node;
+  }
+  function curved(x1, y1, x2, y2, index, bend = 0.18) {
+    const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1;
+    const dir = index % 2 === 0 ? 1 : -1;
+    return `M ${x1} ${y1} Q ${midX - dy * bend * dir} ${midY + dx * bend * dir} ${x2} ${y2}`;
+  }
+  function wave(x1, y1, x2, y2, phase = 1) {
+    const dx = x2 - x1, dy = y2 - y1;
+    return `M ${x1} ${y1} C ${x1 + dx * .33 - dy * .14 * phase} ${y1 + dy * .33 + dx * .14 * phase}, ${x1 + dx * .66 + dy * .14 * phase} ${y1 + dy * .66 - dx * .14 * phase}, ${x2} ${y2}`;
+  }
+  // Mirrors renderFilament() in the main site's index.html for the classic styles.
+  function drawClassic(svg, style, theme, color) {
+    const X = 10, Y = 37, x2 = 350, y2 = 37, idx = 0;
+    const gradId = `studio-grad-${theme}`;
+    const defs = el('defs', {});
+    const grad = el('linearGradient', {id: gradId, gradientUnits: 'userSpaceOnUse', x1: X, y1: 0, x2: x2, y2: 74});
+    (GRAD_STOPS[theme] || GRAD_STOPS.nocturnal).forEach(([o, c, a]) => grad.appendChild(el('stop', {offset: o, 'stop-color': c, 'stop-opacity': a})));
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+    const g = `url(#${gradId})`;
+    const add = (tag, attrs, withColor = true) => svg.appendChild(el(tag, attrs, withColor ? color : null));
+    const dx = x2 - X, dy = y2 - Y, len = Math.hypot(dx, dy) || 1;
+    const dir = idx % 2 === 0 ? 1 : -1;
+    const nx = (-dy / len) * dir, ny = (dx / len) * dir;
+    const f = v => v.toFixed(1);
+
+    if (style === 'vine') {
+      add('path', {d: wave(X, Y, x2, y2, 1), class: 'ligament-vine-main', stroke: g});
+      add('path', {d: wave(X, Y, x2, y2, -0.85), class: 'ligament-vine-tendril', stroke: color});
+    } else if (style === 'tendril') {
+      add('path', {d: curved(X, Y, x2, y2, idx, 0.22), class: 'ligament-path', stroke: g});
+      add('path', {d: curved(X, Y, x2, y2, idx + 1, 0.16), class: 'ligament-vine-tendril', stroke: color});
+    } else if (style === 'suspension') {
+      const ctrlX = (X + x2) / 2 - dy * .24 * dir, ctrlY = (Y + y2) / 2 + dx * .24 * dir;
+      let struts = '';
+      [.22, .32, .42, .52, .62, .72, .82].forEach(t => {
+        const inv = 1 - t;
+        const cx = inv * inv * X + 2 * inv * t * ctrlX + t * t * x2;
+        const cy = inv * inv * Y + 2 * inv * t * ctrlY + t * t * y2;
+        struts += `M ${f(inv * X + t * x2)} ${f(inv * Y + t * y2)} L ${f(cx)} ${f(cy)} `;
+      });
+      add('path', {d: struts.trim(), class: 'ligament-suspension-struts', stroke: color}, false);
+      add('path', {d: `M ${X} ${Y} L ${x2} ${y2}`, class: 'ligament-suspension-deck', stroke: g});
+      add('path', {d: `M ${X} ${Y} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`, class: 'ligament-suspension-cable', stroke: color});
+    } else if (style === 'grid') {
+      const o = 26, so = o - 9;
+      const p1x = X + dx * .34 + nx * o, p1y = Y + dy * .34 + ny * o;
+      const p2x = X + dx * .68 + nx * o, p2y = Y + dy * .68 + ny * o;
+      const mainD = `M ${X} ${Y} L ${f(p1x)} ${f(p1y)} L ${f(p2x)} ${f(p2y)} L ${x2} ${y2}`;
+      const subD = `M ${X} ${Y} L ${f(X + dx * .34 + nx * so)} ${f(Y + dy * .34 + ny * so)} L ${f(X + dx * .68 + nx * so)} ${f(Y + dy * .68 + ny * so)} L ${x2} ${y2}`;
+      add('path', {d: subD, class: 'ligament-grid-subrail', stroke: color}, false);
+      add('path', {d: mainD, class: 'ligament-grid-rail', stroke: g});
+      add('path', {d: mainD, class: 'ligament-grid-surge'});
+      [[p1x, p1y], [p2x, p2y]].forEach(([jx, jy]) => add('circle', {cx: f(jx), cy: f(jy), r: '3.4', class: 'ligament-grid-station', stroke: color}));
+    } else if (style === 'gothic') {
+      const pk = [X + dx * .5 + nx * 28, Y + dy * .5 + ny * 28];
+      const lancet = `M ${X} ${Y} Q ${f(X + dx * .22 + nx * 22)} ${f(Y + dy * .22 + ny * 22)} ${f(pk[0])} ${f(pk[1])} Q ${f(X + dx * .78 + nx * 22)} ${f(Y + dy * .78 + ny * 22)} ${x2} ${y2}`;
+      const tracery = `M ${X} ${Y} Q ${f(X + dx * .25 - nx * 12)} ${f(Y + dy * .25 - ny * 12)} ${f(X + dx * .5 - nx * 16)} ${f(Y + dy * .5 - ny * 16)} Q ${f(X + dx * .75 - nx * 12)} ${f(Y + dy * .75 - ny * 12)} ${x2} ${y2}`;
+      let thorns = '';
+      [.22, .36, .5, .64, .78].forEach((t, i) => {
+        const bx = X + dx * t, by = Y + dy * t;
+        const sl = t === .5 ? 24 : (i % 2 === 0 ? 15 : 19);
+        thorns += `M ${f(bx - nx * sl * .75)} ${f(by - ny * sl * .75)} L ${f(bx + nx * sl)} ${f(by + ny * sl)} `;
+      });
+      add('path', {d: thorns.trim(), class: 'ligament-gothic-thorns', stroke: color});
+      add('path', {d: tracery, class: 'ligament-gothic-tracery', stroke: color});
+      add('path', {d: lancet, class: 'ligament-gothic-spine', stroke: g});
+      [.36, .5, .64].forEach(t => {
+        const fx = X + dx * t, fy = Y + dy * t, sz = t === .5 ? 5.5 : 4;
+        const pts = [[fx + nx * sz, fy + ny * sz], [fx + dx / len * sz, fy + dy / len * sz], [fx - nx * sz, fy - ny * sz], [fx - dx / len * sz, fy - dy / len * sz]];
+        add('polygon', {points: pts.map(([a, b]) => `${f(a)},${f(b)}`).join(' '), class: 'ligament-gothic-finial', stroke: color});
+      });
+    } else if (style === 'alchemical') {
+      const anx = -dy / len, any = dx / len;
+      let a = `M ${X} ${Y}`, b = `M ${X} ${Y}`;
+      for (let i = 1; i <= 48; i++) {
+        const t = i / 48, w = Math.sin(t * Math.PI * 3) * 18 * Math.sin(t * Math.PI);
+        a += ` L ${f(X + dx * t + anx * w)} ${f(Y + dy * t + any * w)}`;
+        b += ` L ${f(X + dx * t - anx * w)} ${f(Y + dy * t - any * w)}`;
+      }
+      add('path', {d: `M ${X} ${Y} L ${x2} ${y2}`, class: 'ligament-alchemical-staff', stroke: color}, false);
+      add('path', {d: b, class: 'ligament-alchemical-counter', stroke: color});
+      add('path', {d: a, class: 'ligament-alchemical-serpent', stroke: g});
+      [1 / 3, .5, 2 / 3].forEach((t, i) => {
+        const cx = f(X + dx * t), cy = f(Y + dy * t);
+        add('circle', {cx, cy, r: i === 1 ? '7.5' : '4.5', class: 'ligament-alchemical-node', stroke: color});
+        if (i === 1) add('circle', {cx, cy, r: '2.2', fill: '#ffffff'}, false);
+      });
+    } else if (style === 'mycelium') {
+      const P = (t, o) => ({x: X + dx * t + nx * o, y: Y + dy * t + ny * o});
+      const p1 = P(.24, 16), p2 = P(.5, -12), p3 = P(.76, 18), b1 = P(.36, -24), b2 = P(.66, 26);
+      const s1 = {x: p1.x + nx * 16 + dx / len * 14, y: p1.y + ny * 16 + dy / len * 14};
+      const s2 = {x: b1.x - nx * 12 + dx / len * 16, y: b1.y - ny * 12 + dy / len * 16};
+      const s3 = {x: b2.x + nx * 14 + dx / len * 12, y: b2.y + ny * 14 + dy / len * 12};
+      const web = [
+        `M ${f(p1.x)} ${f(p1.y)} Q ${f(b1.x)} ${f(b1.y)} ${f(p3.x)} ${f(p3.y)}`,
+        `M ${f(p2.x)} ${f(p2.y)} Q ${f(b2.x)} ${f(b2.y)} ${x2} ${y2}`,
+        `M ${f(p1.x)} ${f(p1.y)} L ${f(s1.x)} ${f(s1.y)}`,
+        `M ${f(b1.x)} ${f(b1.y)} L ${f(s2.x)} ${f(s2.y)}`,
+        `M ${f(b2.x)} ${f(b2.y)} L ${f(s3.x)} ${f(s3.y)}`
+      ].join(' ');
+      add('path', {d: web, class: 'ligament-mycelium-hyphae', stroke: color});
+      add('path', {d: `M ${X} ${Y} Q ${f(p1.x)} ${f(p1.y)} ${f(p2.x)} ${f(p2.y)} T ${f(p3.x)} ${f(p3.y)} L ${x2} ${y2}`, class: 'ligament-mycelium-primary', stroke: g});
+      [s1, s2, s3, p2].forEach((pt, i) => {
+        const spore = el('circle', {cx: f(pt.x), cy: f(pt.y), r: i === 3 ? '3.4' : '2.6', class: 'ligament-mycelium-spore', stroke: color}, color);
+        spore.style.animationDelay = `${(i * .45).toFixed(2)}s`;
+        svg.appendChild(spore);
+      });
+    } else {
+      add('path', {d: curved(X, Y, x2, y2, idx), class: 'ligament-path', stroke: g});
+    }
+  }
+  function renderClassicSpecimen(theme, color) {
+    if (!classicCard) return false;
+    const style = selector.value;
+    const info = CLASSIC_DETAILS[style];
+    const svg = classicCard.querySelector('svg');
+    svg.replaceChildren();
+    classicCard.hidden = !info;
+    if (!info) return false;
+    classicCard.querySelector('.specimen-name').textContent = info[0];
+    classicCard.querySelector('.specimen-detail').textContent = info[1];
+    const layer = document.createElementNS(SVG_NS, 'g');
+    svg.appendChild(layer);
+    drawClassic(layer, style, THEME_COLORS[theme] ? theme : 'nocturnal', color);
+    // Center the drawing vertically inside the card and shrink tall styles to fit.
+    try {
+      const box = layer.getBBox();
+      if (box.height > 0) {
+        const k = Math.min(1, 64 / box.height);
+        const cy = box.y + box.height / 2;
+        layer.setAttribute('transform', `translate(180 37) scale(${k.toFixed(3)}) translate(-180 ${(-cy).toFixed(1)})`);
+      }
+    } catch (e) {}
+    return true;
+  }
   window.updateNewFilamentSpecimens = function(theme) {
     const color = THEME_COLORS[theme] || '#dfc38d';
     buttons.forEach(button => {
@@ -2543,7 +2739,8 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         window.DOSFilaments.render(svg, 10, 37, 350, 37, kind, color);
       }
     });
-    if (specimens) specimens.hidden = !buttons.some(button => !button.hidden);
+    const showClassic = renderClassicSpecimen(theme, color);
+    if (specimens) specimens.hidden = !showClassic && !buttons.some(button => !button.hidden);
   };
   buttons.forEach(button => button.addEventListener('click', () => {
     selector.value = button.dataset.newFilament;
