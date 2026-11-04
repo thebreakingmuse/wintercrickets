@@ -19,7 +19,7 @@
     "bridge_angle": 91,
     "bridge_distance": 393,
     "archetypes": {
-      "zodiacal": "",
+      "zodiacal": "SUN: Taurus MOON: Cancer RISING: Scorpio",
       "mythological": "",
       "animalia": ""
     },
