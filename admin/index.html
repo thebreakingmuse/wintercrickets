@@ -6,7 +6,7 @@
   <title>Portal Studio — depthofsparkle.life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-deep: #050509;
@@ -23,11 +23,7 @@
       --border-subtle: rgba(212, 175, 55, 0.28);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: radial-gradient(circle at 50% 0%, #151026 0%, #050509 70%);
@@ -37,924 +33,189 @@
       padding-bottom: 60px;
     }
 
-    /* Top Studio Bar */
     .studio-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      padding: 18px 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 14px; padding: 18px 28px;
       background: rgba(8, 6, 15, 0.95);
       border-bottom: 1px solid var(--border-subtle);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
     }
-
-    .brand-group h1 {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.25rem;
-      letter-spacing: 0.16em;
-      color: var(--gold);
-      text-shadow: 0 0 15px var(--gold-glow);
-    }
-
-    .brand-group p {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .user-badge {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      color: var(--emerald);
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(0, 245, 212, 0.35);
-      background: rgba(0, 245, 212, 0.08);
-    }
+    .brand-group h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.25rem; letter-spacing: 0.16em; color: var(--gold); text-shadow: 0 0 15px var(--gold-glow); }
+    .brand-group p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.95rem; color: var(--text-muted); }
+    .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .user-badge { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--emerald); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(0, 245, 212, 0.35); background: rgba(0, 245, 212, 0.08); }
 
     .btn {
-      font-family: 'Cinzel', serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(212, 175, 55, 0.1);
-      color: var(--text-main);
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-subtle);
+      background: rgba(212, 175, 55, 0.1); color: var(--text-main);
+      cursor: pointer; transition: all 0.25s ease; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     }
+    .btn:hover { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); background: rgba(212, 175, 55, 0.22); }
+    .btn-primary { background: linear-gradient(135deg, #d4af37 0%, #b5891c 100%); color: #050509; font-weight: 700; border-color: #ffe8a3; box-shadow: 0 0 22px var(--gold-glow); }
+    .btn-primary:hover { background: linear-gradient(135deg, #ffe074 0%, #d4af37 100%); box-shadow: 0 0 32px rgba(212, 175, 55, 0.65); }
+    .btn-danger { border-color: rgba(255, 77, 121, 0.45); color: #ff85a2; background: rgba(255, 77, 121, 0.1); }
+    .btn-danger:hover { border-color: var(--rose); background: rgba(255, 77, 121, 0.25); box-shadow: 0 0 16px rgba(255, 77, 121, 0.4); }
 
-    .btn:hover {
-      border-color: var(--gold);
-      box-shadow: 0 0 16px var(--gold-glow);
-      background: rgba(212, 175, 55, 0.22);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #d4af37 0%, #b5891c 100%);
-      color: #050509;
-      font-weight: 700;
-      border-color: #ffe8a3;
-      box-shadow: 0 0 22px var(--gold-glow);
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #ffe074 0%, #d4af37 100%);
-      box-shadow: 0 0 32px rgba(212, 175, 55, 0.65);
-    }
-
-    .btn-danger {
-      border-color: rgba(255, 77, 121, 0.45);
-      color: #ff85a2;
-      background: rgba(255, 77, 121, 0.1);
-    }
-
-    .btn-danger:hover {
-      border-color: var(--rose);
-      background: rgba(255, 77, 121, 0.25);
-      box-shadow: 0 0 16px rgba(255, 77, 121, 0.4);
-    }
-
-    /* Direct GitHub Vault Gate Card */
     #auth-gate {
-      max-width: 500px;
-      margin: 55px auto;
-      padding: 34px 28px;
-      background: var(--bg-panel);
-      border: 1.5px solid var(--gold);
-      border-radius: 16px;
+      max-width: 500px; margin: 55px auto; padding: 34px 28px;
+      background: var(--bg-panel); border: 1.5px solid var(--gold); border-radius: 16px;
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
     }
+    #auth-gate h2 { font-family: 'Cinzel Decorative', serif; color: var(--gold); margin-bottom: 8px; font-size: 1.35rem; text-align: center; }
+    #auth-gate p.auth-sub { font-family: 'Cormorant Garamond', serif; font-size: 1.08rem; color: var(--text-muted); margin-bottom: 22px; line-height: 1.45; text-align: center; }
+    .auth-field { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .auth-field label { font-size: 0.74rem; letter-spacing: 0.14em; color: var(--gold); text-transform: uppercase; }
+    .pass-row { display: flex; gap: 8px; }
+    .pass-row input { flex: 1; }
+    .auth-msg { margin-top: 14px; padding: 10px 12px; border-radius: 8px; font-family: 'Cormorant Garamond', serif; font-size: 1rem; text-align: center; display: none; }
+    .auth-msg.error { display: block; background: rgba(255, 77, 121, 0.14); border: 1px solid var(--rose); color: #ffb3c6; }
+    .auth-msg.success { display: block; background: rgba(0, 245, 212, 0.12); border: 1px solid var(--emerald); color: var(--emerald); }
 
-    #auth-gate h2 {
-      font-family: 'Cinzel Decorative', serif;
-      color: var(--gold);
-      margin-bottom: 8px;
-      font-size: 1.35rem;
-      text-align: center;
-    }
-
-    #auth-gate p.auth-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.08rem;
-      color: var(--text-muted);
-      margin-bottom: 22px;
-      line-height: 1.45;
-      text-align: center;
-    }
-
-    .auth-field {
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .auth-field label {
-      font-size: 0.74rem;
-      letter-spacing: 0.14em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
-
-    .pass-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .pass-row input {
-      flex: 1;
-    }
-
-    .auth-msg {
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      text-align: center;
-      display: none;
-    }
-
-    .auth-msg.error {
-      display: block;
-      background: rgba(255, 77, 121, 0.14);
-      border: 1px solid var(--rose);
-      color: #ffb3c6;
-    }
-
-    .auth-msg.success {
-      display: block;
-      background: rgba(0, 245, 212, 0.12);
-      border: 1px solid var(--emerald);
-      color: var(--emerald);
-    }
-
-    /* Main Studio Grid Layout */
     #studio-workspace {
-      display: none;
-      max-width: 1380px;
-      margin: 24px auto;
-      padding: 0 20px;
-      grid-template-columns: 330px 1fr;
-      gap: 24px;
-      align-items: start;
+      display: none; max-width: 1380px; margin: 24px auto; padding: 0 20px;
+      grid-template-columns: 330px 1fr; gap: 24px; align-items: start;
     }
+    #studio-workspace.active { display: grid; }
 
-    #studio-workspace.active {
-      display: grid;
-    }
+    .panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 22px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65); }
+    .panel-title { font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
 
-    .panel {
-      background: var(--bg-panel);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
-    }
+    .disk-group-title { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin: 16px 0 8px; display: flex; justify-content: space-between; }
+    .portal-list-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.07); background: rgba(6, 5, 12, 0.65); margin-bottom: 8px; cursor: pointer; transition: all 0.2s ease; }
+    .portal-list-item:hover, .portal-list-item.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.14); box-shadow: 0 0 14px rgba(212, 175, 55, 0.2); }
+    .portal-list-thumb { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); background: #050509; flex-shrink: 0; }
+    .portal-list-meta { overflow: hidden; }
+    .portal-list-name { font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .portal-list-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.82rem; color: var(--text-muted); }
 
-    .panel-title {
-      font-size: 0.9rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 10px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+    .label-hint { font-family: 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: 0.04em; color: var(--text-muted); font-size: 0.88rem; margin-left: 6px; }
 
-    /* Sidebar Portal List */
-    .disk-group-title {
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin: 16px 0 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .portal-list-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      background: rgba(6, 5, 12, 0.65);
-      margin-bottom: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .portal-list-item:hover,
-    .portal-list-item.selected {
-      border-color: var(--gold);
-      background: rgba(212, 175, 55, 0.14);
-      box-shadow: 0 0 14px rgba(212, 175, 55, 0.2);
-    }
-
-    .portal-list-thumb {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid var(--gold);
-      background: #050509;
-      flex-shrink: 0;
-    }
-
-    .portal-list-meta {
-      overflow: hidden;
-    }
-
-    .portal-list-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .portal-list-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    /* Form Controls */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .disk-rename { margin-top: 10px; }
-    .disk-rename-toggle { padding: 6px 11px; font-size: 0.7rem; }
-    .disk-rename-fields { margin-top: 10px; padding: 12px 14px; border: 1px solid rgba(212,175,55,.35); border-radius: 8px; background: rgba(0,0,0,.25); }
-    .disk-rename-fields label { display: block; margin-bottom: 6px; }
-    .disk-rename-fields strong { color: #e5cc91; font-weight: 600; }
-    .disk-rename-hint { display: block; margin: 8px 0 10px; }
-    .disk-rename-cancel { padding: 6px 11px; font-size: 0.7rem; background: transparent; border: 1px solid rgba(255,255,255,.3); color: inherit; cursor: pointer; border-radius: 6px; }
-    .disk-rename-fields[hidden] { display: none; }
-    .label-hint {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      text-transform: none;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      margin-left: 6px;
-    }
-
-    input[type="text"],
-    input[type="password"],
-    input[type="number"],
-    select {
-      background: var(--bg-input);
-      border: 1.5px solid rgba(212, 175, 55, 0.4);
-      color: var(--text-main);
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.9rem;
-      outline: none;
-      width: 100%;
+    input[type="text"], input[type="password"], input[type="number"], select, textarea {
+      background: var(--bg-input); border: 1.5px solid rgba(212, 175, 55, 0.4);
+      color: var(--text-main); padding: 12px 14px; border-radius: 8px;
+      font-family: 'Cinzel', serif; font-size: 0.9rem; outline: none; width: 100%;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-
-    input:focus,
-    select:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+    textarea.elegant-prose-input {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.22rem;
+      line-height: 1.65;
+      letter-spacing: 0.02em;
+      resize: vertical;
+      min-height: 130px;
     }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 14px rgba(212, 175, 55, 0.35); }
 
-    /* Swatch & Option Pills */
-    .swatch-row {
+    /* Personal Sanctum: Poem, Archetypes & Lore Editor Box */
+    #sanctum-editor-section {
+      display: none;
+      margin-bottom: 24px;
+      padding: 22px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(155, 202, 170, 0.5);
+      background: radial-gradient(circle at 10% 15%, rgba(128, 194, 145, 0.14), transparent 55%), rgba(8, 14, 12, 0.9);
+      box-shadow: 0 0 28px rgba(0, 0, 0, 0.7);
+    }
+    #sanctum-editor-section.active { display: block; }
+    #sanctum-editor-section[data-deity="dionysus"] {
+      border-color: rgba(212, 175, 55, 0.55);
+      background: radial-gradient(circle at 10% 15%, rgba(179, 102, 255, 0.16), transparent 55%), rgba(12, 8, 20, 0.92);
+    }
+    .sanctum-section-banner {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .swatch-pill {
-      display: flex;
-      align-items: center;
       gap: 8px;
-      padding: 8px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(6, 5, 12, 0.8);
-      cursor: pointer;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      transition: all 0.2s ease;
     }
-
-    .swatch-pill.active {
-      border-color: #ffffff;
-      background: rgba(212, 175, 55, 0.2);
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
-    }
-
-    .swatch-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      box-shadow: 0 0 8px currentColor;
-    }
-
-    /* Interactive 3D Disk Radar & Placement Section */
-    .radar-layout {
+    .archetype-triad-inputs {
       display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 22px;
-      align-items: center;
-      background: rgba(5, 4, 10, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
     }
-
-    .radar-column {
+    .archetype-input-card {
+      background: rgba(5, 5, 10, 0.78);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .radar-box {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      margin: 0 auto;
-      border-radius: 50%;
-      background: radial-gradient(circle, #141028 0%, #05050a 80%);
-      border: 1px dashed rgba(212, 175, 55, 0.35);
-      box-shadow: inset 0 0 30px rgba(179, 102, 255, 0.2);
-      touch-action: none;
-      user-select: none;
-      cursor: grab;
-    }
-
-    .radar-box:active {
-      cursor: grabbing;
-    }
-
-    .radar-svg {
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
-
-    .drag-mode-toggle {
-      display: flex;
       gap: 6px;
-      background: rgba(10, 8, 18, 0.9);
-      padding: 4px;
-      border-radius: 20px;
-      border: 1px solid rgba(212, 175, 55, 0.25);
     }
-
-    .drag-mode-btn {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 5px 10px;
-      border-radius: 16px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .drag-mode-btn.active {
-      background: rgba(212, 175, 55, 0.25);
-      color: var(--gold);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
-    }
-
-    /* Batch Photo Dropzone & Library Drawer Trigger */
-    .photo-action-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .dropzone {
-      border: 2px dashed rgba(212, 175, 55, 0.45);
-      border-radius: 12px;
-      padding: 24px 20px;
-      text-align: center;
-      background: rgba(10, 8, 20, 0.65);
-      cursor: pointer;
-      transition: all 0.25s ease;
-      margin-bottom: 16px;
-    }
-
-    .dropzone:hover,
-    .dropzone.dragover {
-      border-color: var(--gold);
-      background: rgba(212, 175, 55, 0.1);
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
-    }
-
-    .dropzone h3 {
-      font-size: 0.95rem;
-      color: var(--gold);
-      margin-bottom: 6px;
-      letter-spacing: 0.1em;
-    }
-
-    .dropzone p {
+    .archetype-input-card input {
       font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
       font-style: italic;
-      font-size: 1rem;
-      color: var(--text-muted);
+      font-weight: 600;
     }
 
-    .queued-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-      max-height: 300px;
-      overflow-y: auto;
-      padding: 4px;
-    }
+    .swatch-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .swatch-pill { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(6, 5, 12, 0.8); cursor: pointer; font-size: 0.78rem; letter-spacing: 0.08em; transition: all 0.2s ease; }
+    .swatch-pill.active { border-color: #ffffff; background: rgba(212, 175, 55, 0.2); box-shadow: 0 0 15px rgba(212, 175, 55, 0.35); }
+    .swatch-dot { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
 
-    .queued-item {
-      position: relative;
-      height: 110px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: #08070f;
+    .radar-layout {
+      display: grid; grid-template-columns: 300px 1fr; gap: 22px; align-items: center;
+      background: rgba(5, 4, 10, 0.75); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px; padding: 18px; margin-bottom: 22px;
     }
+    .radar-column { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .radar-box {
+      position: relative; width: 280px; height: 280px; margin: 0 auto; border-radius: 50%;
+      background: radial-gradient(circle, #141028 0%, #05050a 80%);
+      border: 1px dashed rgba(212, 175, 55, 0.35); box-shadow: inset 0 0 30px rgba(179, 102, 255, 0.2);
+      touch-action: none; user-select: none; cursor: grab;
+    }
+    .radar-box:active { cursor: grabbing; }
+    .radar-svg { width: 100%; height: 100%; overflow: visible; }
 
-    .queued-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .photo-action-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    .dropzone { border: 2px dashed rgba(212, 175, 55, 0.45); border-radius: 12px; padding: 24px 20px; text-align: center; background: rgba(10, 8, 20, 0.65); cursor: pointer; transition: all 0.25s ease; margin-bottom: 16px; }
+    .dropzone:hover, .dropzone.dragover { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); }
+    .dropzone h3 { font-size: 0.95rem; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.1em; }
+    .dropzone p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--text-muted); }
 
-    .queued-badge {
-      position: absolute;
-      bottom: 4px;
-      left: 4px;
-      right: 4px;
-      background: rgba(4, 4, 10, 0.85);
-      color: var(--emerald);
-      font-size: 0.62rem;
-      padding: 2px 5px;
-      border-radius: 4px;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .queued-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 14px; max-height: 300px; overflow-y: auto; padding: 4px; }
+    .queued-item { position: relative; height: 110px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.18); background: #08070f; }
+    .queued-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .queued-badge { position: absolute; bottom: 4px; left: 4px; right: 4px; background: rgba(4, 4, 10, 0.85); color: var(--emerald); font-size: 0.62rem; padding: 2px 5px; border-radius: 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .remove-photo-btn { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; background: rgba(255, 77, 121, 0.9); color: #fff; border: none; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .photo-ctrl-btn { width: 22px; height: 22px; border-radius: 4px; background: rgba(8, 6, 16, 0.85); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4); font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+    .photo-ctrl-btn:hover { background: var(--gold); color: #050509; border-color: #fff; }
 
-    .remove-photo-btn {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(255, 77, 121, 0.9);
-      color: #fff;
-      border: none;
-      font-size: 0.75rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    #library-modal { position: fixed; inset: 0; background: rgba(2, 2, 6, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 1100; padding: 24px; }
+    #library-modal.active { display: flex; }
+    .library-content-box { width: min(94vw, 1000px); height: 80vh; background: rgba(12, 10, 22, 0.98); border: 1.5px solid var(--gold); border-radius: 16px; padding: 24px; display: grid; grid-template-rows: auto 1fr auto; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+    .library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; overflow-y: auto; padding: 6px; }
+    .library-card { position: relative; height: 130px; border-radius: 8px; overflow: hidden; border: 1.5px solid rgba(255,255,255,0.15); background: #06050a; cursor: pointer; transition: all 0.2s ease; }
+    .library-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+    .library-card img { width: 100%; height: 100%; object-fit: cover; }
+    .library-card-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(4,4,10,0.85); font-size: 0.65rem; color: var(--text-muted); padding: 3px 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .photo-ctrl-btn {
-      width: 22px;
-      height: 22px;
-      border-radius: 4px;
-      background: rgba(8, 6, 16, 0.85);
-      color: var(--gold);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-
-    .photo-ctrl-btn:hover {
-      background: var(--gold);
-      color: #050509;
-      border-color: #fff;
-    }
-
-    /* Cross-Portal Library Modal Drawer */
-    #library-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 2, 6, 0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1100;
-      padding: 24px;
-    }
-
-    #library-modal.active {
-      display: flex;
-    }
-
-    .library-content-box {
-      width: min(94vw, 1000px);
-      height: 80vh;
-      background: rgba(12, 10, 22, 0.98);
-      border: 1.5px solid var(--gold);
-      border-radius: 16px;
-      padding: 24px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      box-shadow: 0 0 50px rgba(0,0,0,0.9);
-    }
-
-    .library-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 14px;
-      overflow-y: auto;
-      padding: 6px;
-    }
-
-    .library-card {
-      position: relative;
-      height: 130px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      background: #06050a;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .library-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px rgba(212,175,55,0.4);
-    }
-
-    .library-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .library-card-label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(4,4,10,0.85);
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      padding: 3px 6px;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Status & Progress Bar */
-    .status-box {
-      margin-top: 20px;
-      padding: 14px 18px;
-      border-radius: 10px;
-      background: rgba(5, 5, 10, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: none;
-    }
-
-    .status-box.active {
-      display: block;
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--gold), var(--emerald));
-      transition: width 0.25s ease;
-    }
-
-    .action-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    .status-box { margin-top: 20px; padding: 14px 18px; border-radius: 10px; background: rgba(5, 5, 10, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); display: none; }
+    .status-box.active { display: block; }
+    .progress-track { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 6px; overflow: hidden; margin-top: 8px; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), var(--emerald)); transition: width 0.25s ease; }
+    .action-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
     @media (max-width: 920px) {
-      #studio-workspace {
-        grid-template-columns: 1fr;
-      }
-      .radar-layout {
-        grid-template-columns: 1fr;
-      }
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+      #studio-workspace, .radar-layout, .form-grid, .archetype-triad-inputs { grid-template-columns: 1fr; }
     }
   </style>
-<style id="new-filaments-style">
-/* Music realm and two fine-line filaments. Existing realms stay unchanged. */
-body[data-realm="music"] {
-  --gold-accent: #dcc28d;
-  --hub-glow-primary: rgba(220,194,141,.28);
-  --hub-glow-secondary: rgba(131,177,166,.2);
-}
-.realm-music { background: #080d13; overflow: hidden; }
-.music-scene-svg { display: block; width: 100%; height: 100%; }
-.realm-music:not(.active) .music-scene-svg * { animation-play-state: paused; }
-.music-filament { pointer-events: none; }
-.score-pressure { stroke-dasharray: 16 7 2 7; animation: score-transit 13s linear infinite; }
-.score-note { opacity: .95; }
-.escapement-wheel { animation: escapement-turn 38s linear infinite; transform-origin: 0 0; }
-.escapement-wheel.reverse { animation-direction: reverse; animation-duration: 46s; }
-.escapement-spark { stroke-dasharray: 2 43 1 97; animation: score-transit 18s linear infinite; opacity: .7; }
-.portal-filament-group.is-illuminated .music-filament { filter: drop-shadow(0 0 3px currentColor); }
-.inactive-disk-above .music-filament *, .inactive-disk-below .music-filament *,
-body.music-motion-paused .music-filament *, body.music-motion-paused .music-scene-svg * {
-  animation-play-state: paused !important;
-}
-.music-motion-toggle {
-  display: none; position: fixed; left: 1rem; bottom: 1rem; z-index: 35;
-  padding: .5rem .75rem; border: 1px solid #716449; border-radius: .375rem;
-  background: #0c1017; color: #dfcda7; font-family: 'Cinzel',Georgia,serif;
-  font-size: clamp(.75rem,.7rem + .2vw,.875rem); cursor: pointer;
-}
-body[data-realm="music"] .music-motion-toggle { display: inline-block; }
-.music-motion-toggle:hover { border-color: #dfcda7; background: #1a1b22; }
-.music-motion-toggle:focus-visible { outline: 2px solid #dfcda7; outline-offset: 3px; }
-.pulse-beam { stroke-linecap: round; animation: pulse-travel 2.6s cubic-bezier(.45,0,.55,1) infinite; }
-.pulse-beam-glow { filter: blur(2px); }
-.pulse-halo { animation: pulse-breathe 2.6s ease-in-out infinite; }
-.pulse-relay { animation: pulse-relay 2.6s ease-in-out infinite; }
-@keyframes pulse-travel { from { stroke-dashoffset: 42; } to { stroke-dashoffset: var(--pulse-travel, -400); } }
-@keyframes pulse-breathe { 0%, 100% { opacity: .08; } 50% { opacity: .22; } }
-@keyframes pulse-relay { 0%, 100% { opacity: .35; r: 3.2; } 50% { opacity: 1; r: 4.2; } }
-@keyframes score-transit { to { stroke-dashoffset: -256; } }
-@keyframes escapement-turn { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) {
-  .music-filament *, .music-scene-svg * { animation: none !important; }
-  .music-motion-toggle { display: none !important; }
-}
-
-.new-filament-specimens {
-  --specimen-title: clamp(.8rem,.76rem + .2vw,.9rem);
-  --specimen-copy: clamp(.875rem,.84rem + .2vw,1rem);
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0,1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  min-width: 0;
-}
-.new-filament-choice {
-  display: block; width: 100%; min-width: 0; padding: 1rem;
-  text-align: left; cursor: pointer; color: #e5d2ab;
-  background: #0c0b13; border: 1px solid #60513b; border-radius: .5rem;
-  transition: border-color 180ms ease, background 180ms ease;
-}
-.new-filament-specimens[hidden],
-.new-filament-choice[hidden] { display: none; }
-.new-filament-choice:hover { background: #16121c; border-color: #dcc28d; }
-.new-filament-choice[aria-pressed="true"] { border-color: #e5cc91; background: #211a21; }
-.new-filament-choice:focus-visible { outline: 2px solid #e5cc91; outline-offset: 3px; }
-.new-filament-choice svg { display: block; width: 100%; height: 76px; overflow: visible; }
-.new-filament-choice .specimen-name {
-  display: block; font-family: 'Cinzel',Georgia,serif; font-size: var(--specimen-title);
-  font-weight: 600; line-height: 1.5; letter-spacing: .03em;
-}
-.new-filament-choice .specimen-detail {
-  display: block; color: #c9bdaa; margin-top: .5rem;
-  font-family: 'Cormorant Garamond',Georgia,serif;
-  font-size: var(--specimen-copy); font-style: normal; line-height: 1.5;
-}
-.music-realm-hint {
-  margin-top: .5rem; font-family: 'Cormorant Garamond',Georgia,serif;
-  font-size: clamp(1rem,.95rem + .2vw,1.125rem);
-  font-style: normal; line-height: 1.5; color: #c9bdaa;
-}
-.music-realm-hint[hidden] { display: none; }
-/* Classic filament preview card: same drawing styles as the live landing scene. */
-.classic-filament-choice { cursor: default; }
-.classic-filament-choice:hover { background: #211a21; border-color: #e5cc91; }
-.classic-filament-choice[hidden] { display: none; }
-.classic-filament-choice .ligament-path { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 8 6; animation: studioPulseFlow 14s linear infinite; filter: drop-shadow(0 0 6px currentColor); opacity: .82; }
-.classic-filament-choice .ligament-vine-main { fill: none; stroke-width: 2.8; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: .9; }
-.classic-filament-choice .ligament-vine-tendril { fill: none; stroke-width: 1.4; stroke-dasharray: 4 3; stroke-linecap: round; animation: studioPulseFlow 18s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .7; }
-.classic-filament-choice .ligament-suspension-cable { fill: none; stroke-width: 2.4; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: .92; }
-.classic-filament-choice .ligament-suspension-deck { fill: none; stroke-width: 1.8; stroke-dasharray: 7 5; stroke-linecap: round; animation: studioPulseFlow 12s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .85; }
-.classic-filament-choice .ligament-suspension-struts { fill: none; stroke-width: 1; stroke-linecap: round; opacity: .55; }
-.classic-filament-choice .ligament-grid-rail { fill: none; stroke-width: 2.2; stroke-linecap: square; stroke-linejoin: bevel; filter: drop-shadow(0 0 6px currentColor); opacity: .85; }
-.classic-filament-choice .ligament-grid-subrail { fill: none; stroke-width: 1.1; stroke-linecap: square; stroke-linejoin: bevel; opacity: .45; }
-.classic-filament-choice .ligament-grid-surge { fill: none; stroke: #ffffff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: bevel; stroke-dasharray: 18 150; animation: studioElectricSurge 3.2s linear infinite; filter: drop-shadow(0 0 8px currentColor); opacity: .95; }
-.classic-filament-choice .ligament-grid-station { fill: #050811; stroke-width: 1.8; filter: drop-shadow(0 0 5px currentColor); }
-.classic-filament-choice .ligament-gothic-spine { fill: none; stroke-width: 2.5; stroke-linecap: butt; stroke-linejoin: miter; filter: drop-shadow(0 0 7px currentColor); opacity: .92; }
-.classic-filament-choice .ligament-gothic-tracery { fill: none; stroke-width: 1.25; stroke-dasharray: 10 4 2 4; stroke-linecap: round; animation: studioPulseFlow 16s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .78; }
-.classic-filament-choice .ligament-gothic-thorns { fill: none; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; filter: drop-shadow(0 0 4px currentColor); opacity: .88; }
-.classic-filament-choice .ligament-gothic-finial { fill: #050508; stroke-width: 1.6; filter: drop-shadow(0 0 6px currentColor); }
-.classic-filament-choice .ligament-alchemical-staff { fill: none; stroke-width: 1.5; stroke-dasharray: 4 6; opacity: .6; }
-.classic-filament-choice .ligament-alchemical-serpent { fill: none; stroke-width: 2.3; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: .92; }
-.classic-filament-choice .ligament-alchemical-counter { fill: none; stroke-width: 1.8; stroke-dasharray: 12 5; stroke-linecap: round; animation: studioPulseFlow 14s linear infinite reverse; filter: drop-shadow(0 0 6px currentColor); opacity: .82; }
-.classic-filament-choice .ligament-alchemical-node { fill: #050508; stroke-width: 1.8; filter: drop-shadow(0 0 8px currentColor); }
-.classic-filament-choice .ligament-mycelium-primary { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 7px currentColor); opacity: .9; }
-.classic-filament-choice .ligament-mycelium-hyphae { fill: none; stroke-width: 1.25; stroke-dasharray: 8 4 2 4; stroke-linecap: round; animation: studioPulseFlow 20s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: .78; }
-.classic-filament-choice .ligament-mycelium-spore { fill: #ffffff; stroke-width: 1.5; filter: drop-shadow(0 0 8px currentColor); animation: studioBeaconPulse 2.4s ease-in-out infinite alternate; }
-@keyframes studioPulseFlow { to { stroke-dashoffset: -140; } }
-@keyframes studioElectricSurge { to { stroke-dashoffset: -336; } }
-@keyframes studioBeaconPulse { 0% { opacity: .35; } 100% { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  .classic-filament-choice svg * { animation: none !important; }
-}
-
-</style>
-<script id="shared-new-filaments">
-/* Additive, shared SVG renderer. The same code is embedded in root and Studio. */
-(() => {
-  'use strict';
-  const NS = 'http://www.w3.org/2000/svg';
-  const names = {
-    harmonic: 'Aeolian Score',
-    clockwork: 'Clockwork Escapement',
-    pulse: 'Pulsar Beam'
-  };
-  function element(parent, tag, attrs) {
-    const node = document.createElementNS(NS, tag);
-    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
-    parent.appendChild(node);
-    return node;
-  }
-  function path(parent, d, cls, attrs = {}) {
-    return element(parent, 'path', {d, class: cls, ...attrs});
-  }
-  function render(parent, x1, y1, x2, y2, kind, color) {
-    if (!Object.hasOwn(names, kind)) return false;
-    const length = Math.hypot(x2 - x1, y2 - y1);
-    if (!Number.isFinite(length) || length < 1) return true;
-    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-    const group = element(parent, 'g', {
-      class: `music-filament music-filament-${kind}`,
-      transform: `translate(${x1} ${y1}) rotate(${angle})`,
-      fill: 'none', stroke: color || '#dfc38d',
-      'stroke-linecap': 'round', 'stroke-linejoin': 'round',
-      'aria-hidden': 'true', 'pointer-events': 'none',
-      'data-filament-kind': kind
-    });
-    group.style.color = color || '#dfc38d';
-    const n = value => Number(value.toFixed(2));
-    if (kind === 'harmonic') {
-      // Five slender stave-lines blossom from one thread, never a broad ribbon.
-      for (let line = -2; line <= 2; line++) {
-        let d = '';
-        for (let i = 0; i <= 60; i++) {
-          const t = i / 60;
-          const envelope = Math.sin(t * Math.PI);
-          const y = line * 3.2 * envelope + Math.sin(t * Math.PI * 2) * 3 * envelope;
-          d += `${i ? 'L' : 'M'}${n(length * t)} ${n(y)} `;
-        }
-        path(group, d, 'score-stave', {'stroke-width': line === 0 ? 1.05 : .65, opacity: line === 0 ? .8 : .55});
-      }
-      // A restrained traveling pressure-wave runs through the musical notation.
-      let wave = '';
-      for (let i = 0; i <= 110; i++) {
-        const t = i / 110;
-        const y = Math.sin(t * Math.PI * 12) * Math.sin(t * Math.PI) * 5;
-        wave += `${i ? 'L' : 'M'}${n(length * t)} ${n(y)} `;
-      }
-      path(group, wave, 'score-pressure', {'stroke-width': .8, opacity: .8});
-      if (length > 85) {
-        [.29, .47, .68].forEach((t, i) => {
-          const x = length * t;
-          const y = (i % 2 ? 2.2 : -1.7) + Math.sin(t * Math.PI * 2) * 2;
-          const note = element(group, 'g', {transform: `translate(${n(x)} ${n(y)})`, class: 'score-note'});
-          element(note, 'ellipse', {cx: 0, cy: 0, rx: 2.6, ry: 1.7, transform: 'rotate(-24)', fill: 'currentColor', stroke: 'none'});
-          path(note, 'M2 -1V-12Q9 -10 6 -5', '', {'stroke-width': .85});
-          if (i === 1) path(note, 'M-5 3H7', '', {'stroke-width': .6, opacity: .6});
-        });
-        [.37, .76].forEach(t => path(group, `M${n(length*t)} -6V6`, 'score-bar', {'stroke-width': .6, opacity: .5}));
-      }
-    } else if (kind === 'pulse') {
-      // A slender thread carrying a pulse of light; the beam travels from the hub outward.
-      path(group, `M0 0H${n(length)}`, 'pulse-halo', {'stroke-width': 7, opacity: .12});
-      path(group, `M0 0H${n(length)}`, 'pulse-core', {'stroke-width': 1.2, opacity: .85});
-      const beam = path(group, `M0 0H${n(length)}`, 'pulse-beam', {'stroke-width': 2.8});
-      beam.style.strokeDasharray = `${n(Math.min(42, length * .3))} ${n(length + 42)}`;
-      beam.style.setProperty('--pulse-travel', `${n(-(length + 42))}`);
-      const glow = path(group, `M0 0H${n(length)}`, 'pulse-beam pulse-beam-glow', {'stroke-width': 9, opacity: .55});
-      glow.style.strokeDasharray = beam.style.strokeDasharray;
-      glow.style.setProperty('--pulse-travel', `${n(-(length + 42))}`);
-      // Faint relay rings mark the thread; each brightens as the pulse passes.
-      const stops = length > 120 ? [.25, .5, .75] : [.5];
-      stops.forEach((t, i) => {
-        const ring = element(group, 'circle', {cx: n(length * t), cy: 0, r: 3.2, class: 'pulse-relay', 'stroke-width': .8, opacity: .6});
-        ring.style.animationDelay = `${n(-i * .55)}s`;
-      });
-    } else {
-      path(group, `M0 0H${n(length)}`, 'escapement-axis', {'stroke-width': .7, opacity: .65});
-      const knots = length > 110 ? [.26, .5, .74] : [.5];
-      const radius = Math.min(8, length / 10);
-      knots.forEach((t, index) => {
-        const pivot = element(group, 'g', {transform: `translate(${n(length*t)} 0)`});
-        const gear = element(pivot, 'g', {class: `escapement-wheel${index % 2 ? ' reverse' : ''}`});
-        // Twelve physically distinct teeth, with a thin pierced center.
-        let teeth = '';
-        for (let j = 0; j < 96; j++) {
-          const a = j * Math.PI / 48;
-          const r = radius * ([.8, .8, 1, 1, 1, 1, .8, .8][j % 8]);
-          teeth += `${j ? 'L' : 'M'}${n(Math.cos(a)*r)} ${n(Math.sin(a)*r)} `;
-        }
-        path(gear, teeth + 'Z', 'escapement-teeth', {'stroke-width': .85, fill: 'currentColor', 'fill-opacity': .055});
-        element(gear, 'circle', {r: n(radius*.53), 'stroke-width': .6, opacity: .65});
-        path(gear, `M-${n(radius*.5)} 0H${n(radius*.5)}M0 -${n(radius*.5)}V${n(radius*.5)}`, '', {'stroke-width': .6, opacity: .7});
-        element(pivot, 'circle', {r: 1.4, fill: 'currentColor', stroke: 'none'});
-        path(pivot, `M-${n(radius*.35)} -${n(radius+3)}L0 -${n(radius+1)}L${n(radius*.35)} -${n(radius+3)}`, '', {'stroke-width': .7, opacity: .65});
-      });
-      const spindle = length * .5;
-      path(group, `M${n(spindle-10)} 0Q${n(spindle)} 22 ${n(spindle+10)} 0`, 'escapement-pendulum', {'stroke-width': .65, opacity: .4});
-      path(group, `M0 0H${n(length)}`, 'escapement-spark', {'stroke-width': 1.1});
-      [.13,.38,.62,.87].forEach(t => path(group, `M${n(length*t-2)} -2L${n(length*t)} 0L${n(length*t-2)} 2`, '', {'stroke-width': .7, opacity: .55}));
-    }
-    return true;
-  }
-  window.DOSFilaments = Object.freeze({render, names});
-})();
-
-</script>
 </head>
 <body>
 
@@ -970,18 +231,15 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     </div>
   </header>
 
-  <!-- Direct GitHub Vault Authentication Gate -->
   <section id="auth-gate">
     <h2>Sanctum Vault Key</h2>
     <p class="auth-sub">
       Enter your Studio Author Name and your GitHub Access Key for <strong>thebreakingmuse/wintercrickets</strong>.
     </p>
-
     <div class="auth-field">
       <label for="studio-author-input">Your Name <span class="label-hint">(Paul or Janice)</span></label>
       <input type="text" id="studio-author-input" placeholder="e.g., Paul or Janice" autocomplete="name" />
     </div>
-
     <div class="auth-field">
       <label for="github-pat-input">GitHub Repository Access Key</label>
       <div class="pass-row">
@@ -989,17 +247,13 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         <button type="button" id="toggle-pat-btn" class="btn">Show</button>
       </div>
     </div>
-
     <button type="button" id="connect-vault-btn" class="btn btn-primary" style="width:100%; padding:13px;">
       ✨ Unlock Portal Studio
     </button>
-
     <div id="auth-feedback" class="auth-msg"></div>
   </section>
 
-  <!-- Studio Workspace -->
   <main id="studio-workspace">
-    <!-- Left Sidebar: Existing Portals by Disk -->
     <aside class="panel">
       <div class="panel-title">
         <span>Portal Network</span>
@@ -1008,7 +262,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       <div id="portal-sidebar-list"></div>
     </aside>
 
-    <!-- Main Editor Panel -->
     <section class="panel">
       <div class="panel-title">
         <span id="editor-mode-title">Create New Portal</span>
@@ -1021,47 +274,31 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           <label>Portal Display Title</label>
           <input type="text" id="inp-title" placeholder="e.g., Nocturnal Outdoor" />
         </div>
-
         <div class="form-group">
           <label>Folder ID <span class="label-hint">( inside portals/ )</span></label>
           <input type="text" id="inp-id" placeholder="e.g., nocturnal-outdoor" />
         </div>
-
         <div class="form-group">
           <label>Subtitle</label>
           <input type="text" id="inp-subtitle" value="Gallery & Archive" />
         </div>
-
         <div class="form-group">
           <label>Password Lock <span class="label-hint">( Leave blank for public )</span></label>
           <input type="text" id="inp-password" placeholder="Optional secret keyword..." />
         </div>
-
         <div class="form-group">
           <label>3D Portal Disk (Slice)</label>
           <select id="sel-slice"></select>
           <input type="text" id="inp-new-slice" placeholder="Enter new 3D Disk name (e.g., Outdoor Sanctuary)" style="display:none; margin-top:8px;" />
-          <div class="disk-rename" id="disk-rename">
-            <button type="button" id="rename-slice-btn" class="btn btn-primary disk-rename-toggle" aria-expanded="false" aria-controls="disk-rename-fields">Rename this Disk</button>
-            <div id="disk-rename-fields" class="disk-rename-fields" hidden>
-              <label for="inp-rename-slice">New name for <strong id="rename-slice-current"></strong></label>
-              <input type="text" id="inp-rename-slice" maxlength="60" autocomplete="off" />
-              <p class="label-hint disk-rename-hint">Renames the disk for every portal on it when you click Publish. The disk's background and warp conduit are kept.</p>
-              <button type="button" id="rename-slice-cancel" class="btn disk-rename-cancel">Cancel rename</button>
-            </div>
-          </div>
         </div>
-
         <div class="form-group">
           <label>Disk Realm Background Aesthetic</label>
           <select id="sel-realm-bg">
-            <option value="music">Music: Outside / Inside Resonance</option>
-            <option value="cosmos" selected>Cosmos — Obsidian & Violet Nebula</option>
+            <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
             <option value="wilderness">Wilderness — Nocturnal Forest Canopy & Moon</option>
             <option value="nyc">NYC — New York City Nocturne Skyline</option>
             <option value="noir">Film Noir — Darkroom & Photo Studio Gallery</option>
             <option value="cybernetic">Cybernetic — Robot Fantasy Sanctum</option>
-            <option value="discworm">Discworm — Floating Eyes &amp; Watching Cameras</option>
             <option value="verdant">Verdant — Bioluminescent Canopy</option>
             <option value="ember">Ember — Alchemical Red Ochre & Copper</option>
             <option value="abyss">Abyss — Deep Sapphire & Aqua Trench</option>
@@ -1070,12 +307,55 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         </div>
       </div>
 
-      <p id="music-realm-hint" class="music-realm-hint" hidden>
-        Music is a silent, animated SVG scene: moonlit outdoors on the left,
-        a vaulted music room on the right, and sound waves between them.
-        Publish to apply it to the selected disk.
-      </p>
-      <!-- 2. Glow Theme & Filament Swatches -->
+      <!-- 2. Personal Sanctum Editor (Shown when editing Janice or Paul) -->
+      <div id="sanctum-editor-section" data-deity="persephone">
+        <div class="sanctum-section-banner">
+          <span id="sanctum-banner-title">✦ Personal Sanctum: Poem, Archetypes & Lore ✦</span>
+          <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-size:0.72rem;">
+            <input type="checkbox" id="chk-poem-italic" style="width:auto;" /> Italicize Poem Verse
+          </label>
+        </div>
+
+        <div class="form-grid" style="margin-bottom:18px;">
+          <div class="form-group full-width">
+            <label>Poem Title <span class="label-hint">(Optional heading above poem)</span></label>
+            <input type="text" id="inp-poem-title" placeholder="e.g., Hymn to the Underworld" />
+          </div>
+          <div class="form-group full-width">
+            <label>Poem Verse</label>
+            <textarea id="inp-poem-text" class="elegant-prose-input" placeholder="Write or paste your poem here..."></textarea>
+          </div>
+        </div>
+
+        <label style="display:block; margin-bottom:10px;">✦ The Three Archetypes ✦</label>
+        <div class="archetype-triad-inputs">
+          <div class="archetype-input-card">
+            <label>1. Zodiacal</label>
+            <input type="text" id="inp-arch-zodiacal" placeholder="e.g., Virgo — Maiden of Harvest" />
+          </div>
+          <div class="archetype-input-card">
+            <label>2. Mythological</label>
+            <input type="text" id="inp-arch-mythological" placeholder="e.g., Persephone / Dionysus" />
+          </div>
+          <div class="archetype-input-card">
+            <label>3. Animalia</label>
+            <input type="text" id="inp-arch-animalia" placeholder="e.g., Luna Moth / Satyr & Cricket" />
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-bottom:0;">
+          <div class="form-group full-width">
+            <label id="lbl-sanctum-heading">Sanctum Box Heading</label>
+            <input type="text" id="inp-sanctum-heading" placeholder="e.g., ✦ Grove of Persephone ✦" />
+          </div>
+          <div class="form-group full-width">
+            <label id="lbl-sanctum-prose">Sanctum Prose Box <span class="label-hint">(Displayed in the motif-adorned sanctuary box)</span></label>
+            <textarea id="inp-sanctum-text" class="elegant-prose-input" placeholder="Write your personal reflections, lore, or current musings here..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Glow Theme & Filament Swatches -->
       <div class="form-grid">
         <div class="form-group full-width">
           <label>Portal Glow Theme</label>
@@ -1089,12 +369,9 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         </div>
 
         <div class="form-group">
-          <label for="sel-filament">Connective Filament Style</label>
+          <label>Connective Filament Style</label>
           <select id="sel-filament">
-            <option value="harmonic">Aeolian Score: Musical Staves &amp; Pressure Wave</option>
-            <option value="clockwork">Clockwork Escapement: Toothed Wheels &amp; Light Thread</option>
-            <option value="pulse">Pulsar Beam: Pulsing Light Traveling the Thread</option>
-            <option value="standard" selected>Standard Glowing Gradient</option>
+            <option value="standard">Standard Glowing Gradient</option>
             <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
             <option value="alchemical">Alchemical Caduceus & Planetary Helix</option>
             <option value="mycelium">Bioluminescent Mycelial Hyphae & Spores</option>
@@ -1117,38 +394,11 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         </div>
       </div>
 
-      
-      <div class="new-filament-specimens" aria-label="Selected filament preview" hidden>
-        <button type="button" class="new-filament-choice" data-new-filament="harmonic" aria-pressed="false" hidden>
-          <span class="specimen-name">Aeolian Score</span>
-          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
-          <span class="specimen-detail">Five fine staves, suspended notes and a traveling pressure-wave.</span>
-        </button>
-        <button type="button" class="new-filament-choice" data-new-filament="clockwork" aria-pressed="false" hidden>
-          <span class="specimen-name">Clockwork Escapement</span>
-          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
-          <span class="specimen-detail">Pierced gear wheels turn along a slender mechanical light-thread.</span>
-        </button>
-        <button type="button" class="new-filament-choice" data-new-filament="pulse" aria-pressed="false" hidden>
-          <span class="specimen-name">Pulsar Beam</span>
-          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
-          <span class="specimen-detail">A pulse of light races from the hub along a slender thread, waking relay rings as it passes.</span>
-        </button>
-        <div class="new-filament-choice classic-filament-choice" data-classic-filament aria-live="polite" hidden>
-          <span class="specimen-name"></span>
-          <svg viewBox="0 0 360 74" aria-hidden="true" focusable="false"></svg>
-          <span class="specimen-detail"></span>
-        </div>
-      </div>
-      <!-- 3. Interactive 3D Disk Radar Placement & Dimensional Shift Controls -->
+      <!-- 4. Interactive 3D Disk Radar Placement (With Central Hub Bezel Preview) -->
       <div class="radar-layout">
         <div class="radar-column">
-          <div class="radar-box" id="radar-box" title="Drag node around the ring">
+          <div class="radar-box" id="radar-box" title="Drag portal node around the ring">
             <svg class="radar-svg" viewBox="0 0 1000 1000" id="radar-svg"></svg>
-          </div>
-          <div class="drag-mode-toggle">
-            <button type="button" class="drag-mode-btn active" id="drag-mode-portal">Drag: Portal Node</button>
-            <button type="button" class="drag-mode-btn" id="drag-mode-bridge">Drag: Shift Warp</button>
           </div>
         </div>
 
@@ -1167,31 +417,14 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
             </div>
           </div>
           <button type="button" id="auto-angle-btn" class="btn">✨ Auto-Find Open Angle on Disk</button>
-
-          <!-- Dimensional Shift Conduit Placement Section -->
-          <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(212, 175, 55, 0.22);">
-            <label style="display:block; margin-bottom:10px; color: var(--gold);">
-              Dimensional Shift Warp Conduit <span class="label-hint">(Shared across this Disk)</span>
-            </label>
-            <div class="form-grid" style="margin-bottom:12px;">
-              <div class="form-group">
-                <label>Shift Angle (°)</label>
-                <input type="number" id="inp-bridge-angle" placeholder="Auto (-32)" min="-180" max="180" />
-              </div>
-              <div class="form-group">
-                <label>Shift Length (px)</label>
-                <input type="number" id="inp-bridge-distance" value="455" min="220" max="490" />
-              </div>
-            </div>
-            <button type="button" id="auto-bridge-btn" class="btn" style="font-size:0.72rem; padding:8px 13px;">
-              🌀 Auto-Place Dimensional Shift Corner
-            </button>
-          </div>
+          <p style="font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--text-muted); font-size:0.95rem; margin-top:14px;">
+            ✦ Dimensional shifting is now automatically integrated into the Central Hub Astrolabe Bezel—every 3D Disk you create automatically adds a jewel node to the center hub rim.
+          </p>
         </div>
       </div>
 
-      <!-- 4. Browser WebP Photo Processor & Cross-Portal Library Picker -->
-      <div class="form-group full-width">
+      <!-- 5. Browser WebP Photo Processor & Cross-Portal Library Picker -->
+      <div class="form-group full-width" id="photo-uploader-section">
         <div class="photo-action-bar">
           <label>Portal Gallery Photos <span class="label-hint">(Auto-converts to WebP)</span></label>
           <button type="button" id="open-library-btn" class="btn">📂 Reference Photo from Another Portal</button>
@@ -1207,7 +440,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         <div class="queued-grid" id="photo-preview-grid"></div>
       </div>
 
-      <!-- Live Progress Box -->
       <div class="status-box" id="status-box">
         <div id="status-text" style="font-size:0.82rem; color:var(--gold);">Preparing...</div>
         <div class="progress-track">
@@ -1215,7 +447,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         </div>
       </div>
 
-      <!-- Footer Actions -->
       <div class="action-footer">
         <button type="button" id="delete-portal-btn" class="btn btn-danger" style="display:none;">Delete Portal</button>
         <div style="margin-left:auto; display:flex; gap:12px;">
@@ -1225,7 +456,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     </section>
   </main>
 
-  <!-- Cross-Portal Photo Library Modal Drawer -->
   <div id="library-modal">
     <div class="library-content-box">
       <div class="panel-title">
@@ -1261,7 +491,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     let branches = [];
     let editingIndex = -1;
     let selectedTheme = 'nocturnal';
-    let radarDragTarget = 'portal'; // 'portal' or 'bridge'
     let existingPhotos = [];
     let existingGridThumbs = [];
     let queuedNewFiles = [];
@@ -1295,11 +524,19 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     const inpDistance = document.getElementById('inp-distance');
     const autoAngleBtn = document.getElementById('auto-angle-btn');
 
-    const inpBridgeAngle = document.getElementById('inp-bridge-angle');
-    const inpBridgeDistance = document.getElementById('inp-bridge-distance');
-    const autoBridgeBtn = document.getElementById('auto-bridge-btn');
-    const dragModePortalBtn = document.getElementById('drag-mode-portal');
-    const dragModeBridgeBtn = document.getElementById('drag-mode-bridge');
+    const sanctumEditorSection = document.getElementById('sanctum-editor-section');
+    const sanctumBannerTitle = document.getElementById('sanctum-banner-title');
+    const chkPoemItalic = document.getElementById('chk-poem-italic');
+    const inpPoemTitle = document.getElementById('inp-poem-title');
+    const inpPoemText = document.getElementById('inp-poem-text');
+    const inpArchZodiacal = document.getElementById('inp-arch-zodiacal');
+    const inpArchMythological = document.getElementById('inp-arch-mythological');
+    const inpArchAnimalia = document.getElementById('inp-arch-animalia');
+    const lblSanctumHeading = document.getElementById('lbl-sanctum-heading');
+    const lblSanctumProse = document.getElementById('lbl-sanctum-prose');
+    const inpSanctumHeading = document.getElementById('inp-sanctum-heading');
+    const inpSanctumText = document.getElementById('inp-sanctum-text');
+    const photoUploaderSection = document.getElementById('photo-uploader-section');
 
     const radarBox = document.getElementById('radar-box');
     const radarSvg = document.getElementById('radar-svg');
@@ -1320,23 +557,9 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     const publishBtn = document.getElementById('publish-btn');
     const deletePortalBtn = document.getElementById('delete-portal-btn');
 
-    function setRadarDragMode(mode) {
-      radarDragTarget = mode;
-      dragModePortalBtn.classList.toggle('active', mode === 'portal');
-      dragModeBridgeBtn.classList.toggle('active', mode === 'bridge');
-    }
-
-    dragModePortalBtn.addEventListener('click', () => setRadarDragMode('portal'));
-    dragModeBridgeBtn.addEventListener('click', () => setRadarDragMode('bridge'));
-
     function showAuthMessage(msg, type = 'error') {
       authFeedback.textContent = msg;
       authFeedback.className = `auth-msg ${type}`;
-    }
-
-    function clearAuthMessage() {
-      authFeedback.className = 'auth-msg';
-      authFeedback.textContent = '';
     }
 
     togglePatBtn.addEventListener('click', () => {
@@ -1349,9 +572,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       try {
         const raw = localStorage.getItem(VAULT_STORAGE_KEY);
         return raw ? JSON.parse(raw) : null;
-      } catch (e) {
-        return null;
-      }
+      } catch (e) { return null; }
     }
 
     function saveVaultSession(author, token) {
@@ -1406,19 +627,16 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     });
 
     connectVaultBtn.addEventListener('click', async () => {
-      clearAuthMessage();
+      authFeedback.className = 'auth-msg';
       const author = studioAuthorInput.value.trim() || 'Paul';
       const token = githubPatInput.value.trim();
-
       if (!token) {
         showAuthMessage('Please paste your GitHub Personal Access Token.');
         githubPatInput.focus();
         return;
       }
-
       connectVaultBtn.disabled = true;
       connectVaultBtn.textContent = 'Verifying wintercrickets Access...';
-
       try {
         const repoInfo = await githubApiRequest('', { method: 'GET' }, token);
         if (!repoInfo || !repoInfo.full_name) throw new Error('Could not verify repository access.');
@@ -1444,6 +662,57 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       enterLoggedOutState();
     })();
 
+    function ensureIntroductionPortalsExist() {
+      const hasJanice = branches.some(b => b.id === 'introduction-janice');
+      const hasPaul = branches.some(b => b.id === 'introduction-paul');
+      if (!hasPaul) {
+        branches.unshift({
+          id: 'introduction-paul',
+          title: 'Paul',
+          subtitle: 'Personal Sanctum',
+          portal_type: 'introduction',
+          slice: 'Janice & Paul',
+          slice_bg: 'cosmos',
+          theme: 'celestial',
+          filament: 'gothic',
+          angle: 0,
+          distance: 290,
+          thumbnail: 'assets/paul-avatar.jpg',
+          poem_title: '',
+          poem_text: '',
+          poem_italic: false,
+          archetype_zodiacal: 'Virgo-Leo Cusp — Solar Hermeticist',
+          archetype_mythological: 'Dionysus & The Woodland Satyr',
+          archetype_animalia: 'Horned Satyr & Nocturnal Cricket',
+          sanctum_heading: '✦ Thiasus of Dionysus & The Satyr ✦',
+          sanctum_text: ''
+        });
+      }
+      if (!hasJanice) {
+        branches.unshift({
+          id: 'introduction-janice',
+          title: 'Janice',
+          subtitle: 'Personal Sanctum',
+          portal_type: 'introduction',
+          slice: 'Janice & Paul',
+          slice_bg: 'cosmos',
+          theme: 'nocturnal',
+          filament: 'vine',
+          angle: 180,
+          distance: 290,
+          thumbnail: 'assets/janice-avatar.png',
+          poem_title: '',
+          poem_text: '',
+          poem_italic: false,
+          archetype_zodiacal: 'Virgo — The Maiden of Harvest',
+          archetype_mythological: 'Persephone — Queen of the Underworld & Spring',
+          archetype_animalia: 'Luna Moth & Black Swan',
+          sanctum_heading: '✦ Grove of Persephone ✦',
+          sanctum_text: ''
+        });
+      }
+    }
+
     async function fetchBranchesData() {
       try {
         const fileData = await githubApiRequest(`/contents/branches.json?ref=${GITHUB_BRANCH}&t=${Date.now()}`);
@@ -1452,51 +721,29 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
             Uint8Array.from(atob(fileData.content.replace(/\s/g, '')), c => c.charCodeAt(0))
           );
           branches = JSON.parse(decoded);
-        } else {
-          branches = [];
-        }
+        } else branches = [];
       } catch (e) {
         try {
           const res = await fetch(`../branches.json?t=${Date.now()}`);
           branches = res.ok ? await res.json() : [];
-        } catch (err) {
-          branches = [];
-        }
+        } catch (err) { branches = []; }
       }
+      ensureIntroductionPortalsExist();
       populateSliceDropdown();
       renderSidebar();
-      if (editingIndex >= 0 && branches[editingIndex]) {
-        loadPortalIntoForm(editingIndex);
-      } else {
-        startNewPortal();
-      }
-    }
-
-    function studioSliceName(branch) {
-      return branch.portal_type === 'introduction' ||
-        ['introduction-janice', 'introduction-paul'].includes(branch.id)
-        ? ((typeof branch.slice === 'string' && branch.slice.trim()) || 'Janice & Paul')
-        : (branch.slice || 'Prime Cosmos');
+      if (editingIndex >= 0 && branches[editingIndex]) loadPortalIntoForm(editingIndex);
+      else loadPortalIntoForm(0);
     }
 
     function getSliceMap() {
       const map = new Map();
       branches.forEach(b => {
-        const s = studioSliceName(b);
+        const s = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
         const bg = b.slice_bg || 'cosmos';
         if (!map.has(s)) map.set(s, bg);
       });
-      if (map.size === 0) map.set('Prime Cosmos', 'cosmos');
+      if (!map.has('Prime Cosmos')) map.set('Prime Cosmos', 'cosmos');
       return map;
-    }
-
-    function loadDiskBridgeSettings(sliceName) {
-      const diskPortals = branches.filter(b => studioSliceName(b) === sliceName);
-      const foundAngle = diskPortals.find(b => b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '')?.bridge_angle;
-      const foundDist = diskPortals.find(b => b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '')?.bridge_distance;
-
-      inpBridgeAngle.value = foundAngle !== undefined ? foundAngle : '';
-      inpBridgeDistance.value = foundDist !== undefined ? foundDist : 455;
     }
 
     function populateSliceDropdown(selectedSliceName = 'Prime Cosmos') {
@@ -1515,10 +762,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       selSlice.appendChild(newOpt);
 
       inpNewSlice.style.display = selSlice.value === '__NEW__' ? 'block' : 'none';
-      if (sliceMap.has(selectedSliceName)) {
-        selRealmBg.value = sliceMap.get(selectedSliceName);
-      }
-      loadDiskBridgeSettings(selectedSliceName);
+      if (sliceMap.has(selectedSliceName)) selRealmBg.value = sliceMap.get(selectedSliceName);
     }
 
     selSlice.addEventListener('change', () => {
@@ -1526,65 +770,16 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         inpNewSlice.style.display = 'block';
         inpNewSlice.focus();
         selRealmBg.value = 'noir';
-        inpBridgeAngle.value = '';
-        inpBridgeDistance.value = 455;
       } else {
         inpNewSlice.style.display = 'none';
         const sliceMap = getSliceMap();
-        if (sliceMap.has(selSlice.value)) {
-          selRealmBg.value = sliceMap.get(selSlice.value);
-        }
-        loadDiskBridgeSettings(selSlice.value);
+        if (sliceMap.has(selSlice.value)) selRealmBg.value = sliceMap.get(selSlice.value);
       }
       renderRadar();
     });
 
-    // Disk rename: pending until Publish, then applied to every portal on the disk.
-    const renameSliceBtn = document.getElementById('rename-slice-btn');
-    const renameSliceFields = document.getElementById('disk-rename-fields');
-    const renameSliceCurrent = document.getElementById('rename-slice-current');
-    const inpRenameSlice = document.getElementById('inp-rename-slice');
-    const renameSliceCancel = document.getElementById('rename-slice-cancel');
-    let renameSliceFrom = null;
-
-    function closeDiskRename() {
-      renameSliceFrom = null;
-      inpRenameSlice.value = '';
-      renameSliceFields.hidden = true;
-      renameSliceBtn.setAttribute('aria-expanded', 'false');
-      renameSliceBtn.textContent = 'Rename this Disk';
-    }
-    function openDiskRename() {
-      if (selSlice.value === '__NEW__') return;
-      renameSliceFrom = selSlice.value || 'Prime Cosmos';
-      renameSliceCurrent.textContent = renameSliceFrom;
-      inpRenameSlice.value = renameSliceFrom;
-      renameSliceFields.hidden = false;
-      renameSliceBtn.setAttribute('aria-expanded', 'true');
-      renameSliceBtn.textContent = 'Renaming on Publish';
-      inpRenameSlice.focus();
-      inpRenameSlice.select();
-    }
-    function pendingDiskRename() {
-      if (!renameSliceFrom || renameSliceFields.hidden) return null;
-      const to = inpRenameSlice.value.trim().replace(/\s+/g, ' ');
-      if (!to || to === renameSliceFrom || to === '__NEW__') return null;
-      return { from: renameSliceFrom, to };
-    }
-    renameSliceBtn.addEventListener('click', () => {
-      if (renameSliceFields.hidden) openDiskRename(); else inpRenameSlice.focus();
-    });
-    renameSliceCancel.addEventListener('click', closeDiskRename);
-    selSlice.addEventListener('change', closeDiskRename);
-    renameSliceBtn.disabled = selSlice.value === '__NEW__';
-    selSlice.addEventListener('change', () => { renameSliceBtn.disabled = selSlice.value === '__NEW__'; });
-
     function getActiveSliceName() {
-      const rename = pendingDiskRename();
-      if (rename) return rename.to;
-      if (selSlice.value === '__NEW__') {
-        return inpNewSlice.value.trim() || 'Outdoor Sanctuary';
-      }
+      if (selSlice.value === '__NEW__') return inpNewSlice.value.trim() || 'Outdoor Sanctuary';
       return selSlice.value || 'Prime Cosmos';
     }
 
@@ -1592,7 +787,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       sidebarList.innerHTML = '';
       const groups = new Map();
       branches.forEach((b, idx) => {
-        const s = studioSliceName(b);
+        const s = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
         if (!groups.has(s)) groups.set(s, []);
         groups.get(s).push({ branch: b, idx });
       });
@@ -1606,12 +801,20 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         items.forEach(({ branch, idx }) => {
           const item = document.createElement('div');
           item.className = `portal-list-item ${idx === editingIndex ? 'selected' : ''}`;
-          const thumbUrl = branch.thumbnail ? `../${branch.thumbnail}` : '';
+          const defaultAvatar = branch.id === 'introduction-janice'
+            ? '../assets/janice-avatar.png'
+            : branch.id === 'introduction-paul'
+              ? '../assets/paul-avatar.jpg'
+              : '';
+          const thumbUrl = branch.thumbnail ? `../${branch.thumbnail}` : defaultAvatar;
+          const subLabel = branch.portal_type === 'introduction'
+            ? 'Personal Sanctum & Archetypes'
+            : `${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos`;
           item.innerHTML = `
             <img class="portal-list-thumb" src="${thumbUrl}" alt="" onerror="this.style.opacity=0.2" />
             <div class="portal-list-meta">
               <div class="portal-list-name">${branch.title || branch.id}</div>
-              <div class="portal-list-sub">${branch.filament || 'standard'} • ${branch.angle ?? 0}° • ${(branch.photos || []).length} photos</div>
+              <div class="portal-list-sub">${subLabel}</div>
             </div>
           `;
           item.addEventListener('click', () => loadPortalIntoForm(idx));
@@ -1634,61 +837,53 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
 
     inpTitle.addEventListener('input', () => {
       if (editingIndex === -1) {
-        inpId.value = inpTitle.value
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9\s-_]/g, '')
-          .replace(/\s+/g, '-');
+        inpId.value = inpTitle.value.toLowerCase().trim().replace(/[^a-z0-9\s-_]/g, '').replace(/\s+/g, '-');
       }
       renderRadar();
     });
 
     function suggestOpenAngle(sliceName) {
       const existingAngles = branches
-        .filter((b, idx) => idx !== editingIndex && studioSliceName(b) === sliceName)
+        .filter((b, idx) => idx !== editingIndex && (b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos')) === sliceName)
         .map(b => b.angle ?? 0);
       if (existingAngles.length === 0) return -25;
       const candidates = [-25, 25, 155, -155, -65, 65, 115, -115, 0, 180, -90, 90, -45, 45, 135, -135];
       for (const c of candidates) {
-        if (existingAngles.every(a => Math.abs(((c - a + 540) % 360) - 180) >= 24)) {
-          return c;
-        }
+        if (existingAngles.every(a => Math.abs(((c - a + 540) % 360) - 180) >= 24)) return c;
       }
       return (existingAngles[existingAngles.length - 1] + 35) % 360 - 180;
     }
 
-    function suggestOpenBridgeCorner(sliceName) {
-      const preferredCorners = [-32, -148, 32, 148, -90];
-      const usedAngles = branches
-        .filter((b, idx) => studioSliceName(b) === sliceName && idx !== editingIndex)
-        .map(b => b.angle ?? 0);
-      usedAngles.push(parseFloat(inpAngle.value) || 0);
-
-      for (const candidate of preferredCorners) {
-        const isClear = usedAngles.every(a => Math.abs(((candidate - a + 540) % 360) - 180) >= 26);
-        if (isClear) return candidate;
-      }
-      return -32;
-    }
-
     autoAngleBtn.addEventListener('click', () => {
       inpAngle.value = suggestOpenAngle(getActiveSliceName());
-      setRadarDragMode('portal');
       renderRadar();
     });
 
-    autoBridgeBtn.addEventListener('click', () => {
-      inpBridgeAngle.value = suggestOpenBridgeCorner(getActiveSliceName());
-      inpBridgeDistance.value = 455;
-      setRadarDragMode('bridge');
-      renderRadar();
-    });
+    function updateSanctumEditorVisibility(folderId, isIntro) {
+      if (isIntro) {
+        sanctumEditorSection.classList.add('active');
+        const isJanice = folderId === 'introduction-janice';
+        sanctumEditorSection.setAttribute('data-deity', isJanice ? 'persephone' : 'dionysus');
+        sanctumBannerTitle.textContent = isJanice
+          ? '✦ Janice Sanctum: Poem, 3 Archetypes & Persephone Foliage Box ✦'
+          : '✦ Paul Sanctum: Poem, 3 Archetypes & Dionysus / Satyr Box ✦';
+        lblSanctumHeading.textContent = isJanice
+          ? 'Persephone Box Heading'
+          : 'Dionysus & Satyr Box Heading';
+        lblSanctumProse.innerHTML = isJanice
+          ? 'Persephone & Verdant Foliage Text Box <span class="label-hint">(Legible Cormorant Garamond prose)</span>'
+          : 'Dionysus, Grapevines & Satyr Text Box <span class="label-hint">(Legible Cormorant Garamond prose)</span>';
+      } else {
+        sanctumEditorSection.classList.remove('active');
+      }
+    }
 
     function startNewPortal() {
       editingIndex = -1;
       editorModeTitle.textContent = 'Create New Portal';
       editorFolderBadge.textContent = 'New Folder';
       deletePortalBtn.style.display = 'none';
+      sanctumEditorSection.classList.remove('active');
 
       inpTitle.value = '';
       inpId.value = '';
@@ -1696,13 +891,12 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       inpSubtitle.value = 'Gallery & Archive';
       inpPassword.value = '';
 
-      const currentSlice = getActiveSliceName();
-      populateSliceDropdown(currentSlice);
+      populateSliceDropdown('Prime Cosmos');
       setThemePill('celestial');
       selFilament.value = 'standard';
       selThumbPreset.value = 'first_photo';
 
-      inpAngle.value = suggestOpenAngle(currentSlice);
+      inpAngle.value = suggestOpenAngle('Prime Cosmos');
       inpDistance.value = 340;
 
       existingPhotos = [];
@@ -1718,9 +912,11 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     function loadPortalIntoForm(idx) {
       editingIndex = idx;
       const b = branches[idx];
+      const isIntro = b.portal_type === 'introduction' || ['introduction-janice', 'introduction-paul'].includes(b.id);
+
       editorModeTitle.textContent = `Editing: ${b.title || b.id}`;
-      editorFolderBadge.textContent = `portals/${b.id}/`;
-      deletePortalBtn.style.display = 'inline-flex';
+      editorFolderBadge.textContent = isIntro ? `Landing Sanctum (${b.id})` : `portals/${b.id}/`;
+      deletePortalBtn.style.display = isIntro ? 'none' : 'inline-flex';
 
       inpTitle.value = b.title || b.id;
       inpId.value = b.id;
@@ -1728,8 +924,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       inpSubtitle.value = b.subtitle || 'Gallery & Archive';
       inpPassword.value = b.password || '';
 
-      closeDiskRename();
-      const sliceName = studioSliceName(b);
+      const sliceName = isIntro ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
       populateSliceDropdown(sliceName);
       selRealmBg.value = b.slice_bg || 'cosmos';
       setThemePill(b.theme || 'nocturnal');
@@ -1739,14 +934,18 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       selThumbPreset.value = presets.includes(b.thumbnail) ? b.thumbnail : 'first_photo';
 
       inpAngle.value = b.angle ?? 0;
-      inpDistance.value = b.distance ?? 340;
+      inpDistance.value = b.distance ?? (isIntro ? 290 : 340);
 
-      if (b.bridge_angle !== undefined && b.bridge_angle !== null && b.bridge_angle !== '') {
-        inpBridgeAngle.value = b.bridge_angle;
-      }
-      if (b.bridge_distance !== undefined && b.bridge_distance !== null && b.bridge_distance !== '') {
-        inpBridgeDistance.value = b.bridge_distance;
-      }
+      // Populate Poem, 3 Archetypes, and Persephone / Dionysus-Satyr Sanctum Box
+      updateSanctumEditorVisibility(b.id, isIntro);
+      inpPoemTitle.value = b.poem_title || '';
+      chkPoemItalic.checked = Boolean(b.poem_italic);
+      inpPoemText.value = b.poem_text || '';
+      inpArchZodiacal.value = b.archetype_zodiacal || '';
+      inpArchMythological.value = b.archetype_mythological || '';
+      inpArchAnimalia.value = b.archetype_animalia || '';
+      inpSanctumHeading.value = b.sanctum_heading || (b.id === 'introduction-janice' ? '✦ Grove of Persephone ✦' : '✦ Thiasus of Dionysus & The Satyr ✦');
+      inpSanctumText.value = b.sanctum_text || '';
 
       existingPhotos = [...(b.photos || [])];
       existingGridThumbs = [...(b.grid_thumbs || [])];
@@ -1778,16 +977,30 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       const hub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       hub.setAttribute('cx', 500);
       hub.setAttribute('cy', 500);
-      hub.setAttribute('r', 58);
+      hub.setAttribute('r', 64);
       hub.setAttribute('fill', '#141028');
       hub.setAttribute('stroke', '#d4af37');
       hub.setAttribute('stroke-width', '5');
       radarSvg.appendChild(hub);
 
-      // Existing portals on the same disk
+      // Preview the Central Hub Astrolabe Bezel Gems
+      const sliceKeys = Array.from(getSliceMap().keys());
+      sliceKeys.forEach((sKey, sIdx) => {
+        const bAng = ((sIdx / sliceKeys.length) * 360 - 90) * (Math.PI / 180);
+        const gx = 500 + Math.cos(bAng) * 76;
+        const gy = 500 + Math.sin(bAng) * 76;
+        const gem = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        gem.setAttribute('cx', gx);
+        gem.setAttribute('cy', gy);
+        gem.setAttribute('r', sKey === sliceName ? 11 : 8);
+        gem.setAttribute('fill', sKey === sliceName ? '#ffffff' : '#d4af37');
+        radarSvg.appendChild(gem);
+      });
+
       branches.forEach((b, idx) => {
         if (idx === editingIndex) return;
-        if (studioSliceName(b) !== sliceName) return;
+        const bSlice = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+        if (bSlice !== sliceName) return;
         const rad = ((b.angle ?? 0) * Math.PI) / 180;
         const dist = b.distance ?? 340;
         const px = 500 + Math.cos(rad) * dist;
@@ -1812,44 +1025,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         radarSvg.appendChild(dot);
       });
 
-      // Slender Alchemical Astrolabe Warp Conduit & Node on Radar Preview
-      const rawBAngle = inpBridgeAngle.value.trim();
-      const bAngle = rawBAngle !== '' ? parseFloat(rawBAngle) : suggestOpenBridgeCorner(sliceName);
-      const bDist = parseFloat(inpBridgeDistance.value) || 455;
-      const bRad = (bAngle * Math.PI) / 180;
-      const bx = 500 + Math.cos(bRad) * bDist;
-      const by = 500 + Math.sin(bRad) * bDist;
-
-      const bridgeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      bridgeLine.setAttribute('x1', 500);
-      bridgeLine.setAttribute('y1', 500);
-      bridgeLine.setAttribute('x2', bx);
-      bridgeLine.setAttribute('y2', by);
-      bridgeLine.setAttribute('stroke', '#d4af37');
-      bridgeLine.setAttribute('stroke-width', radarDragTarget === 'bridge' ? '4.5' : '2.5');
-      bridgeLine.setAttribute('stroke-dasharray', '6 5');
-      radarSvg.appendChild(bridgeLine);
-
-      const bridgeHalo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      bridgeHalo.setAttribute('cx', bx);
-      bridgeHalo.setAttribute('cy', by);
-      bridgeHalo.setAttribute('r', 46);
-      bridgeHalo.setAttribute('fill', 'none');
-      bridgeHalo.setAttribute('stroke', '#d4af37');
-      bridgeHalo.setAttribute('stroke-width', '2');
-      bridgeHalo.setAttribute('stroke-dasharray', '4 4');
-      radarSvg.appendChild(bridgeHalo);
-
-      const bridgeDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      bridgeDot.setAttribute('cx', bx);
-      bridgeDot.setAttribute('cy', by);
-      bridgeDot.setAttribute('r', 34);
-      bridgeDot.setAttribute('fill', '#22183c');
-      bridgeDot.setAttribute('stroke', radarDragTarget === 'bridge' ? '#ffffff' : '#d4af37');
-      bridgeDot.setAttribute('stroke-width', '4');
-      radarSvg.appendChild(bridgeDot);
-
-      // Active Portal Node being edited
       const activeRad = (activeAngle * Math.PI) / 180;
       const ax = 500 + Math.cos(activeRad) * activeDist;
       const ay = 500 + Math.sin(activeRad) * activeDist;
@@ -1860,30 +1035,22 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       activeLine.setAttribute('x2', ax);
       activeLine.setAttribute('y2', ay);
       activeLine.setAttribute('stroke', activeColor);
-      activeLine.setAttribute('stroke-width', radarDragTarget === 'portal' ? '8' : '5');
+      activeLine.setAttribute('stroke-width', '8');
       activeLine.setAttribute('stroke-dasharray', '14 8');
-      const newActiveFilament = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      if (window.DOSFilaments.render(newActiveFilament, 500, 500, ax, ay, selFilament.value, activeColor)) {
-        radarSvg.appendChild(newActiveFilament);
-      } else {
-        radarSvg.appendChild(activeLine);
-      }
+      radarSvg.appendChild(activeLine);
 
       const activeNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       activeNode.setAttribute('cx', ax);
       activeNode.setAttribute('cy', ay);
       activeNode.setAttribute('r', 46);
       activeNode.setAttribute('fill', activeColor);
-      activeNode.setAttribute('stroke', radarDragTarget === 'portal' ? '#ffffff' : 'rgba(255,255,255,0.6)');
+      activeNode.setAttribute('stroke', '#ffffff');
       activeNode.setAttribute('stroke-width', '6');
       radarSvg.appendChild(activeNode);
-      window.updateNewFilamentSpecimens?.(selectedTheme);
     }
 
-    inpAngle.addEventListener('input', () => { setRadarDragMode('portal'); renderRadar(); });
-    inpDistance.addEventListener('input', () => { setRadarDragMode('portal'); renderRadar(); });
-    inpBridgeAngle.addEventListener('input', () => { setRadarDragMode('bridge'); renderRadar(); });
-    inpBridgeDistance.addEventListener('input', () => { setRadarDragMode('bridge'); renderRadar(); });
+    inpAngle.addEventListener('input', renderRadar);
+    inpDistance.addEventListener('input', renderRadar);
 
     let isDraggingRadar = false;
     function updateRadarFromPointer(e) {
@@ -1893,48 +1060,33 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       const dx = clientX - (rect.left + rect.width / 2);
       const dy = clientY - (rect.top + rect.height / 2);
       const deg = Math.round((Math.atan2(dy, dx) * 180) / Math.PI);
-
-      // Convert pointer distance to 1000x1000 viewBox units
       const scale = 1000 / (rect.width || 280);
       const rawDist = Math.round(Math.hypot(dx, dy) * scale);
 
-      if (radarDragTarget === 'bridge') {
-        inpBridgeAngle.value = deg;
-        inpBridgeDistance.value = Math.max(220, Math.min(490, rawDist));
-      } else {
-        inpAngle.value = deg;
-        inpDistance.value = Math.max(180, Math.min(460, rawDist));
-      }
+      inpAngle.value = deg;
+      inpDistance.value = Math.max(180, Math.min(460, rawDist));
       renderRadar();
     }
 
     radarBox.addEventListener('mousedown', e => { isDraggingRadar = true; updateRadarFromPointer(e); });
     window.addEventListener('mousemove', e => { if (isDraggingRadar) updateRadarFromPointer(e); });
     window.addEventListener('mouseup', () => { isDraggingRadar = false; });
-
     radarBox.addEventListener('touchstart', e => { isDraggingRadar = true; updateRadarFromPointer(e); e.preventDefault(); }, { passive: false });
     window.addEventListener('touchmove', e => { if (isDraggingRadar) updateRadarFromPointer(e); }, { passive: false });
     window.addEventListener('touchend', () => { isDraggingRadar = false; });
 
-    // --- Cross-Portal Photo Library Drawer Logic ---
     openLibraryBtn.addEventListener('click', () => {
       libraryGrid.innerHTML = '';
       let totalPhotosFound = 0;
-
       branches.forEach(b => {
         const pList = b.photos || [];
         const tList = b.grid_thumbs || [];
         pList.forEach((fullPath, idx) => {
           totalPhotosFound++;
           const thumbPath = tList[idx] || fullPath;
-
           const card = document.createElement('div');
           card.className = 'library-card';
-          card.innerHTML = `
-            <img src="../${thumbPath}" alt="" loading="lazy" />
-            <div class="library-card-label">${b.title || b.id}</div>
-          `;
-
+          card.innerHTML = `<img src="../${thumbPath}" alt="" loading="lazy" /><div class="library-card-label">${b.title || b.id}</div>`;
           card.addEventListener('click', () => {
             if (!existingPhotos.includes(fullPath)) {
               existingPhotos.push(fullPath);
@@ -1943,22 +1095,18 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
             }
             libraryModal.classList.remove('active');
           });
-
           libraryGrid.appendChild(card);
         });
       });
-
       if (totalPhotosFound === 0) {
         libraryGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted);">No photos found in other portals yet.</div>';
       }
-
       libraryModal.classList.add('active');
     });
 
     closeLibraryBtn.addEventListener('click', () => libraryModal.classList.remove('active'));
     libraryModal.addEventListener('click', e => { if (e.target === libraryModal) libraryModal.classList.remove('active'); });
 
-    // --- Browser WebP Processor ---
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
@@ -1984,33 +1132,22 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
     async function convertImageToWebPAndThumb(file) {
       const imgUrl = URL.createObjectURL(file);
       const img = new Image();
-      await new Promise((res, rej) => {
-        img.onload = res;
-        img.onerror = rej;
-        img.src = imgUrl;
-      });
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = imgUrl; });
 
       let w = img.naturalWidth;
       let h = img.naturalHeight;
       if (Math.max(w, h) > MAX_FULL_DIM) {
-        if (w >= h) {
-          h = Math.round((h * MAX_FULL_DIM) / w);
-          w = MAX_FULL_DIM;
-        } else {
-          w = Math.round((w * MAX_FULL_DIM) / h);
-          h = MAX_FULL_DIM;
-        }
+        if (w >= h) { h = Math.round((h * MAX_FULL_DIM) / w); w = MAX_FULL_DIM; }
+        else { w = Math.round((w * MAX_FULL_DIM) / h); h = MAX_FULL_DIM; }
       }
       const fullCanvas = document.createElement('canvas');
-      fullCanvas.width = w;
-      fullCanvas.height = h;
+      fullCanvas.width = w; fullCanvas.height = h;
       fullCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
       const fullBlob = await new Promise(res => fullCanvas.toBlob(res, 'image/webp', FULL_WEBP_QUALITY));
       const fullBase64 = await blobToBase64(fullBlob);
 
       const thumbCanvas = document.createElement('canvas');
-      thumbCanvas.width = THUMB_DIM;
-      thumbCanvas.height = THUMB_DIM;
+      thumbCanvas.width = THUMB_DIM; thumbCanvas.height = THUMB_DIM;
       const minSide = Math.min(img.naturalWidth, img.naturalHeight);
       const sx = (img.naturalWidth - minSide) / 2;
       const sy = (img.naturalHeight - minSide) / 2;
@@ -2019,12 +1156,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       const thumbBase64 = await blobToBase64(thumbBlob);
 
       URL.revokeObjectURL(imgUrl);
-
-      const cleanBaseName = file.name
-        .replace(/\.[^/.]+$/, '')
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]/g, '-');
-
+      const cleanBaseName = file.name.replace(/\.[^/.]+$/, '').toLowerCase().replace(/[^a-z0-9-_]/g, '-');
       return {
         filename: `${cleanBaseName}.webp`,
         fullBase64,
@@ -2043,9 +1175,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         try {
           const processed = await convertImageToWebPAndThumb(files[i]);
           queuedNewFiles.push(processed);
-        } catch (err) {
-          console.error('Error converting image:', err);
-        }
+        } catch (err) { console.error('Error converting image:', err); }
       }
       statusText.textContent = `✓ Converted ${files.length} photo(s) to WebP! Ready to publish.`;
       renderPhotoPreviews();
@@ -2057,10 +1187,8 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
 
       photoPreviewGrid.innerHTML = '';
-
       const totalPhotos = existingPhotos.length + queuedNewFiles.length;
 
-      // Render Existing / Linked Photos
       existingPhotos.forEach((pPath, idx) => {
         const thumbPath = existingGridThumbs[idx] || pPath;
         const isFirst = (idx === 0 && queuedNewFiles.length === 0);
@@ -2070,34 +1198,23 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           <img src="../${thumbPath}" alt="" />
           <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold);' : ''}">${isFirst ? '★ Portal Icon' : 'Linked'}</span>
           <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 4px;">
-            ${idx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move Left">‹</button>` : ''}
+            ${idx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move First">‹</button>` : ''}
             ${idx < totalPhotos - 1 ? `<button type="button" class="photo-ctrl-btn move-right-btn" title="Move Right">›</button>` : ''}
           </div>
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
-
         const moveLeft = div.querySelector('.move-left-btn');
-        if (moveLeft) {
-          moveLeft.addEventListener('click', () => {
-            const itemP = existingPhotos.splice(idx, 1)[0];
-            const itemT = existingGridThumbs.splice(idx, 1)[0];
-            existingPhotos.unshift(itemP);
-            existingGridThumbs.unshift(itemT);
-            renderPhotoPreviews();
-          });
-        }
-
+        if (moveLeft) moveLeft.addEventListener('click', () => {
+          existingPhotos.unshift(existingPhotos.splice(idx, 1)[0]);
+          existingGridThumbs.unshift(existingGridThumbs.splice(idx, 1)[0]);
+          renderPhotoPreviews();
+        });
         const moveRight = div.querySelector('.move-right-btn');
-        if (moveRight) {
-          moveRight.addEventListener('click', () => {
-            const itemP = existingPhotos.splice(idx, 1)[0];
-            const itemT = existingGridThumbs.splice(idx, 1)[0];
-            existingPhotos.splice(idx + 1, 0, itemP);
-            existingGridThumbs.splice(idx + 1, 0, itemT);
-            renderPhotoPreviews();
-          });
-        }
-
+        if (moveRight) moveRight.addEventListener('click', () => {
+          existingPhotos.splice(idx + 1, 0, existingPhotos.splice(idx, 1)[0]);
+          existingGridThumbs.splice(idx + 1, 0, existingGridThumbs.splice(idx, 1)[0]);
+          renderPhotoPreviews();
+        });
         div.querySelector('.remove-photo-btn').addEventListener('click', () => {
           existingPhotos.splice(idx, 1);
           existingGridThumbs.splice(idx, 1);
@@ -2106,7 +1223,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         photoPreviewGrid.appendChild(div);
       });
 
-      // Render Queued New Files
       queuedNewFiles.forEach((item, idx) => {
         const globalIdx = existingPhotos.length + idx;
         const isFirst = (globalIdx === 0);
@@ -2115,31 +1231,8 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         div.innerHTML = `
           <img src="${item.previewUrl}" alt="" />
           <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold);' : ''}">${isFirst ? '★ Portal Icon' : `New • ${item.sizeKb}KB`}</span>
-          <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 4px;">
-            ${globalIdx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move Left">‹</button>` : ''}
-            ${globalIdx < totalPhotos - 1 ? `<button type="button" class="photo-ctrl-btn move-right-btn" title="Move Right">›</button>` : ''}
-          </div>
           <button type="button" class="remove-photo-btn" title="Remove queued photo">×</button>
         `;
-
-        const moveLeft = div.querySelector('.move-left-btn');
-        if (moveLeft) {
-          moveLeft.addEventListener('click', () => {
-            const moved = queuedNewFiles.splice(idx, 1)[0];
-            queuedNewFiles.unshift(moved);
-            renderPhotoPreviews();
-          });
-        }
-
-        const moveRight = div.querySelector('.move-right-btn');
-        if (moveRight) {
-          moveRight.addEventListener('click', () => {
-            const moved = queuedNewFiles.splice(idx, 1)[0];
-            queuedNewFiles.splice(idx + 1, 0, moved);
-            renderPhotoPreviews();
-          });
-        }
-
         div.querySelector('.remove-photo-btn').addEventListener('click', () => {
           queuedNewFiles.splice(idx, 1);
           renderPhotoPreviews();
@@ -2148,7 +1241,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       });
     }
 
-    // --- Atomic Single-Commit Push ---
     publishBtn.addEventListener('click', async () => {
       const title = inpTitle.value.trim();
       const folderId = inpId.value.trim();
@@ -2176,25 +1268,26 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         return;
       }
 
-      const diskRename = pendingDiskRename();
-      if (diskRename) {
-        const taken = getSliceMap().has(diskRename.to);
-        if (taken && !confirm(`A disk named "${diskRename.to}" already exists. Renaming will merge "${diskRename.from}" into it. Continue?`)) return;
-      }
-      const sliceName = getActiveSliceName();
+      const sliceName = isIntroduction ? 'Janice & Paul' : getActiveSliceName();
       const sliceBg = selRealmBg.value;
-      const thumbChoice = selThumbPreset.value === 'first_photo'
-        ? (finalGridThumbs[0] || finalPhotos[0])
-        : selThumbPreset.value;
-
-      const rawBridgeAngle = inpBridgeAngle.value.trim();
-      const bridgeAngleVal = rawBridgeAngle !== '' ? parseInt(rawBridgeAngle, 10) : null;
-      const bridgeDistVal = parseInt(inpBridgeDistance.value, 10) || 455;
+      const defaultIntroThumb = folderId === 'introduction-janice' ? 'assets/janice-avatar.png' : 'assets/paul-avatar.jpg';
+      const thumbChoice = isIntroduction
+        ? (branches[editingIndex]?.thumbnail || defaultIntroThumb)
+        : (selThumbPreset.value === 'first_photo' ? (finalGridThumbs[0] || finalPhotos[0]) : selThumbPreset.value);
 
       const portalObj = {
         ...(editingIndex >= 0 ? branches[editingIndex] : {}),
-        ...(isIntroduction ? { portal_type: 'introduction' } : {}),
-        ...(isIntroduction ? window.readIntroductionProfile() : {}),
+        ...(isIntroduction ? {
+          portal_type: 'introduction',
+          poem_title: inpPoemTitle.value.trim(),
+          poem_italic: chkPoemItalic.checked,
+          poem_text: inpPoemText.value,
+          archetype_zodiacal: inpArchZodiacal.value.trim(),
+          archetype_mythological: inpArchMythological.value.trim(),
+          archetype_animalia: inpArchAnimalia.value.trim(),
+          sanctum_heading: inpSanctumHeading.value.trim(),
+          sanctum_text: inpSanctumText.value
+        } : {}),
         id: folderId,
         title,
         subtitle: inpSubtitle.value.trim() || 'Gallery & Archive',
@@ -2203,9 +1296,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         theme: selectedTheme,
         filament: selFilament.value,
         angle: parseInt(inpAngle.value, 10) || 0,
-        distance: parseInt(inpDistance.value, 10) || 340,
-        bridge_angle: bridgeAngleVal,
-        bridge_distance: bridgeDistVal,
+        distance: parseInt(inpDistance.value, 10) || (isIntroduction ? 290 : 340),
         thumbnail: thumbChoice,
         photos: finalPhotos,
         grid_thumbs: finalGridThumbs,
@@ -2213,20 +1304,12 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       };
 
       const updatedBranches = [...branches];
-      if (editingIndex >= 0) {
-        updatedBranches[editingIndex] = portalObj;
-      } else {
-        updatedBranches.push(portalObj);
-      }
+      if (editingIndex >= 0) updatedBranches[editingIndex] = portalObj;
+      else updatedBranches.push(portalObj);
 
-      // Sync Disk-level settings (slice_bg, bridge_angle, bridge_distance) across all portals on this disk
       updatedBranches.forEach(b => {
-        if (diskRename && studioSliceName(b) === diskRename.from) b.slice = diskRename.to;
-        if (studioSliceName(b) === sliceName) {
-          b.slice_bg = sliceBg;
-          b.bridge_angle = bridgeAngleVal;
-          b.bridge_distance = bridgeDistVal;
-        }
+        const bSlice = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+        if (bSlice === sliceName) b.slice_bg = sliceBg;
       });
 
       try {
@@ -2254,23 +1337,13 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
             method: 'POST',
             body: JSON.stringify({ content: item.fullBase64, encoding: 'base64' })
           });
-          treeItems.push({
-            path: `portals/${folderId}/${item.filename}`,
-            mode: '100644',
-            type: 'blob',
-            sha: fullBlobRes.sha
-          });
+          treeItems.push({ path: `portals/${folderId}/${item.filename}`, mode: '100644', type: 'blob', sha: fullBlobRes.sha });
 
           const thumbBlobRes = await githubApiRequest('/git/blobs', {
             method: 'POST',
             body: JSON.stringify({ content: item.thumbBase64, encoding: 'base64' })
           });
-          treeItems.push({
-            path: `portals/${folderId}/grid_thumbs/${item.filename}`,
-            mode: '100644',
-            type: 'blob',
-            sha: thumbBlobRes.sha
-          });
+          treeItems.push({ path: `portals/${folderId}/grid_thumbs/${item.filename}`, mode: '100644', type: 'blob', sha: thumbBlobRes.sha });
         }
 
         statusText.textContent = 'Updating branches.json & committing to wintercrickets...';
@@ -2291,7 +1364,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
         const newCommit = await githubApiRequest('/git/commits', {
           method: 'POST',
           body: JSON.stringify({
-            message: diskRename ? `Portal Studio (${authorLabel}): Rename disk '${diskRename.from}' to '${diskRename.to}' and update '${title}'` : `Portal Studio (${authorLabel}): Update '${title}' on disk '${sliceName}'`,
+            message: `Portal Studio (${authorLabel}): Update '${title}' on disk '${sliceName}'`,
             tree: newTree.sha,
             parents: [latestCommitSha]
           })
@@ -2304,7 +1377,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
 
         branches = updatedBranches;
         queuedNewFiles = [];
-        closeDiskRename();
         progressFill.style.width = '100%';
         statusText.textContent = `✨ Published '${title}'! Netlify is now deploying to depthofsparkle.life.`;
 
@@ -2332,7 +1404,6 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
 
         const session = getVaultSession();
         const authorLabel = (session && session.author) || 'Studio';
-
         const refData = await githubApiRequest(`/git/refs/heads/${GITHUB_BRANCH}`);
         const latestCommitSha = refData.object.sha;
         const commitData = await githubApiRequest(`/git/commits/${latestCommitSha}`);
@@ -2341,12 +1412,7 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
           method: 'POST',
           body: JSON.stringify({
             base_tree: commitData.tree.sha,
-            tree: [{
-              path: 'branches.json',
-              mode: '100644',
-              type: 'blob',
-              content: JSON.stringify(updatedBranches, null, 2)
-            }]
+            tree: [{ path: 'branches.json', mode: '100644', type: 'blob', content: JSON.stringify(updatedBranches, null, 2) }]
           })
         });
 
@@ -2373,393 +1439,5 @@ body[data-realm="music"] .music-motion-toggle { display: inline-block; }
       }
     });
   </script>
-<!-- STUDIO PROFILES: paste once BEFORE </body>, AFTER the existing Studio script.
-     Also apply the one-line portalObj insertion in the accompanying instructions. -->
-<style id="studio-personal-profile-style">
-  #studio-personal-profile[hidden] { display: none; }
-  #studio-personal-profile {
-    --editor-accent: #bed3aa;
-    --editor-line: rgba(190, 211, 170, .28);
-    --editor-label: clamp(.8rem, .76rem + .2vw, .9rem);
-    --editor-body: clamp(1.125rem, 1.02rem + .4vw, 1.3rem);
-    --editor-title: clamp(1.25rem, 1.1rem + .6vw, 1.6rem);
-    margin: 0 0 1.5rem;
-    padding: 1.5rem;
-    background: #101a15;
-    border: 1px solid var(--editor-line);
-    border-radius: .5rem;
-    min-width: 0;
-  }
-  #studio-personal-profile[data-person="paul"] {
-    --editor-accent: #dfbd80;
-    --editor-line: rgba(223, 189, 128, .3);
-    background: #21151e;
-  }
-  #studio-personal-profile legend {
-    padding: 0 .5rem;
-    font-family: 'Cinzel', Georgia, serif;
-    font-size: var(--editor-title);
-    line-height: 1.4;
-    color: var(--editor-accent);
-  }
-  #studio-personal-profile .profile-editor-note {
-    margin: 0 0 1.5rem;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: var(--editor-body);
-    line-height: 1.6;
-    color: #e3ddcf;
-  }
-  #studio-personal-profile h3 {
-    margin: 0 0 1rem;
-    font-size: var(--editor-title);
-    font-weight: 400;
-    color: var(--editor-accent);
-  }
-  #studio-personal-profile .form-grid { margin-bottom: 1.5rem; }
-  #studio-personal-profile label {
-    font-size: var(--editor-label);
-    color: var(--editor-accent);
-    line-height: 1.5;
-  }
-  #studio-personal-profile input,
-  #studio-personal-profile textarea {
-    width: 100%;
-    min-width: 0;
-    border: 1px solid var(--editor-line);
-    border-radius: .375rem;
-    background: rgba(4, 6, 8, .65);
-    color: #f4efe5;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: var(--editor-body);
-    font-style: normal;
-    line-height: 1.65;
-    padding: .75rem 1rem;
-  }
-  #studio-personal-profile textarea { min-height: 14rem; resize: vertical; }
-  #studio-personal-profile input:focus-visible,
-  #studio-personal-profile textarea:focus-visible {
-    outline: 2px solid var(--editor-accent);
-    outline-offset: 3px;
-  }
-  @media (max-width: 520px) {
-    #studio-workspace { grid-template-columns: minmax(0, 1fr); }
-    #studio-workspace > .panel { min-width: 0; }
-    #studio-personal-profile { padding: 1rem; }
-  }
-</style>
-<script id="studio-personal-profile-extension">
-(() => {
-  'use strict';
-  if (window.__studioPersonalProfileInstalled) return;
-  if (typeof window.loadPortalIntoForm !== 'function' ||
-      typeof window.startNewPortal !== 'function') {
-    console.warn('Studio profiles: paste this block after the existing Studio script.');
-    return;
-  }
-  const editorTitle = document.getElementById('editor-mode-title');
-  const editorPanel = editorTitle?.closest('section.panel');
-  const identityGrid = editorPanel?.querySelector('.form-grid');
-  if (!identityGrid) return;
-  window.__studioPersonalProfileInstalled = true;
-  const form = document.createElement('fieldset');
-  form.id = 'studio-personal-profile';
-  form.hidden = true;
-  form.innerHTML = `
-    <legend id="profile-editor-legend">Personal portal</legend>
-    <p class="profile-editor-note" id="profile-editor-note"></p>
-    <h3>Archetypes</h3>
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="inp-archetype-zodiacal">Zodiacal</label>
-        <input type="text" id="inp-archetype-zodiacal" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label for="inp-archetype-mythological">Mythological</label>
-        <input type="text" id="inp-archetype-mythological" autocomplete="off">
-      </div>
-      <div class="form-group full-width">
-        <label for="inp-archetype-animalia">Animalia</label>
-        <input type="text" id="inp-archetype-animalia" autocomplete="off">
-      </div>
-    </div>
-    <div class="form-group full-width">
-      <label for="inp-profile-text">Personal writing</label>
-      <textarea id="inp-profile-text" rows="9"
-        aria-describedby="profile-writing-help"></textarea>
-      <p class="profile-editor-note" id="profile-writing-help" style="margin: .75rem 0 0">
-        Plain text; line breaks are preserved. These words and archetypes appear
-        below your poem after you publish. They have the same visibility as the
-        portal and are not private Studio notes.
-      </p>
-    </div>`;
-  identityGrid.after(form);
-  const keys = ['zodiacal', 'mythological', 'animalia'];
-  const inputs = Object.fromEntries(keys.map(key =>
-    [key, document.getElementById(`inp-archetype-${key}`)]));
-  const writing = document.getElementById('inp-profile-text');
-  const asText = value => typeof value === 'string' ? value : '';
-  const people = {'introduction-janice': 'Janice', 'introduction-paul': 'Paul'};
-
-  function fillProfile(branch) {
-    const name = branch && people[branch.id];
-    form.hidden = !name;
-    form.dataset.person = name ? name.toLowerCase() : '';
-    document.getElementById('profile-editor-legend').textContent =
-      name ? `${name}'s personal portal` : 'Personal portal';
-    document.getElementById('profile-editor-note').textContent = !name ? '' :
-      name === 'Janice'
-        ? 'Persephone: verdant foliage, a floral crown and pomegranate ornament.'
-        : 'Dionysus: grapevines, an ivy crown, satyr mask and panpipes.';
-    keys.forEach(key => {
-      inputs[key].value = asText(branch?.archetypes?.[key]);
-      inputs[key].disabled = !name;
-    });
-    writing.value = asText(branch?.profile_text);
-    writing.disabled = !name;
-  }
-
-  const originalLoad = window.loadPortalIntoForm;
-  window.loadPortalIntoForm = function(idx, ...args) {
-    const result = originalLoad.call(this, idx, ...args);
-    fillProfile(branches[idx]);
-    return result;
-  };
-  const originalNew = window.startNewPortal;
-  window.startNewPortal = function(...args) {
-    const result = originalNew.apply(this, args);
-    fillProfile(null);
-    return result;
-  };
-  // The existing New Portal listener retained the original function reference.
-  document.getElementById('new-portal-btn').addEventListener('click', () => fillProfile(null));
-  document.getElementById('inp-id').addEventListener('input', () => {
-    const id = document.getElementById('inp-id').value.trim();
-    const source = editingIndex >= 0 ? branches[editingIndex] : {id};
-    const person = people[id];
-    if (form.hidden && person) fillProfile(source);
-    if (!person) fillProfile(null);
-    if (person && form.dataset.person !== person.toLowerCase()) fillProfile(source);
-  });
-
-  // Called from the portalObj spread insertion in the publish handler.
-  // No extra network request; uses the Studio's existing atomic commit.
-  window.readIntroductionProfile = function() {
-    const id = document.getElementById('inp-id').value.trim();
-    if (!people[id]) return {};
-    const existing = editingIndex >= 0 ? branches[editingIndex]?.archetypes : {};
-    return {
-      archetypes: {
-        ...(existing && typeof existing === 'object' ? existing : {}),
-        ...Object.fromEntries(keys.map(key => [key, inputs[key].value.trim()]))
-      },
-      profile_text: writing.value
-    };
-  };
-  fillProfile(editingIndex >= 0 ? branches[editingIndex] : null);
-})();
-</script>
-
-<script id="new-filament-specimen-controls">
-(() => {
-  'use strict';
-  const selector = document.getElementById('sel-filament');
-  const realm = document.getElementById('sel-realm-bg');
-  const buttons = [...document.querySelectorAll('[data-new-filament]')];
-  const specimens = document.querySelector('.new-filament-specimens');
-  if (!selector || !window.DOSFilaments) return;
-  const classicCard = document.querySelector('[data-classic-filament]');
-  const CLASSIC_DETAILS = {
-    standard: ['Standard Glowing Gradient', 'A softly curved gradient thread with a slow dashed glow.'],
-    gothic: ['Gothic Wrought-Iron', 'A lancet spine with dashed briar tracery, thorns and diamond finials.'],
-    alchemical: ['Alchemical Caduceus', 'Twin serpents coil around a dotted staff through three planetary nodes.'],
-    mycelium: ['Mycelial Hyphae', 'A wandering primary strand with branching hyphae and pulsing spores.'],
-    vine: ['Twisting Organic Vine', 'An S-curved vine with a fine dashed tendril winding against it.'],
-    tendril: ['Dual-Strand Braided Tendril', 'Two curved strands bowing in opposite directions.'],
-    suspension: ['Brooklyn Bridge Span', 'A suspension cable, dashed deck and vertical struts between them.'],
-    grid: ['NYC Electric Grid', 'Stepped subway rails with stations and a white surge of current.']
-  };
-  const SVG_NS = 'http://www.w3.org/2000/svg';
-  const GRAD_STOPS = {
-    nocturnal: [['0%', '#b366ff', .9], ['100%', '#6a00f4', .2]],
-    cyber: [['0%', '#00f0ff', .9], ['100%', '#0066ff', .2]],
-    celestial: [['0%', '#ffd166', .95], ['100%', '#d4af37', .2]],
-    oceanic: [['0%', '#00f5d4', .9], ['100%', '#00bbf9', .2]],
-    rose: [['0%', '#ff4d79', .95], ['50%', '#ff85a2', .6], ['100%', '#e0115f', .2]]
-  };
-  function el(tag, attrs, color) {
-    const node = document.createElementNS(SVG_NS, tag);
-    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
-    if (color) node.style.color = color;
-    return node;
-  }
-  function curved(x1, y1, x2, y2, index, bend = 0.18) {
-    const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1;
-    const dir = index % 2 === 0 ? 1 : -1;
-    return `M ${x1} ${y1} Q ${midX - dy * bend * dir} ${midY + dx * bend * dir} ${x2} ${y2}`;
-  }
-  function wave(x1, y1, x2, y2, phase = 1) {
-    const dx = x2 - x1, dy = y2 - y1;
-    return `M ${x1} ${y1} C ${x1 + dx * .33 - dy * .14 * phase} ${y1 + dy * .33 + dx * .14 * phase}, ${x1 + dx * .66 + dy * .14 * phase} ${y1 + dy * .66 - dx * .14 * phase}, ${x2} ${y2}`;
-  }
-  // Mirrors renderFilament() in the main site's index.html for the classic styles.
-  function drawClassic(svg, style, theme, color) {
-    const X = 10, Y = 37, x2 = 350, y2 = 37, idx = 0;
-    const gradId = `studio-grad-${theme}`;
-    const defs = el('defs', {});
-    const grad = el('linearGradient', {id: gradId, gradientUnits: 'userSpaceOnUse', x1: X, y1: 0, x2: x2, y2: 74});
-    (GRAD_STOPS[theme] || GRAD_STOPS.nocturnal).forEach(([o, c, a]) => grad.appendChild(el('stop', {offset: o, 'stop-color': c, 'stop-opacity': a})));
-    defs.appendChild(grad);
-    svg.appendChild(defs);
-    const g = `url(#${gradId})`;
-    const add = (tag, attrs, withColor = true) => svg.appendChild(el(tag, attrs, withColor ? color : null));
-    const dx = x2 - X, dy = y2 - Y, len = Math.hypot(dx, dy) || 1;
-    const dir = idx % 2 === 0 ? 1 : -1;
-    const nx = (-dy / len) * dir, ny = (dx / len) * dir;
-    const f = v => v.toFixed(1);
-
-    if (style === 'vine') {
-      add('path', {d: wave(X, Y, x2, y2, 1), class: 'ligament-vine-main', stroke: g});
-      add('path', {d: wave(X, Y, x2, y2, -0.85), class: 'ligament-vine-tendril', stroke: color});
-    } else if (style === 'tendril') {
-      add('path', {d: curved(X, Y, x2, y2, idx, 0.22), class: 'ligament-path', stroke: g});
-      add('path', {d: curved(X, Y, x2, y2, idx + 1, 0.16), class: 'ligament-vine-tendril', stroke: color});
-    } else if (style === 'suspension') {
-      const ctrlX = (X + x2) / 2 - dy * .24 * dir, ctrlY = (Y + y2) / 2 + dx * .24 * dir;
-      let struts = '';
-      [.22, .32, .42, .52, .62, .72, .82].forEach(t => {
-        const inv = 1 - t;
-        const cx = inv * inv * X + 2 * inv * t * ctrlX + t * t * x2;
-        const cy = inv * inv * Y + 2 * inv * t * ctrlY + t * t * y2;
-        struts += `M ${f(inv * X + t * x2)} ${f(inv * Y + t * y2)} L ${f(cx)} ${f(cy)} `;
-      });
-      add('path', {d: struts.trim(), class: 'ligament-suspension-struts', stroke: color}, false);
-      add('path', {d: `M ${X} ${Y} L ${x2} ${y2}`, class: 'ligament-suspension-deck', stroke: g});
-      add('path', {d: `M ${X} ${Y} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`, class: 'ligament-suspension-cable', stroke: color});
-    } else if (style === 'grid') {
-      const o = 26, so = o - 9;
-      const p1x = X + dx * .34 + nx * o, p1y = Y + dy * .34 + ny * o;
-      const p2x = X + dx * .68 + nx * o, p2y = Y + dy * .68 + ny * o;
-      const mainD = `M ${X} ${Y} L ${f(p1x)} ${f(p1y)} L ${f(p2x)} ${f(p2y)} L ${x2} ${y2}`;
-      const subD = `M ${X} ${Y} L ${f(X + dx * .34 + nx * so)} ${f(Y + dy * .34 + ny * so)} L ${f(X + dx * .68 + nx * so)} ${f(Y + dy * .68 + ny * so)} L ${x2} ${y2}`;
-      add('path', {d: subD, class: 'ligament-grid-subrail', stroke: color}, false);
-      add('path', {d: mainD, class: 'ligament-grid-rail', stroke: g});
-      add('path', {d: mainD, class: 'ligament-grid-surge'});
-      [[p1x, p1y], [p2x, p2y]].forEach(([jx, jy]) => add('circle', {cx: f(jx), cy: f(jy), r: '3.4', class: 'ligament-grid-station', stroke: color}));
-    } else if (style === 'gothic') {
-      const pk = [X + dx * .5 + nx * 28, Y + dy * .5 + ny * 28];
-      const lancet = `M ${X} ${Y} Q ${f(X + dx * .22 + nx * 22)} ${f(Y + dy * .22 + ny * 22)} ${f(pk[0])} ${f(pk[1])} Q ${f(X + dx * .78 + nx * 22)} ${f(Y + dy * .78 + ny * 22)} ${x2} ${y2}`;
-      const tracery = `M ${X} ${Y} Q ${f(X + dx * .25 - nx * 12)} ${f(Y + dy * .25 - ny * 12)} ${f(X + dx * .5 - nx * 16)} ${f(Y + dy * .5 - ny * 16)} Q ${f(X + dx * .75 - nx * 12)} ${f(Y + dy * .75 - ny * 12)} ${x2} ${y2}`;
-      let thorns = '';
-      [.22, .36, .5, .64, .78].forEach((t, i) => {
-        const bx = X + dx * t, by = Y + dy * t;
-        const sl = t === .5 ? 24 : (i % 2 === 0 ? 15 : 19);
-        thorns += `M ${f(bx - nx * sl * .75)} ${f(by - ny * sl * .75)} L ${f(bx + nx * sl)} ${f(by + ny * sl)} `;
-      });
-      add('path', {d: thorns.trim(), class: 'ligament-gothic-thorns', stroke: color});
-      add('path', {d: tracery, class: 'ligament-gothic-tracery', stroke: color});
-      add('path', {d: lancet, class: 'ligament-gothic-spine', stroke: g});
-      [.36, .5, .64].forEach(t => {
-        const fx = X + dx * t, fy = Y + dy * t, sz = t === .5 ? 5.5 : 4;
-        const pts = [[fx + nx * sz, fy + ny * sz], [fx + dx / len * sz, fy + dy / len * sz], [fx - nx * sz, fy - ny * sz], [fx - dx / len * sz, fy - dy / len * sz]];
-        add('polygon', {points: pts.map(([a, b]) => `${f(a)},${f(b)}`).join(' '), class: 'ligament-gothic-finial', stroke: color});
-      });
-    } else if (style === 'alchemical') {
-      const anx = -dy / len, any = dx / len;
-      let a = `M ${X} ${Y}`, b = `M ${X} ${Y}`;
-      for (let i = 1; i <= 48; i++) {
-        const t = i / 48, w = Math.sin(t * Math.PI * 3) * 18 * Math.sin(t * Math.PI);
-        a += ` L ${f(X + dx * t + anx * w)} ${f(Y + dy * t + any * w)}`;
-        b += ` L ${f(X + dx * t - anx * w)} ${f(Y + dy * t - any * w)}`;
-      }
-      add('path', {d: `M ${X} ${Y} L ${x2} ${y2}`, class: 'ligament-alchemical-staff', stroke: color}, false);
-      add('path', {d: b, class: 'ligament-alchemical-counter', stroke: color});
-      add('path', {d: a, class: 'ligament-alchemical-serpent', stroke: g});
-      [1 / 3, .5, 2 / 3].forEach((t, i) => {
-        const cx = f(X + dx * t), cy = f(Y + dy * t);
-        add('circle', {cx, cy, r: i === 1 ? '7.5' : '4.5', class: 'ligament-alchemical-node', stroke: color});
-        if (i === 1) add('circle', {cx, cy, r: '2.2', fill: '#ffffff'}, false);
-      });
-    } else if (style === 'mycelium') {
-      const P = (t, o) => ({x: X + dx * t + nx * o, y: Y + dy * t + ny * o});
-      const p1 = P(.24, 16), p2 = P(.5, -12), p3 = P(.76, 18), b1 = P(.36, -24), b2 = P(.66, 26);
-      const s1 = {x: p1.x + nx * 16 + dx / len * 14, y: p1.y + ny * 16 + dy / len * 14};
-      const s2 = {x: b1.x - nx * 12 + dx / len * 16, y: b1.y - ny * 12 + dy / len * 16};
-      const s3 = {x: b2.x + nx * 14 + dx / len * 12, y: b2.y + ny * 14 + dy / len * 12};
-      const web = [
-        `M ${f(p1.x)} ${f(p1.y)} Q ${f(b1.x)} ${f(b1.y)} ${f(p3.x)} ${f(p3.y)}`,
-        `M ${f(p2.x)} ${f(p2.y)} Q ${f(b2.x)} ${f(b2.y)} ${x2} ${y2}`,
-        `M ${f(p1.x)} ${f(p1.y)} L ${f(s1.x)} ${f(s1.y)}`,
-        `M ${f(b1.x)} ${f(b1.y)} L ${f(s2.x)} ${f(s2.y)}`,
-        `M ${f(b2.x)} ${f(b2.y)} L ${f(s3.x)} ${f(s3.y)}`
-      ].join(' ');
-      add('path', {d: web, class: 'ligament-mycelium-hyphae', stroke: color});
-      add('path', {d: `M ${X} ${Y} Q ${f(p1.x)} ${f(p1.y)} ${f(p2.x)} ${f(p2.y)} T ${f(p3.x)} ${f(p3.y)} L ${x2} ${y2}`, class: 'ligament-mycelium-primary', stroke: g});
-      [s1, s2, s3, p2].forEach((pt, i) => {
-        const spore = el('circle', {cx: f(pt.x), cy: f(pt.y), r: i === 3 ? '3.4' : '2.6', class: 'ligament-mycelium-spore', stroke: color}, color);
-        spore.style.animationDelay = `${(i * .45).toFixed(2)}s`;
-        svg.appendChild(spore);
-      });
-    } else {
-      add('path', {d: curved(X, Y, x2, y2, idx), class: 'ligament-path', stroke: g});
-    }
-  }
-  function renderClassicSpecimen(theme, color) {
-    if (!classicCard) return false;
-    const style = selector.value;
-    const info = CLASSIC_DETAILS[style];
-    const svg = classicCard.querySelector('svg');
-    svg.replaceChildren();
-    classicCard.hidden = !info;
-    if (!info) return false;
-    classicCard.querySelector('.specimen-name').textContent = info[0];
-    classicCard.querySelector('.specimen-detail').textContent = info[1];
-    const layer = document.createElementNS(SVG_NS, 'g');
-    svg.appendChild(layer);
-    drawClassic(layer, style, THEME_COLORS[theme] ? theme : 'nocturnal', color);
-    // Center the drawing vertically inside the card and shrink tall styles to fit.
-    try {
-      const box = layer.getBBox();
-      if (box.height > 0) {
-        const k = Math.min(1, 64 / box.height);
-        const cy = box.y + box.height / 2;
-        layer.setAttribute('transform', `translate(180 37) scale(${k.toFixed(3)}) translate(-180 ${(-cy).toFixed(1)})`);
-      }
-    } catch (e) {}
-    return true;
-  }
-  window.updateNewFilamentSpecimens = function(theme) {
-    const color = THEME_COLORS[theme] || '#dfc38d';
-    buttons.forEach(button => {
-      const kind = button.dataset.newFilament;
-      const isSelected = selector.value === kind;
-      button.hidden = !isSelected;
-      button.setAttribute('aria-pressed', String(isSelected));
-      const svg = button.querySelector('svg');
-      svg.replaceChildren();
-      if (isSelected) {
-        window.DOSFilaments.render(svg, 10, 37, 350, 37, kind, color);
-      }
-    });
-    const showClassic = renderClassicSpecimen(theme, color);
-    if (specimens) specimens.hidden = !showClassic && !buttons.some(button => !button.hidden);
-  };
-  buttons.forEach(button => button.addEventListener('click', () => {
-    selector.value = button.dataset.newFilament;
-    selector.dispatchEvent(new Event('change', {bubbles: true}));
-  }));
-  selector.addEventListener('change', () => renderRadar());
-  const hint = document.getElementById('music-realm-hint');
-  const updateHint = () => { hint.hidden = realm.value !== 'music'; };
-  // Programmatic form loads update the note via the existing radar redraw.
-  const priorUpdate = window.updateNewFilamentSpecimens;
-  window.updateNewFilamentSpecimens = function(theme) {
-    priorUpdate(theme);
-    updateHint();
-  };
-  realm.addEventListener('change', updateHint);
-  window.updateNewFilamentSpecimens(selectedTheme);
-})();
-
-</script>
 </body>
 </html>
