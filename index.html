@@ -121,21 +121,38 @@
     .ligament-wizard-spell { fill: none; stroke-width: 1.9; stroke-dasharray: 7 5 2 5; stroke-linecap: round; animation: pulseFlow 10s linear infinite; filter: drop-shadow(0 0 8px currentColor); opacity: 0.92; }
     .ligament-wizard-spark { fill: #ffffff; stroke-width: 1; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); animation: starPulse 1.8s ease-in-out infinite alternate; }
 
-    /* Phantom Constellation Projection Layer (Destination Disk X-Ray) */
+    /* Phantom Constellation Projection Layer (Destination Disk X-Ray + Floating Portal Labels) */
     #phantom-constellation-svg {
       position: absolute; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 12; overflow: visible;
+      pointer-events: none; z-index: 16; overflow: visible;
     }
     .phantom-filament {
-      fill: none; stroke-width: 1.6; stroke-linecap: round;
+      fill: none; stroke-width: 1.8; stroke-linecap: round;
       stroke-dasharray: 6 6; animation: pulseFlow 10s linear infinite;
-      filter: drop-shadow(0 0 6px currentColor); opacity: 0.65;
-      transition: opacity 0.3s ease;
+      filter: drop-shadow(0 0 6px currentColor); opacity: 0.72;
     }
     .phantom-star-node {
-      fill: #ffffff; stroke-width: 1.8;
+      fill: #ffffff; stroke-width: 2;
       filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px currentColor);
-      animation: starPulse 2.2s ease-in-out infinite alternate;
+      animation: starPulse 2s ease-in-out infinite alternate;
+    }
+    .phantom-star-ring {
+      fill: none; stroke-width: 1.1; stroke-dasharray: 3 3;
+      opacity: 0.7;
+    }
+    .phantom-star-label-bg {
+      fill: rgba(5, 4, 12, 0.88);
+      stroke-width: 0.9;
+      rx: 8px; ry: 8px;
+    }
+    .phantom-star-label {
+      fill: #f0ece1;
+      font-family: 'Cinzel', serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-anchor: middle;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.98)) drop-shadow(0 0 8px currentColor);
     }
 
     .portal-filament-group { transition: filter 0.28s ease, opacity 0.28s ease; }
@@ -527,7 +544,7 @@
 
   <main id="cosmos-viewport">
     <div id="network-stage">
-      <!-- Phantom Constellation Projection Layer (Destination Disk X-Ray) -->
+      <!-- Phantom Constellation Projection Layer (Destination Disk X-Ray + Floating Portal Labels) -->
       <svg id="phantom-constellation-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>
 
       <svg width="0" height="0" style="position:absolute">
@@ -542,11 +559,11 @@
         </defs>
       </svg>
 
-      <!-- Central Hub with Chorus of the Winter Crickets -->
+      <!-- Central Hub with Chorus of the Winter Crickets & Astrolabe Bezel -->
       <div class="center-hub" id="center-hub">
         <div class="scrying-iris" id="scrying-iris">
           <div class="scrying-iris-title" id="scrying-iris-title">Disk Name</div>
-          <div class="scrying-iris-sub">✦ Cricket Chorus ✦</div>
+          <div class="scrying-iris-sub">✦ Constellation X-Ray ✦</div>
         </div>
 
         <div class="cricket-stridulation-ripples" aria-hidden="true">
@@ -710,26 +727,26 @@
         angle: 180,
         distance: 290,
         slice_bg: 'cosmos',
-        archetype_zodiacal: 'Virgo — The Maiden of Harvest',
+        archetype_zodiacal: 'SUN: Taurus MOON: Cancer RISING: Scorpio',
         archetype_mythological: 'Persephone — Queen of the Underworld & Spring',
         archetype_animalia: 'Luna Moth & Black Swan',
         sanctum_heading: '✦ Grove of Persephone ✦',
-        sanctum_text: 'Where pomegranate seeds glow like embers beneath the roots, and emerald shoots return through the dark earth into blossom.'
+        sanctum_text: ''
       },
       {
         id: 'introduction-paul',
         title: 'Paul',
         portal_type: 'introduction',
-        theme: 'celestial',
-        filament: 'gothic',
-        angle: 0,
-        distance: 290,
+        theme: 'orchid',
+        filament: 'wizardry',
+        angle: 1,
+        distance: 330,
         slice_bg: 'cosmos',
-        archetype_zodiacal: 'Virgo-Leo Cusp — Solar Hermeticist',
-        archetype_mythological: 'Dionysus & The Woodland Satyr',
-        archetype_animalia: 'Horned Satyr & Nocturnal Cricket',
+        archetype_zodiacal: 'Virgo - Eros as Innocence',
+        archetype_mythological: 'Dionysus, Satyr',
+        archetype_animalia: 'Puma, Vulture, Bat',
         sanctum_heading: '✦ Thiasus of Dionysus & The Satyr ✦',
-        sanctum_text: 'Beneath the twining grapevines and pine-crowned thyrsus, the wild flute sounds across the nocturnal hills.'
+        sanctum_text: ''
       }
     ];
 
@@ -1168,7 +1185,7 @@
       }
     }
 
-    /* Render Dynamic Astrolabe Bezel with Option 3: Phantom Constellation Projection X-Ray */
+    /* Render Dynamic Astrolabe Bezel with Option 3: Phantom Constellation X-Ray + Floating Portal Titles */
     function renderHubBezel() {
       hubBezelRing.innerHTML = '';
       if (sliceList.length <= 1) return;
@@ -1208,7 +1225,7 @@
           scryingIrisTitle.textContent = sliceObj.name;
           scryingIris.classList.add('active');
 
-          // Render Phantom Constellation X-Ray for this destination disk
+          // Render Phantom Constellation X-Ray + Floating Portal Labels
           phantomConstellationSvg.innerHTML = '';
           sliceObj.items.forEach((pBranch, pIdx) => {
             const pAngle = pBranch.angle ?? (pIdx * 60);
@@ -1216,21 +1233,54 @@
             const pRad = (pAngle * Math.PI) / 180;
             const px = CENTER_X + Math.cos(pRad) * pDist;
             const py = CENTER_Y + Math.sin(pRad) * pDist;
+            const pColor = themeColors[pBranch.theme] || bezelColor;
 
             const phantomPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             phantomPath.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, px, py, pIdx, 0.15));
             phantomPath.setAttribute('class', 'phantom-filament');
-            phantomPath.setAttribute('stroke', bezelColor);
+            phantomPath.setAttribute('stroke', pColor);
+            phantomPath.style.color = pColor;
             phantomConstellationSvg.appendChild(phantomPath);
+
+            const outerRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            outerRing.setAttribute('cx', px.toFixed(1));
+            outerRing.setAttribute('cy', py.toFixed(1));
+            outerRing.setAttribute('r', '14');
+            outerRing.setAttribute('class', 'phantom-star-ring');
+            outerRing.setAttribute('stroke', pColor);
+            phantomConstellationSvg.appendChild(outerRing);
 
             const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             star.setAttribute('cx', px.toFixed(1));
             star.setAttribute('cy', py.toFixed(1));
-            star.setAttribute('r', '4.5');
+            star.setAttribute('r', '5');
             star.setAttribute('class', 'phantom-star-node');
-            star.setAttribute('stroke', bezelColor);
-            star.style.color = bezelColor;
+            star.setAttribute('stroke', pColor);
+            star.style.color = pColor;
             phantomConstellationSvg.appendChild(star);
+
+            // Floating Portal Title Pill next to each Star Node
+            const labelText = (pBranch.title || pBranch.id || 'Portal').trim();
+            const pillW = Math.max(84, labelText.length * 7.8 + 22);
+            const pillH = 22;
+            const labelYOffset = py < CENTER_Y ? -26 : 26;
+
+            const pillBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            pillBg.setAttribute('x', (px - pillW / 2).toFixed(1));
+            pillBg.setAttribute('y', (py + labelYOffset - pillH / 2).toFixed(1));
+            pillBg.setAttribute('width', pillW.toFixed(1));
+            pillBg.setAttribute('height', pillH);
+            pillBg.setAttribute('class', 'phantom-star-label-bg');
+            pillBg.setAttribute('stroke', pColor);
+            phantomConstellationSvg.appendChild(pillBg);
+
+            const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textEl.setAttribute('x', px.toFixed(1));
+            textEl.setAttribute('y', (py + labelYOffset + 4).toFixed(1));
+            textEl.setAttribute('class', 'phantom-star-label');
+            textEl.style.color = pColor;
+            textEl.textContent = labelText;
+            phantomConstellationSvg.appendChild(textEl);
           });
         };
 
@@ -1340,14 +1390,19 @@
         modalPoemText = verse;
         modalPoemEmpty.hidden = Boolean(poem.trim());
 
-        archValZodiacal.textContent = (branch.archetype_zodiacal || fallbackObj.archetype_zodiacal || '—').trim();
-        archValMythological.textContent = (branch.archetype_mythological || fallbackObj.archetype_mythological || '—').trim();
-        archValAnimalia.textContent = (branch.archetype_animalia || fallbackObj.archetype_animalia || '—').trim();
+        // Supports both flat keys (archetype_zodiacal) and nested keys (branch.archetypes.zodiacal)
+        const zodVal = branch.archetype_zodiacal || branch.archetypes?.zodiacal || fallbackObj.archetype_zodiacal || '—';
+        const mythVal = branch.archetype_mythological || branch.archetypes?.mythological || fallbackObj.archetype_mythological || '—';
+        const animVal = branch.archetype_animalia || branch.archetypes?.animalia || fallbackObj.archetype_animalia || '—';
+
+        archValZodiacal.textContent = zodVal.trim() || '—';
+        archValMythological.textContent = mythVal.trim() || '—';
+        archValAnimalia.textContent = animVal.trim() || '—';
 
         modalSanctumBox.setAttribute('data-deity', isJanice ? 'persephone' : 'dionysus');
         modalSanctumSvg.innerHTML = isJanice ? PERSEPHONE_MOTIF_SVG : DIONYSUS_MOTIF_SVG;
         modalSanctumHeading.textContent = branch.sanctum_heading || fallbackObj.sanctum_heading || (isJanice ? '✦ Grove of Persephone ✦' : '✦ Thiasus of Dionysus & The Satyr ✦');
-        modalSanctumText.textContent = branch.sanctum_text || fallbackObj.sanctum_text || '';
+        modalSanctumText.textContent = branch.sanctum_text || branch.profile_text || fallbackObj.sanctum_text || '';
 
         modalPoemPanel.hidden = false;
         modalPoemPanel.scrollTop = 0;
@@ -1568,11 +1623,8 @@
             const y = CENTER_Y + Math.sin(angleRad) * distance;
 
             const isIntroduction = branch.portal_type === 'introduction';
-            const theme = branch.id === 'introduction-janice'
-              ? 'nocturnal'
-              : branch.id === 'introduction-paul'
-                ? 'celestial'
-                : (themeColors[branch.theme] ? branch.theme : 'nocturnal');
+            const defaultIntroTheme = branch.id === 'introduction-paul' ? 'celestial' : 'nocturnal';
+            const theme = themeColors[branch.theme] ? branch.theme : (isIntroduction ? defaultIntroTheme : 'nocturnal');
             const filamentStyle = branch.filament || 'standard';
 
             const portalFilamentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
