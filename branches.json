@@ -1882,10 +1882,10 @@
     "filament": "vine",
     "angle": -25,
     "distance": 340,
-    "thumbnail": "portals/sacred-academy/grid_thumbs/greater-mystery.webp",
+    "thumbnail": "portals/sacred-academy/grid_thumbs/unnamed--1-.webp",
     "photos": [
-      "portals/sacred-academy/greater-mystery.webp",
       "portals/sacred-academy/unnamed--1-.webp",
+      "portals/sacred-academy/greater-mystery.webp",
       "portals/sacred-academy/unnamed--2-.webp",
       "portals/sacred-academy/unnamed--3-.webp",
       "portals/sacred-academy/unnamed--4-.webp",
@@ -1894,8 +1894,8 @@
       "portals/sacred-academy/unnamed.webp"
     ],
     "grid_thumbs": [
-      "portals/sacred-academy/grid_thumbs/greater-mystery.webp",
       "portals/sacred-academy/grid_thumbs/unnamed--1-.webp",
+      "portals/sacred-academy/grid_thumbs/greater-mystery.webp",
       "portals/sacred-academy/grid_thumbs/unnamed--2-.webp",
       "portals/sacred-academy/grid_thumbs/unnamed--3-.webp",
       "portals/sacred-academy/grid_thumbs/unnamed--4-.webp",
