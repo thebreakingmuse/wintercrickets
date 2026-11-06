@@ -114,13 +114,29 @@
     .ligament-mycelium-hyphae { fill: none; stroke-width: 1.25; stroke-dasharray: 8 4 2 4; stroke-linecap: round; animation: pulseFlow 20s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.78; }
     .ligament-mycelium-spore { fill: #ffffff; stroke-width: 1.5; filter: drop-shadow(0 0 8px currentColor); animation: beaconPulse 2.4s ease-in-out infinite alternate; }
 
-    /* New Dionysian Thyrsus & Arcane Wizardry Filament Styles */
     .ligament-thyrsus-staff { fill: none; stroke-width: 3.2; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: 0.94; }
     .ligament-thyrsus-ribbon { fill: none; stroke-width: 1.65; stroke-dasharray: 12 6; stroke-linecap: round; animation: pulseFlow 14s linear infinite; filter: drop-shadow(0 0 6px currentColor); opacity: 0.86; }
     .ligament-thyrsus-ivy { fill: none; stroke-width: 1.5; stroke-linecap: round; filter: drop-shadow(0 0 5px currentColor); opacity: 0.85; }
     .ligament-thyrsus-cone { fill: #120c1c; stroke-width: 1.8; filter: drop-shadow(0 0 8px currentColor); }
     .ligament-wizard-spell { fill: none; stroke-width: 1.9; stroke-dasharray: 7 5 2 5; stroke-linecap: round; animation: pulseFlow 10s linear infinite; filter: drop-shadow(0 0 8px currentColor); opacity: 0.92; }
     .ligament-wizard-spark { fill: #ffffff; stroke-width: 1; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); animation: starPulse 1.8s ease-in-out infinite alternate; }
+
+    /* Phantom Constellation Projection Layer (Destination Disk X-Ray) */
+    #phantom-constellation-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 12; overflow: visible;
+    }
+    .phantom-filament {
+      fill: none; stroke-width: 1.6; stroke-linecap: round;
+      stroke-dasharray: 6 6; animation: pulseFlow 10s linear infinite;
+      filter: drop-shadow(0 0 6px currentColor); opacity: 0.65;
+      transition: opacity 0.3s ease;
+    }
+    .phantom-star-node {
+      fill: #ffffff; stroke-width: 1.8;
+      filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px currentColor);
+      animation: starPulse 2.2s ease-in-out infinite alternate;
+    }
 
     .portal-filament-group { transition: filter 0.28s ease, opacity 0.28s ease; }
     .portal-filament-group.is-illuminated path, .portal-filament-group.is-illuminated circle, .portal-filament-group.is-illuminated polygon { opacity: 1; filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); }
@@ -511,6 +527,9 @@
 
   <main id="cosmos-viewport">
     <div id="network-stage">
+      <!-- Phantom Constellation Projection Layer (Destination Disk X-Ray) -->
+      <svg id="phantom-constellation-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>
+
       <svg width="0" height="0" style="position:absolute">
         <defs>
           <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#b366ff" stop-opacity="0.9" /><stop offset="100%" stop-color="#6a00f4" stop-opacity="0.2" /></linearGradient>
@@ -795,6 +814,7 @@
     const scryingIris = document.getElementById('scrying-iris');
     const scryingIrisTitle = document.getElementById('scrying-iris-title');
     const hubBezelRing = document.getElementById('hub-bezel-ring');
+    const phantomConstellationSvg = document.getElementById('phantom-constellation-svg');
     const activeSliceBadge = document.getElementById('active-slice-badge');
     const galleryModal = document.getElementById('gallery-modal');
     const modalTitle = document.getElementById('modal-title');
@@ -851,10 +871,8 @@
         const dx = x2 - CENTER_X;
         const dy = y2 - CENTER_Y;
         const len = Math.hypot(dx, dy) || 1;
-        const ux = dx / len;
-        const uy = dy / len;
-        const nx = -uy;
-        const ny = ux;
+        const nx = -dy / len;
+        const ny = dx / len;
         const deg = (Math.atan2(dy, dx) * 180) / Math.PI;
 
         let ivyD = `M ${CENTER_X} ${CENTER_Y}`;
@@ -906,10 +924,8 @@
         const dx = x2 - CENTER_X;
         const dy = y2 - CENTER_Y;
         const len = Math.hypot(dx, dy) || 1;
-        const ux = dx / len;
-        const uy = dy / len;
-        const nx = -uy;
-        const ny = ux;
+        const nx = -dy / len;
+        const ny = dx / len;
 
         const tipX = CENTER_X + dx * 0.45;
         const tipY = CENTER_Y + dy * 0.45;
@@ -1152,6 +1168,7 @@
       }
     }
 
+    /* Render Dynamic Astrolabe Bezel with Option 3: Phantom Constellation Projection X-Ray */
     function renderHubBezel() {
       hubBezelRing.innerHTML = '';
       if (sliceList.length <= 1) return;
@@ -1182,7 +1199,7 @@
           <span class="bezel-tooltip">Warp: ${sliceObj.name}</span>
         `;
 
-        const activateCricketChorus = () => {
+        const activatePhantomConstellation = () => {
           centerHub.style.setProperty('--stridulation-color', bezelColor);
           centerHub.style.setProperty('--scrying-hub-bg', `rgba(${hexToRgb(bezelColor)}, 0.28)`);
           centerHub.style.setProperty('--scrying-hub-glow', `rgba(${hexToRgb(bezelColor)}, 0.65)`);
@@ -1190,24 +1207,50 @@
           centerHub.classList.add('is-stridulating');
           scryingIrisTitle.textContent = sliceObj.name;
           scryingIris.classList.add('active');
+
+          // Render Phantom Constellation X-Ray for this destination disk
+          phantomConstellationSvg.innerHTML = '';
+          sliceObj.items.forEach((pBranch, pIdx) => {
+            const pAngle = pBranch.angle ?? (pIdx * 60);
+            const pDist = pBranch.distance ?? 340;
+            const pRad = (pAngle * Math.PI) / 180;
+            const px = CENTER_X + Math.cos(pRad) * pDist;
+            const py = CENTER_Y + Math.sin(pRad) * pDist;
+
+            const phantomPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            phantomPath.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, px, py, pIdx, 0.15));
+            phantomPath.setAttribute('class', 'phantom-filament');
+            phantomPath.setAttribute('stroke', bezelColor);
+            phantomConstellationSvg.appendChild(phantomPath);
+
+            const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            star.setAttribute('cx', px.toFixed(1));
+            star.setAttribute('cy', py.toFixed(1));
+            star.setAttribute('r', '4.5');
+            star.setAttribute('class', 'phantom-star-node');
+            star.setAttribute('stroke', bezelColor);
+            star.style.color = bezelColor;
+            phantomConstellationSvg.appendChild(star);
+          });
         };
 
-        const deactivateCricketChorus = () => {
+        const deactivatePhantomConstellation = () => {
           centerHub.classList.remove('is-stridulating');
           centerHub.style.removeProperty('--stridulation-color');
           centerHub.style.removeProperty('--scrying-hub-bg');
           centerHub.style.removeProperty('--scrying-hub-glow');
           centerHub.style.removeProperty('--scrying-hub-border');
           scryingIris.classList.remove('active');
+          phantomConstellationSvg.innerHTML = '';
         };
 
-        btn.addEventListener('mouseenter', activateCricketChorus);
-        btn.addEventListener('mouseleave', deactivateCricketChorus);
-        btn.addEventListener('focus', activateCricketChorus);
-        btn.addEventListener('blur', deactivateCricketChorus);
+        btn.addEventListener('mouseenter', activatePhantomConstellation);
+        btn.addEventListener('mouseleave', deactivatePhantomConstellation);
+        btn.addEventListener('focus', activatePhantomConstellation);
+        btn.addEventListener('blur', deactivatePhantomConstellation);
 
         btn.addEventListener('click', () => {
-          deactivateCricketChorus();
+          deactivatePhantomConstellation();
           switchToSlice(idx);
         });
         hubBezelRing.appendChild(btn);
