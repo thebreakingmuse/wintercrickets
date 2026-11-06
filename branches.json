@@ -1871,5 +1871,38 @@
       "portals/march-2026/grid_thumbs/4e2aa4737c38a04a05ce66af098f3f70db30f01bc6251cfbd5567cecac8f5c64.webp"
     ],
     "password": ""
+  },
+  {
+    "id": "sacred-academy",
+    "title": "Sacred Academy",
+    "subtitle": "Gallery & Archive",
+    "slice": "AI Generatiions",
+    "slice_bg": "cybernetic",
+    "theme": "sylvan",
+    "filament": "vine",
+    "angle": -25,
+    "distance": 340,
+    "thumbnail": "portals/sacred-academy/grid_thumbs/greater-mystery.webp",
+    "photos": [
+      "portals/sacred-academy/greater-mystery.webp",
+      "portals/sacred-academy/unnamed--1-.webp",
+      "portals/sacred-academy/unnamed--2-.webp",
+      "portals/sacred-academy/unnamed--3-.webp",
+      "portals/sacred-academy/unnamed--4-.webp",
+      "portals/sacred-academy/unnamed--5-.webp",
+      "portals/sacred-academy/unnamed--36-.webp",
+      "portals/sacred-academy/unnamed.webp"
+    ],
+    "grid_thumbs": [
+      "portals/sacred-academy/grid_thumbs/greater-mystery.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed--1-.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed--2-.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed--3-.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed--4-.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed--5-.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed--36-.webp",
+      "portals/sacred-academy/grid_thumbs/unnamed.webp"
+    ],
+    "password": ""
   }
 ]
