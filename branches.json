@@ -28,16 +28,16 @@
   {
     "id": "introduction-paul",
     "title": "Paul",
-    "subtitle": "",
-    "slice": "Coniunctio",
+    "subtitle": "Gallery & Archive",
+    "slice": "Janice & Paul",
     "slice_bg": "cosmos",
-    "theme": "celestial",
-    "filament": "standard",
+    "theme": "orchid",
+    "filament": "vine",
     "angle": 1,
     "distance": 330,
     "bridge_angle": 91,
     "bridge_distance": 393,
-    "thumbnail": "",
+    "thumbnail": "assets/paul-avatar.jpg",
     "photos": [
       "portals/introduction-paul/20200520_160845.webp"
     ],
@@ -48,7 +48,12 @@
     "portal_type": "introduction",
     "poem_title": "",
     "poem_text": "Thoughts without a trace,\nSounds without a scent…\nsuch mystical conundrums are actually meant-\nnot to delude, \nnor to confuse- \nbut rather, to remind us of the wisdom that leapt, \nbefore birth, \nout from the mouth of the Muse,\ninto infant brains innocent of intellect-\nbut whose seeds,\ncame to rest in the warm, fertile soil of our souls,\nwhere all this time they’ve been\nsafely kept.\nPop goes the germinating shell,\ntaproot thrust from \nunderworld. ",
-    "poem_italic": true
+    "poem_italic": true,
+    "archetype_zodiacal": "Virgo - Eros as Innocence",
+    "archetype_mythological": "Dionysus, Satyr",
+    "archetype_animalia": "Puma, Vulture, Bat",
+    "sanctum_heading": "✦ Thiasus of Dionysus & The Satyr ✦",
+    "sanctum_text": ""
   },
   {
     "id": "paddleboarding",
