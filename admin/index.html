@@ -191,7 +191,7 @@
     }
     .filament-preview-svg {
       width: 100%;
-      height: 64px;
+      height: 68px;
       display: block;
       overflow: visible;
     }
@@ -219,6 +219,19 @@
     .prev-mycelium-hyphae { fill: none; stroke-width: 1.2; stroke-dasharray: 7 3 2 3; stroke-linecap: round; animation: prevPulseFlow 18s linear infinite; opacity: 0.78; }
     .prev-mycelium-spore { fill: #ffffff; stroke-width: 1.4; filter: drop-shadow(0 0 6px currentColor); }
 
+    /* Dionysian Thyrsus Preview Styles */
+    .prev-thyrsus-staff { fill: none; stroke-width: 3.2; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.94; }
+    .prev-thyrsus-ribbon { fill: none; stroke-width: 1.6; stroke-dasharray: 10 5; stroke-linecap: round; animation: prevPulseFlow 14s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.88; }
+    .prev-thyrsus-ivy { fill: none; stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 4px currentColor); opacity: 0.82; }
+    .prev-thyrsus-leaf { fill: currentColor; fill-opacity: 0.35; stroke-width: 1.1; filter: drop-shadow(0 0 4px currentColor); }
+    .prev-thyrsus-cone { fill: #120c1c; stroke-width: 1.6; filter: drop-shadow(0 0 7px currentColor); }
+
+    /* Arcane Wizardry Wand Preview Styles */
+    .prev-wizard-wand { fill: none; stroke-width: 3.4; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.95; }
+    .prev-wizard-core { fill: none; stroke: #ffffff; stroke-width: 1.2; stroke-linecap: round; opacity: 0.85; }
+    .prev-wizard-spell { fill: none; stroke-width: 1.8; stroke-dasharray: 6 5 2 5; stroke-linecap: round; animation: prevPulseFlow 10s linear infinite; filter: drop-shadow(0 0 7px currentColor); opacity: 0.92; }
+    .prev-wizard-spark { fill: #ffffff; stroke-width: 0.9; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); }
+
     @keyframes prevPulseFlow { to { stroke-dashoffset: -120; } }
     @keyframes prevElectricSurge { to { stroke-dashoffset: -272; } }
 
@@ -243,12 +256,15 @@
     .dropzone h3 { font-size: 0.95rem; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.1em; }
     .dropzone p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--text-muted); }
 
+    /* Drag-and-Drop Photo Grid */
     .queued-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 12px; margin-top: 14px; max-height: 340px; overflow-y: auto; padding: 4px; }
     .queued-item {
       position: relative; height: 124px; border-radius: 8px; overflow: hidden;
       border: 1.5px solid rgba(255, 255, 255, 0.18); background: #08070f;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      cursor: grab;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     }
+    .queued-item:active { cursor: grabbing; }
     .queued-item:hover {
       border-color: var(--gold);
       transform: translateY(-2px);
@@ -257,7 +273,17 @@
       border: 2px solid var(--gold);
       box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
     }
-    .queued-item img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+    .queued-item.dragging {
+      opacity: 0.38;
+      transform: scale(0.94);
+      border: 2px dashed var(--gold);
+    }
+    .queued-item.drag-over-target {
+      border: 2px solid var(--emerald);
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.65);
+      transform: scale(1.04);
+    }
+    .queued-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
     .queued-badge {
       position: absolute; bottom: 4px; left: 4px; right: 4px;
       background: rgba(4, 4, 10, 0.88); color: var(--emerald);
@@ -464,6 +490,8 @@
           <label>Connective Filament Style</label>
           <select id="sel-filament">
             <option value="standard">Standard Glowing Gradient</option>
+            <option value="thyrsus">Dionysian Thyrsus (Pine-Cone Staff, Ivy & Ribbons)</option>
+            <option value="wizardry">Arcane Wizardry Wand & Astral Spell Sparks</option>
             <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
             <option value="alchemical">Alchemical Caduceus & Planetary Helix</option>
             <option value="mycelium">Bioluminescent Mycelial Hyphae & Spores</option>
@@ -524,10 +552,10 @@
         </div>
       </div>
 
-      <!-- 5. Browser WebP Photo Processor & Cross-Portal Library Picker -->
+      <!-- 5. Browser WebP Photo Processor & Drag-and-Drop Reordering -->
       <div class="form-group full-width" id="photo-uploader-section">
         <div class="photo-action-bar">
-          <label>Portal Gallery Photos <span class="label-hint">(Click any photo or "★ Set Icon" to make it the Portal Icon)</span></label>
+          <label>Portal Gallery Photos <span class="label-hint">(Drag & drop cards to reorder, or click "★ Set Icon" to make #1)</span></label>
           <button type="button" id="open-library-btn" class="btn">📂 Reference Photo from Another Portal</button>
         </div>
 
@@ -604,8 +632,8 @@
     let branches = [];
     let editingIndex = -1;
     let selectedTheme = 'nocturnal';
-    // Unified gallery items list: { type: 'existing', fullPath, thumbPath } OR { type: 'new', filename, fullBase64, thumbBase64, previewUrl, sizeKb }
     let galleryItems = [];
+    let draggedPhotoIndex = null;
 
     const authGate = document.getElementById('auth-gate');
     const studioAuthorInput = document.getElementById('studio-author-input');
@@ -777,7 +805,7 @@
       enterLoggedOutState();
     })();
 
-    /* Live Connective Filament SVG Preview Renderer */
+    /* Live Connective Filament SVG Preview Renderer (Includes Thyrsus & Wizardry) */
     function renderFilamentPreview() {
       const style = selFilament.value || 'standard';
       const color = THEME_COLORS[selectedTheme] || '#b366ff';
@@ -791,7 +819,64 @@
 
       let pathsMarkup = '';
 
-      if (style === 'vine') {
+      if (style === 'thyrsus') {
+        // Dionysian Thyrsus: Fennel Staff + Twining Ivy + Flowing Taenia Ribbons + Pine Cone Tip
+        let ivyD = `M ${x1} ${y1}`;
+        let ribbonD = `M ${x1} ${y1}`;
+        for (let i = 1; i <= 40; i++) {
+          const t = i / 40;
+          const env = Math.sin(t * Math.PI);
+          const wIvy = Math.sin(t * Math.PI * 3) * 14 * env;
+          const wRib = Math.cos(t * Math.PI * 2.5) * 18 * env;
+          const px = (x1 + dx * t).toFixed(1);
+          ivyD += ` L ${px} ${(y1 + wIvy).toFixed(1)}`;
+          ribbonD += ` L ${px} ${(y1 - wRib).toFixed(1)}`;
+        }
+        const coneX = x1 + dx * 0.83;
+        pathsMarkup = `
+          <path d="${ribbonD}" class="prev-thyrsus-ribbon" stroke="${color}" style="color:${color}" />
+          <line x1="${x1}" y1="${y1}" x2="${coneX}" y2="${y2}" class="prev-thyrsus-staff" stroke="${color}" style="color:${color}" />
+          <path d="${ivyD}" class="prev-thyrsus-ivy" stroke="${color}" style="color:${color}" />
+          <!-- Ivy Leaves along the Staff -->
+          <polygon points="105,22 114,17 111,27" class="prev-thyrsus-leaf" stroke="${color}" style="color:${color}" />
+          <polygon points="175,50 184,55 181,45" class="prev-thyrsus-leaf" stroke="${color}" style="color:${color}" />
+          <polygon points="235,23 244,18 241,28" class="prev-thyrsus-leaf" stroke="${color}" style="color:${color}" />
+          <!-- Cross-Hatched Pine-Cone Finial -->
+          <ellipse cx="${coneX + 8}" cy="${y1}" rx="15" ry="9.5" class="prev-thyrsus-cone" stroke="${color}" style="color:${color}" />
+          <path d="M ${coneX - 2} ${y1 - 6} L ${coneX + 14} ${y1 + 6} M ${coneX + 4} ${y1 - 8} L ${coneX + 18} ${y1 + 4} M ${coneX - 2} ${y1 + 6} L ${coneX + 14} ${y1 - 6} M ${coneX + 4} ${y1 + 8} L ${coneX + 18} ${y1 - 4}" stroke="${color}" stroke-width="0.9" opacity="0.75" />
+        `;
+      } else if (style === 'wizardry') {
+        // Arcane Wizardry Wand: Tapered Elder-Wood Wand + Pommel & Ferrule Rings + Spiraling Spell Stream + 4-Point Astral Sparks
+        const wandTipX = x1 + dx * 0.44;
+        let spellA = `M ${wandTipX - 10} ${y1}`;
+        let spellB = `M ${wandTipX} ${y1}`;
+        for (let i = 1; i <= 36; i++) {
+          const t = i / 36;
+          const env = Math.sin(t * Math.PI);
+          const px = (wandTipX + (x2 - wandTipX) * t).toFixed(1);
+          const wave1 = Math.sin(t * Math.PI * 3.5) * 19 * env;
+          const wave2 = Math.cos(t * Math.PI * 2.5) * 13 * env;
+          spellA += ` L ${px} ${(y1 + wave1).toFixed(1)}`;
+          spellB += ` L ${px} ${(y1 - wave2).toFixed(1)}`;
+        }
+        const star = (sx, sy, r) => `M ${sx} ${sy - r} Q ${sx} ${sy} ${sx + r} ${sy} Q ${sx} ${sy} ${sx} ${sy + r} Q ${sx} ${sy} ${sx - r} ${sy} Q ${sx} ${sy} ${sx} ${sy - r} Z`;
+        pathsMarkup = `
+          <!-- Tapered Elder Wand Shaft & Grip Nodes -->
+          <polygon points="${x1},${y1 - 4.2} ${wandTipX},${y1 - 1.2} ${wandTipX},${y1 + 1.2} ${x1},${y1 + 4.2}" fill="${color}" style="filter:drop-shadow(0 0 6px ${color})" />
+          <line x1="${x1}" y1="${y1}" x2="${wandTipX}" y2="${y1}" class="prev-wizard-core" />
+          <circle cx="${x1 + 26}" cy="${y1}" r="4.5" fill="#050508" stroke="#ffffff" stroke-width="1.3" />
+          <circle cx="${x1 + 52}" cy="${y1}" r="3.6" fill="#050508" stroke="${color}" stroke-width="1.3" />
+          <!-- Wand Tip Ignition Flare -->
+          <circle cx="${wandTipX}" cy="${y1}" r="4.5" fill="#ffffff" style="filter:drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 12px ${color})" />
+          <!-- Spiraling Arcane Spell Streams -->
+          <path d="${spellA}" class="prev-wizard-spell" stroke="${color}" style="color:${color}" />
+          <path d="${spellB}" class="prev-wizard-spell" stroke="#ffffff" style="color:${color}; opacity:0.75;" />
+          <!-- 4-Point Astral Spell Sparks -->
+          <path d="${star(205, 17, 6.5)}" class="prev-wizard-spark" stroke="${color}" style="color:${color}" />
+          <path d="${star(255, 53, 5.5)}" class="prev-wizard-spark" stroke="${color}" style="color:${color}" />
+          <path d="${star(295, 20, 7)}" class="prev-wizard-spark" stroke="${color}" style="color:${color}" />
+        `;
+      } else if (style === 'vine') {
         const waveA = `M ${x1} ${y1} C ${x1 + dx * 0.33} ${y1 - 22}, ${x1 + dx * 0.66} ${y1 + 22}, ${x2} ${y2}`;
         const waveB = `M ${x1} ${y1} C ${x1 + dx * 0.33} ${y1 + 18}, ${x1 + dx * 0.66} ${y1 - 18}, ${x2} ${y2}`;
         pathsMarkup = `
@@ -1417,7 +1502,6 @@
       renderPhotoPreviews();
     }
 
-    /* Promote any photo (saved or newly queued) to #1 Portal Icon position */
     function promotePhotoToPortalIcon(idx) {
       if (idx > 0 && idx < galleryItems.length) {
         const [chosen] = galleryItems.splice(idx, 1);
@@ -1427,10 +1511,11 @@
       renderPhotoPreviews();
     }
 
+    /* Render Photo Grid with Drag-and-Drop Reordering + "★ Set Icon" Button */
     function renderPhotoPreviews() {
       const savedCount = galleryItems.filter(i => i.type === 'existing').length;
       const newCount = galleryItems.filter(i => i.type === 'new').length;
-      existingPhotosSummary.textContent = `Total in gallery: ${galleryItems.length} photo(s) (${savedCount} saved, ${newCount} new) — Click any photo or "★ Set Icon" to make it the Portal Icon.`;
+      existingPhotosSummary.textContent = `Total in gallery: ${galleryItems.length} photo(s) (${savedCount} saved, ${newCount} new) — Drag cards to reorder, or click "★ Set Icon" to make #1.`;
 
       photoPreviewGrid.innerHTML = '';
       const totalPhotos = galleryItems.length;
@@ -1444,8 +1529,11 @@
 
         const div = document.createElement('div');
         div.className = `queued-item ${isFirst ? 'is-portal-icon' : ''}`;
+        div.draggable = true;
+        div.dataset.index = idx;
+
         div.innerHTML = `
-          <img src="${imgSrc}" alt="" title="${isFirst ? 'Current Portal Icon' : 'Click to make this photo the Portal Icon'}" />
+          <img src="${imgSrc}" alt="" />
           <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold); font-weight:700;' : ''}">${statusLabel}</span>
           <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 3px; flex-wrap: wrap;">
             ${!isFirst ? `<button type="button" class="photo-ctrl-btn make-icon-btn" title="Make Portal Icon (Move to #1)">★ Set Icon</button>` : ''}
@@ -1455,8 +1543,47 @@
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
 
-        // Click thumbnail or "★ Set Icon" button to immediately make it the Portal Icon (#1)
-        div.querySelector('img').addEventListener('click', () => promotePhotoToPortalIcon(idx));
+        // Drag-and-Drop Reordering Events
+        div.addEventListener('dragstart', (e) => {
+          draggedPhotoIndex = idx;
+          div.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', String(idx));
+        });
+
+        div.addEventListener('dragend', () => {
+          draggedPhotoIndex = null;
+          div.classList.remove('dragging');
+          document.querySelectorAll('.queued-item').forEach(el => el.classList.remove('drag-over-target'));
+        });
+
+        div.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          if (draggedPhotoIndex !== null && draggedPhotoIndex !== idx) {
+            div.classList.add('drag-over-target');
+          }
+        });
+
+        div.addEventListener('dragleave', () => {
+          div.classList.remove('drag-over-target');
+        });
+
+        div.addEventListener('drop', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          div.classList.remove('drag-over-target');
+          const fromIdx = draggedPhotoIndex !== null ? draggedPhotoIndex : parseInt(e.dataTransfer.getData('text/plain'), 10);
+          if (!isNaN(fromIdx) && fromIdx !== idx && fromIdx >= 0 && fromIdx < galleryItems.length) {
+            const [movedItem] = galleryItems.splice(fromIdx, 1);
+            galleryItems.splice(idx, 0, movedItem);
+            if (idx === 0 || fromIdx === 0) selThumbPreset.value = 'first_photo';
+            renderPhotoPreviews();
+          }
+          draggedPhotoIndex = null;
+        });
+
+        // "★ Set Icon" button
         const makeIconBtn = div.querySelector('.make-icon-btn');
         if (makeIconBtn) {
           makeIconBtn.addEventListener('click', (e) => {
@@ -1465,7 +1592,7 @@
           });
         }
 
-        // Step one position left
+        // Step Left button
         const moveLeft = div.querySelector('.move-left-btn');
         if (moveLeft) {
           moveLeft.addEventListener('click', (e) => {
@@ -1476,7 +1603,7 @@
           });
         }
 
-        // Step one position right
+        // Step Right button
         const moveRight = div.querySelector('.move-right-btn');
         if (moveRight) {
           moveRight.addEventListener('click', (e) => {
@@ -1487,7 +1614,7 @@
           });
         }
 
-        // Remove photo
+        // Remove photo button
         div.querySelector('.remove-photo-btn').addEventListener('click', (e) => {
           e.stopPropagation();
           galleryItems.splice(idx, 1);
