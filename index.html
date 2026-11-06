@@ -114,12 +114,20 @@
     .ligament-mycelium-hyphae { fill: none; stroke-width: 1.25; stroke-dasharray: 8 4 2 4; stroke-linecap: round; animation: pulseFlow 20s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.78; }
     .ligament-mycelium-spore { fill: #ffffff; stroke-width: 1.5; filter: drop-shadow(0 0 8px currentColor); animation: beaconPulse 2.4s ease-in-out infinite alternate; }
 
+    /* New Dionysian Thyrsus & Arcane Wizardry Filament Styles */
+    .ligament-thyrsus-staff { fill: none; stroke-width: 3.2; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: 0.94; }
+    .ligament-thyrsus-ribbon { fill: none; stroke-width: 1.65; stroke-dasharray: 12 6; stroke-linecap: round; animation: pulseFlow 14s linear infinite; filter: drop-shadow(0 0 6px currentColor); opacity: 0.86; }
+    .ligament-thyrsus-ivy { fill: none; stroke-width: 1.5; stroke-linecap: round; filter: drop-shadow(0 0 5px currentColor); opacity: 0.85; }
+    .ligament-thyrsus-cone { fill: #120c1c; stroke-width: 1.8; filter: drop-shadow(0 0 8px currentColor); }
+    .ligament-wizard-spell { fill: none; stroke-width: 1.9; stroke-dasharray: 7 5 2 5; stroke-linecap: round; animation: pulseFlow 10s linear infinite; filter: drop-shadow(0 0 8px currentColor); opacity: 0.92; }
+    .ligament-wizard-spark { fill: #ffffff; stroke-width: 1; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); animation: starPulse 1.8s ease-in-out infinite alternate; }
+
     .portal-filament-group { transition: filter 0.28s ease, opacity 0.28s ease; }
     .portal-filament-group.is-illuminated path, .portal-filament-group.is-illuminated circle, .portal-filament-group.is-illuminated polygon { opacity: 1; filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); }
     @keyframes electricSurge { to { stroke-dashoffset: -336; } }
     @keyframes pulseFlow { to { stroke-dashoffset: -140; } }
 
-    /* Central Sacred Geometry Hub & Chorus of the Winter Crickets (Bioluminescent Stridulation) */
+    /* Central Sacred Geometry Hub & Chorus of the Winter Crickets */
     .center-hub {
       position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 170px; height: 170px;
       border-radius: 50%; z-index: 20; display: flex; align-items: center; justify-content: center;
@@ -130,7 +138,6 @@
     }
     .hub-geometry { width: 136px; height: 136px; animation: slowSpin 50s linear infinite; pointer-events: none; }
 
-    /* Center Iris Label when Crickets Sing a Realm's Frequency */
     .scrying-iris {
       position: absolute; inset: 26px; border-radius: 50%; display: flex; flex-direction: column;
       align-items: center; justify-content: center; text-align: center; pointer-events: none; z-index: 25;
@@ -141,33 +148,18 @@
     .scrying-iris-title { font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; text-shadow: 0 0 10px var(--stridulation-color, var(--gold-accent)); margin-bottom: 2px; }
     .scrying-iris-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.74rem; color: var(--stridulation-color, var(--gold-accent)); }
 
-    /* Acoustic Aether Soundwave Ripples Emitted by Stridulating Crickets */
-    .cricket-stridulation-ripples {
-      position: absolute; width: 248px; height: 248px; border-radius: 50%;
-      pointer-events: none; z-index: 19;
-    }
+    .cricket-stridulation-ripples { position: absolute; width: 248px; height: 248px; border-radius: 50%; pointer-events: none; z-index: 19; }
     .aether-ripple {
       position: absolute; inset: 0; border-radius: 50%;
       border: 1.4px solid var(--stridulation-color, var(--gold-accent));
       box-shadow: 0 0 14px var(--stridulation-color, var(--gold-accent)), inset 0 0 10px var(--stridulation-color, var(--gold-accent));
       opacity: 0; transform: scale(0.96); pointer-events: none;
     }
-    .center-hub.is-stridulating .aether-ripple.ripple-1 {
-      animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-    }
-    .center-hub.is-stridulating .aether-ripple.ripple-2 {
-      animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.45s infinite;
-    }
-    .center-hub.is-stridulating .aether-ripple.ripple-3 {
-      animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.9s infinite;
-    }
+    .center-hub.is-stridulating .aether-ripple.ripple-1 { animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+    .center-hub.is-stridulating .aether-ripple.ripple-2 { animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.45s infinite; }
+    .center-hub.is-stridulating .aether-ripple.ripple-3 { animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.9s infinite; }
+    @keyframes acousticAetherWave { 0% { opacity: 0.82; transform: scale(0.96); } 100% { opacity: 0; transform: scale(1.52); } }
 
-    @keyframes acousticAetherWave {
-      0% { opacity: 0.82; transform: scale(0.96); }
-      100% { opacity: 0; transform: scale(1.52); }
-    }
-
-    /* Dynamic Astrolabe Bezel Ring around the Center Hub */
     .hub-bezel-ring {
       position: absolute; inset: -13px; border-radius: 50%;
       border: 1px solid rgba(212, 175, 55, 0.42);
@@ -211,12 +203,10 @@
       opacity: 1; transform: translateX(-50%) translateY(0);
     }
 
-    /* Orbiting Winter Crickets & Bioluminescent Stridulation States */
     .cricket-orbit {
       position: absolute; width: 248px; height: 248px; border-radius: 50%;
       border: 1px dashed rgba(212, 175, 55, 0.28);
-      animation: slowSpinReverse 65s linear infinite;
-      pointer-events: none;
+      animation: slowSpinReverse 65s linear infinite; pointer-events: none;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .center-hub.is-stridulating .cricket-orbit {
@@ -225,18 +215,13 @@
     }
 
     .cricket-icon {
-      position: absolute; width: 44px; height: 44px;
-      color: var(--gold-accent);
-      filter: drop-shadow(0 0 6px var(--gold-accent));
-      overflow: visible;
+      position: absolute; width: 44px; height: 44px; color: var(--gold-accent);
+      filter: drop-shadow(0 0 6px var(--gold-accent)); overflow: visible;
       transition: color 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     }
     .center-hub.is-stridulating .cricket-icon {
       color: var(--stridulation-color, var(--gold-accent));
-      filter:
-        drop-shadow(0 0 8px var(--stridulation-color, var(--gold-accent)))
-        drop-shadow(0 0 16px var(--stridulation-color, var(--gold-accent)))
-        drop-shadow(0 0 3px #ffffff);
+      filter: drop-shadow(0 0 8px var(--stridulation-color, var(--gold-accent))) drop-shadow(0 0 16px var(--stridulation-color, var(--gold-accent))) drop-shadow(0 0 3px #ffffff);
     }
 
     .cricket-icon.top { top: -22px; left: calc(50% - 22px); transform: rotate(-90deg); }
@@ -258,38 +243,16 @@
     .gait-b.leg-fr, .gait-b.leg-hr { animation: swingRightLeg 0.55s ease-in-out infinite alternate-reverse; }
     .gait-b.leg-ml { animation: swingLeftLeg 0.55s ease-in-out infinite alternate-reverse; }
 
-    /* High-Frequency Wing-Chirp Stridulation when a Bezel Gem is Hovered */
-    .center-hub.is-stridulating .cricket-body {
-      animation: stridulateChirpBody 0.065s ease-in-out infinite alternate !important;
-    }
-    .center-hub.is-stridulating .cricket-wing-veins {
-      stroke: #ffffff;
-    }
-    .center-hub.is-stridulating .ant-l {
-      animation: feelerLeft 0.12s ease-in-out infinite alternate !important;
-    }
-    .center-hub.is-stridulating .ant-r {
-      animation: feelerRight 0.12s ease-in-out infinite alternate !important;
-    }
-    .center-hub.is-stridulating .gait-a.leg-fl,
-    .center-hub.is-stridulating .gait-a.leg-hl {
-      animation: swingLeftLeg 0.14s ease-in-out infinite alternate !important;
-    }
-    .center-hub.is-stridulating .gait-a.leg-mr {
-      animation: swingRightLeg 0.14s ease-in-out infinite alternate !important;
-    }
-    .center-hub.is-stridulating .gait-b.leg-fr,
-    .center-hub.is-stridulating .gait-b.leg-hr {
-      animation: swingRightLeg 0.14s ease-in-out infinite alternate-reverse !important;
-    }
-    .center-hub.is-stridulating .gait-b.leg-ml {
-      animation: swingLeftLeg 0.14s ease-in-out infinite alternate-reverse !important;
-    }
+    .center-hub.is-stridulating .cricket-body { animation: stridulateChirpBody 0.065s ease-in-out infinite alternate !important; }
+    .center-hub.is-stridulating .cricket-wing-veins { stroke: #ffffff; }
+    .center-hub.is-stridulating .ant-l { animation: feelerLeft 0.12s ease-in-out infinite alternate !important; }
+    .center-hub.is-stridulating .ant-r { animation: feelerRight 0.12s ease-in-out infinite alternate !important; }
+    .center-hub.is-stridulating .gait-a.leg-fl, .center-hub.is-stridulating .gait-a.leg-hl { animation: swingLeftLeg 0.14s ease-in-out infinite alternate !important; }
+    .center-hub.is-stridulating .gait-a.leg-mr { animation: swingRightLeg 0.14s ease-in-out infinite alternate !important; }
+    .center-hub.is-stridulating .gait-b.leg-fr, .center-hub.is-stridulating .gait-b.leg-hr { animation: swingRightLeg 0.14s ease-in-out infinite alternate-reverse !important; }
+    .center-hub.is-stridulating .gait-b.leg-ml { animation: swingLeftLeg 0.14s ease-in-out infinite alternate-reverse !important; }
 
-    @keyframes stridulateChirpBody {
-      0% { transform: rotate(-4.2deg) scaleX(1.08) translateY(-0.8px); }
-      100% { transform: rotate(4.2deg) scaleX(0.95) translateY(0.8px); }
-    }
+    @keyframes stridulateChirpBody { 0% { transform: rotate(-4.2deg) scaleX(1.08) translateY(-0.8px); } 100% { transform: rotate(4.2deg) scaleX(0.95) translateY(0.8px); } }
     @keyframes swingLeftLeg { 0% { transform: rotate(-13deg) translateY(1px); } 100% { transform: rotate(15deg) translateY(-1px); } }
     @keyframes swingRightLeg { 0% { transform: rotate(-15deg) translateY(-1px); } 100% { transform: rotate(13deg) translateY(1px); } }
     @keyframes feelerLeft { 0% { transform: rotate(-9deg); } 100% { transform: rotate(11deg); } }
@@ -560,14 +523,13 @@
         </defs>
       </svg>
 
-      <!-- Central Hub with Chorus of the Winter Crickets (Bioluminescent Stridulation) -->
+      <!-- Central Hub with Chorus of the Winter Crickets -->
       <div class="center-hub" id="center-hub">
         <div class="scrying-iris" id="scrying-iris">
           <div class="scrying-iris-title" id="scrying-iris-title">Disk Name</div>
           <div class="scrying-iris-sub">✦ Cricket Chorus ✦</div>
         </div>
 
-        <!-- Acoustic Aether Soundwave Ripples Emitted During Stridulation -->
         <div class="cricket-stridulation-ripples" aria-hidden="true">
           <span class="aether-ripple ripple-1"></span>
           <span class="aether-ripple ripple-2"></span>
@@ -668,7 +630,7 @@
           </div>
         </section>
 
-        <!-- Deity-Motif Sanctum Text Box (Persephone for Janice / Dionysus & Satyr for Paul) -->
+        <!-- Deity-Motif Sanctum Text Box -->
         <section class="sanctum-motif-wrapper" id="modal-sanctum-box" data-deity="persephone">
           <svg class="sanctum-motif-svg" id="modal-sanctum-svg" viewBox="0 0 700 260" preserveAspectRatio="none" aria-hidden="true"></svg>
           <div class="sanctum-motif-header" id="modal-sanctum-heading"></div>
@@ -885,7 +847,132 @@
 
     function renderFilament(svgGroup, x2, y2, idx, theme, filamentStyle) {
       const color = themeColors[theme] || themeColors.nocturnal;
-      if (filamentStyle === 'vine') {
+      if (filamentStyle === 'thyrsus') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len;
+        const uy = dy / len;
+        const nx = -uy;
+        const ny = ux;
+        const deg = (Math.atan2(dy, dx) * 180) / Math.PI;
+
+        let ivyD = `M ${CENTER_X} ${CENTER_Y}`;
+        let ribbonD = `M ${CENTER_X} ${CENTER_Y}`;
+        for (let i = 1; i <= 40; i++) {
+          const t = i / 40;
+          const env = Math.sin(t * Math.PI);
+          const wIvy = Math.sin(t * Math.PI * 3) * 16 * env;
+          const wRib = Math.cos(t * Math.PI * 2.5) * 22 * env;
+          ivyD += ` L ${(CENTER_X + dx * t + nx * wIvy).toFixed(1)} ${(CENTER_Y + dy * t + ny * wIvy).toFixed(1)}`;
+          ribbonD += ` L ${(CENTER_X + dx * t - nx * wRib).toFixed(1)} ${(CENTER_Y + dy * t - ny * wRib).toFixed(1)}`;
+        }
+
+        const ribbonPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        ribbonPath.setAttribute('d', ribbonD);
+        ribbonPath.setAttribute('class', 'ligament-thyrsus-ribbon');
+        ribbonPath.setAttribute('stroke', color);
+        ribbonPath.style.color = color;
+        svgGroup.appendChild(ribbonPath);
+
+        const staffPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        staffPath.setAttribute('d', `M ${CENTER_X} ${CENTER_Y} L ${x2} ${y2}`);
+        staffPath.setAttribute('class', 'ligament-thyrsus-staff');
+        staffPath.setAttribute('stroke', `url(#grad-${theme})`);
+        staffPath.style.color = color;
+        svgGroup.appendChild(staffPath);
+
+        const ivyPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        ivyPath.setAttribute('d', ivyD);
+        ivyPath.setAttribute('class', 'ligament-thyrsus-ivy');
+        ivyPath.setAttribute('stroke', color);
+        ivyPath.style.color = color;
+        svgGroup.appendChild(ivyPath);
+
+        const coneX = CENTER_X + dx * 0.78;
+        const coneY = CENTER_Y + dy * 0.78;
+        const cone = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        cone.setAttribute('cx', coneX.toFixed(1));
+        cone.setAttribute('cy', coneY.toFixed(1));
+        cone.setAttribute('rx', '16');
+        cone.setAttribute('ry', '9.5');
+        cone.setAttribute('transform', `rotate(${deg.toFixed(1)} ${coneX.toFixed(1)} ${coneY.toFixed(1)})`);
+        cone.setAttribute('class', 'ligament-thyrsus-cone');
+        cone.setAttribute('stroke', color);
+        cone.style.color = color;
+        svgGroup.appendChild(cone);
+
+      } else if (filamentStyle === 'wizardry') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len;
+        const uy = dy / len;
+        const nx = -uy;
+        const ny = ux;
+
+        const tipX = CENTER_X + dx * 0.45;
+        const tipY = CENTER_Y + dy * 0.45;
+        const wandPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        const p1 = `${(CENTER_X + nx * 4.5).toFixed(1)},${(CENTER_Y + ny * 4.5).toFixed(1)}`;
+        const p2 = `${(tipX + nx * 1.3).toFixed(1)},${(tipY + ny * 1.3).toFixed(1)}`;
+        const p3 = `${(tipX - nx * 1.3).toFixed(1)},${(tipY - ny * 1.3).toFixed(1)}`;
+        const p4 = `${(CENTER_X - nx * 4.5).toFixed(1)},${(CENTER_Y - ny * 4.5).toFixed(1)}`;
+        wandPoly.setAttribute('points', `${p1} ${p2} ${p3} ${p4}`);
+        wandPoly.setAttribute('fill', `url(#grad-${theme})`);
+        wandPoly.style.color = color;
+        wandPoly.style.filter = `drop-shadow(0 0 6px ${color})`;
+        svgGroup.appendChild(wandPoly);
+
+        let spellA = `M ${tipX.toFixed(1)} ${tipY.toFixed(1)}`;
+        let spellB = `M ${tipX.toFixed(1)} ${tipY.toFixed(1)}`;
+        for (let i = 1; i <= 36; i++) {
+          const t = i / 36;
+          const env = Math.sin(t * Math.PI);
+          const bx = tipX + (x2 - tipX) * t;
+          const by = tipY + (y2 - tipY) * t;
+          const w1 = Math.sin(t * Math.PI * 3.5) * 22 * env;
+          const w2 = Math.cos(t * Math.PI * 2.5) * 15 * env;
+          spellA += ` L ${(bx + nx * w1).toFixed(1)} ${(by + ny * w1).toFixed(1)}`;
+          spellB += ` L ${(bx - nx * w2).toFixed(1)} ${(by - ny * w2).toFixed(1)}`;
+        }
+
+        const pathA = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        pathA.setAttribute('d', spellA);
+        pathA.setAttribute('class', 'ligament-wizard-spell');
+        pathA.setAttribute('stroke', color);
+        pathA.style.color = color;
+        svgGroup.appendChild(pathA);
+
+        const pathB = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        pathB.setAttribute('d', spellB);
+        pathB.setAttribute('class', 'ligament-wizard-spell');
+        pathB.setAttribute('stroke', '#ffffff');
+        pathB.style.color = color;
+        svgGroup.appendChild(pathB);
+
+        const tipOrb = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        tipOrb.setAttribute('cx', tipX.toFixed(1));
+        tipOrb.setAttribute('cy', tipY.toFixed(1));
+        tipOrb.setAttribute('r', '5');
+        tipOrb.setAttribute('fill', '#ffffff');
+        tipOrb.style.filter = `drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px ${color})`;
+        svgGroup.appendChild(tipOrb);
+
+        [0.58, 0.72, 0.86].forEach((t, sIdx) => {
+          const off = (sIdx % 2 === 0 ? 18 : -18);
+          const sx = CENTER_X + dx * t + nx * off;
+          const sy = CENTER_Y + dy * t + ny * off;
+          const r = sIdx === 1 ? 6.5 : 8;
+          const star = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          star.setAttribute('d', `M ${sx.toFixed(1)} ${(sy - r).toFixed(1)} Q ${sx.toFixed(1)} ${sy.toFixed(1)} ${(sx + r).toFixed(1)} ${sy.toFixed(1)} Q ${sx.toFixed(1)} ${sy.toFixed(1)} ${sx.toFixed(1)} ${(sy + r).toFixed(1)} Q ${sx.toFixed(1)} ${sy.toFixed(1)} ${(sx - r).toFixed(1)} ${sy.toFixed(1)} Q ${sx.toFixed(1)} ${sy.toFixed(1)} ${sx.toFixed(1)} ${(sy - r).toFixed(1)} Z`);
+          star.setAttribute('class', 'ligament-wizard-spark');
+          star.setAttribute('stroke', color);
+          star.style.color = color;
+          svgGroup.appendChild(star);
+        });
+
+      } else if (filamentStyle === 'vine') {
         const mainVine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         mainVine.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, 1));
         mainVine.setAttribute('class', 'ligament-vine-main');
@@ -1065,7 +1152,6 @@
       }
     }
 
-    /* Render Dynamic $N$-Disk Astrolabe Bezel with Option 1: The Chorus of the Winter Crickets */
     function renderHubBezel() {
       hubBezelRing.innerHTML = '';
       if (sliceList.length <= 1) return;
