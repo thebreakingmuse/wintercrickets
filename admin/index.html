@@ -196,7 +196,7 @@
       overflow: visible;
     }
 
-    /* Animated Filament Preview Styles (Mirrors Main Site) */
+    /* Animated Filament Preview Styles */
     .prev-ligament-path { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 8 6; animation: prevPulseFlow 14s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.88; }
     .prev-vine-main { fill: none; stroke-width: 2.6; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.92; }
     .prev-vine-tendril { fill: none; stroke-width: 1.4; stroke-dasharray: 4 3; stroke-linecap: round; animation: prevPulseFlow 18s linear infinite; filter: drop-shadow(0 0 4px currentColor); opacity: 0.75; }
@@ -243,13 +243,49 @@
     .dropzone h3 { font-size: 0.95rem; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.1em; }
     .dropzone p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--text-muted); }
 
-    .queued-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 14px; max-height: 300px; overflow-y: auto; padding: 4px; }
-    .queued-item { position: relative; height: 110px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.18); background: #08070f; }
-    .queued-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .queued-badge { position: absolute; bottom: 4px; left: 4px; right: 4px; background: rgba(4, 4, 10, 0.85); color: var(--emerald); font-size: 0.62rem; padding: 2px 5px; border-radius: 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .remove-photo-btn { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; background: rgba(255, 77, 121, 0.9); color: #fff; border: none; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .photo-ctrl-btn { width: 22px; height: 22px; border-radius: 4px; background: rgba(8, 6, 16, 0.85); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4); font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-    .photo-ctrl-btn:hover { background: var(--gold); color: #050509; border-color: #fff; }
+    .queued-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 12px; margin-top: 14px; max-height: 340px; overflow-y: auto; padding: 4px; }
+    .queued-item {
+      position: relative; height: 124px; border-radius: 8px; overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.18); background: #08070f;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .queued-item:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .queued-item.is-portal-icon {
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
+    }
+    .queued-item img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+    .queued-badge {
+      position: absolute; bottom: 4px; left: 4px; right: 4px;
+      background: rgba(4, 4, 10, 0.88); color: var(--emerald);
+      font-size: 0.62rem; padding: 3px 5px; border-radius: 4px;
+      text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      pointer-events: none;
+    }
+    .remove-photo-btn {
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
+      border-radius: 50%; background: rgba(255, 77, 121, 0.92); color: #fff;
+      border: none; font-size: 0.75rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; z-index: 3;
+    }
+    .photo-ctrl-btn {
+      height: 22px; min-width: 22px; padding: 0 5px; border-radius: 4px;
+      background: rgba(8, 6, 16, 0.9); color: var(--gold);
+      border: 1px solid rgba(212, 175, 55, 0.5); font-family: 'Cinzel', serif;
+      font-size: 0.68rem; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease; z-index: 3;
+    }
+    .photo-ctrl-btn:hover {
+      background: var(--gold); color: #050509; border-color: #fff;
+    }
+    .make-icon-btn {
+      font-size: 0.58rem; letter-spacing: 0.05em; padding: 0 6px;
+      background: rgba(212, 175, 55, 0.22); color: #ffe8a3;
+    }
 
     #library-modal { position: fixed; inset: 0; background: rgba(2, 2, 6, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 1100; padding: 24px; }
     #library-modal.active { display: flex; }
@@ -459,7 +495,7 @@
         </div>
       </div>
 
-      <!-- 4. Interactive 3D Disk Radar Placement (With Central Hub Bezel Preview) -->
+      <!-- 4. Interactive 3D Disk Radar Placement -->
       <div class="radar-layout">
         <div class="radar-column">
           <div class="radar-box" id="radar-box" title="Drag portal node around the ring">
@@ -491,7 +527,7 @@
       <!-- 5. Browser WebP Photo Processor & Cross-Portal Library Picker -->
       <div class="form-group full-width" id="photo-uploader-section">
         <div class="photo-action-bar">
-          <label>Portal Gallery Photos <span class="label-hint">(Auto-converts to WebP)</span></label>
+          <label>Portal Gallery Photos <span class="label-hint">(Click any photo or "★ Set Icon" to make it the Portal Icon)</span></label>
           <button type="button" id="open-library-btn" class="btn">📂 Reference Photo from Another Portal</button>
         </div>
 
@@ -568,9 +604,8 @@
     let branches = [];
     let editingIndex = -1;
     let selectedTheme = 'nocturnal';
-    let existingPhotos = [];
-    let existingGridThumbs = [];
-    let queuedNewFiles = [];
+    // Unified gallery items list: { type: 'existing', fullPath, thumbPath } OR { type: 'new', filename, fullBase64, thumbBase64, previewUrl, sizeKb }
+    let galleryItems = [];
 
     const authGate = document.getElementById('auth-gate');
     const studioAuthorInput = document.getElementById('studio-author-input');
@@ -752,8 +787,7 @@
       filamentPreviewThemeName.style.color = color;
 
       const x1 = 28, y1 = 36, x2 = 332, y2 = 36;
-      const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
-      const nx = 0, ny = -1; // Upward normal for horizontal preview span
+      const dx = x2 - x1;
 
       let pathsMarkup = '';
 
@@ -849,7 +883,6 @@
 
       filamentPreviewSvg.innerHTML = `
         ${pathsMarkup}
-        <!-- Left Hub Origin Node & Right Portal Destination Node -->
         <circle cx="${x1}" cy="${y1}" r="8" fill="#141028" stroke="#d4af37" stroke-width="2" />
         <circle cx="${x1}" cy="${y1}" r="2.5" fill="#d4af37" />
         <circle cx="${x2}" cy="${y2}" r="11" fill="#0c0a18" stroke="${color}" stroke-width="2.4" style="filter:drop-shadow(0 0 6px ${color})" />
@@ -1100,9 +1133,7 @@
       inpAngle.value = suggestOpenAngle('Prime Cosmos');
       inpDistance.value = 340;
 
-      existingPhotos = [];
-      existingGridThumbs = [];
-      queuedNewFiles = [];
+      galleryItems = [];
       renderPhotoPreviews();
       renderSidebar();
       renderFilamentPreview();
@@ -1148,9 +1179,13 @@
       inpSanctumHeading.value = b.sanctum_heading || (b.id === 'introduction-janice' ? '✦ Grove of Persephone ✦' : '✦ Thiasus of Dionysus & The Satyr ✦');
       inpSanctumText.value = b.sanctum_text || '';
 
-      existingPhotos = [...(b.photos || [])];
-      existingGridThumbs = [...(b.grid_thumbs || [])];
-      queuedNewFiles = [];
+      const pList = b.photos || [];
+      const tList = b.grid_thumbs || [];
+      galleryItems = pList.map((fullPath, i) => ({
+        type: 'existing',
+        fullPath,
+        thumbPath: tList[i] || fullPath
+      }));
 
       renderPhotoPreviews();
       renderSidebar();
@@ -1289,9 +1324,8 @@
           card.className = 'library-card';
           card.innerHTML = `<img src="../${thumbPath}" alt="" loading="lazy" /><div class="library-card-label">${b.title || b.id}</div>`;
           card.addEventListener('click', () => {
-            if (!existingPhotos.includes(fullPath)) {
-              existingPhotos.push(fullPath);
-              existingGridThumbs.push(thumbPath);
+            if (!galleryItems.some(item => item.type === 'existing' && item.fullPath === fullPath)) {
+              galleryItems.push({ type: 'existing', fullPath, thumbPath });
               renderPhotoPreviews();
             }
             libraryModal.classList.remove('active');
@@ -1359,6 +1393,7 @@
       URL.revokeObjectURL(imgUrl);
       const cleanBaseName = file.name.replace(/\.[^/.]+$/, '').toLowerCase().replace(/[^a-z0-9-_]/g, '-');
       return {
+        type: 'new',
         filename: `${cleanBaseName}.webp`,
         fullBase64,
         thumbBase64,
@@ -1375,69 +1410,90 @@
         progressFill.style.width = `${Math.round(((i + 1) / files.length) * 100)}%`;
         try {
           const processed = await convertImageToWebPAndThumb(files[i]);
-          queuedNewFiles.push(processed);
+          galleryItems.push(processed);
         } catch (err) { console.error('Error converting image:', err); }
       }
       statusText.textContent = `✓ Converted ${files.length} photo(s) to WebP! Ready to publish.`;
       renderPhotoPreviews();
     }
 
+    /* Promote any photo (saved or newly queued) to #1 Portal Icon position */
+    function promotePhotoToPortalIcon(idx) {
+      if (idx > 0 && idx < galleryItems.length) {
+        const [chosen] = galleryItems.splice(idx, 1);
+        galleryItems.unshift(chosen);
+      }
+      selThumbPreset.value = 'first_photo';
+      renderPhotoPreviews();
+    }
+
     function renderPhotoPreviews() {
-      existingPhotosSummary.textContent = existingPhotos.length
-        ? `Currently saved in portal: ${existingPhotos.length} photo(s) | Queued to upload: ${queuedNewFiles.length} new photo(s)`
-        : `Queued to upload: ${queuedNewFiles.length} new photo(s)`;
+      const savedCount = galleryItems.filter(i => i.type === 'existing').length;
+      const newCount = galleryItems.filter(i => i.type === 'new').length;
+      existingPhotosSummary.textContent = `Total in gallery: ${galleryItems.length} photo(s) (${savedCount} saved, ${newCount} new) — Click any photo or "★ Set Icon" to make it the Portal Icon.`;
 
       photoPreviewGrid.innerHTML = '';
-      const totalPhotos = existingPhotos.length + queuedNewFiles.length;
+      const totalPhotos = galleryItems.length;
 
-      existingPhotos.forEach((pPath, idx) => {
-        const thumbPath = existingGridThumbs[idx] || pPath;
-        const isFirst = (idx === 0 && queuedNewFiles.length === 0);
+      galleryItems.forEach((item, idx) => {
+        const isFirst = idx === 0;
+        const imgSrc = item.type === 'existing' ? `../${item.thumbPath}` : item.previewUrl;
+        const statusLabel = isFirst
+          ? '★ Portal Icon (#1)'
+          : (item.type === 'existing' ? `Saved #${idx + 1}` : `New • ${item.sizeKb}KB`);
+
         const div = document.createElement('div');
-        div.className = 'queued-item';
+        div.className = `queued-item ${isFirst ? 'is-portal-icon' : ''}`;
         div.innerHTML = `
-          <img src="../${thumbPath}" alt="" />
-          <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold);' : ''}">${isFirst ? '★ Portal Icon' : 'Linked'}</span>
-          <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 4px;">
-            ${idx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move First">‹</button>` : ''}
+          <img src="${imgSrc}" alt="" title="${isFirst ? 'Current Portal Icon' : 'Click to make this photo the Portal Icon'}" />
+          <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold); font-weight:700;' : ''}">${statusLabel}</span>
+          <div style="position: absolute; top: 4px; left: 4px; display: flex; gap: 3px; flex-wrap: wrap;">
+            ${!isFirst ? `<button type="button" class="photo-ctrl-btn make-icon-btn" title="Make Portal Icon (Move to #1)">★ Set Icon</button>` : ''}
+            ${idx > 0 ? `<button type="button" class="photo-ctrl-btn move-left-btn" title="Move Left">‹</button>` : ''}
             ${idx < totalPhotos - 1 ? `<button type="button" class="photo-ctrl-btn move-right-btn" title="Move Right">›</button>` : ''}
           </div>
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
-        const moveLeft = div.querySelector('.move-left-btn');
-        if (moveLeft) moveLeft.addEventListener('click', () => {
-          existingPhotos.unshift(existingPhotos.splice(idx, 1)[0]);
-          existingGridThumbs.unshift(existingGridThumbs.splice(idx, 1)[0]);
-          renderPhotoPreviews();
-        });
-        const moveRight = div.querySelector('.move-right-btn');
-        if (moveRight) moveRight.addEventListener('click', () => {
-          existingPhotos.splice(idx + 1, 0, existingPhotos.splice(idx, 1)[0]);
-          existingGridThumbs.splice(idx + 1, 0, existingGridThumbs.splice(idx, 1)[0]);
-          renderPhotoPreviews();
-        });
-        div.querySelector('.remove-photo-btn').addEventListener('click', () => {
-          existingPhotos.splice(idx, 1);
-          existingGridThumbs.splice(idx, 1);
-          renderPhotoPreviews();
-        });
-        photoPreviewGrid.appendChild(div);
-      });
 
-      queuedNewFiles.forEach((item, idx) => {
-        const globalIdx = existingPhotos.length + idx;
-        const isFirst = (globalIdx === 0);
-        const div = document.createElement('div');
-        div.className = 'queued-item';
-        div.innerHTML = `
-          <img src="${item.previewUrl}" alt="" />
-          <span class="queued-badge" style="${isFirst ? 'color: var(--gold); border: 1px solid var(--gold);' : ''}">${isFirst ? '★ Portal Icon' : `New • ${item.sizeKb}KB`}</span>
-          <button type="button" class="remove-photo-btn" title="Remove queued photo">×</button>
-        `;
-        div.querySelector('.remove-photo-btn').addEventListener('click', () => {
-          queuedNewFiles.splice(idx, 1);
+        // Click thumbnail or "★ Set Icon" button to immediately make it the Portal Icon (#1)
+        div.querySelector('img').addEventListener('click', () => promotePhotoToPortalIcon(idx));
+        const makeIconBtn = div.querySelector('.make-icon-btn');
+        if (makeIconBtn) {
+          makeIconBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            promotePhotoToPortalIcon(idx);
+          });
+        }
+
+        // Step one position left
+        const moveLeft = div.querySelector('.move-left-btn');
+        if (moveLeft) {
+          moveLeft.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const [moved] = galleryItems.splice(idx, 1);
+            galleryItems.splice(idx - 1, 0, moved);
+            renderPhotoPreviews();
+          });
+        }
+
+        // Step one position right
+        const moveRight = div.querySelector('.move-right-btn');
+        if (moveRight) {
+          moveRight.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const [moved] = galleryItems.splice(idx, 1);
+            galleryItems.splice(idx + 1, 0, moved);
+            renderPhotoPreviews();
+          });
+        }
+
+        // Remove photo
+        div.querySelector('.remove-photo-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          galleryItems.splice(idx, 1);
           renderPhotoPreviews();
         });
+
         photoPreviewGrid.appendChild(div);
       });
     }
@@ -1452,22 +1508,27 @@
         return;
       }
 
-      const finalPhotos = [...existingPhotos];
-      const finalGridThumbs = [...existingGridThumbs];
-
-      queuedNewFiles.forEach(item => {
-        const fullPath = `portals/${folderId}/${item.filename}`;
-        const thumbPath = `portals/${folderId}/grid_thumbs/${item.filename}`;
-        if (!finalPhotos.includes(fullPath)) {
-          finalPhotos.push(fullPath);
-          finalGridThumbs.push(thumbPath);
-        }
-      });
-
-      if (!isIntroduction && finalPhotos.length === 0) {
+      if (!isIntroduction && galleryItems.length === 0) {
         alert('Please add at least one photo to this portal before publishing.');
         return;
       }
+
+      const finalPhotos = [];
+      const finalGridThumbs = [];
+      const newItemsToUpload = [];
+
+      galleryItems.forEach(item => {
+        if (item.type === 'existing') {
+          finalPhotos.push(item.fullPath);
+          finalGridThumbs.push(item.thumbPath);
+        } else {
+          const fullPath = `portals/${folderId}/${item.filename}`;
+          const thumbPath = `portals/${folderId}/grid_thumbs/${item.filename}`;
+          finalPhotos.push(fullPath);
+          finalGridThumbs.push(thumbPath);
+          newItemsToUpload.push(item);
+        }
+      });
 
       const sliceName = isIntroduction ? 'Janice & Paul' : getActiveSliceName();
       const sliceBg = selRealmBg.value;
@@ -1529,10 +1590,10 @@
 
         const treeItems = [];
 
-        for (let i = 0; i < queuedNewFiles.length; i++) {
-          const item = queuedNewFiles[i];
-          statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${queuedNewFiles.length}...`;
-          progressFill.style.width = `${15 + Math.round(((i + 1) / (queuedNewFiles.length + 1)) * 65)}%`;
+        for (let i = 0; i < newItemsToUpload.length; i++) {
+          const item = newItemsToUpload[i];
+          statusText.textContent = `Uploading WebP photo & thumbnail ${i + 1} of ${newItemsToUpload.length}...`;
+          progressFill.style.width = `${15 + Math.round(((i + 1) / (newItemsToUpload.length + 1)) * 65)}%`;
 
           const fullBlobRes = await githubApiRequest('/git/blobs', {
             method: 'POST',
@@ -1577,7 +1638,6 @@
         });
 
         branches = updatedBranches;
-        queuedNewFiles = [];
         progressFill.style.width = '100%';
         statusText.textContent = `✨ Published '${title}'! Netlify is now deploying to depthofsparkle.life.`;
 
