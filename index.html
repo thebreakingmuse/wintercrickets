@@ -78,11 +78,28 @@
     header { position: fixed; top: 22px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 25; pointer-events: none; width: 90vw; }
     header h1 { font-family: 'Cinzel Decorative', serif; font-size: clamp(1.1rem, 2.2vw, 2.1rem); letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-main); text-shadow: 0 0 18px var(--hub-glow-primary), 0 0 35px var(--hub-glow-secondary); transition: text-shadow 1s ease; }
     header p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; letter-spacing: 0.12em; color: var(--text-muted); margin-top: 4px; }
-    #active-slice-badge { display: inline-block; margin-top: 8px; padding: 3px 14px; border-radius: 14px; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-accent); border: 1px solid var(--gold-accent); background: rgba(8, 8, 16, 0.75); box-shadow: 0 0 14px var(--hub-glow-primary); transition: all 0.8s ease; }
+    #active-slice-badge {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 4px 16px; border-radius: 16px;
+      font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-accent);
+      border: 1px solid var(--gold-accent); background: rgba(8, 8, 16, 0.82); box-shadow: 0 0 14px var(--hub-glow-primary);
+      cursor: pointer; pointer-events: auto; transition: all 0.35s ease;
+    }
+    #active-slice-badge:hover { background: rgba(212, 175, 55, 0.18); color: #ffffff; border-color: #ffffff; }
 
     #cosmos-viewport { position: relative; width: 100vw; height: 100vh; height: 100svh; overflow: hidden; z-index: 5; perspective: 1400px; }
     #network-stage { position: absolute; left: 50%; top: 50%; width: 1000px; height: 1000px; transform: translate(-50%, -50%); transform-origin: center center; transform-style: preserve-3d; flex-shrink: 0; }
-    #disks-container { position: absolute; inset: 0; width: 100%; height: 100%; transform-style: preserve-3d; pointer-events: none; }
+    #disks-container { position: absolute; inset: 0; width: 100%; height: 100%; transform-style: preserve-3d; pointer-events: none; transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease, filter 0.85s ease; }
+
+    /* When Orrery Mode is open, the active disk recedes into the mist so the Orrery Constellation takes center stage */
+    body.orrery-open #disks-container {
+      transform: scale(0.76);
+      opacity: 0.12;
+      filter: blur(5px);
+      pointer-events: none !important;
+    }
+    body.orrery-open .disk-plane.active-disk {
+      pointer-events: none !important;
+    }
 
     .disk-plane { position: absolute; inset: 0; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1), filter 1.15s ease; pointer-events: none; }
     .disk-plane.active-disk { transform: translate3d(0, 0, 0) rotateX(0deg) scale(1); opacity: 1; filter: blur(0px); pointer-events: auto; z-index: 8; }
@@ -121,67 +138,52 @@
     .ligament-wizard-spell { fill: none; stroke-width: 1.9; stroke-dasharray: 7 5 2 5; stroke-linecap: round; animation: pulseFlow 10s linear infinite; filter: drop-shadow(0 0 8px currentColor); opacity: 0.92; }
     .ligament-wizard-spark { fill: #ffffff; stroke-width: 1; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); animation: starPulse 1.8s ease-in-out infinite alternate; }
 
-    /* Phantom Constellation Projection Layer (Destination Disk X-Ray + Floating Portal Labels) */
-    #phantom-constellation-svg {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 16; overflow: visible;
-    }
-    .phantom-filament {
-      fill: none; stroke-width: 1.8; stroke-linecap: round;
-      stroke-dasharray: 6 6; animation: pulseFlow 10s linear infinite;
-      filter: drop-shadow(0 0 6px currentColor); opacity: 0.72;
-    }
-    .phantom-star-node {
-      fill: #ffffff; stroke-width: 2;
-      filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px currentColor);
-      animation: starPulse 2s ease-in-out infinite alternate;
-    }
-    .phantom-star-ring {
-      fill: none; stroke-width: 1.1; stroke-dasharray: 3 3;
-      opacity: 0.7;
-    }
-    .phantom-star-label-bg {
-      fill: rgba(5, 4, 12, 0.88);
-      stroke-width: 0.9;
-      rx: 8px; ry: 8px;
-    }
-    .phantom-star-label {
-      fill: #f0ece1;
-      font-family: 'Cinzel', serif;
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-anchor: middle;
-      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.98)) drop-shadow(0 0 8px currentColor);
-    }
-
     .portal-filament-group { transition: filter 0.28s ease, opacity 0.28s ease; }
     .portal-filament-group.is-illuminated path, .portal-filament-group.is-illuminated circle, .portal-filament-group.is-illuminated polygon { opacity: 1; filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); }
     @keyframes electricSurge { to { stroke-dashoffset: -336; } }
     @keyframes pulseFlow { to { stroke-dashoffset: -140; } }
 
-    /* Central Sacred Geometry Hub & Chorus of the Winter Crickets */
+    /* Zero-Clutter Central Hub (Acts as the Alchemical Eye Trigger for the Unfurling Orrery) */
     .center-hub {
       position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 170px; height: 170px;
-      border-radius: 50%; z-index: 20; display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; z-index: 30; display: flex; align-items: center; justify-content: center;
       background: radial-gradient(circle, var(--scrying-hub-bg, rgba(22, 16, 40, 0.95)) 0%, rgba(7, 5, 14, 0.98) 75%);
       box-shadow: 0 0 35px var(--scrying-hub-glow, var(--hub-glow-primary)), 0 0 70px var(--hub-glow-secondary), inset 0 0 25px var(--scrying-hub-glow, var(--hub-glow-primary));
       border: 1.5px solid var(--scrying-hub-border, var(--gold-accent));
-      transition: box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+      cursor: pointer; outline: none;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
     }
-    .hub-geometry { width: 136px; height: 136px; animation: slowSpin 50s linear infinite; pointer-events: none; }
+    .center-hub:hover, .center-hub:focus-visible {
+      transform: translate(-50%, -50%) scale(1.06);
+      border-color: #ffffff;
+      box-shadow: 0 0 45px var(--scrying-hub-glow, var(--hub-glow-primary)), 0 0 85px var(--hub-glow-secondary), inset 0 0 30px var(--scrying-hub-glow, var(--hub-glow-primary));
+    }
+    body.orrery-open .center-hub {
+      border-color: #ffffff;
+      box-shadow: 0 0 50px var(--gold-accent), 0 0 95px var(--hub-glow-primary), inset 0 0 32px rgba(255, 255, 255, 0.28);
+    }
 
+    .hub-geometry { width: 138px; height: 138px; animation: slowSpin 50s linear infinite; pointer-events: none; transition: transform 0.6s ease; }
+    body.orrery-open .hub-geometry { animation-duration: 18s; }
+
+    /* Subtle Center Iris Prompt inside the Hub */
     .scrying-iris {
-      position: absolute; inset: 26px; border-radius: 50%; display: flex; flex-direction: column;
+      position: absolute; inset: 24px; border-radius: 50%; display: flex; flex-direction: column;
       align-items: center; justify-content: center; text-align: center; pointer-events: none; z-index: 25;
-      background: radial-gradient(circle, rgba(5, 4, 10, 0.9) 0%, transparent 76%);
+      background: radial-gradient(circle, rgba(5, 4, 10, 0.92) 0%, transparent 76%);
       opacity: 0; transform: scale(0.92); transition: opacity 0.28s ease, transform 0.28s ease;
     }
-    .scrying-iris.active { opacity: 1; transform: scale(1); }
-    .scrying-iris-title { font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; text-shadow: 0 0 10px var(--stridulation-color, var(--gold-accent)); margin-bottom: 2px; }
-    .scrying-iris-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.74rem; color: var(--stridulation-color, var(--gold-accent)); }
+    .center-hub:hover .scrying-iris,
+    .center-hub:focus-visible .scrying-iris,
+    body.orrery-open .scrying-iris,
+    .scrying-iris.active {
+      opacity: 1; transform: scale(1);
+    }
+    .scrying-iris-title { font-family: 'Cinzel', serif; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; text-shadow: 0 0 10px var(--stridulation-color, var(--gold-accent)); margin-bottom: 3px; padding: 0 6px; }
+    .scrying-iris-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.76rem; color: var(--stridulation-color, var(--gold-accent)); }
 
-    .cricket-stridulation-ripples { position: absolute; width: 248px; height: 248px; border-radius: 50%; pointer-events: none; z-index: 19; }
+    /* Acoustic Aether Ripples when Crickets Sing */
+    .cricket-stridulation-ripples { position: absolute; width: 236px; height: 236px; border-radius: 50%; pointer-events: none; z-index: 19; }
     .aether-ripple {
       position: absolute; inset: 0; border-radius: 50%;
       border: 1.4px solid var(--stridulation-color, var(--gold-accent));
@@ -193,52 +195,10 @@
     .center-hub.is-stridulating .aether-ripple.ripple-3 { animation: acousticAetherWave 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.9s infinite; }
     @keyframes acousticAetherWave { 0% { opacity: 0.82; transform: scale(0.96); } 100% { opacity: 0; transform: scale(1.52); } }
 
-    .hub-bezel-ring {
-      position: absolute; inset: -13px; border-radius: 50%;
-      border: 1px solid rgba(212, 175, 55, 0.42);
-      box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.18);
-      pointer-events: none; z-index: 28;
-    }
-    .bezel-node {
-      position: absolute; width: 28px; height: 28px; border-radius: 50%;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(24, 18, 42, 0.96) 0%, #05040a 80%);
-      border: 1.4px solid var(--bezel-color, var(--gold-accent));
-      box-shadow: 0 0 10px var(--bezel-color, var(--gold-accent)), inset 0 0 6px var(--bezel-color, var(--gold-accent));
-      color: var(--bezel-color, var(--gold-accent));
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; pointer-events: auto; padding: 0; outline: none;
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease;
-    }
-    .bezel-node:hover, .bezel-node:focus-visible {
-      transform: translate(-50%, -50%) scale(1.26);
-      border-color: #ffffff;
-      box-shadow: 0 0 18px #ffffff, 0 0 28px var(--bezel-color, var(--gold-accent));
-      z-index: 35;
-    }
-    .bezel-node.is-active-disk {
-      border-color: #ffffff;
-      background: radial-gradient(circle, var(--bezel-color, var(--gold-accent)) 0%, #090714 78%);
-      box-shadow: 0 0 16px #ffffff, 0 0 28px var(--bezel-color, var(--gold-accent));
-      transform: translate(-50%, -50%) scale(1.15);
-    }
-    .bezel-node svg { width: 15px; height: 15px; pointer-events: none; }
-    .bezel-tooltip {
-      position: absolute; left: 50%; bottom: calc(100% + 9px); transform: translateX(-50%) translateY(4px);
-      background: rgba(6, 5, 14, 0.94); border: 1px solid var(--bezel-color, var(--gold-accent));
-      color: var(--text-main); padding: 4px 10px; border-radius: 12px;
-      font-family: 'Cinzel', serif; font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase;
-      white-space: nowrap; pointer-events: none; opacity: 0;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.9), 0 0 12px var(--bezel-color, var(--gold-accent));
-      transition: opacity 0.22s ease, transform 0.22s ease;
-    }
-    .bezel-node:hover .bezel-tooltip, .bezel-node:focus-visible .bezel-tooltip {
-      opacity: 1; transform: translateX(-50%) translateY(0);
-    }
-
+    /* Orbiting Winter Crickets (Clean 232px Track Around the Zero-Clutter Hub) */
     .cricket-orbit {
-      position: absolute; width: 248px; height: 248px; border-radius: 50%;
-      border: 1px dashed rgba(212, 175, 55, 0.28);
+      position: absolute; width: 232px; height: 232px; border-radius: 50%;
+      border: 1px dashed rgba(212, 175, 55, 0.3);
       animation: slowSpinReverse 65s linear infinite; pointer-events: none;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
@@ -248,7 +208,7 @@
     }
 
     .cricket-icon {
-      position: absolute; width: 44px; height: 44px; color: var(--gold-accent);
+      position: absolute; width: 42px; height: 42px; color: var(--gold-accent);
       filter: drop-shadow(0 0 6px var(--gold-accent)); overflow: visible;
       transition: color 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     }
@@ -257,10 +217,10 @@
       filter: drop-shadow(0 0 8px var(--stridulation-color, var(--gold-accent))) drop-shadow(0 0 16px var(--stridulation-color, var(--gold-accent))) drop-shadow(0 0 3px #ffffff);
     }
 
-    .cricket-icon.top { top: -22px; left: calc(50% - 22px); transform: rotate(-90deg); }
-    .cricket-icon.bottom { bottom: -22px; left: calc(50% - 22px); transform: rotate(90deg); }
-    .cricket-icon.left { left: -22px; top: calc(50% - 22px); transform: rotate(180deg); }
-    .cricket-icon.right { right: -22px; top: calc(50% - 22px); transform: rotate(0deg); }
+    .cricket-icon.top { top: -21px; left: calc(50% - 21px); transform: rotate(-90deg); }
+    .cricket-icon.bottom { bottom: -21px; left: calc(50% - 21px); transform: rotate(90deg); }
+    .cricket-icon.left { left: -21px; top: calc(50% - 21px); transform: rotate(180deg); }
+    .cricket-icon.right { right: -21px; top: calc(50% - 21px); transform: rotate(0deg); }
 
     .cricket-leg, .cricket-antenna, .cricket-body, .cricket-wing-veins { transform-box: view-box; }
     .leg-fl { transform-origin: 28px 21px; } .leg-fr { transform-origin: 36px 21px; }
@@ -294,6 +254,107 @@
     @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes slowSpinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
+    /* ==========================================================================
+       OPTION 1: THE UNFURLING ORRERY (FULL-STAGE CONSTELLATION VIEW)
+       ========================================================================== */
+    #orrery-constellation-stage {
+      position: absolute; inset: 0; width: 1000px; height: 1000px;
+      pointer-events: none; z-index: 24;
+      opacity: 0; transform: scale(0.32) rotate(-14deg);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    body.orrery-open #orrery-constellation-stage {
+      opacity: 1; transform: scale(1) rotate(0deg);
+      pointer-events: auto;
+    }
+
+    .orrery-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; overflow: visible;
+    }
+    .orrery-orbit-ring {
+      fill: none; stroke: rgba(212, 175, 55, 0.32); stroke-width: 1.2;
+      stroke-dasharray: 10 6 2 6;
+      animation: slowSpin 95s linear infinite;
+      transform-origin: 500px 500px;
+    }
+    .orrery-outer-compass {
+      fill: none; stroke: rgba(255, 255, 255, 0.14); stroke-width: 1;
+      stroke-dasharray: 3 9;
+    }
+    .orrery-spoke {
+      fill: none; stroke-width: 1.8; stroke-dasharray: 6 5;
+      opacity: 0.55; transition: opacity 0.3s ease, stroke-width 0.3s ease;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+    .orrery-spoke.is-highlighted {
+      opacity: 1; stroke-width: 2.8; stroke-dasharray: none;
+    }
+
+    .orrery-disk-node {
+      position: absolute; transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center;
+      background: transparent; border: none; cursor: pointer;
+      color: var(--text-main); font-family: 'Cinzel', serif;
+      padding: 8px; outline: none; z-index: 26;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .orrery-disk-node:hover, .orrery-disk-node:focus-visible {
+      transform: translate(-50%, -50%) scale(1.14);
+      z-index: 29;
+    }
+
+    .orrery-orb {
+      position: relative; width: 92px; height: 92px; border-radius: 50%;
+      background: radial-gradient(circle at 38% 35%, rgba(28, 22, 48, 0.95) 0%, #05040a 80%);
+      border: 2px solid var(--orrery-color, var(--gold-accent));
+      box-shadow: 0 0 22px var(--orrery-glow, rgba(212, 175, 55, 0.45)), inset 0 0 16px var(--orrery-glow, rgba(212, 175, 55, 0.35));
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .orrery-orb::before {
+      content: ""; position: absolute; inset: -6px; border-radius: 50%;
+      border: 1px dashed var(--orrery-color, var(--gold-accent));
+      opacity: 0.65; animation: slowSpin 32s linear infinite; pointer-events: none;
+    }
+    .orrery-disk-node.is-current-disk .orrery-orb {
+      border-color: #ffffff;
+      box-shadow: 0 0 32px #ffffff, 0 0 55px var(--orrery-color, var(--gold-accent)), inset 0 0 22px var(--orrery-color, var(--gold-accent));
+    }
+    .orrery-disk-node:hover .orrery-orb, .orrery-disk-node:focus-visible .orrery-orb {
+      border-color: #ffffff;
+      box-shadow: 0 0 30px #ffffff, 0 0 60px var(--orrery-color, var(--gold-accent)), inset 0 0 24px var(--orrery-color, var(--gold-accent));
+    }
+
+    .orrery-orb-svg {
+      width: 54px; height: 54px; color: var(--orrery-color, var(--gold-accent));
+      filter: drop-shadow(0 0 6px currentColor);
+      overflow: visible;
+    }
+
+    .orrery-label-plaque {
+      margin-top: 12px; padding: 6px 16px; border-radius: 20px;
+      background: rgba(6, 5, 14, 0.9); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
+      text-align: center; transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .orrery-disk-node:hover .orrery-label-plaque,
+    .orrery-disk-node.is-current-disk .orrery-label-plaque {
+      border-color: var(--orrery-color, var(--gold-accent));
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.95), 0 0 16px var(--orrery-glow, rgba(212, 175, 55, 0.4));
+    }
+    .orrery-disk-title {
+      font-size: 0.84rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-main); white-space: nowrap;
+      text-shadow: 0 0 10px var(--orrery-color, var(--gold-accent));
+    }
+    .orrery-disk-meta {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 0.82rem; color: var(--text-muted); white-space: nowrap;
+    }
+
+    /* Standard Portal Nodes */
     .portal-node { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 12; transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1); }
     .portal-node:hover { transform: translate(-50%, -50%) scale(1.12); z-index: 15; }
     .portal-ring { position: relative; width: 118px; height: 118px; border-radius: 50%; padding: 5px; background: radial-gradient(circle, rgba(15, 15, 25, 0.9), rgba(5, 5, 10, 0.98)); border: 2px solid var(--node-border, #d4af37); box-shadow: 0 0 22px var(--node-glow, rgba(212, 175, 55, 0.5)), inset 0 0 14px var(--node-glow, rgba(212, 175, 55, 0.4)); transition: box-shadow 0.35s ease, border-color 0.35s ease; overflow: hidden; }
@@ -538,15 +599,14 @@
 
   <header>
     <h1>Esoteric Winter Crickets</h1>
-    <p>Select a resonating node to enter its archive</p>
-    <div id="active-slice-badge" style="display: none;">Disk: Prime Cosmos</div>
+    <p id="header-sub-prompt">Select a resonating node to enter its archive, or click the center hub to shift realms</p>
+    <button type="button" id="active-slice-badge" style="display: none;" title="Click to open Celestial Orrery">
+      ✦ Disk: Coniunctio (Shift Realm)
+    </button>
   </header>
 
   <main id="cosmos-viewport">
     <div id="network-stage">
-      <!-- Phantom Constellation Projection Layer (Destination Disk X-Ray + Floating Portal Labels) -->
-      <svg id="phantom-constellation-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>
-
       <svg width="0" height="0" style="position:absolute">
         <defs>
           <linearGradient id="grad-nocturnal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#b366ff" stop-opacity="0.9" /><stop offset="100%" stop-color="#6a00f4" stop-opacity="0.2" /></linearGradient>
@@ -559,11 +619,11 @@
         </defs>
       </svg>
 
-      <!-- Central Hub with Chorus of the Winter Crickets & Astrolabe Bezel -->
-      <div class="center-hub" id="center-hub">
+      <!-- Zero-Clutter Central Hub (Click to Unfurl/Fold the Celestial Orrery) -->
+      <div class="center-hub" id="center-hub" role="button" tabindex="0" aria-expanded="false" aria-label="Unfurl Celestial Orrery to shift disks">
         <div class="scrying-iris" id="scrying-iris">
-          <div class="scrying-iris-title" id="scrying-iris-title">Disk Name</div>
-          <div class="scrying-iris-sub">✦ Constellation X-Ray ✦</div>
+          <div class="scrying-iris-title" id="scrying-iris-title">Celestial Orrery</div>
+          <div class="scrying-iris-sub" id="scrying-iris-sub">✦ Click to Shift Realms ✦</div>
         </div>
 
         <div class="cricket-stridulation-ripples" aria-hidden="true">
@@ -579,8 +639,6 @@
           <svg class="cricket-icon right" viewBox="0 0 64 64"></svg>
         </div>
 
-        <div class="hub-bezel-ring" id="hub-bezel-ring" aria-label="Dimensional Disk Navigation"></div>
-
         <svg class="hub-geometry" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(212,175,55,0.45)" stroke-width="0.8" />
           <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(179,102,255,0.4)" stroke-width="0.7" stroke-dasharray="3 2" />
@@ -589,6 +647,12 @@
           <circle cx="50" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.1" style="color: var(--gold-accent)" />
           <circle cx="50" cy="50" r="3.5" fill="currentColor" style="color: var(--gold-accent)" />
         </svg>
+      </div>
+
+      <!-- Option 1: The Unfurling Orrery (Full-Stage Constellation View) -->
+      <div id="orrery-constellation-stage" aria-hidden="true">
+        <svg class="orrery-svg" id="orrery-svg" viewBox="0 0 1000 1000"></svg>
+        <div id="orrery-nodes-container"></div>
       </div>
 
       <div id="disks-container"></div>
@@ -647,7 +711,6 @@
         <div class="poem-text" id="modal-poem-text"></div>
         <p class="poem-empty" id="modal-poem-empty" hidden>This poem has not been added yet.</p>
 
-        <!-- Archetypes Triad (Zodiacal, Mythological, Animalia) -->
         <section class="archetypes-section" id="modal-archetypes-section">
           <h4 class="archetypes-heading">✦ Archetypes ✦</h4>
           <div class="archetypes-grid">
@@ -666,7 +729,6 @@
           </div>
         </section>
 
-        <!-- Deity-Motif Sanctum Text Box -->
         <section class="sanctum-motif-wrapper" id="modal-sanctum-box" data-deity="persephone">
           <svg class="sanctum-motif-svg" id="modal-sanctum-svg" viewBox="0 0 700 260" preserveAspectRatio="none" aria-hidden="true"></svg>
           <div class="sanctum-motif-header" id="modal-sanctum-heading"></div>
@@ -693,7 +755,7 @@
   <script>
     const CENTER_X = 500;
     const CENTER_Y = 500;
-    const LANDING_SLICE = 'Janice & Paul';
+    const LANDING_SLICE = 'Coniunctio';
 
     const themeColors = {
       nocturnal: '#b366ff',
@@ -722,6 +784,7 @@
         id: 'introduction-janice',
         title: 'Janice',
         portal_type: 'introduction',
+        slice: 'Coniunctio',
         theme: 'nocturnal',
         filament: 'vine',
         angle: 180,
@@ -737,6 +800,7 @@
         id: 'introduction-paul',
         title: 'Paul',
         portal_type: 'introduction',
+        slice: 'Coniunctio',
         theme: 'orchid',
         filament: 'wizardry',
         angle: 1,
@@ -830,8 +894,10 @@
     const centerHub = document.getElementById('center-hub');
     const scryingIris = document.getElementById('scrying-iris');
     const scryingIrisTitle = document.getElementById('scrying-iris-title');
-    const hubBezelRing = document.getElementById('hub-bezel-ring');
-    const phantomConstellationSvg = document.getElementById('phantom-constellation-svg');
+    const scryingIrisSub = document.getElementById('scrying-iris-sub');
+    const orreryStage = document.getElementById('orrery-constellation-stage');
+    const orrerySvg = document.getElementById('orrery-svg');
+    const orreryNodesContainer = document.getElementById('orrery-nodes-container');
     const activeSliceBadge = document.getElementById('active-slice-badge');
     const galleryModal = document.getElementById('gallery-modal');
     const modalTitle = document.getElementById('modal-title');
@@ -858,6 +924,7 @@
 
     let sliceList = [];
     let currentSliceIndex = 0;
+    let isOrreryOpen = false;
     let introductionTrigger = null;
     let selectionAccentTimer = null;
 
@@ -1185,125 +1252,152 @@
       }
     }
 
-    /* Render Dynamic Astrolabe Bezel with Option 3: Phantom Constellation X-Ray + Floating Portal Titles */
-    function renderHubBezel() {
-      hubBezelRing.innerHTML = '';
+    /* ==========================================================================
+       OPTION 1: RENDER & TOGGLE THE UNFURLING CELESTIAL ORRERY
+       ========================================================================== */
+    function toggleOrrery(forceState) {
+      if (sliceList.length <= 1) return;
+      isOrreryOpen = typeof forceState === 'boolean' ? forceState : !isOrreryOpen;
+      document.body.classList.toggle('orrery-open', isOrreryOpen);
+      centerHub.setAttribute('aria-expanded', isOrreryOpen ? 'true' : 'false');
+      orreryStage.setAttribute('aria-hidden', isOrreryOpen ? 'false' : 'true');
+
+      if (isOrreryOpen) {
+        scryingIrisTitle.textContent = 'Select a Realm';
+        scryingIrisSub.textContent = '✦ Click Hub to Fold ✦';
+      } else {
+        scryingIrisTitle.textContent = 'Celestial Orrery';
+        scryingIrisSub.textContent = `✦ ${sliceList.length} Realms ✦`;
+        centerHub.classList.remove('is-stridulating');
+        centerHub.style.removeProperty('--stridulation-color');
+        centerHub.style.removeProperty('--scrying-hub-bg');
+        centerHub.style.removeProperty('--scrying-hub-glow');
+        centerHub.style.removeProperty('--scrying-hub-border');
+      }
+    }
+
+    centerHub.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleOrrery();
+    });
+    centerHub.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleOrrery();
+      }
+    });
+    activeSliceBadge.addEventListener('click', () => toggleOrrery());
+
+    function renderOrreryConstellation() {
+      orrerySvg.innerHTML = '';
+      orreryNodesContainer.innerHTML = '';
       if (sliceList.length <= 1) return;
 
-      const radius = 98;
-      const center = 98;
+      const orbitRadius = 330;
 
+      // 1. Concentric Astrolabe Rings on the Orrery SVG
+      const orbitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      orbitCircle.setAttribute('cx', CENTER_X);
+      orbitCircle.setAttribute('cy', CENTER_Y);
+      orbitCircle.setAttribute('r', orbitRadius);
+      orbitCircle.setAttribute('class', 'orrery-orbit-ring');
+      orrerySvg.appendChild(orbitCircle);
+
+      const outerCompass = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      outerCompass.setAttribute('cx', CENTER_X);
+      outerCompass.setAttribute('cy', CENTER_Y);
+      outerCompass.setAttribute('r', orbitRadius + 55);
+      outerCompass.setAttribute('class', 'orrery-outer-compass');
+      orrerySvg.appendChild(outerCompass);
+
+      // 2. Place Each Disk as a Planetary Orb along the 330px Orrery Ring
       sliceList.forEach((sliceObj, idx) => {
         const angleDeg = (idx / sliceList.length) * 360 - 90;
         const angleRad = (angleDeg * Math.PI) / 180;
-        const bx = center + Math.cos(angleRad) * radius;
-        const by = center + Math.sin(angleRad) * radius;
-        const bezelColor = REALM_ACCENTS[sliceObj.bg] || '#d4af37';
+        const ox = CENTER_X + Math.cos(angleRad) * orbitRadius;
+        const oy = CENTER_Y + Math.sin(angleRad) * orbitRadius;
+        const realmColor = REALM_ACCENTS[sliceObj.bg] || '#d4af37';
 
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `bezel-node ${idx === currentSliceIndex ? 'is-active-disk' : ''}`;
-        btn.style.left = `${bx.toFixed(1)}px`;
-        btn.style.top = `${by.toFixed(1)}px`;
-        btn.style.setProperty('--bezel-color', bezelColor);
-        btn.setAttribute('aria-label', `Warp to disk: ${sliceObj.name}`);
+        // Radial Spoke connecting Hub to Disk Orb
+        const spoke = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        spoke.setAttribute('x1', CENTER_X);
+        spoke.setAttribute('y1', CENTER_Y);
+        spoke.setAttribute('x2', ox.toFixed(1));
+        spoke.setAttribute('y2', oy.toFixed(1));
+        spoke.setAttribute('class', 'orrery-spoke');
+        spoke.setAttribute('stroke', realmColor);
+        spoke.style.color = realmColor;
+        orrerySvg.appendChild(spoke);
 
-        btn.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="12" cy="12" r="8" stroke-dasharray="2 2" />
-            <polygon points="12,5 17,12 12,19 7,12" fill="currentColor" fill-opacity="0.35" />
-          </svg>
-          <span class="bezel-tooltip">Warp: ${sliceObj.name}</span>
+        // Build Mini Constellation of that Disk's Portals inside the 92px Orb
+        let miniDotsMarkup = '';
+        sliceObj.items.forEach((b, bIdx) => {
+          const bAng = ((b.angle ?? (bIdx * 60)) * Math.PI) / 180;
+          const bDist = ((b.distance ?? 340) / 460) * 20;
+          const mx = 28 + Math.cos(bAng) * bDist;
+          const my = 28 + Math.sin(bAng) * bDist;
+          miniDotsMarkup += `<line x1="28" y1="28" x2="${mx.toFixed(1)}" y2="${my.toFixed(1)}" stroke="currentColor" stroke-width="0.9" opacity="0.55" />`;
+          miniDotsMarkup += `<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="2.6" fill="#ffffff" />`;
+        });
+
+        const nodeBtn = document.createElement('button');
+        nodeBtn.type = 'button';
+        nodeBtn.className = `orrery-disk-node ${idx === currentSliceIndex ? 'is-current-disk' : ''}`;
+        nodeBtn.style.left = `${ox.toFixed(1)}px`;
+        nodeBtn.style.top = `${oy.toFixed(1)}px`;
+        nodeBtn.style.setProperty('--orrery-color', realmColor);
+        nodeBtn.style.setProperty('--orrery-glow', `rgba(${hexToRgb(realmColor)}, 0.45)`);
+
+        const portalCount = sliceObj.items.length;
+        nodeBtn.innerHTML = `
+          <div class="orrery-orb">
+            <svg class="orrery-orb-svg" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="23" stroke="currentColor" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.65" />
+              <circle cx="28" cy="28" r="3.2" fill="currentColor" />
+              ${miniDotsMarkup}
+            </svg>
+          </div>
+          <div class="orrery-label-plaque">
+            <div class="orrery-disk-title">${sliceObj.name}</div>
+            <div class="orrery-disk-meta">${portalCount} ${portalCount === 1 ? 'Portal' : 'Portals'} • ${sliceObj.bg}</div>
+          </div>
         `;
 
-        const activatePhantomConstellation = () => {
-          centerHub.style.setProperty('--stridulation-color', bezelColor);
-          centerHub.style.setProperty('--scrying-hub-bg', `rgba(${hexToRgb(bezelColor)}, 0.28)`);
-          centerHub.style.setProperty('--scrying-hub-glow', `rgba(${hexToRgb(bezelColor)}, 0.65)`);
-          centerHub.style.setProperty('--scrying-hub-border', bezelColor);
+        // Hovering a Disk Orb awakens the Winter Crickets in that Realm's color
+        const onOrbEnter = () => {
+          spoke.classList.add('is-highlighted');
+          centerHub.style.setProperty('--stridulation-color', realmColor);
+          centerHub.style.setProperty('--scrying-hub-bg', `rgba(${hexToRgb(realmColor)}, 0.3)`);
+          centerHub.style.setProperty('--scrying-hub-glow', `rgba(${hexToRgb(realmColor)}, 0.7)`);
+          centerHub.style.setProperty('--scrying-hub-border', realmColor);
           centerHub.classList.add('is-stridulating');
           scryingIrisTitle.textContent = sliceObj.name;
-          scryingIris.classList.add('active');
-
-          // Render Phantom Constellation X-Ray + Floating Portal Labels
-          phantomConstellationSvg.innerHTML = '';
-          sliceObj.items.forEach((pBranch, pIdx) => {
-            const pAngle = pBranch.angle ?? (pIdx * 60);
-            const pDist = pBranch.distance ?? 340;
-            const pRad = (pAngle * Math.PI) / 180;
-            const px = CENTER_X + Math.cos(pRad) * pDist;
-            const py = CENTER_Y + Math.sin(pRad) * pDist;
-            const pColor = themeColors[pBranch.theme] || bezelColor;
-
-            const phantomPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            phantomPath.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, px, py, pIdx, 0.15));
-            phantomPath.setAttribute('class', 'phantom-filament');
-            phantomPath.setAttribute('stroke', pColor);
-            phantomPath.style.color = pColor;
-            phantomConstellationSvg.appendChild(phantomPath);
-
-            const outerRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            outerRing.setAttribute('cx', px.toFixed(1));
-            outerRing.setAttribute('cy', py.toFixed(1));
-            outerRing.setAttribute('r', '14');
-            outerRing.setAttribute('class', 'phantom-star-ring');
-            outerRing.setAttribute('stroke', pColor);
-            phantomConstellationSvg.appendChild(outerRing);
-
-            const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            star.setAttribute('cx', px.toFixed(1));
-            star.setAttribute('cy', py.toFixed(1));
-            star.setAttribute('r', '5');
-            star.setAttribute('class', 'phantom-star-node');
-            star.setAttribute('stroke', pColor);
-            star.style.color = pColor;
-            phantomConstellationSvg.appendChild(star);
-
-            // Floating Portal Title Pill next to each Star Node
-            const labelText = (pBranch.title || pBranch.id || 'Portal').trim();
-            const pillW = Math.max(84, labelText.length * 7.8 + 22);
-            const pillH = 22;
-            const labelYOffset = py < CENTER_Y ? -26 : 26;
-
-            const pillBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            pillBg.setAttribute('x', (px - pillW / 2).toFixed(1));
-            pillBg.setAttribute('y', (py + labelYOffset - pillH / 2).toFixed(1));
-            pillBg.setAttribute('width', pillW.toFixed(1));
-            pillBg.setAttribute('height', pillH);
-            pillBg.setAttribute('class', 'phantom-star-label-bg');
-            pillBg.setAttribute('stroke', pColor);
-            phantomConstellationSvg.appendChild(pillBg);
-
-            const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            textEl.setAttribute('x', px.toFixed(1));
-            textEl.setAttribute('y', (py + labelYOffset + 4).toFixed(1));
-            textEl.setAttribute('class', 'phantom-star-label');
-            textEl.style.color = pColor;
-            textEl.textContent = labelText;
-            phantomConstellationSvg.appendChild(textEl);
-          });
+          scryingIrisSub.textContent = `✦ Enter ${portalCount} ${portalCount === 1 ? 'Portal' : 'Portals'} ✦`;
         };
 
-        const deactivatePhantomConstellation = () => {
+        const onOrbLeave = () => {
+          spoke.classList.remove('is-highlighted');
           centerHub.classList.remove('is-stridulating');
           centerHub.style.removeProperty('--stridulation-color');
           centerHub.style.removeProperty('--scrying-hub-bg');
           centerHub.style.removeProperty('--scrying-hub-glow');
           centerHub.style.removeProperty('--scrying-hub-border');
-          scryingIris.classList.remove('active');
-          phantomConstellationSvg.innerHTML = '';
+          scryingIrisTitle.textContent = 'Select a Realm';
+          scryingIrisSub.textContent = '✦ Click Hub to Fold ✦';
         };
 
-        btn.addEventListener('mouseenter', activatePhantomConstellation);
-        btn.addEventListener('mouseleave', deactivatePhantomConstellation);
-        btn.addEventListener('focus', activatePhantomConstellation);
-        btn.addEventListener('blur', deactivatePhantomConstellation);
+        nodeBtn.addEventListener('mouseenter', onOrbEnter);
+        nodeBtn.addEventListener('mouseleave', onOrbLeave);
+        nodeBtn.addEventListener('focus', onOrbEnter);
+        nodeBtn.addEventListener('blur', onOrbLeave);
 
-        btn.addEventListener('click', () => {
-          deactivatePhantomConstellation();
+        nodeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
           switchToSlice(idx);
+          toggleOrrery(false);
         });
-        hubBezelRing.appendChild(btn);
+
+        orreryNodesContainer.appendChild(nodeBtn);
       });
     }
 
@@ -1324,8 +1418,8 @@
       });
 
       if (sliceList.length > 1) {
-        activeSliceBadge.style.display = 'inline-block';
-        activeSliceBadge.textContent = `Active Disk: ${sliceName}`;
+        activeSliceBadge.style.display = 'inline-flex';
+        activeSliceBadge.textContent = `✦ Disk: ${sliceName} (Shift Realm)`;
       }
     }
 
@@ -1334,6 +1428,9 @@
       const activeSlice = sliceList[currentSliceIndex];
       applyRealmAesthetic(activeSlice.bg, activeSlice.name);
       document.body.classList.toggle('landing-disc-active', Boolean(activeSlice.isLanding));
+
+      scryingIrisTitle.textContent = 'Celestial Orrery';
+      scryingIrisSub.textContent = `✦ ${sliceList.length} Realms ✦`;
 
       document.querySelectorAll('.disk-plane').forEach((el, idx) => {
         el.inert = idx !== currentSliceIndex;
@@ -1344,7 +1441,7 @@
         else el.classList.add('inactive-disk-below');
       });
 
-      renderHubBezel();
+      renderOrreryConstellation();
     }
 
     function renderPhotoGrid(branch) {
@@ -1390,7 +1487,6 @@
         modalPoemText = verse;
         modalPoemEmpty.hidden = Boolean(poem.trim());
 
-        // Supports both flat keys (archetype_zodiacal) and nested keys (branch.archetypes.zodiacal)
         const zodVal = branch.archetype_zodiacal || branch.archetypes?.zodiacal || fallbackObj.archetype_zodiacal || '—';
         const mythVal = branch.archetype_mythological || branch.archetypes?.mythological || fallbackObj.archetype_mythological || '—';
         const animVal = branch.archetype_animalia || branch.archetypes?.animalia || fallbackObj.archetype_animalia || '—';
@@ -1486,7 +1582,11 @@
         if (lightbox.classList.contains('active')) {
           lightbox.classList.remove('active');
           lightboxImg.src = '';
-        } else closeGallery();
+        } else if (galleryModal.classList.contains('active')) {
+          closeGallery();
+        } else if (isOrreryOpen) {
+          toggleOrrery(false);
+        }
       }
     });
     lightbox.addEventListener('click', () => { lightbox.classList.remove('active'); lightboxImg.src = ''; });
@@ -1495,8 +1595,9 @@
       const slicesMap = new Map();
       const introductions = branches.filter(b => b.portal_type === 'introduction');
       if (introductions.length) {
-        slicesMap.set(LANDING_SLICE, {
-          name: LANDING_SLICE,
+        const landingName = introductions[0].slice || LANDING_SLICE;
+        slicesMap.set(landingName, {
+          name: landingName,
           bg: introductions[0].slice_bg || 'cosmos',
           items: introductions,
           isLanding: true
