@@ -420,6 +420,7 @@
           <label>Disk Realm Background Aesthetic</label>
           <select id="sel-realm-bg">
             <option value="cosmos">Cosmos — Obsidian & Violet Nebula</option>
+            <option value="atelier">AI Atelier — Automaton Robots Painting at Easels</option>
             <option value="wilderness">Wilderness — Nocturnal Forest Canopy & Moon</option>
             <option value="nyc">NYC — New York City Nocturne Skyline</option>
             <option value="noir">Film Noir — Darkroom & Photo Studio Gallery</option>
@@ -1078,12 +1079,19 @@
       return (intro && intro.slice) ? intro.slice : 'Coniunctio';
     }
 
+    function resolveSliceBg(sliceName, rawBg) {
+      if (/ai\s*generat/i.test(sliceName || '') && (!rawBg || rawBg === 'cybernetic')) {
+        return 'atelier';
+      }
+      return rawBg || 'cosmos';
+    }
+
     function getSliceMap() {
       const map = new Map();
       const landingSlice = getLandingSliceName();
       branches.forEach(b => {
         const s = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
-        const bg = b.slice_bg || 'cosmos';
+        const bg = resolveSliceBg(s, b.slice_bg);
         if (!map.has(s)) map.set(s, bg);
       });
       if (!map.has('Prime Cosmos')) map.set('Prime Cosmos', 'cosmos');
@@ -1113,7 +1121,7 @@
       if (selSlice.value === '__NEW__') {
         inpNewSlice.style.display = 'block';
         inpNewSlice.focus();
-        selRealmBg.value = 'noir';
+        selRealmBg.value = 'atelier';
       } else {
         inpNewSlice.style.display = 'none';
         const sliceMap = getSliceMap();
@@ -1273,7 +1281,7 @@
 
       const sliceName = isIntro ? landingSlice : (b.slice || 'Prime Cosmos');
       populateSliceDropdown(sliceName);
-      selRealmBg.value = b.slice_bg || 'cosmos';
+      selRealmBg.value = resolveSliceBg(sliceName, b.slice_bg);
       selFilament.value = b.filament || 'standard';
       setThemePill(b.theme || 'nocturnal');
 
@@ -1283,7 +1291,6 @@
       inpAngle.value = b.angle ?? 0;
       inpDistance.value = b.distance ?? (isIntro ? 290 : 340);
 
-      //Supports both flat (archetype_zodiacal) and nested (b.archetypes?.zodiacal) keys
       updateSanctumEditorVisibility(b.id, isIntro);
       inpPoemTitle.value = b.poem_title || '';
       chkPoemItalic.checked = Boolean(b.poem_italic);
