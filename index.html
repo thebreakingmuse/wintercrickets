@@ -1350,4 +1350,487 @@
       toggleOrrery();
     });
     centerHub.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleOrrery();
+      }
+    });
+    activeSliceBadge.addEventListener('click', () => toggleOrrery());
+
+    function renderOrreryConstellation() {
+      orrerySvg.innerHTML = '';
+      orreryNodesContainer.innerHTML = '';
+      if (sliceList.length <= 1) return;
+
+      const orbitRadius = 330;
+
+      const orbitCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      orbitCircle.setAttribute('cx', CENTER_X);
+      orbitCircle.setAttribute('cy', CENTER_Y);
+      orbitCircle.setAttribute('r', orbitRadius);
+      orbitCircle.setAttribute('class', 'orrery-orbit-ring');
+      orrerySvg.appendChild(orbitCircle);
+
+      const outerCompass = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      outerCompass.setAttribute('cx', CENTER_X);
+      outerCompass.setAttribute('cy', CENTER_Y);
+      outerCompass.setAttribute('r', orbitRadius + 55);
+      outerCompass.setAttribute('class', 'orrery-outer-compass');
+      orrerySvg.appendChild(outerCompass);
+
+      sliceList.forEach((sliceObj, idx) => {
+        const angleDeg = (idx / sliceList.length) * 360 - 90;
+        const angleRad = (angleDeg * Math.PI) / 180;
+        const ox = CENTER_X + Math.cos(angleRad) * orbitRadius;
+        const oy = CENTER_Y + Math.sin(angleRad) * orbitRadius;
+        const realmColor = REALM_ACCENTS[sliceObj.bg] || '#d4af37';
+
+        const spoke = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        spoke.setAttribute('x1', CENTER_X);
+        spoke.setAttribute('y1', CENTER_Y);
+        spoke.setAttribute('x2', ox.toFixed(1));
+        spoke.setAttribute('y2', oy.toFixed(1));
+        spoke.setAttribute('class', 'orrery-spoke');
+        spoke.setAttribute('stroke', realmColor);
+        spoke.style.color = realmColor;
+        orrerySvg.appendChild(spoke);
+
+        let miniDotsMarkup = '';
+        sliceObj.items.forEach((b, bIdx) => {
+          const bAng = ((b.angle ?? (bIdx * 60)) * Math.PI) / 180;
+          const bDist = ((b.distance ?? 340) / 460) * 20;
+          const mx = 28 + Math.cos(bAng) * bDist;
+          const my = 28 + Math.sin(bAng) * bDist;
+          miniDotsMarkup += `<line x1="28" y1="28" x2="${mx.toFixed(1)}" y2="${my.toFixed(1)}" stroke="currentColor" stroke-width="0.9" opacity="0.55" />`;
+          miniDotsMarkup += `<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="2.6" fill="#ffffff" />`;
+        });
+
+        const nodeBtn = document.createElement('button');
+        nodeBtn.type = 'button';
+        nodeBtn.className = `orrery-disk-node ${idx === currentSliceIndex ? 'is-current-disk' : ''}`;
+        nodeBtn.style.left = `${ox.toFixed(1)}px`;
+        nodeBtn.style.top = `${oy.toFixed(1)}px`;
+        nodeBtn.style.setProperty('--orrery-color', realmColor);
+        nodeBtn.style.setProperty('--orrery-glow', `rgba(${hexToRgb(realmColor)}, 0.45)`);
+
+        const portalCount = sliceObj.items.length;
+        nodeBtn.innerHTML = `
+          <div class="orrery-orb">
+            <svg class="orrery-orb-svg" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="23" stroke="currentColor" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.65" />
+              <circle cx="28" cy="28" r="3.2" fill="currentColor" />
+              ${miniDotsMarkup}
+            </svg>
+          </div>
+          <div class="orrery-label-plaque">
+            <div class="orrery-disk-title">${sliceObj.name}</div>
+            <div class="orrery-disk-meta">${portalCount} ${portalCount === 1 ? 'Portal' : 'Portals'} • ${sliceObj.bg}</div>
+          </div>
+        `;
+
+        const onOrbEnter = () => {
+          spoke.classList.add('is-highlighted');
+          centerHub.style.setProperty('--stridulation-color', realmColor);
+          centerHub.style.setProperty('--scrying-hub-bg', `rgba(${hexToRgb(realmColor)}, 0.3)`);
+          centerHub.style.setProperty('--scrying-hub-glow', `rgba(${hexToRgb(realmColor)}, 0.7)`);
+          centerHub.style.setProperty('--scrying-hub-border', realmColor);
+          centerHub.classList.add('is-stridulating');
+          scryingIrisTitle.textContent = sliceObj.name;
+          scryingIrisSub.textContent = `✦ Enter ${portalCount} ${portalCount === 1 ? 'Portal' : 'Portals'} ✦`;
+        };
+
+        const onOrbLeave = () => {
+          spoke.classList.remove('is-highlighted');
+          centerHub.classList.remove('is-stridulating');
+          centerHub.style.removeProperty('--stridulation-color');
+          centerHub.style.removeProperty('--scrying-hub-bg');
+          centerHub.style.removeProperty('--scrying-hub-glow');
+          centerHub.style.removeProperty('--scrying-hub-border');
+          scryingIrisTitle.textContent = 'Select a Realm';
+          scryingIrisSub.textContent = '✦ Click Hub to Fold ✦';
+        };
+
+        nodeBtn.addEventListener('mouseenter', onOrbEnter);
+        nodeBtn.addEventListener('mouseleave', onOrbLeave);
+        nodeBtn.addEventListener('focus', onOrbEnter);
+        nodeBtn.addEventListener('blur', onOrbLeave);
+
+        nodeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          switchToSlice(idx);
+          toggleOrrery(false);
+        });
+
+        orreryNodesContainer.appendChild(nodeBtn);
+      });
+    }
+
+    function hexToRgb(hex) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const num = parseInt(c, 16);
+      return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
+    }
+
+    function applyRealmAesthetic(realmId, sliceName) {
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness', 'noir', 'cybernetic'];
+      const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
+      document.body.setAttribute('data-realm', targetRealm);
+
+      document.querySelectorAll('.realm-layer').forEach((layer) => {
+        layer.classList.toggle('active', layer.getAttribute('data-realm-id') === targetRealm);
+      });
+
+      if (sliceList.length > 1) {
+        activeSliceBadge.style.display = 'inline-flex';
+        activeSliceBadge.textContent = `✦ Disk: ${sliceName} (Shift Realm)`;
+      }
+    }
+
+    function switchToSlice(targetIndex) {
+      currentSliceIndex = targetIndex;
+      const activeSlice = sliceList[currentSliceIndex];
+      applyRealmAesthetic(activeSlice.bg, activeSlice.name);
+      document.body.classList.toggle('landing-disc-active', Boolean(activeSlice.isLanding));
+
+      scryingIrisTitle.textContent = 'Celestial Orrery';
+      scryingIrisSub.textContent = `✦ ${sliceList.length} Realms ✦`;
+
+      document.querySelectorAll('.disk-plane').forEach((el, idx) => {
+        el.inert = idx !== currentSliceIndex;
+        el.setAttribute('aria-hidden', idx === currentSliceIndex ? 'false' : 'true');
+        el.classList.remove('active-disk', 'inactive-disk-above', 'inactive-disk-below');
+        if (idx === currentSliceIndex) el.classList.add('active-disk');
+        else if (idx < currentSliceIndex) el.classList.add('inactive-disk-above');
+        else el.classList.add('inactive-disk-below');
+      });
+
+      renderOrreryConstellation();
+    }
+
+    function renderPhotoGrid(branch) {
+      modalPhotoGrid.innerHTML = '';
+      const photos = branch.photos || [];
+      const thumbs = branch.grid_thumbs || [];
+      photos.forEach((fullPhotoPath, idx) => {
+        const previewPath = thumbs[idx] || fullPhotoPath;
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        const img = document.createElement('img');
+        img.src = previewPath;
+        img.alt = branch.title || 'Portal image';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.addEventListener('load', () => img.classList.add('loaded'));
+        img.addEventListener('error', () => { if (img.src !== fullPhotoPath) img.src = fullPhotoPath; });
+        card.appendChild(img);
+        card.addEventListener('click', () => {
+          lightboxImg.src = fullPhotoPath;
+          lightbox.classList.add('active');
+        });
+        modalPhotoGrid.appendChild(card);
+      });
+    }
+
+    function showPortalContent(branch) {
+      if (branch.portal_type === 'introduction') {
+        const isJanice = branch.id === 'introduction-janice';
+        const fallbackObj = FALLBACK_BRANCHES.find(f => f.id === branch.id) || {};
+        const poem = typeof branch.poem_text === 'string' ? branch.poem_text : '';
+
+        modalPhotoGrid.classList.remove('active');
+        modalPoemTitle.textContent = branch.poem_title || '';
+        modalPoemTitle.hidden = !branch.poem_title;
+
+        const verse = document.createElement('div');
+        verse.className = 'poem-text emerging';
+        verse.id = 'modal-poem-text';
+        verse.style.fontStyle = branch.poem_italic ? 'italic' : 'normal';
+        verse.textContent = poem;
+        modalPoemText.replaceWith(verse);
+        modalPoemText = verse;
+        modalPoemEmpty.hidden = Boolean(poem.trim());
+
+        const zodVal = branch.archetype_zodiacal || branch.archetypes?.zodiacal || fallbackObj.archetype_zodiacal || '—';
+        const mythVal = branch.archetype_mythological || branch.archetypes?.mythological || fallbackObj.archetype_mythological || '—';
+        const animVal = branch.archetype_animalia || branch.archetypes?.animalia || fallbackObj.archetype_animalia || '—';
+
+        archValZodiacal.textContent = zodVal.trim() || '—';
+        archValMythological.textContent = mythVal.trim() || '—';
+        archValAnimalia.textContent = animVal.trim() || '—';
+
+        modalSanctumBox.setAttribute('data-deity', isJanice ? 'persephone' : 'dionysus');
+        modalSanctumSvg.innerHTML = isJanice ? PERSEPHONE_MOTIF_SVG : DIONYSUS_MOTIF_SVG;
+        modalSanctumHeading.textContent = branch.sanctum_heading || fallbackObj.sanctum_heading || (isJanice ? '✦ Grove of Persephone ✦' : '✦ Thiasus of Dionysus & The Satyr ✦');
+        modalSanctumText.textContent = branch.sanctum_text || branch.profile_text || fallbackObj.sanctum_text || '';
+
+        modalPoemPanel.hidden = false;
+        modalPoemPanel.scrollTop = 0;
+      } else {
+        renderPhotoGrid(branch);
+        modalPhotoGrid.classList.add('active');
+      }
+    }
+
+    function openGallery(branch, triggerEl = null) {
+      const isIntroduction = branch.portal_type === 'introduction';
+      introductionTrigger = isIntroduction ? (triggerEl || document.activeElement) : null;
+      galleryModal.classList.toggle('poem-mode', isIntroduction);
+      galleryModal.dataset.poemTheme = isIntroduction ? (branch.id === 'introduction-janice' ? 'natural' : 'cosmic') : '';
+      if (isIntroduction) {
+        galleryModal.removeAttribute('aria-labelledby');
+        galleryModal.setAttribute('aria-label', `${branch.title || branch.id} sanctum`);
+      } else {
+        galleryModal.removeAttribute('aria-label');
+        galleryModal.setAttribute('aria-labelledby', 'modal-title');
+      }
+      modalPoemPanel.hidden = true;
+      modalPhotoGrid.classList.remove('active');
+
+      clearTimeout(selectionAccentTimer);
+      if (isIntroduction) {
+        const poemColor = branch.id === 'introduction-janice' ? '#9bcaaa' : '#e6c35c';
+        galleryModal.style.setProperty('--poem-border', poemColor);
+        galleryModal.style.setProperty('--poem-glow', `${poemColor}33`);
+        const accentKey = branch.id === 'introduction-janice' ? 'violet' : 'gold';
+        galleryModal.setAttribute('data-selection-accent', accentKey);
+        selectionAccentTimer = setTimeout(() => galleryModal.removeAttribute('data-selection-accent'), 720);
+      } else {
+        galleryModal.removeAttribute('data-selection-accent');
+      }
+
+      modalTitle.textContent = branch.title || branch.id;
+      modalSubtitle.textContent = isIntroduction ? '' : branch.subtitle || 'Gallery & Archive';
+      modalSubtitle.hidden = isIntroduction;
+      lockErrorMsg.textContent = '';
+      lockPassInput.value = '';
+
+      const requiredPassword = (branch.password || '').trim().toLowerCase();
+      if (requiredPassword) {
+        lockScreen.classList.add('active');
+        modalPhotoGrid.classList.remove('active');
+        const attemptUnlock = () => {
+          if (lockPassInput.value.trim().toLowerCase() === requiredPassword) {
+            lockScreen.classList.remove('active');
+            showPortalContent(branch);
+          } else {
+            lockErrorMsg.textContent = 'Incorrect keyword. The door remains sealed.';
+            lockPassInput.value = '';
+            lockPassInput.focus();
+          }
+        };
+        lockSubmitBtn.onclick = attemptUnlock;
+        lockPassInput.onkeydown = (e) => { if (e.key === 'Enter') attemptUnlock(); };
+        setTimeout(() => lockPassInput.focus(), 100);
+      } else {
+        lockScreen.classList.remove('active');
+        showPortalContent(branch);
+      }
+
+      galleryModal.classList.add('active');
+      if (isIntroduction && !requiredPassword) closeModalBtn.focus();
+    }
+
+    function closeGallery() {
+      clearTimeout(selectionAccentTimer);
+      galleryModal.removeAttribute('data-selection-accent');
+      galleryModal.classList.remove('active');
+      if (introductionTrigger && introductionTrigger.isConnected) introductionTrigger.focus();
+      introductionTrigger = null;
+    }
+
+    closeModalBtn.addEventListener('click', closeGallery);
+    galleryModal.addEventListener('click', (e) => { if (e.target === galleryModal) closeGallery(); });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lightbox.classList.contains('active')) {
+          lightbox.classList.remove('active');
+          lightboxImg.src = '';
+        } else if (galleryModal.classList.contains('active')) {
+          closeGallery();
+        } else if (isOrreryOpen) {
+          toggleOrrery(false);
+        }
+      }
+    });
+    lightbox.addEventListener('click', () => { lightbox.classList.remove('active'); lightboxImg.src = ''; });
+
+    function buildSlices(branches) {
+      const slicesMap = new Map();
+      const introductions = branches.filter(b => b.portal_type === 'introduction');
+      if (introductions.length) {
+        const landingName = introductions[0].slice || LANDING_SLICE;
+        slicesMap.set(landingName, {
+          name: landingName,
+          bg: introductions[0].slice_bg || 'cosmos',
+          items: introductions,
+          isLanding: true
+        });
+      }
+      branches.filter(b => b.portal_type !== 'introduction').forEach((b) => {
+        const sName = b.slice || 'Prime Cosmos';
+        if (!slicesMap.has(sName)) {
+          slicesMap.set(sName, { name: sName, bg: b.slice_bg || 'cosmos', items: [] });
+        }
+        slicesMap.get(sName).items.push(b);
+      });
+      const priority = slice => slice.isLanding ? 0 : slice.name === 'Prime Cosmos' ? 1 : 2;
+      return Array.from(slicesMap.values()).sort((a, b) => priority(a) - priority(b));
+    }
+
+    function createIntroductionNode(branch, theme, filamentGroup) {
+      const person = {
+        'introduction-janice': { initial: 'J', name: 'Janice' },
+        'introduction-paul': { initial: 'P', name: 'Paul' }
+      }[branch.id];
+      const node = document.createElement('button');
+      node.type = 'button';
+      node.className = `portal-node introduction-node theme-${theme}`;
+      node.setAttribute('aria-label', `Enter ${person ? person.name : branch.title || branch.id}'s portal`);
+      node.setAttribute('aria-haspopup', 'dialog');
+      node.dataset.person = branch.id;
+
+      const ring = document.createElement('span');
+      ring.className = 'portal-ring';
+      const portraits = {
+        'introduction-janice': 'assets/janice-avatar.png',
+        'introduction-paul': 'assets/paul-avatar.jpg'
+      };
+      const portraitSrc = portraits[branch.id] || (!person ? branch.thumbnail : '');
+
+      const appendFallbackSigil = () => {
+        ring.innerHTML = '';
+        const sigil = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        sigil.setAttribute('viewBox', '0 0 100 100');
+        sigil.setAttribute('class', 'introduction-sigil');
+        sigil.innerHTML = `<circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="0.8"/><text x="50" y="63">${person ? person.initial : '?'}</text>`;
+        ring.appendChild(sigil);
+      };
+
+      if (portraitSrc) {
+        const portrait = document.createElement('img');
+        portrait.className = 'portal-thumb';
+        portrait.src = portraitSrc;
+        portrait.alt = '';
+        portrait.addEventListener('error', appendFallbackSigil, { once: true });
+        ring.appendChild(portrait);
+      } else appendFallbackSigil();
+
+      const label = document.createElement('span');
+      label.className = 'portal-label';
+      const title = document.createElement('span');
+      title.className = 'portal-title';
+      title.textContent = person ? person.name : branch.title || branch.id;
+
+      const flourish = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      flourish.setAttribute('viewBox', '0 0 160 22');
+      flourish.setAttribute('class', 'introduction-flourish');
+      flourish.innerHTML = `
+        <path d="M 14 4 Q 80 18 146 4" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" opacity="0.88" />
+        <path d="M 40 9 Q 80 19 120 9" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.52" />
+        <polygon points="80,7.2 83.2,10.8 80,14.4 76.8,10.8" fill="currentColor" opacity="0.92" />
+      `;
+
+      label.append(title, flourish);
+      node.append(ring, label);
+
+      const setPathIlluminated = (active) => {
+        if (filamentGroup) filamentGroup.classList.toggle('is-illuminated', active);
+      };
+      node.addEventListener('mouseenter', () => setPathIlluminated(true));
+      node.addEventListener('mouseleave', () => setPathIlluminated(false));
+      node.addEventListener('focus', () => setPathIlluminated(true));
+      node.addEventListener('blur', () => setPathIlluminated(false));
+
+      return node;
+    }
+
+    async function loadPortals() {
+      let branches = [];
+      try {
+        const res = await fetch(`branches.json?t=${Date.now()}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const rawText = await res.text();
+        const cleanedText = rawText.replace(/^<<<<<<<.*$/gm, '').replace(/^=======.*$/gm, '').replace(/^>>>>>>>.*$/gm, '');
+        const parsed = JSON.parse(cleanedText);
+        branches = Array.isArray(parsed) && parsed.length ? parsed : FALLBACK_BRANCHES;
+      } catch (err) {
+        console.warn('Using fallback landing portals:', err);
+        branches = FALLBACK_BRANCHES;
+      }
+
+      try {
+        disksContainer.innerHTML = '';
+        sliceList = buildSlices(branches);
+        if (sliceList.length === 0) sliceList = buildSlices(FALLBACK_BRANCHES);
+
+        sliceList.forEach((sliceObj) => {
+          const diskPlane = document.createElement('div');
+          diskPlane.className = 'disk-plane';
+          diskPlane.classList.toggle('landing-disk', Boolean(sliceObj.isLanding));
+
+          const halo = document.createElement('div');
+          halo.className = 'disk-halo-ring';
+          diskPlane.appendChild(halo);
+
+          const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svgEl.setAttribute('class', 'ligaments-svg');
+          svgEl.setAttribute('viewBox', '0 0 1000 1000');
+          const ligamentsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          svgEl.appendChild(ligamentsGroup);
+          diskPlane.appendChild(svgEl);
+
+          sliceObj.items.forEach((branch, idx) => {
+            const angleDeg = branch.angle ?? (idx * 60);
+            const distance = branch.distance ?? 340;
+            const angleRad = (angleDeg * Math.PI) / 180;
+            const x = CENTER_X + Math.cos(angleRad) * distance;
+            const y = CENTER_Y + Math.sin(angleRad) * distance;
+
+            const isIntroduction = branch.portal_type === 'introduction';
+            const defaultIntroTheme = branch.id === 'introduction-paul' ? 'celestial' : 'nocturnal';
+            const theme = themeColors[branch.theme] ? branch.theme : (isIntroduction ? defaultIntroTheme : 'nocturnal');
+            const filamentStyle = branch.filament || 'standard';
+
+            const portalFilamentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            portalFilamentGroup.setAttribute('class', 'portal-filament-group');
+            renderFilament(portalFilamentGroup, x, y, idx, theme, filamentStyle);
+            ligamentsGroup.appendChild(portalFilamentGroup);
+
+            const node = isIntroduction
+              ? createIntroductionNode(branch, theme, portalFilamentGroup)
+              : document.createElement('div');
+            if (!isIntroduction) node.className = `portal-node theme-${theme}`;
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+
+            const thumbSrc = branch.thumbnail || (branch.grid_thumbs && branch.grid_thumbs[0]) || (branch.photos && branch.photos[0]) || '';
+            if (!isIntroduction) {
+              node.innerHTML = `
+                <div class="portal-ring">
+                  <img class="portal-thumb" src="${thumbSrc}" alt="${branch.title || branch.id}" decoding="async" />
+                </div>
+                <div class="portal-label">
+                  <div class="portal-title">${branch.title || branch.id}</div>
+                  <div class="portal-subtitle">${branch.subtitle || ''}</div>
+                </div>
+              `;
+            }
+
+            node.addEventListener('click', () => openGallery(branch, node));
+            diskPlane.appendChild(node);
+          });
+
+          disksContainer.appendChild(diskPlane);
+        });
+
+        switchToSlice(0);
+      } catch (err) {
+        console.error('Error rendering portal network:', err);
+      }
+    }
+
+    loadPortals();
+  </script>
+</body>
+</html>
