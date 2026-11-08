@@ -84,6 +84,19 @@
     .panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 22px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65); }
     .panel-title { font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
 
+    /* Disk Manager Panel */
+    .disk-manager-card {
+      background: rgba(8, 6, 15, 0.82); border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 12px; padding: 16px; margin-bottom: 22px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+    }
+    .disk-manager-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .disk-manager-row {
+      display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px;
+      background: rgba(14, 12, 24, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 8px;
+    }
+    .disk-manager-row input { flex: 1; padding: 8px 10px; font-size: 0.85rem; }
+
     .disk-group-title { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin: 16px 0 8px; display: flex; justify-content: space-between; }
     .portal-list-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.07); background: rgba(6, 5, 12, 0.65); margin-bottom: 8px; cursor: pointer; transition: all 0.2s ease; }
     .portal-list-item:hover, .portal-list-item.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.14); box-shadow: 0 0 14px rgba(212, 175, 55, 0.2); }
@@ -219,20 +232,17 @@
     .prev-mycelium-hyphae { fill: none; stroke-width: 1.2; stroke-dasharray: 7 3 2 3; stroke-linecap: round; animation: prevPulseFlow 18s linear infinite; opacity: 0.78; }
     .prev-mycelium-spore { fill: #ffffff; stroke-width: 1.4; filter: drop-shadow(0 0 6px currentColor); }
 
-    /* Dionysian Thyrsus Preview Styles */
     .prev-thyrsus-staff { fill: none; stroke-width: 3.2; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.94; }
     .prev-thyrsus-ribbon { fill: none; stroke-width: 1.6; stroke-dasharray: 10 5; stroke-linecap: round; animation: prevPulseFlow 14s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.88; }
     .prev-thyrsus-ivy { fill: none; stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 4px currentColor); opacity: 0.82; }
     .prev-thyrsus-leaf { fill: currentColor; fill-opacity: 0.35; stroke-width: 1.1; filter: drop-shadow(0 0 4px currentColor); }
     .prev-thyrsus-cone { fill: #120c1c; stroke-width: 1.6; filter: drop-shadow(0 0 7px currentColor); }
 
-    /* Arcane Wizardry Wand Preview Styles */
     .prev-wizard-wand { fill: none; stroke-width: 3.4; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.95; }
     .prev-wizard-core { fill: none; stroke: #ffffff; stroke-width: 1.2; stroke-linecap: round; opacity: 0.85; }
     .prev-wizard-spell { fill: none; stroke-width: 1.8; stroke-dasharray: 6 5 2 5; stroke-linecap: round; animation: prevPulseFlow 10s linear infinite; filter: drop-shadow(0 0 7px currentColor); opacity: 0.92; }
     .prev-wizard-spark { fill: #ffffff; stroke-width: 0.9; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); }
 
-    /* Horological Clockwork Preview Styles */
     .prev-clockwork-rod { fill: none; stroke-width: 2.2; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.92; }
     .prev-clockwork-escapement { fill: none; stroke-width: 1.2; stroke-dasharray: 3 7; animation: prevPulseFlow 9s steps(30) infinite; opacity: 0.78; }
     .prev-clockwork-ticks { fill: none; stroke-width: 1.1; opacity: 0.68; filter: drop-shadow(0 0 4px currentColor); }
@@ -265,7 +275,6 @@
     .dropzone h3 { font-size: 0.95rem; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.1em; }
     .dropzone p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--text-muted); }
 
-    /* Drag-and-Drop Photo Grid */
     .queued-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 12px; margin-top: 14px; max-height: 340px; overflow-y: auto; padding: 4px; }
     .queued-item {
       position: relative; height: 124px; border-radius: 8px; overflow: hidden;
@@ -274,24 +283,10 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     }
     .queued-item:active { cursor: grabbing; }
-    .queued-item:hover {
-      border-color: var(--gold);
-      transform: translateY(-2px);
-    }
-    .queued-item.is-portal-icon {
-      border: 2px solid var(--gold);
-      box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
-    }
-    .queued-item.dragging {
-      opacity: 0.38;
-      transform: scale(0.94);
-      border: 2px dashed var(--gold);
-    }
-    .queued-item.drag-over-target {
-      border: 2px solid var(--emerald);
-      box-shadow: 0 0 18px rgba(0, 245, 212, 0.65);
-      transform: scale(1.04);
-    }
+    .queued-item:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .queued-item.is-portal-icon { border: 2px solid var(--gold); box-shadow: 0 0 16px rgba(212, 175, 55, 0.45); }
+    .queued-item.dragging { opacity: 0.38; transform: scale(0.94); border: 2px dashed var(--gold); }
+    .queued-item.drag-over-target { border: 2px solid var(--emerald); box-shadow: 0 0 18px rgba(0, 245, 212, 0.65); transform: scale(1.04); }
     .queued-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
     .queued-badge {
       position: absolute; bottom: 4px; left: 4px; right: 4px;
@@ -314,13 +309,8 @@
       display: inline-flex; align-items: center; justify-content: center;
       transition: all 0.2s ease; z-index: 3;
     }
-    .photo-ctrl-btn:hover {
-      background: var(--gold); color: #050509; border-color: #fff;
-    }
-    .make-icon-btn {
-      font-size: 0.58rem; letter-spacing: 0.05em; padding: 0 6px;
-      background: rgba(212, 175, 55, 0.22); color: #ffe8a3;
-    }
+    .photo-ctrl-btn:hover { background: var(--gold); color: #050509; border-color: #fff; }
+    .make-icon-btn { font-size: 0.58rem; letter-spacing: 0.05em; padding: 0 6px; background: rgba(212, 175, 55, 0.22); color: #ffe8a3; }
 
     #library-modal { position: fixed; inset: 0; background: rgba(2, 2, 6, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 1100; padding: 24px; }
     #library-modal.active { display: flex; }
@@ -384,6 +374,15 @@
         <span>Portal Network</span>
         <button id="new-portal-btn" class="btn btn-primary" style="padding: 6px 11px; font-size: 0.7rem;">+ New Portal</button>
       </div>
+      <!-- Disk Manager Card for Renaming & Reordering 3D Disks -->
+      <div class="disk-manager-card">
+        <div class="disk-manager-header">
+          <label style="color:var(--gold); margin:0;">✦ Orrery Disk Manager ✦</label>
+          <button type="button" id="save-disk-manager-btn" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.65rem;">Save Disks</button>
+        </div>
+        <div id="disk-manager-rows" style="font-size:0.8rem;"></div>
+      </div>
+
       <div id="portal-sidebar-list"></div>
     </aside>
 
@@ -393,7 +392,6 @@
         <span id="editor-folder-badge" style="font-size:0.75rem; color:var(--text-muted);"></span>
       </div>
 
-      <!-- 1. Identity & Disk Selection -->
       <div class="form-grid">
         <div class="form-group">
           <label>Portal Display Title</label>
@@ -433,7 +431,7 @@
         </div>
       </div>
 
-      <!-- 2. Personal Sanctum Editor (Shown when editing Janice or Paul) -->
+      <!-- Personal Sanctum Editor -->
       <div id="sanctum-editor-section" data-deity="persephone">
         <div class="sanctum-section-banner">
           <span id="sanctum-banner-title">✦ Personal Sanctum: Poem, Archetypes & Lore ✦</span>
@@ -481,7 +479,6 @@
         </div>
       </div>
 
-      <!-- 3. Glow Theme & Filament Swatches + Live Filament Preview -->
       <div class="form-grid">
         <div class="form-group full-width">
           <label>Portal Glow Theme</label>
@@ -512,7 +509,6 @@
             <option value="grid">NYC Electric Grid & Subway Conduit</option>
           </select>
 
-          <!-- Live Animated SVG Filament Preview -->
           <div class="filament-preview-card">
             <div class="filament-preview-header">
               <span id="filament-preview-label">Live Filament Preview</span>
@@ -534,7 +530,6 @@
         </div>
       </div>
 
-      <!-- 4. Interactive 3D Disk Radar Placement -->
       <div class="radar-layout">
         <div class="radar-column">
           <div class="radar-box" id="radar-box" title="Drag portal node around the ring">
@@ -563,7 +558,6 @@
         </div>
       </div>
 
-      <!-- 5. Browser WebP Photo Processor & Drag-and-Drop Reordering -->
       <div class="form-group full-width" id="photo-uploader-section">
         <div class="photo-action-bar">
           <label>Portal Gallery Photos <span class="label-hint">(Drag & drop cards to reorder, or click "★ Set Icon" to make #1)</span></label>
@@ -678,6 +672,8 @@
     const filamentPreviewSvg = document.getElementById('filament-preview-svg');
     const filamentPreviewLabel = document.getElementById('filament-preview-label');
     const filamentPreviewThemeName = document.getElementById('filament-preview-theme-name');
+    const diskManagerRows = document.getElementById('disk-manager-rows');
+    const saveDiskManagerBtn = document.getElementById('save-disk-manager-btn');
 
     const sanctumEditorSection = document.getElementById('sanctum-editor-section');
     const sanctumBannerTitle = document.getElementById('sanctum-banner-title');
@@ -816,7 +812,6 @@
       enterLoggedOutState();
     })();
 
-    /* Live Connective Filament SVG Preview Renderer (Includes Clockwork, Thyrsus & Wizardry) */
     function renderFilamentPreview() {
       const style = selFilament.value || 'standard';
       const color = THEME_COLORS[selectedTheme] || '#b366ff';
@@ -992,7 +987,7 @@
         <circle cx="${x1}" cy="${y1}" r="8" fill="#141028" stroke="#d4af37" stroke-width="2" />
         <circle cx="${x1}" cy="${y1}" r="2.5" fill="#d4af37" />
         <circle cx="${x2}" cy="${y2}" r="11" fill="#0c0a18" stroke="${color}" stroke-width="2.4" style="filter:drop-shadow(0 0 6px ${color})" />
-        <circle cx="${x2}" cy="${y2}" r="4" fill="${color}" />
+        <circle cx="332" cy="36" r="4" fill="${color}" />
       `;
     }
 
@@ -1069,6 +1064,7 @@
       }
       ensureIntroductionPortalsExist();
       populateSliceDropdown();
+      renderDiskManager();
       renderSidebar();
       if (editingIndex >= 0 && branches[editingIndex]) loadPortalIntoForm(editingIndex);
       else loadPortalIntoForm(0);
@@ -1097,6 +1093,70 @@
       if (!map.has('Prime Cosmos')) map.set('Prime Cosmos', 'cosmos');
       return map;
     }
+
+    function renderDiskManager() {
+      diskManagerRows.innerHTML = '';
+      const sliceMap = getSliceMap();
+      const slices = Array.from(sliceMap.keys());
+
+      slices.forEach((sName, sIdx) => {
+        const row = document.createElement('div');
+        row.className = 'disk-manager-row';
+        row.innerHTML = `
+          <input type="text" class="disk-name-input" value="${sName}" data-old-name="${sName}" placeholder="Disk Name..." />
+          <div style="display:flex; gap:4px;">
+            ${sIdx > 0 ? `<button type="button" class="photo-ctrl-btn move-disk-up" title="Move Disk Up">▲</button>` : ''}
+            ${sIdx < slices.length - 1 ? `<button type="button" class="photo-ctrl-btn move-disk-down" title="Move Disk Down">▼</button>` : ''}
+          </div>
+        `;
+        const upBtn = row.querySelector('.move-disk-up');
+        if (upBtn) {
+          upBtn.addEventListener('click', () => {
+            const prevName = slices[sIdx - 1];
+            branches.forEach(b => {
+              const cur = b.portal_type === 'introduction' ? getLandingSliceName() : (b.slice || 'Prime Cosmos');
+              if (cur === sName) b.slice = prevName;
+              else if (cur === prevName) b.slice = sName;
+            });
+            fetchBranchesData();
+          });
+        }
+        const downBtn = row.querySelector('.move-disk-down');
+        if (downBtn) {
+          downBtn.addEventListener('click', () => {
+            const nextName = slices[sIdx + 1];
+            branches.forEach(b => {
+              const cur = b.portal_type === 'introduction' ? getLandingSliceName() : (b.slice || 'Prime Cosmos');
+              if (cur === sName) b.slice = nextName;
+              else if (cur === nextName) b.slice = sName;
+            });
+            fetchBranchesData();
+          });
+        }
+        diskManagerRows.appendChild(row);
+      });
+    }
+
+    saveDiskManagerBtn.addEventListener('click', () => {
+      const inputs = diskManagerRows.querySelectorAll('.disk-name-input');
+      inputs.forEach(inp => {
+        const oldName = inp.dataset.oldName;
+        const newName = inp.value.trim();
+        if (newName && newName !== oldName) {
+          branches.forEach(b => {
+            const cur = b.portal_type === 'introduction' ? getLandingSliceName() : (b.slice || 'Prime Cosmos');
+            if (cur === oldName) {
+              if (b.portal_type === 'introduction') b.slice = newName;
+              else b.slice = newName;
+            }
+          });
+        }
+      });
+      populateSliceDropdown();
+      renderDiskManager();
+      renderSidebar();
+      alert('Disk names updated! Click "Publish to wintercrickets" to save changes to GitHub.');
+    });
 
     function populateSliceDropdown(selectedSliceName = 'Prime Cosmos') {
       const sliceMap = getSliceMap();
@@ -1251,7 +1311,7 @@
       setThemePill('celestial');
       selThumbPreset.value = 'first_photo';
 
-      inpAngle.value = suggestOpenAngle(getActiveSliceName());
+      inpAngle.value = suggestOpenAngle('Wilderness ventures');
       inpDistance.value = 340;
 
       galleryItems = [];
@@ -1568,7 +1628,6 @@
           <button type="button" class="remove-photo-btn" title="Remove photo">×</button>
         `;
 
-        // Drag-and-Drop Reordering Events
         div.addEventListener('dragstart', (e) => {
           draggedPhotoIndex = idx;
           div.classList.add('dragging');
@@ -1608,7 +1667,6 @@
           draggedPhotoIndex = null;
         });
 
-        // "★ Set Icon" button
         const makeIconBtn = div.querySelector('.make-icon-btn');
         if (makeIconBtn) {
           makeIconBtn.addEventListener('click', (e) => {
@@ -1617,7 +1675,6 @@
           });
         }
 
-        // Step Left button
         const moveLeft = div.querySelector('.move-left-btn');
         if (moveLeft) {
           moveLeft.addEventListener('click', (e) => {
@@ -1628,7 +1685,6 @@
           });
         }
 
-        // Step Right button
         const moveRight = div.querySelector('.move-right-btn');
         if (moveRight) {
           moveRight.addEventListener('click', (e) => {
@@ -1639,7 +1695,6 @@
           });
         }
 
-        // Remove photo button
         div.querySelector('.remove-photo-btn').addEventListener('click', (e) => {
           e.stopPropagation();
           galleryItems.splice(idx, 1);
@@ -1795,6 +1850,7 @@
         statusText.textContent = `✨ Published '${title}'! Netlify is now deploying to depthofsparkle.life.`;
 
         populateSliceDropdown(sliceName);
+        renderDiskManager();
         const savedIdx = branches.findIndex(b => b.id === folderId);
         if (savedIdx >= 0) loadPortalIntoForm(savedIdx);
       } catch (err) {
