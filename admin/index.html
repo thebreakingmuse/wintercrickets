@@ -232,6 +232,15 @@
     .prev-wizard-spell { fill: none; stroke-width: 1.8; stroke-dasharray: 6 5 2 5; stroke-linecap: round; animation: prevPulseFlow 10s linear infinite; filter: drop-shadow(0 0 7px currentColor); opacity: 0.92; }
     .prev-wizard-spark { fill: #ffffff; stroke-width: 0.9; filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 10px currentColor); }
 
+    /* Horological Clockwork Preview Styles */
+    .prev-clockwork-rod { fill: none; stroke-width: 2.2; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.92; }
+    .prev-clockwork-escapement { fill: none; stroke-width: 1.2; stroke-dasharray: 3 7; animation: prevPulseFlow 9s steps(30) infinite; opacity: 0.78; }
+    .prev-clockwork-ticks { fill: none; stroke-width: 1.1; opacity: 0.68; filter: drop-shadow(0 0 4px currentColor); }
+    .prev-clockwork-gear-cw { fill: #080612; stroke-width: 1.4; stroke-dasharray: 4 2.1; filter: drop-shadow(0 0 6px currentColor); transform-box: fill-box; transform-origin: center; animation: prevGearCW 14s linear infinite; }
+    .prev-clockwork-gear-ccw { fill: #080612; stroke-width: 1.3; stroke-dasharray: 3.5 2; filter: drop-shadow(0 0 6px currentColor); transform-box: fill-box; transform-origin: center; animation: prevGearCCW 10s linear infinite; }
+    @keyframes prevGearCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes prevGearCCW { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
     @keyframes prevPulseFlow { to { stroke-dashoffset: -120; } }
     @keyframes prevElectricSurge { to { stroke-dashoffset: -272; } }
 
@@ -447,15 +456,15 @@
         <div class="archetype-triad-inputs">
           <div class="archetype-input-card">
             <label>1. Zodiacal</label>
-            <input type="text" id="inp-arch-zodiacal" placeholder="e.g., Virgo — Maiden of Harvest" />
+            <input type="text" id="inp-arch-zodiacal" placeholder="e.g., SUN: Taurus MOON: Cancer RISING: Scorpio" />
           </div>
           <div class="archetype-input-card">
             <label>2. Mythological</label>
-            <input type="text" id="inp-arch-mythological" placeholder="e.g., Persephone / Dionysus" />
+            <input type="text" id="inp-arch-mythological" placeholder="e.g., Persephone / Dionysus, Satyr" />
           </div>
           <div class="archetype-input-card">
             <label>3. Animalia</label>
-            <input type="text" id="inp-arch-animalia" placeholder="e.g., Luna Moth / Satyr & Cricket" />
+            <input type="text" id="inp-arch-animalia" placeholder="e.g., Puma, Vulture, Bat" />
           </div>
         </div>
 
@@ -490,6 +499,7 @@
           <label>Connective Filament Style</label>
           <select id="sel-filament">
             <option value="standard">Standard Glowing Gradient</option>
+            <option value="clockwork">Horological Clockwork, Brass Cogs & Escapement</option>
             <option value="thyrsus">Dionysian Thyrsus (Pine-Cone Staff, Ivy & Ribbons)</option>
             <option value="wizardry">Arcane Wizardry Wand & Astral Spell Sparks</option>
             <option value="gothic">Gothic Wrought-Iron & Briar Tracery</option>
@@ -547,7 +557,7 @@
           </div>
           <button type="button" id="auto-angle-btn" class="btn">✨ Auto-Find Open Angle on Disk</button>
           <p style="font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--text-muted); font-size:0.95rem; margin-top:14px;">
-            ✦ Dimensional shifting is automatically integrated into the Central Hub Astrolabe Bezel—every 3D Disk you create automatically adds a jewel node to the center hub rim.
+            ✦ Every 3D Disk you create automatically adds a planetary orb to the Unfurling Celestial Orrery when visitors click the center hub.
           </p>
         </div>
       </div>
@@ -805,7 +815,7 @@
       enterLoggedOutState();
     })();
 
-    /* Live Connective Filament SVG Preview Renderer (Includes Thyrsus & Wizardry) */
+    /* Live Connective Filament SVG Preview Renderer (Includes Clockwork, Thyrsus & Wizardry) */
     function renderFilamentPreview() {
       const style = selFilament.value || 'standard';
       const color = THEME_COLORS[selectedTheme] || '#b366ff';
@@ -819,8 +829,25 @@
 
       let pathsMarkup = '';
 
-      if (style === 'thyrsus') {
-        // Dionysian Thyrsus: Fennel Staff + Twining Ivy + Flowing Taenia Ribbons + Pine Cone Tip
+      if (style === 'clockwork') {
+        let ticks = '';
+        for (let i = 3; i <= 17; i++) {
+          const tx = (x1 + dx * (i / 20)).toFixed(1);
+          const th = i % 3 === 0 ? 11 : 6;
+          ticks += `M ${tx} ${y1 - th} L ${tx} ${y1 + th} `;
+        }
+        pathsMarkup = `
+          <path d="M ${x1} ${y1 - 7} L ${x2} ${y2 - 7} M ${x1} ${y1 + 7} L ${x2} ${y2 + 7}" class="prev-clockwork-escapement" stroke="${color}" />
+          <path d="${ticks}" class="prev-clockwork-ticks" stroke="${color}" style="color:${color}" />
+          <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="prev-clockwork-rod" stroke="${color}" style="color:${color}" />
+          <circle cx="122" cy="${y1}" r="10" class="prev-clockwork-gear-cw" stroke="${color}" style="color:${color}" />
+          <circle cx="122" cy="${y1}" r="2.2" fill="#ffffff" />
+          <circle cx="180" cy="${y1}" r="13.5" class="prev-clockwork-gear-ccw" stroke="${color}" style="color:${color}" />
+          <circle cx="180" cy="${y1}" r="2.6" fill="#ffffff" />
+          <circle cx="238" cy="${y1}" r="9.5" class="prev-clockwork-gear-cw" stroke="${color}" style="color:${color}" />
+          <circle cx="238" cy="${y1}" r="2.2" fill="#ffffff" />
+        `;
+      } else if (style === 'thyrsus') {
         let ivyD = `M ${x1} ${y1}`;
         let ribbonD = `M ${x1} ${y1}`;
         for (let i = 1; i <= 40; i++) {
@@ -837,16 +864,13 @@
           <path d="${ribbonD}" class="prev-thyrsus-ribbon" stroke="${color}" style="color:${color}" />
           <line x1="${x1}" y1="${y1}" x2="${coneX}" y2="${y2}" class="prev-thyrsus-staff" stroke="${color}" style="color:${color}" />
           <path d="${ivyD}" class="prev-thyrsus-ivy" stroke="${color}" style="color:${color}" />
-          <!-- Ivy Leaves along the Staff -->
           <polygon points="105,22 114,17 111,27" class="prev-thyrsus-leaf" stroke="${color}" style="color:${color}" />
           <polygon points="175,50 184,55 181,45" class="prev-thyrsus-leaf" stroke="${color}" style="color:${color}" />
           <polygon points="235,23 244,18 241,28" class="prev-thyrsus-leaf" stroke="${color}" style="color:${color}" />
-          <!-- Cross-Hatched Pine-Cone Finial -->
           <ellipse cx="${coneX + 8}" cy="${y1}" rx="15" ry="9.5" class="prev-thyrsus-cone" stroke="${color}" style="color:${color}" />
           <path d="M ${coneX - 2} ${y1 - 6} L ${coneX + 14} ${y1 + 6} M ${coneX + 4} ${y1 - 8} L ${coneX + 18} ${y1 + 4} M ${coneX - 2} ${y1 + 6} L ${coneX + 14} ${y1 - 6} M ${coneX + 4} ${y1 + 8} L ${coneX + 18} ${y1 - 4}" stroke="${color}" stroke-width="0.9" opacity="0.75" />
         `;
       } else if (style === 'wizardry') {
-        // Arcane Wizardry Wand: Tapered Elder-Wood Wand + Pommel & Ferrule Rings + Spiraling Spell Stream + 4-Point Astral Sparks
         const wandTipX = x1 + dx * 0.44;
         let spellA = `M ${wandTipX - 10} ${y1}`;
         let spellB = `M ${wandTipX} ${y1}`;
@@ -861,17 +885,13 @@
         }
         const star = (sx, sy, r) => `M ${sx} ${sy - r} Q ${sx} ${sy} ${sx + r} ${sy} Q ${sx} ${sy} ${sx} ${sy + r} Q ${sx} ${sy} ${sx - r} ${sy} Q ${sx} ${sy} ${sx} ${sy - r} Z`;
         pathsMarkup = `
-          <!-- Tapered Elder Wand Shaft & Grip Nodes -->
           <polygon points="${x1},${y1 - 4.2} ${wandTipX},${y1 - 1.2} ${wandTipX},${y1 + 1.2} ${x1},${y1 + 4.2}" fill="${color}" style="filter:drop-shadow(0 0 6px ${color})" />
           <line x1="${x1}" y1="${y1}" x2="${wandTipX}" y2="${y1}" class="prev-wizard-core" />
           <circle cx="${x1 + 26}" cy="${y1}" r="4.5" fill="#050508" stroke="#ffffff" stroke-width="1.3" />
           <circle cx="${x1 + 52}" cy="${y1}" r="3.6" fill="#050508" stroke="${color}" stroke-width="1.3" />
-          <!-- Wand Tip Ignition Flare -->
           <circle cx="${wandTipX}" cy="${y1}" r="4.5" fill="#ffffff" style="filter:drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 12px ${color})" />
-          <!-- Spiraling Arcane Spell Streams -->
           <path d="${spellA}" class="prev-wizard-spell" stroke="${color}" style="color:${color}" />
           <path d="${spellB}" class="prev-wizard-spell" stroke="#ffffff" style="color:${color}; opacity:0.75;" />
-          <!-- 4-Point Astral Spell Sparks -->
           <path d="${star(205, 17, 6.5)}" class="prev-wizard-spark" stroke="${color}" style="color:${color}" />
           <path d="${star(255, 53, 5.5)}" class="prev-wizard-spark" stroke="${color}" style="color:${color}" />
           <path d="${star(295, 20, 7)}" class="prev-wizard-spark" stroke="${color}" style="color:${color}" />
@@ -989,19 +1009,19 @@
           title: 'Paul',
           subtitle: 'Personal Sanctum',
           portal_type: 'introduction',
-          slice: 'Janice & Paul',
+          slice: 'Coniunctio',
           slice_bg: 'cosmos',
-          theme: 'celestial',
-          filament: 'gothic',
-          angle: 0,
-          distance: 290,
+          theme: 'orchid',
+          filament: 'wizardry',
+          angle: 1,
+          distance: 330,
           thumbnail: 'assets/paul-avatar.jpg',
           poem_title: '',
           poem_text: '',
-          poem_italic: false,
-          archetype_zodiacal: 'Virgo-Leo Cusp — Solar Hermeticist',
-          archetype_mythological: 'Dionysus & The Woodland Satyr',
-          archetype_animalia: 'Horned Satyr & Nocturnal Cricket',
+          poem_italic: true,
+          archetype_zodiacal: 'Virgo - Eros as Innocence',
+          archetype_mythological: 'Dionysus, Satyr',
+          archetype_animalia: 'Puma, Vulture, Bat',
           sanctum_heading: '✦ Thiasus of Dionysus & The Satyr ✦',
           sanctum_text: ''
         });
@@ -1012,17 +1032,17 @@
           title: 'Janice',
           subtitle: 'Personal Sanctum',
           portal_type: 'introduction',
-          slice: 'Janice & Paul',
+          slice: 'Coniunctio',
           slice_bg: 'cosmos',
           theme: 'nocturnal',
           filament: 'vine',
           angle: 180,
-          distance: 290,
+          distance: 300,
           thumbnail: 'assets/janice-avatar.png',
           poem_title: '',
           poem_text: '',
           poem_italic: false,
-          archetype_zodiacal: 'Virgo — The Maiden of Harvest',
+          archetype_zodiacal: 'SUN: Taurus MOON: Cancer RISING: Scorpio',
           archetype_mythological: 'Persephone — Queen of the Underworld & Spring',
           archetype_animalia: 'Luna Moth & Black Swan',
           sanctum_heading: '✦ Grove of Persephone ✦',
@@ -1053,10 +1073,16 @@
       else loadPortalIntoForm(0);
     }
 
+    function getLandingSliceName() {
+      const intro = branches.find(b => b.portal_type === 'introduction');
+      return (intro && intro.slice) ? intro.slice : 'Coniunctio';
+    }
+
     function getSliceMap() {
       const map = new Map();
+      const landingSlice = getLandingSliceName();
       branches.forEach(b => {
-        const s = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+        const s = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
         const bg = b.slice_bg || 'cosmos';
         if (!map.has(s)) map.set(s, bg);
       });
@@ -1104,8 +1130,9 @@
     function renderSidebar() {
       sidebarList.innerHTML = '';
       const groups = new Map();
+      const landingSlice = getLandingSliceName();
       branches.forEach((b, idx) => {
-        const s = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+        const s = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
         if (!groups.has(s)) groups.set(s, []);
         groups.get(s).push({ branch: b, idx });
       });
@@ -1162,8 +1189,9 @@
     });
 
     function suggestOpenAngle(sliceName) {
+      const landingSlice = getLandingSliceName();
       const existingAngles = branches
-        .filter((b, idx) => idx !== editingIndex && (b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos')) === sliceName)
+        .filter((b, idx) => idx !== editingIndex && (b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos')) === sliceName)
         .map(b => b.angle ?? 0);
       if (existingAngles.length === 0) return -25;
       const candidates = [-25, 25, 155, -155, -65, 65, 115, -115, 0, 180, -90, 90, -45, 45, 135, -135];
@@ -1210,12 +1238,12 @@
       inpSubtitle.value = 'Gallery & Archive';
       inpPassword.value = '';
 
-      populateSliceDropdown('Prime Cosmos');
+      populateSliceDropdown('Wilderness ventures');
       selFilament.value = 'standard';
       setThemePill('celestial');
       selThumbPreset.value = 'first_photo';
 
-      inpAngle.value = suggestOpenAngle('Prime Cosmos');
+      inpAngle.value = suggestOpenAngle(getActiveSliceName());
       inpDistance.value = 340;
 
       galleryItems = [];
@@ -1231,6 +1259,7 @@
       editingIndex = idx;
       const b = branches[idx];
       const isIntro = b.portal_type === 'introduction' || ['introduction-janice', 'introduction-paul'].includes(b.id);
+      const landingSlice = getLandingSliceName();
 
       editorModeTitle.textContent = `Editing: ${b.title || b.id}`;
       editorFolderBadge.textContent = isIntro ? `Landing Sanctum (${b.id})` : `portals/${b.id}/`;
@@ -1242,7 +1271,7 @@
       inpSubtitle.value = b.subtitle || 'Gallery & Archive';
       inpPassword.value = b.password || '';
 
-      const sliceName = isIntro ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+      const sliceName = isIntro ? landingSlice : (b.slice || 'Prime Cosmos');
       populateSliceDropdown(sliceName);
       selRealmBg.value = b.slice_bg || 'cosmos';
       selFilament.value = b.filament || 'standard';
@@ -1254,15 +1283,16 @@
       inpAngle.value = b.angle ?? 0;
       inpDistance.value = b.distance ?? (isIntro ? 290 : 340);
 
+      //Supports both flat (archetype_zodiacal) and nested (b.archetypes?.zodiacal) keys
       updateSanctumEditorVisibility(b.id, isIntro);
       inpPoemTitle.value = b.poem_title || '';
       chkPoemItalic.checked = Boolean(b.poem_italic);
       inpPoemText.value = b.poem_text || '';
-      inpArchZodiacal.value = b.archetype_zodiacal || '';
-      inpArchMythological.value = b.archetype_mythological || '';
-      inpArchAnimalia.value = b.archetype_animalia || '';
+      inpArchZodiacal.value = b.archetype_zodiacal || (b.archetypes && b.archetypes.zodiacal) || '';
+      inpArchMythological.value = b.archetype_mythological || (b.archetypes && b.archetypes.mythological) || '';
+      inpArchAnimalia.value = b.archetype_animalia || (b.archetypes && b.archetypes.animalia) || '';
       inpSanctumHeading.value = b.sanctum_heading || (b.id === 'introduction-janice' ? '✦ Grove of Persephone ✦' : '✦ Thiasus of Dionysus & The Satyr ✦');
-      inpSanctumText.value = b.sanctum_text || '';
+      inpSanctumText.value = b.sanctum_text || b.profile_text || '';
 
       const pList = b.photos || [];
       const tList = b.grid_thumbs || [];
@@ -1280,6 +1310,7 @@
 
     function renderRadar() {
       const sliceName = getActiveSliceName();
+      const landingSlice = getLandingSliceName();
       const activeAngle = parseFloat(inpAngle.value) || 0;
       const activeDist = parseFloat(inpDistance.value) || 340;
       const activeColor = THEME_COLORS[selectedTheme] || '#d4af37';
@@ -1305,22 +1336,9 @@
       hub.setAttribute('stroke-width', '5');
       radarSvg.appendChild(hub);
 
-      const sliceKeys = Array.from(getSliceMap().keys());
-      sliceKeys.forEach((sKey, sIdx) => {
-        const bAng = ((sIdx / sliceKeys.length) * 360 - 90) * (Math.PI / 180);
-        const gx = 500 + Math.cos(bAng) * 76;
-        const gy = 500 + Math.sin(bAng) * 76;
-        const gem = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        gem.setAttribute('cx', gx);
-        gem.setAttribute('cy', gy);
-        gem.setAttribute('r', sKey === sliceName ? 11 : 8);
-        gem.setAttribute('fill', sKey === sliceName ? '#ffffff' : '#d4af37');
-        radarSvg.appendChild(gem);
-      });
-
       branches.forEach((b, idx) => {
         if (idx === editingIndex) return;
-        const bSlice = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+        const bSlice = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
         if (bSlice !== sliceName) return;
         const rad = ((b.angle ?? 0) * Math.PI) / 180;
         const dist = b.distance ?? 340;
@@ -1657,7 +1675,8 @@
         }
       });
 
-      const sliceName = isIntroduction ? 'Janice & Paul' : getActiveSliceName();
+      const landingSlice = getLandingSliceName();
+      const sliceName = isIntroduction ? landingSlice : getActiveSliceName();
       const sliceBg = selRealmBg.value;
       const defaultIntroThumb = folderId === 'introduction-janice' ? 'assets/janice-avatar.png' : 'assets/paul-avatar.jpg';
       const thumbChoice = isIntroduction
@@ -1697,7 +1716,7 @@
       else updatedBranches.push(portalObj);
 
       updatedBranches.forEach(b => {
-        const bSlice = b.portal_type === 'introduction' ? 'Janice & Paul' : (b.slice || 'Prime Cosmos');
+        const bSlice = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
         if (bSlice === sliceName) b.slice_bg = sliceBg;
       });
 
