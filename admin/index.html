@@ -54,11 +54,12 @@
       cursor: pointer; transition: all 0.25s ease; text-decoration: none;
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     }
-    .btn:hover { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); background: rgba(212, 175, 55, 0.22); }
+    .btn:hover:not(:disabled) { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); background: rgba(212, 175, 55, 0.22); }
+    .btn:disabled { opacity: 0.55; cursor: wait; }
     .btn-primary { background: linear-gradient(135deg, #d4af37 0%, #b5891c 100%); color: #050509; font-weight: 700; border-color: #ffe8a3; box-shadow: 0 0 22px var(--gold-glow); }
-    .btn-primary:hover { background: linear-gradient(135deg, #ffe074 0%, #d4af37 100%); box-shadow: 0 0 32px rgba(212, 175, 55, 0.65); }
+    .btn-primary:hover:not(:disabled) { background: linear-gradient(135deg, #ffe074 0%, #d4af37 100%); box-shadow: 0 0 32px rgba(212, 175, 55, 0.65); }
     .btn-danger { border-color: rgba(255, 77, 121, 0.45); color: #ff85a2; background: rgba(255, 77, 121, 0.1); }
-    .btn-danger:hover { border-color: var(--rose); background: rgba(255, 77, 121, 0.25); box-shadow: 0 0 16px rgba(255, 77, 121, 0.4); }
+    .btn-danger:hover:not(:disabled) { border-color: var(--rose); background: rgba(255, 77, 121, 0.25); box-shadow: 0 0 16px rgba(255, 77, 121, 0.4); }
 
     #auth-gate {
       max-width: 500px; margin: 55px auto; padding: 34px 28px;
@@ -77,25 +78,44 @@
 
     #studio-workspace {
       display: none; max-width: 1380px; margin: 24px auto; padding: 0 20px;
-      grid-template-columns: 330px 1fr; gap: 24px; align-items: start;
+      grid-template-columns: 340px 1fr; gap: 24px; align-items: start;
     }
     #studio-workspace.active { display: grid; }
 
     .panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 22px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65); }
     .panel-title { font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Disk Manager Panel */
+    /* Orrery Disk Manager Panel */
     .disk-manager-card {
-      background: rgba(8, 6, 15, 0.82); border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 12px; padding: 16px; margin-bottom: 22px;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+      background: rgba(8, 6, 15, 0.86); border: 1px solid rgba(212, 175, 55, 0.38);
+      border-radius: 12px; padding: 14px; margin-bottom: 20px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.65);
     }
-    .disk-manager-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .disk-manager-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .disk-manager-hint {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 0.84rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.35;
+    }
     .disk-manager-row {
-      display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px;
-      background: rgba(14, 12, 24, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 8px;
+      background: rgba(14, 12, 24, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 6px;
     }
-    .disk-manager-row input { flex: 1; padding: 8px 10px; font-size: 0.85rem; }
+    .disk-manager-row input.disk-name-input {
+      flex: 1; min-width: 0; padding: 7px 9px; font-size: 0.78rem;
+      border-color: rgba(212, 175, 55, 0.32);
+    }
+    .disk-order-badge {
+      font-size: 0.65rem; color: var(--gold); width: 18px; text-align: center; flex-shrink: 0;
+    }
+    #disk-manager-status {
+      display: none; margin-top: 8px; padding: 7px 10px; border-radius: 6px;
+      background: rgba(0, 245, 212, 0.1); border: 1px solid rgba(0, 245, 212, 0.35);
+      color: var(--emerald); font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; text-align: center;
+    }
+    #disk-manager-status.active { display: block; }
+    #disk-manager-status.error {
+      background: rgba(255, 77, 121, 0.12); border-color: var(--rose); color: #ffb3c6;
+    }
 
     .disk-group-title { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin: 16px 0 8px; display: flex; justify-content: space-between; }
     .portal-list-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.07); background: rgba(6, 5, 12, 0.65); margin-bottom: 8px; cursor: pointer; transition: all 0.2s ease; }
@@ -374,13 +394,20 @@
         <span>Portal Network</span>
         <button id="new-portal-btn" class="btn btn-primary" style="padding: 6px 11px; font-size: 0.7rem;">+ New Portal</button>
       </div>
-      <!-- Disk Manager Card for Renaming & Reordering 3D Disks -->
+
+      <!-- Orrery Disk Manager Card (Commits Directly to GitHub on Click) -->
       <div class="disk-manager-card">
         <div class="disk-manager-header">
-          <label style="color:var(--gold); margin:0;">✦ Orrery Disk Manager ✦</label>
-          <button type="button" id="save-disk-manager-btn" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.65rem;">Save Disks</button>
+          <label style="color:var(--gold); margin:0; font-size:0.74rem;">✦ Orrery Disk Manager ✦</label>
+          <button type="button" id="save-disk-manager-btn" class="btn btn-primary" style="padding: 5px 10px; font-size: 0.65rem;">
+            🚀 Save Disks
+          </button>
         </div>
-        <div id="disk-manager-rows" style="font-size:0.8rem;"></div>
+        <div class="disk-manager-hint">
+          Rename any disk (e.g., <em>New York</em> or <em>AI Generations</em>) or reorder with ▲ / ▼, then click <strong>Save Disks</strong> to publish directly to GitHub.
+        </div>
+        <div id="disk-manager-rows"></div>
+        <div id="disk-manager-status"></div>
       </div>
 
       <div id="portal-sidebar-list"></div>
@@ -553,7 +580,7 @@
           </div>
           <button type="button" id="auto-angle-btn" class="btn">✨ Auto-Find Open Angle on Disk</button>
           <p style="font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--text-muted); font-size:0.95rem; margin-top:14px;">
-            ✦ Every 3D Disk you create automatically adds a planetary orb to the Unfurling Celestial Orrery when visitors click the center hub.
+            ✦ Every 3D Disk you create automatically adds a planetary orb with its own bespoke realm sigil to the Unfurling Celestial Orrery.
           </p>
         </div>
       </div>
@@ -674,6 +701,7 @@
     const filamentPreviewThemeName = document.getElementById('filament-preview-theme-name');
     const diskManagerRows = document.getElementById('disk-manager-rows');
     const saveDiskManagerBtn = document.getElementById('save-disk-manager-btn');
+    const diskManagerStatus = document.getElementById('disk-manager-status');
 
     const sanctumEditorSection = document.getElementById('sanctum-editor-section');
     const sanctumBannerTitle = document.getElementById('sanctum-banner-title');
@@ -1090,8 +1118,113 @@
         const bg = resolveSliceBg(s, b.slice_bg);
         if (!map.has(s)) map.set(s, bg);
       });
-      if (!map.has('Prime Cosmos')) map.set('Prime Cosmos', 'cosmos');
       return map;
+    }
+
+    /* Group & Reorder the branches array by Disk Sequence so Orrery order is preserved in branches.json */
+    function reorderBranchesByDiskSequence(orderedDiskNames) {
+      const landingSlice = getLandingSliceName();
+      const groups = new Map();
+      orderedDiskNames.forEach(name => groups.set(name, []));
+
+      branches.forEach(b => {
+        const s = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
+        if (!groups.has(s)) groups.set(s, []);
+        groups.get(s).push(b);
+      });
+
+      const reordered = [];
+      for (const items of groups.values()) {
+        reordered.push(...items);
+      }
+      branches = reordered;
+    }
+
+    /* Direct GitHub Commit Helper for the Orrery Disk Manager */
+    async function commitBranchesJsonDirect(commitSummary) {
+      saveDiskManagerBtn.disabled = true;
+      saveDiskManagerBtn.textContent = 'Saving...';
+      diskManagerStatus.className = 'active';
+      diskManagerStatus.textContent = 'Pushing updated Disks to GitHub...';
+
+      statusBox.classList.add('active');
+      statusText.textContent = 'Committing updated Disk names & order to wintercrickets...';
+      progressFill.style.width = '45%';
+
+      try {
+        const session = getVaultSession();
+        const authorLabel = (session && session.author) || 'Studio';
+        const refData = await githubApiRequest(`/git/refs/heads/${GITHUB_BRANCH}`);
+        const latestCommitSha = refData.object.sha;
+        const commitData = await githubApiRequest(`/git/commits/${latestCommitSha}`);
+
+        progressFill.style.width = '75%';
+
+        const newTree = await githubApiRequest('/git/trees', {
+          method: 'POST',
+          body: JSON.stringify({
+            base_tree: commitData.tree.sha,
+            tree: [{
+              path: 'branches.json',
+              mode: '100644',
+              type: 'blob',
+              content: JSON.stringify(branches, null, 2)
+            }]
+          })
+        });
+
+        const newCommit = await githubApiRequest('/git/commits', {
+          method: 'POST',
+          body: JSON.stringify({
+            message: `Portal Studio (${authorLabel}): ${commitSummary}`,
+            tree: newTree.sha,
+            parents: [latestCommitSha]
+          })
+        });
+
+        await githubApiRequest(`/git/refs/heads/${GITHUB_BRANCH}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ sha: newCommit.sha })
+        });
+
+        progressFill.style.width = '100%';
+        statusText.textContent = `✨ ${commitSummary} — Live on depthofsparkle.life!`;
+        diskManagerStatus.textContent = '✓ Saved & committed to GitHub!';
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = `⚠️ Error: ${err.message}`;
+        diskManagerStatus.className = 'active error';
+        diskManagerStatus.textContent = `⚠️ Error: ${err.message}`;
+      } finally {
+        saveDiskManagerBtn.disabled = false;
+        saveDiskManagerBtn.textContent = '🚀 Save Disks';
+      }
+    }
+
+    function applyPendingDiskInputRenames() {
+      const landingSlice = getLandingSliceName();
+      const inputs = diskManagerRows.querySelectorAll('.disk-name-input');
+      const changedPairs = [];
+
+      inputs.forEach(inp => {
+        const oldName = inp.dataset.oldName;
+        const newName = inp.value.trim();
+        if (newName && newName !== oldName) {
+          changedPairs.push(`${oldName} → ${newName}`);
+          branches.forEach(b => {
+            const cur = b.portal_type === 'introduction' ? landingSlice : (b.slice || 'Prime Cosmos');
+            if (cur === oldName) {
+              b.slice = newName;
+              if (/ai\s*generat/i.test(newName) && (!b.slice_bg || b.slice_bg === 'cybernetic')) {
+                b.slice_bg = 'atelier';
+              }
+            }
+          });
+          inp.dataset.oldName = newName;
+        }
+      });
+
+      return changedPairs;
     }
 
     function renderDiskManager() {
@@ -1100,65 +1233,84 @@
       const slices = Array.from(sliceMap.keys());
 
       slices.forEach((sName, sIdx) => {
+        const isLanding = sIdx === 0;
         const row = document.createElement('div');
         row.className = 'disk-manager-row';
         row.innerHTML = `
+          <span class="disk-order-badge">${sIdx + 1}</span>
           <input type="text" class="disk-name-input" value="${sName}" data-old-name="${sName}" placeholder="Disk Name..." />
-          <div style="display:flex; gap:4px;">
-            ${sIdx > 0 ? `<button type="button" class="photo-ctrl-btn move-disk-up" title="Move Disk Up">▲</button>` : ''}
-            ${sIdx < slices.length - 1 ? `<button type="button" class="photo-ctrl-btn move-disk-down" title="Move Disk Down">▼</button>` : ''}
+          <div style="display:flex; gap:3px;">
+            ${sIdx > 1 ? `<button type="button" class="photo-ctrl-btn move-disk-up" title="Move Disk Earlier in Orrery">▲</button>` : ''}
+            ${!isLanding && sIdx < slices.length - 1 ? `<button type="button" class="photo-ctrl-btn move-disk-down" title="Move Disk Later in Orrery">▼</button>` : ''}
           </div>
         `;
+
         const upBtn = row.querySelector('.move-disk-up');
         if (upBtn) {
           upBtn.addEventListener('click', () => {
-            const prevName = slices[sIdx - 1];
-            branches.forEach(b => {
-              const cur = b.portal_type === 'introduction' ? getLandingSliceName() : (b.slice || 'Prime Cosmos');
-              if (cur === sName) b.slice = prevName;
-              else if (cur === prevName) b.slice = sName;
-            });
-            fetchBranchesData();
+            applyPendingDiskInputRenames();
+            const currentSlices = Array.from(getSliceMap().keys());
+            const temp = currentSlices[sIdx - 1];
+            currentSlices[sIdx - 1] = currentSlices[sIdx];
+            currentSlices[sIdx] = temp;
+            reorderBranchesByDiskSequence(currentSlices);
+            populateSliceDropdown(getActiveSliceName());
+            renderDiskManager();
+            renderSidebar();
+            diskManagerStatus.className = 'active';
+            diskManagerStatus.textContent = 'Order updated — click "Save Disks" to publish to GitHub.';
           });
         }
+
         const downBtn = row.querySelector('.move-disk-down');
         if (downBtn) {
           downBtn.addEventListener('click', () => {
-            const nextName = slices[sIdx + 1];
-            branches.forEach(b => {
-              const cur = b.portal_type === 'introduction' ? getLandingSliceName() : (b.slice || 'Prime Cosmos');
-              if (cur === sName) b.slice = nextName;
-              else if (cur === nextName) b.slice = sName;
-            });
-            fetchBranchesData();
+            applyPendingDiskInputRenames();
+            const currentSlices = Array.from(getSliceMap().keys());
+            const temp = currentSlices[sIdx + 1];
+            currentSlices[sIdx + 1] = currentSlices[sIdx];
+            currentSlices[sIdx] = temp;
+            reorderBranchesByDiskSequence(currentSlices);
+            populateSliceDropdown(getActiveSliceName());
+            renderDiskManager();
+            renderSidebar();
+            diskManagerStatus.className = 'active';
+            diskManagerStatus.textContent = 'Order updated — click "Save Disks" to publish to GitHub.';
           });
         }
+
         diskManagerRows.appendChild(row);
       });
     }
 
-    saveDiskManagerBtn.addEventListener('click', () => {
-      const inputs = diskManagerRows.querySelectorAll('.disk-name-input');
-      inputs.forEach(inp => {
-        const oldName = inp.dataset.oldName;
-        const newName = inp.value.trim();
-        if (newName && newName !== oldName) {
-          branches.forEach(b => {
-            const cur = b.portal_type === 'introduction' ? getLandingSliceName() : (b.slice || 'Prime Cosmos');
-            if (cur === oldName) {
-              if (b.portal_type === 'introduction') b.slice = newName;
-              else b.slice = newName;
-            }
-          });
+    saveDiskManagerBtn.addEventListener('click', async () => {
+      const currentEditingId = editingIndex >= 0 && branches[editingIndex] ? branches[editingIndex].id : null;
+      const renamedList = applyPendingDiskInputRenames();
+
+      // Also ensure AI Generations has 'atelier' bg stamped
+      branches.forEach(b => {
+        if (/ai\s*generat/i.test(b.slice || '') && (!b.slice_bg || b.slice_bg === 'cybernetic')) {
+          b.slice_bg = 'atelier';
         }
       });
+
       populateSliceDropdown();
       renderDiskManager();
       renderSidebar();
-      alert('Disk names updated! Click "Publish to wintercrickets" to save changes to GitHub.');
+
+      if (currentEditingId) {
+        const foundIdx = branches.findIndex(b => b.id === currentEditingId);
+        if (foundIdx >= 0) loadPortalIntoForm(foundIdx);
+      }
+
+      const summary = renamedList.length
+        ? `Rename Disks (${renamedList.join(', ')})`
+        : 'Update Orrery Disk names & sequence';
+
+      await commitBranchesJsonDirect(summary);
     });
 
-    function populateSliceDropdown(selectedSliceName = 'Prime Cosmos') {
+    function populateSliceDropdown(selectedSliceName = 'Wilderness ventures') {
       const sliceMap = getSliceMap();
       selSlice.innerHTML = '';
       for (const [sName, sBg] of sliceMap.entries()) {
@@ -1706,6 +1858,9 @@
     }
 
     publishBtn.addEventListener('click', async () => {
+      // Also apply any pending text edits typed into the Orrery Disk Manager boxes
+      applyPendingDiskInputRenames();
+
       const title = inpTitle.value.trim();
       const folderId = inpId.value.trim();
       const isIntroduction = ['introduction-janice', 'introduction-paul'].includes(folderId)
@@ -1847,7 +2002,7 @@
 
         branches = updatedBranches;
         progressFill.style.width = '100%';
-        statusText.textContent = `✨ Published '${title}'! Netlify is now deploying to depthofsparkle.life.`;
+        statusText.textContent = `✨ Published '${title}'! Live changes are deploying to depthofsparkle.life.`;
 
         populateSliceDropdown(sliceName);
         renderDiskManager();
