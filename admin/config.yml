@@ -18,7 +18,7 @@ collections:
       - { label: "3D Disk (Slice)", name: "slice", widget: "string", default: "Prime Cosmos" }
       - { label: "Disk Background Realm", name: "slice_bg", widget: "select", options: ["cosmos", "nyc", "verdant", "ember", "abyss", "astral"], default: "cosmos" }
       - { label: "Glow Theme", name: "theme", widget: "select", options: ["nocturnal", "cyber", "celestial", "oceanic", "rose"], default: "nocturnal" }
-      - { label: "Filament Style", name: "filament", widget: "select", options: ["standard", "vine", "tendril", "suspension", "grid"], default: "standard" }
+      - { label: "Filament Style", name: "filament", widget: "select", options: ["standard", "clockwork", "thyrsus", "wizardry", "gothic", "alchemical", "mycelium", "vine", "tendril", "suspension", "grid", "psy-cords", "growing-roots"], default: "standard" }
       - { label: "Radial Angle (°)", name: "angle", widget: "number", default: -25 }
       - { label: "Distance from Center", name: "distance", widget: "number", default: 340 }
       - { label: "Thumbnail Image", name: "thumbnail", widget: "image" }
