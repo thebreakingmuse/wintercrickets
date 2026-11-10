@@ -26,6 +26,7 @@
     body[data-realm="noir"] { --gold-accent: #e6d5b8; --hub-glow-primary: rgba(230, 213, 184, 0.38); --hub-glow-secondary: rgba(193, 18, 31, 0.28); }
     body[data-realm="cybernetic"] { --gold-accent: #00f5d4; --hub-glow-primary: rgba(0, 245, 212, 0.45); --hub-glow-secondary: rgba(255, 42, 133, 0.32); }
     body[data-realm="atelier"] { --gold-accent: #f4a261; --hub-glow-primary: rgba(244, 162, 97, 0.45); --hub-glow-secondary: rgba(199, 125, 255, 0.35); }
+    body[data-realm="sigdump"] { --gold-accent: #38bdf8; --hub-glow-primary: rgba(56, 189, 248, 0.45); --hub-glow-secondary: rgba(255, 77, 121, 0.32); }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: #050508; color: var(--text-main); font-family: 'Cinzel', serif; min-height: 100vh; overflow: hidden; position: relative; user-select: none; }
@@ -57,7 +58,7 @@
 
     .realm-wilderness { background: linear-gradient(180deg, #02040a 0%, #06101e 40%, #0b1d2c 72%, #071418 90%, #020608 100%); }
     .realm-wilderness::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(1.2px 1.2px at 14% 16%, rgba(255, 255, 255, 0.85), transparent), radial-gradient(1.8px 1.8px at 32% 10%, rgba(168, 230, 207, 0.75), transparent), radial-gradient(1px 1px at 64% 18%, rgba(255, 255, 255, 0.8), transparent), radial-gradient(2px 2px at 84% 12%, rgba(226, 234, 252, 0.75), transparent); background-size: 380px 380px; opacity: 0.85; }
-    .wilderness-scene-svg, .noir-scene-svg, .cybernetic-scene-svg, .atelier-scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .wilderness-scene-svg, .noir-scene-svg, .cybernetic-scene-svg, .atelier-scene-svg, .sigdump-scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     .wilderness-star-twinkle { animation: starPulse 3.6s ease-in-out infinite alternate; }
     @keyframes starPulse { 0% { opacity: 0.35; } 100% { opacity: 1; } }
 
@@ -117,6 +118,36 @@
     @keyframes canvasGlowPulse {
       0% { opacity: 0.65; filter: drop-shadow(0 0 8px rgba(0, 245, 212, 0.35)); }
       100% { opacity: 1; filter: drop-shadow(0 0 18px rgba(255, 77, 121, 0.65)); }
+    }
+
+    /* Sig Dump Realm (Abyssal Signal Observatory & Encrypted Telemetry Array) */
+    .realm-sigdump {
+      background: radial-gradient(circle at 50% 45%, #07192e 0%, #030b17 62%, #010308 100%);
+    }
+    .realm-sigdump::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(1.5px 1.5px at 20% 18%, rgba(56, 189, 248, 0.8), transparent),
+        radial-gradient(2px 2px at 80% 24%, rgba(255, 77, 121, 0.75), transparent);
+      background-size: 48px 48px, 48px 48px, 340px 340px, 340px 340px;
+      opacity: 0.85;
+    }
+    .sigdump-radar-sweep {
+      transform-origin: 800px 440px;
+      animation: slowSpin 16s linear infinite;
+    }
+    .sigdump-wave-flow {
+      stroke-dasharray: 18 14;
+      animation: cyberPulse 3.6s linear infinite;
+    }
+    .sigdump-packet-float {
+      animation: packetPulse 2.8s ease-in-out infinite alternate;
+    }
+    @keyframes packetPulse {
+      0% { opacity: 0.35; transform: translateY(3px); }
+      100% { opacity: 0.92; transform: translateY(-3px); }
     }
 
     header { position: fixed; top: 22px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 25; pointer-events: none; width: 90vw; }
@@ -531,7 +562,7 @@
     .sanctum-sigil-link svg { width: 28px; height: 28px; }
 
     @media (prefers-reduced-motion: reduce) {
-      .poem-text.emerging, .ligament-path, .ligament-vine-tendril, .ligament-suspension-deck, .ligament-grid-surge, .ligament-gothic-tracery, .ligament-alchemical-counter, .ligament-mycelium-hyphae, .ligament-clockwork-escapement, .ligament-clockwork-gear-cw, .ligament-clockwork-gear-ccw, .robot-arm-left, .robot-arm-right, .aether-ripple { animation: none !important; }
+      .poem-text.emerging, .ligament-path, .ligament-vine-tendril, .ligament-suspension-deck, .ligament-grid-surge, .ligament-gothic-tracery, .ligament-alchemical-counter, .ligament-mycelium-hyphae, .ligament-clockwork-escapement, .ligament-clockwork-gear-cw, .ligament-clockwork-gear-ccw, .robot-arm-left, .robot-arm-right, .sigdump-radar-sweep, .sigdump-wave-flow, .aether-ripple { animation: none !important; }
       button.introduction-node, .introduction-node .portal-ring, .introduction-node:hover .portal-ring { transition: border-color 0.2s ease, box-shadow 0.2s ease !important; transform: none !important; }
     }
     @media (max-width: 768px) {
@@ -814,6 +845,110 @@
         </g>
       </svg>
     </div>
+
+    <!-- Sig Dump Layer (Abyssal Signal Observatory & Encrypted Telemetry Array) -->
+    <div class="realm-layer realm-sigdump" data-realm-id="sigdump">
+      <svg class="sigdump-scene-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <radialGradient id="sigdump-core-glow" cx="50%" cy="48%" r="50%">
+            <stop offset="0%" stop-color="#00bbf9" stop-opacity="0.25" />
+            <stop offset="48%" stop-color="#ff4d79" stop-opacity="0.1" />
+            <stop offset="100%" stop-color="#010308" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="sigdump-beam-left" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.38" />
+            <stop offset="60%" stop-color="#00f5d4" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="#00f5d4" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="sigdump-beam-right" x1="100%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#ff4d79" stop-opacity="0.35" />
+            <stop offset="60%" stop-color="#38bdf8" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="sigdump-carrier-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00bbf9" stop-opacity="0.1" />
+            <stop offset="25%" stop-color="#00f5d4" stop-opacity="0.85" />
+            <stop offset="50%" stop-color="#ff4d79" stop-opacity="0.95" />
+            <stop offset="75%" stop-color="#ffd166" stop-opacity="0.85" />
+            <stop offset="100%" stop-color="#00bbf9" stop-opacity="0.1" />
+          </linearGradient>
+        </defs>
+
+        <circle cx="800" cy="440" r="460" fill="url(#sigdump-core-glow)" />
+
+        <g stroke="#38bdf8" fill="none" opacity="0.32">
+          <circle cx="800" cy="440" r="290" stroke-width="1" stroke-dasharray="4 8" />
+          <circle cx="800" cy="440" r="390" stroke-width="1.2" stroke-dasharray="12 6 2 6" />
+          <circle cx="800" cy="440" r="490" stroke-width="0.9" stroke-opacity="0.5" />
+          <line x1="260" y1="440" x2="1340" y2="440" stroke-width="0.8" stroke-dasharray="3 9" />
+          <line x1="800" y1="40" x2="800" y2="840" stroke-width="0.8" stroke-dasharray="3 9" />
+        </g>
+
+        <g class="sigdump-radar-sweep">
+          <path d="M 800 440 L 800 50 A 390 390 0 0 1 1075 164 Z" fill="rgba(56, 189, 248, 0.06)" />
+          <line x1="800" y1="440" x2="800" y2="50" stroke="#00f5d4" stroke-width="1.6" stroke-opacity="0.65" />
+        </g>
+
+        <polygon points="220,605 740,180 860,310 255,640" fill="url(#sigdump-beam-left)" />
+        <polygon points="1380,605 860,180 740,310 1345,640" fill="url(#sigdump-beam-right)" />
+
+        <g fill="none">
+          <path d="M 180 250 Q 260 170 340 250 T 500 250 T 660 250 T 820 250 T 980 250 T 1140 250 T 1300 250 T 1420 250" stroke="url(#sigdump-carrier-grad)" stroke-width="2" opacity="0.65" />
+          <path class="sigdump-wave-flow" d="M 180 250 Q 260 170 340 250 T 500 250 T 660 250 T 820 250 T 980 250 T 1140 250 T 1300 250 T 1420 250" stroke="#ffffff" stroke-width="2.2" opacity="0.85" />
+          <path d="M 240 735 L 310 735 L 310 705 L 365 705 L 365 735 L 440 735 L 440 690 L 485 690 L 485 735 L 610 735 L 610 710 L 670 710 L 670 735 L 930 735 L 930 710 L 990 710 L 990 735 L 1115 735 L 1115 690 L 1160 690 L 1160 735 L 1235 735 L 1235 705 L 1290 705 L 1290 735 L 1360 735" stroke="#00f5d4" stroke-width="1.5" stroke-opacity="0.55" />
+        </g>
+
+        <g class="sigdump-packet-float" fill="#38bdf8" font-family="monospace" font-size="11" letter-spacing="2" opacity="0.65">
+          <text x="95" y="210">SIG::5BA42A40</text>
+          <text x="95" y="232" fill="#00f5d4">PKT::05E111C4</text>
+          <text x="95" y="254" fill="#ff4d79">ACK::7ABFCC37</text>
+          <text x="95" y="276">SYN::4F6B8D86</text>
+
+          <text x="1375" y="210" fill="#ff4d79">SIG::9AE0BD6E</text>
+          <text x="1375" y="232">PKT::C8507C48</text>
+          <text x="1375" y="254" fill="#ffd166">ACK::F99DC2BF</text>
+          <text x="1375" y="276" fill="#00f5d4">SYN::4C8A61BD</text>
+        </g>
+
+        <!-- Left Parabolic Telemetry Dish & Transceiver Tower -->
+        <g id="sigdump-left-array" stroke="#38bdf8" stroke-width="1.8" fill="#06101e">
+          <path d="M 135 890 L 185 645 L 235 645 L 285 890 Z" fill="rgba(6, 16, 30, 0.85)" />
+          <line x1="152" y1="810" x2="268" y2="810" />
+          <line x1="168" y1="730" x2="252" y2="730" />
+          <line x1="152" y1="810" x2="252" y2="730" stroke-width="1.2" opacity="0.65" />
+          <line x1="268" y1="810" x2="168" y2="730" stroke-width="1.2" opacity="0.65" />
+          <circle cx="210" cy="640" r="16" fill="#0a192f" stroke="#00f5d4" stroke-width="2.2" />
+          <g transform="rotate(-32 210 615)">
+            <path d="M 120 605 C 145 675, 275 675, 300 605 Z" fill="rgba(12, 32, 58, 0.9)" stroke="#38bdf8" stroke-width="2.4" />
+            <ellipse cx="210" cy="605" rx="90" ry="22" fill="rgba(5, 13, 26, 0.85)" stroke="#00f5d4" stroke-width="1.6" />
+            <line x1="155" y1="605" x2="210" y2="532" stroke="#e2eafc" stroke-width="1.6" />
+            <line x1="265" y1="605" x2="210" y2="532" stroke="#e2eafc" stroke-width="1.6" />
+            <line x1="210" y1="605" x2="210" y2="532" stroke="#00f5d4" stroke-width="2" />
+            <circle class="nyc-beacon" cx="210" cy="528" r="5" fill="#00f5d4" stroke="#ffffff" stroke-width="1.2" />
+          </g>
+        </g>
+
+        <!-- Right Parabolic Telemetry Dish & Transceiver Tower -->
+        <g id="sigdump-right-array" stroke="#ff4d79" stroke-width="1.8" fill="#06101e">
+          <path d="M 1315 890 L 1365 645 L 1415 645 L 1465 890 Z" fill="rgba(6, 16, 30, 0.85)" stroke="#38bdf8" />
+          <line x1="1332" y1="810" x2="1448" y2="810" stroke="#38bdf8" />
+          <line x1="1348" y1="730" x2="1432" y2="730" stroke="#38bdf8" />
+          <line x1="1332" y1="810" x2="1432" y2="730" stroke="#38bdf8" stroke-width="1.2" opacity="0.65" />
+          <line x1="1448" y1="810" x2="1348" y2="730" stroke="#38bdf8" stroke-width="1.2" opacity="0.65" />
+          <circle cx="1390" cy="640" r="16" fill="#0a192f" stroke="#ff4d79" stroke-width="2.2" />
+          <g transform="rotate(32 1390 615)">
+            <path d="M 1300 605 C 1325 675, 1455 675, 1480 605 Z" fill="rgba(12, 32, 58, 0.9)" stroke="#38bdf8" stroke-width="2.4" />
+            <ellipse cx="1390" cy="605" rx="90" ry="22" fill="rgba(5, 13, 26, 0.85)" stroke="#ff4d79" stroke-width="1.6" />
+            <line x1="1335" y1="605" x2="1390" y2="532" stroke="#e2eafc" stroke-width="1.6" />
+            <line x1="1445" y1="605" x2="1390" y2="532" stroke="#e2eafc" stroke-width="1.6" />
+            <line x1="1390" y1="605" x2="1390" y2="532" stroke="#ff4d79" stroke-width="2" />
+            <circle class="nyc-beacon" cx="1390" cy="528" r="5" fill="#ff4d79" stroke="#ffffff" stroke-width="1.2" />
+          </g>
+        </g>
+
+        <line x1="0" y1="888" x2="1600" y2="888" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.6" />
+      </svg>
+    </div>
   </div>
 
   <header>
@@ -996,7 +1131,8 @@
       wilderness: '#a8e6cf',
       noir: '#e6d5b8',
       cybernetic: '#00f5d4',
-      atelier: '#f4a261'
+      atelier: '#f4a261',
+      sigdump: '#38bdf8'
     };
 
     const FALLBACK_BRANCHES = [
@@ -1545,7 +1681,6 @@
       const bg = sliceObj.bg || 'cosmos';
 
       if (sliceObj.isLanding || name.includes('coniunctio') || name.includes('janice')) {
-        // Alchemical Coniunctio: Interlocking Sol & Crescent Luna + Vesica Star
         return `
           <circle cx="24" cy="28" r="9.2" stroke="currentColor" stroke-width="1.5" />
           <circle cx="24" cy="28" r="2.2" fill="currentColor" />
@@ -1556,20 +1691,17 @@
 
       switch (bg) {
         case 'wilderness':
-          // The Nocturnal Peak & Crescent Moon
           return `
             <path d="M 11 39 L 22.5 19 L 29.5 30 L 35.5 22 L 45 39 Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
             <path d="M 34.5 12 A 5.2 5.2 0 1 1 28.5 18 A 4.2 4.2 0 1 0 34.5 12 Z" fill="#ffffff" />
             <line x1="9" y1="39" x2="47" y2="39" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" />
           `;
         case 'cybernetic':
-          // The Cybernetic Resonance Eye & Waveform
           return `
             <polygon points="28,13 43,28 28,43 13,28" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.5" />
             <path d="M 10 28 L 16.5 28 L 19.5 21 L 23.5 35 L 28 16.5 L 32.5 35 L 36.5 21 L 39.5 28 L 46 28" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           `;
         case 'noir':
-          // The Darkroom 6-Blade Camera Aperture
           return `
             <circle cx="28" cy="28" r="13.5" stroke="currentColor" stroke-width="1.6" />
             <polygon points="28,19 35.8,23.5 35.8,32.5 28,37 20.2,32.5 20.2,23.5" fill="currentColor" fill-opacity="0.22" stroke="#ffffff" stroke-width="1.2" />
@@ -1581,15 +1713,21 @@
             <line x1="16.5" y1="21.2" x2="28" y2="19" stroke="currentColor" stroke-width="1.2" />
           `;
         case 'nyc':
-          // The Gotham Art Deco Spire & Bridge Cables
           return `
             <path d="M 28 10 L 31 20.5 L 34 20.5 L 34 40.5 L 22 40.5 L 22 20.5 L 25 20.5 Z" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="1.5" />
             <path d="M 11 39 Q 21.5 31 25 21.5 M 45 39 Q 34.5 31 31 21.5" fill="none" stroke="currentColor" stroke-width="1.2" />
             <line x1="10" y1="40.5" x2="46" y2="40.5" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" />
             <circle cx="28" cy="10" r="2.1" fill="#ffffff" />
           `;
+        case 'sigdump':
+          return `
+            <path d="M 14 33 C 18 43, 38 43, 42 33" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            <line x1="28" y1="38" x2="28" y2="20" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+            <circle cx="28" cy="19" r="2.6" fill="#ffffff" />
+            <path d="M 19 16 A 12 12 0 0 1 37 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            <path d="M 14 12 A 18 18 0 0 1 42 12" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="2.5 2.5" stroke-linecap="round" />
+          `;
         case 'abyss':
-          // The Abyssal Signal Trident & Sonar Wave
           return `
             <path d="M 16 19 C 16 30, 40 30, 40 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
             <line x1="28" y1="13" x2="28" y2="42" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" />
@@ -1598,7 +1736,6 @@
             <polygon points="40,14.5 42.6,19.5 37.4,19.5" fill="currentColor" />
           `;
         case 'atelier':
-          // The Automaton Brass Cog & Glowing Paintbrush
           return `
             <circle cx="26" cy="30" r="10.5" stroke="currentColor" stroke-width="2.2" stroke-dasharray="3.2 2" />
             <circle cx="26" cy="30" r="5.8" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.2" />
@@ -1606,20 +1743,17 @@
             <path d="M 36.5 19.5 C 39.5 14, 44 14, 45 16 C 43 20, 39.8 21.2, 36.5 19.5 Z" fill="currentColor" stroke="#ffffff" stroke-width="1" />
           `;
         case 'verdant':
-          // Bioluminescent Botanical Leaf
           return `
             <path d="M 28 12 C 40 18, 42 34, 28 42 C 14 34, 16 18, 28 12 Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="1.6" />
             <path d="M 28 15 L 28 41 M 28 24 L 34 20 M 28 30 L 21 25 M 28 34 L 35 29" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" />
           `;
         case 'ember':
-          // Alchemical Fire Triangle & Crucible Flame
           return `
             <polygon points="28,12 43,39 13,39" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6" />
             <path d="M 28 21 C 33 27, 34 33, 28 37 C 22 33, 23 27, 28 21 Z" fill="#ffffff" />
           `;
         case 'astral':
         default:
-          // 8-Pointed Astral Star & Eclipse
           return `
             <polygon points="28,11 32,24 45,28 32,32 28,45 24,32 11,28 24,24" fill="currentColor" fill-opacity="0.24" stroke="#ffffff" stroke-width="1.3" />
             <circle cx="28" cy="28" r="3.2" fill="#ffffff" />
@@ -1698,7 +1832,6 @@
         spoke.style.color = realmColor;
         orrerySvg.appendChild(spoke);
 
-        // Live Portal Star Dots Placed Along the Outer Perimeter Ring (r = 24)
         let miniDotsMarkup = '';
         sliceObj.items.forEach((b, bIdx) => {
           const bAng = ((b.angle ?? (bIdx * 60)) * Math.PI) / 180;
@@ -1777,7 +1910,7 @@
     }
 
     function applyRealmAesthetic(realmId, sliceName) {
-      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness', 'noir', 'cybernetic', 'atelier'];
+      const validRealms = ['cosmos', 'verdant', 'ember', 'abyss', 'astral', 'nyc', 'wilderness', 'noir', 'cybernetic', 'atelier', 'sigdump'];
       const targetRealm = validRealms.includes(realmId) ? realmId : 'cosmos';
       document.body.setAttribute('data-realm', targetRealm);
 
@@ -1974,7 +2107,11 @@
       branches.filter(b => b.portal_type !== 'introduction').forEach((b) => {
         const sName = b.slice || 'Prime Cosmos';
         const isAiSlice = /ai\s*generat/i.test(sName);
-        const defaultBg = isAiSlice && (!b.slice_bg || b.slice_bg === 'cybernetic') ? 'atelier' : (b.slice_bg || 'cosmos');
+        const isSigSlice = /sig\s*dump|signal/i.test(sName);
+        let defaultBg = b.slice_bg || 'cosmos';
+        if (isAiSlice && (!b.slice_bg || b.slice_bg === 'cybernetic')) defaultBg = 'atelier';
+        if (isSigSlice && (!b.slice_bg || b.slice_bg === 'abyss')) defaultBg = 'sigdump';
+
         if (!slicesMap.has(sName)) {
           slicesMap.set(sName, { name: sName, bg: defaultBg, items: [] });
         }
