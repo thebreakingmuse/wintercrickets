@@ -204,6 +204,13 @@
     .ligament-mycelium-primary { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 7px currentColor); opacity: 0.9; }
     .ligament-mycelium-hyphae { fill: none; stroke-width: 1.25; stroke-dasharray: 8 4 2 4; stroke-linecap: round; animation: pulseFlow 20s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.78; }
     .ligament-mycelium-spore { fill: #ffffff; stroke-width: 1.5; filter: drop-shadow(0 0 8px currentColor); animation: beaconPulse 2.4s ease-in-out infinite alternate; }
+    .ligament-psy-cords-strand { fill: none; stroke-width: 2.3; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: 0.9; }
+    .ligament-psy-cords-a { stroke-dasharray: 12 5 2 5; animation: pulseFlow 8s linear infinite; }
+    .ligament-psy-cords-b { stroke-dasharray: 6 5; animation: pulseFlow 11s linear infinite reverse; opacity: 0.78; }
+    .ligament-psy-cords-c { stroke-dasharray: 2 6; animation: pulseFlow 14s linear infinite; opacity: 0.68; }
+    .ligament-growing-roots-trunk { fill: none; stroke-width: 2.7; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.92; }
+    .ligament-growing-roots-branch { fill: none; stroke-width: 1.35; stroke-linecap: round; filter: drop-shadow(0 0 4px currentColor); opacity: 0.78; }
+    .ligament-growing-roots-fine { fill: none; stroke-width: 0.9; stroke-linecap: round; opacity: 0.6; }
 
     .ligament-thyrsus-staff { fill: none; stroke-width: 3.2; stroke-linecap: round; filter: drop-shadow(0 0 7px currentColor); opacity: 0.94; }
     .ligament-thyrsus-ribbon { fill: none; stroke-width: 1.65; stroke-dasharray: 12 6; stroke-linecap: round; animation: pulseFlow 14s linear infinite; filter: drop-shadow(0 0 6px currentColor); opacity: 0.86; }
@@ -1663,6 +1670,70 @@
         mainPath.setAttribute('stroke', `url(#grad-${theme})`);
         mainPath.style.color = color;
         svgGroup.appendChild(mainPath);
+      } else if (filamentStyle === 'psy-cords') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len;
+        const ny = dx / len;
+        [0, 1, 2].forEach((strand) => {
+          let d = `M ${CENTER_X} ${CENTER_Y}`;
+          for (let i = 1; i <= 48; i++) {
+            const t = i / 48;
+            const env = Math.sin(t * Math.PI);
+            const wave = Math.sin(t * Math.PI * 5 + strand * Math.PI * 2 / 3) * 18 * env;
+            d += ` L ${(CENTER_X + dx * t + nx * wave).toFixed(1)} ${(CENTER_Y + dy * t + ny * wave).toFixed(1)}`;
+          }
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', d);
+          path.setAttribute('class', `ligament-psy-cords-strand ligament-psy-cords-${'abc'[strand]}`);
+          path.setAttribute('stroke', strand === 1 ? color : `url(#grad-${theme})`);
+          path.style.color = color;
+          svgGroup.appendChild(path);
+        });
+      } else if (filamentStyle === 'growing-roots') {
+        const dx = x2 - CENTER_X;
+        const dy = y2 - CENTER_Y;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len;
+        const ny = dx / len;
+        const direction = idx % 2 === 0 ? 1 : -1;
+        const trunkPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        trunkPath.setAttribute('d', buildWavePath(CENTER_X, CENTER_Y, x2, y2, 0.18));
+        trunkPath.setAttribute('class', 'ligament-growing-roots-trunk');
+        trunkPath.setAttribute('stroke', `url(#grad-${theme})`);
+        trunkPath.style.color = color;
+        svgGroup.appendChild(trunkPath);
+
+        let branchesD = '';
+        let fineRootsD = '';
+        [0.2, 0.36, 0.52, 0.68, 0.82].forEach((t, i) => {
+          const side = (i % 2 === 0 ? -1 : 1) * direction;
+          const bx = CENTER_X + dx * t;
+          const by = CENTER_Y + dy * t;
+          const reach = Math.min(24, len * (0.055 + (i % 3) * 0.006));
+          const forward = len * 0.07;
+          const ex = bx + dx / len * forward + nx * side * reach;
+          const ey = by + dy / len * forward + ny * side * reach;
+          const cx = bx + dx / len * forward * 0.45 + nx * side * reach * 0.2;
+          const cy = by + dy / len * forward * 0.45 + ny * side * reach * 0.2;
+          branchesD += `M ${bx.toFixed(1)} ${by.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)} `;
+          const fx = ex + dx / len * forward * 0.22 - nx * side * reach * 0.24;
+          const fy = ey + dy / len * forward * 0.22 - ny * side * reach * 0.24;
+          fineRootsD += `M ${cx.toFixed(1)} ${cy.toFixed(1)} Q ${(ex - nx * side * reach * 0.12).toFixed(1)} ${(ey - ny * side * reach * 0.12).toFixed(1)} ${fx.toFixed(1)} ${fy.toFixed(1)} `;
+        });
+        const branchesPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        branchesPath.setAttribute('d', branchesD.trim());
+        branchesPath.setAttribute('class', 'ligament-growing-roots-branch');
+        branchesPath.setAttribute('stroke', color);
+        branchesPath.style.color = color;
+        svgGroup.appendChild(branchesPath);
+
+        const fineRootsPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        fineRootsPath.setAttribute('d', fineRootsD.trim());
+        fineRootsPath.setAttribute('class', 'ligament-growing-roots-fine');
+        fineRootsPath.setAttribute('stroke', color);
+        svgGroup.appendChild(fineRootsPath);
       } else {
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', buildCurvedPath(CENTER_X, CENTER_Y, x2, y2, idx));
