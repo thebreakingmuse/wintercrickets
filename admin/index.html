@@ -251,6 +251,13 @@
     .prev-mycelium-primary { fill: none; stroke-width: 2.3; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.9; }
     .prev-mycelium-hyphae { fill: none; stroke-width: 1.2; stroke-dasharray: 7 3 2 3; stroke-linecap: round; animation: prevPulseFlow 18s linear infinite; opacity: 0.78; }
     .prev-mycelium-spore { fill: #ffffff; stroke-width: 1.4; filter: drop-shadow(0 0 6px currentColor); }
+    .prev-psy-cords-strand { fill: none; stroke-width: 2.1; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.9; }
+    .prev-psy-cords-a { stroke-dasharray: 10 4 2 4; animation: prevPulseFlow 8s linear infinite; }
+    .prev-psy-cords-b { stroke-dasharray: 5 4; animation: prevPulseFlow 11s linear infinite reverse; opacity: 0.78; }
+    .prev-psy-cords-c { stroke-dasharray: 2 5; animation: prevPulseFlow 14s linear infinite; opacity: 0.68; }
+    .prev-growing-roots-trunk { fill: none; stroke-width: 2.6; stroke-linecap: round; filter: drop-shadow(0 0 5px currentColor); opacity: 0.9; }
+    .prev-growing-roots-branch { fill: none; stroke-width: 1.25; stroke-linecap: round; filter: drop-shadow(0 0 3px currentColor); opacity: 0.76; }
+    .prev-growing-roots-fine { fill: none; stroke-width: 0.85; stroke-linecap: round; opacity: 0.58; }
 
     .prev-thyrsus-staff { fill: none; stroke-width: 3.2; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); opacity: 0.94; }
     .prev-thyrsus-ribbon { fill: none; stroke-width: 1.6; stroke-dasharray: 10 5; stroke-linecap: round; animation: prevPulseFlow 14s linear infinite; filter: drop-shadow(0 0 5px currentColor); opacity: 0.88; }
@@ -534,6 +541,8 @@
             <option value="tendril">Dual-Strand Braided Tendril</option>
             <option value="suspension">Brooklyn Bridge Suspension Span</option>
             <option value="grid">NYC Electric Grid & Subway Conduit</option>
+            <option value="psy-cords">Psy Cords — Twisting Psychedelic Strands</option>
+            <option value="growing-roots">Growing Roots — Calm Branching Roots</option>
           </select>
 
           <div class="filament-preview-card">
@@ -1003,6 +1012,37 @@
           <circle cx="162" cy="60" r="2.5" class="prev-mycelium-spore" stroke="${color}" style="color:${color}" />
           <circle cx="252" cy="10" r="2.5" class="prev-mycelium-spore" stroke="${color}" style="color:${color}" />
           <circle cx="180" cy="44" r="3.2" class="prev-mycelium-spore" stroke="${color}" style="color:${color}" />
+        `;
+      } else if (style === 'psy-cords') {
+        const strands = [0, 1, 2].map((strand) => {
+          let d = `M ${x1} ${y1}`;
+          for (let i = 1; i <= 48; i++) {
+            const t = i / 48;
+            const env = Math.sin(t * Math.PI);
+            const wave = Math.sin(t * Math.PI * 5 + strand * Math.PI * 2 / 3) * 13 * env;
+            d += ` L ${(x1 + dx * t).toFixed(1)} ${(y1 + wave).toFixed(1)}`;
+          }
+          return `<path d="${d}" class="prev-psy-cords-strand prev-psy-cords-${'abc'[strand]}" stroke="${color}" style="color:${color}" />`;
+        }).join('');
+        pathsMarkup = strands;
+      } else if (style === 'growing-roots') {
+        const trunkD = `M ${x1} ${y1} C ${x1 + dx * 0.33} ${y1 - 4}, ${x1 + dx * 0.66} ${y1 + 4}, ${x2} ${y2}`;
+        let branches = '';
+        let fineRoots = '';
+        [0.2, 0.36, 0.52, 0.68, 0.82].forEach((t, i) => {
+          const side = i % 2 === 0 ? -1 : 1;
+          const bx = x1 + dx * t;
+          const by = y1 + (i % 2 === 0 ? -1 : 1) * 4 * Math.sin(t * Math.PI);
+          const reach = 13 + (i % 3) * 2;
+          const ex = bx + dx * 0.07;
+          const ey = by + side * reach;
+          branches += `M ${bx.toFixed(1)} ${by.toFixed(1)} Q ${(bx + dx * 0.04).toFixed(1)} ${(by + side * reach * 0.2).toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)} `;
+          fineRoots += `M ${(bx + dx * 0.035).toFixed(1)} ${(by + side * reach * 0.16).toFixed(1)} Q ${(bx + dx * 0.06).toFixed(1)} ${(by + side * reach * 0.38).toFixed(1)} ${(ex + dx * 0.01).toFixed(1)} ${(ey - side * 4).toFixed(1)} `;
+        });
+        pathsMarkup = `
+          <path d="${branches}" class="prev-growing-roots-branch" stroke="${color}" style="color:${color}" />
+          <path d="${fineRoots}" class="prev-growing-roots-fine" stroke="${color}" />
+          <path d="${trunkD}" class="prev-growing-roots-trunk" stroke="${color}" style="color:${color}" />
         `;
       } else {
         pathsMarkup = `
